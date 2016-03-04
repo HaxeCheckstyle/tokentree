@@ -1,3 +1,5 @@
+package token;
+
 import haxeparser.HaxeLexer;
 
 import haxeparser.Data.Token;
