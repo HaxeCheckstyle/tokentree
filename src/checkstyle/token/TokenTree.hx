@@ -1,7 +1,6 @@
-package checkstyle;
+package checkstyle.token;
 
 import haxe.macro.Expr;
-
 import haxeparser.Data.Token;
 import haxeparser.Data.TokenDef;
 
@@ -12,9 +11,11 @@ class TokenTree extends Token {
 	public var parent:TokenTree;
 	public var previousSibling:TokenTree;
 	public var childs:Array<TokenTree>;
+	public var index:Int;
 
-	public function new(tok:TokenDef, pos:Position) {
+	public function new(tok:TokenDef, pos:Position, index:Int) {
 		super(tok, pos);
+		this.index = index;
 	}
 
 	public function is(tokenDef:TokenDef):Bool {
@@ -25,7 +26,7 @@ class TokenTree extends Token {
 	public function addChild(child:TokenTree) {
 		if (childs == null) childs = [];
 		if (childs.length > 0) child.previousSibling = childs[childs.length - 1];
-		childs.push (child);
+		childs.push(child);
 		child.parent = this;
 	}
 
@@ -58,43 +59,46 @@ class TokenTree extends Token {
 	}
 
 	public function filter(searchFor:Array<TokenDef>, mode:TokenFilterMode, maxLevel:Int = MAX_LEVEL):Array<TokenTree> {
-		return filterCallback(function(token:TokenTree):Bool {
-				return token.matchesAny(searchFor);
-			},
-			mode, maxLevel);
+		return filterCallback(function(token:TokenTree, depth:Int):FilterResult {
+			if (depth > maxLevel) return SKIP_SUBTREE;
+			if (token.matchesAny(searchFor)) {
+				if (mode == ALL) return FOUND_GO_DEEPER;
+				return FOUND_SKIP_SUBTREE;
+			}
+			else return GO_DEEPER;
+		});
 	}
 
-	public function filterCallback(callback:FilterCallback, mode:TokenFilterMode, maxLevel:Int = MAX_LEVEL):Array<TokenTree> {
+	public function filterCallback(callback:FilterCallback, depth:Int = 0):Array<TokenTree> {
 		var results:Array<TokenTree> = [];
 
-		if (maxLevel < 0) return [];
-		if (callback(this)) {
-			if (mode == ALL) {
-				results.push (this);
-			}
-			else {
-				return [this];
+		if (tok != null) {
+			switch (callback(this, depth)) {
+				case FOUND_GO_DEEPER:
+					results.push(this);
+				case FOUND_SKIP_SUBTREE:
+					return [this];
+				case GO_DEEPER:
+				case SKIP_SUBTREE:
+					return [];
 			}
 		}
 		if (childs == null) return results;
 		for (child in childs) {
 			switch (child.tok) {
 				case Sharp(_):
-					results = results.concat(child.filterCallback(callback, mode, maxLevel));
+					results = results.concat(child.filterCallback(callback, depth));
 				default:
-					results = results.concat(child.filterCallback(callback, mode, maxLevel - 1));
+					results = results.concat(child.filterCallback(callback, depth + 1));
 			}
 		}
 		return results;
 	}
 
 	function matchesAny(searchFor:Array<TokenDef>):Bool {
-		if (searchFor == null) return false;
-		if (tok == null) return false;
+		if (searchFor == null || tok == null) return false;
 		for (search in searchFor) {
-			if (Type.enumEq(tok, search)) {
-				return true;
-			}
+			if (Type.enumEq(tok, search)) return true;
 		}
 		return false;
 	}
@@ -107,17 +111,21 @@ class TokenTree extends Token {
 		var buf:StringBuf = new StringBuf();
 		if (tok != null) buf.add('$prefix${tok}\t\t\t\t${getPos()}');
 		if (childs == null) return buf.toString();
-		for (child in childs) {
-			buf.add('\n$prefix${child.printTokenTree(prefix + "  ")}');
-		}
+		for (child in childs) buf.add('\n$prefix${child.printTokenTree(prefix + "  ")}');
 		return buf.toString();
 	}
 }
 
-@SuppressWarnings('checkstyle:MemberName')
 enum TokenFilterMode {
 	ALL;
 	FIRST;
 }
 
-typedef FilterCallback = TokenTree -> Bool;
+typedef FilterCallback = TokenTree -> Int -> FilterResult;
+
+enum FilterResult {
+	FOUND_SKIP_SUBTREE;
+	FOUND_GO_DEEPER;
+	SKIP_SUBTREE;
+	GO_DEEPER;
+}
