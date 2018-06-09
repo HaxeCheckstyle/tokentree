@@ -13,6 +13,8 @@ class WalkFieldDef {
 					parent = tok;
 				case At:
 					tempStore.push(WalkAt.walkAt(stream));
+				case Comment(_), CommentLine(_):
+					WalkComment.walkComment(stream, parent);
 				default:
 					break;
 			}
@@ -33,10 +35,6 @@ class WalkFieldDef {
 			WalkStatement.walkStatement(stream, name);
 		}
 		switch (stream.token()) {
-			case Arrow:
-				var arrowTok:TokenTree = stream.consumeTokenDef(Arrow);
-				name.addChild(arrowTok);
-				walkFieldDef (stream, arrowTok);
 			case Comma:
 				name.addChild(stream.consumeTokenDef(Comma));
 			case Semicolon:

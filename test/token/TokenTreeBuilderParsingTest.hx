@@ -30,6 +30,15 @@ class TokenTreeBuilderParsingTest {
 		assertCodeParses(OBJECT_WITH_ARRAY);
 		assertCodeParses(MACRO_REIFICATION);
 		assertCodeParses(BLOCK_METADATA);
+		assertCodeParses(COMMENTS_IN_FUNCTION_PARAMS);
+		assertCodeParses(BLOCK_OBJECT_DECL_SAMPLES_ISSUE_396_1);
+		assertCodeParses(BLOCK_OBJECT_DECL_SAMPLES_ISSUE_396_2);
+		assertCodeParses(BLOCK_OBJECT_DECL_SAMPLES_ISSUE_396_3);
+		assertCodeParses(BLOCK_OBJECT_DECL_WITH_TERNARY);
+		assertCodeParses(TYPEDEF_COMMENTS);
+		assertCodeParses(TYPEDEF_COMMENTS_2);
+		assertCodeParses(FUNCTION_RETURN_TYPE);
+		assertCodeParses(FUNCTION_SHARP);
 	}
 
 	public function assertCodeParses(code:String, ?pos:PosInfos) {
@@ -38,9 +47,21 @@ class TokenTreeBuilderParsingTest {
 			builder = TestTokenTreeBuilder.parseCode(code);
 		}
 		catch (e:Any) {
-			Assert.isTrue(false, pos);
+			Assert.fail("code should not throw execption", pos);
 		}
 		Assert.isTrue(builder.isStreamEmpty(), pos);
+	}
+
+	public function assertCodeThrows(code:String, ?pos:PosInfos) {
+		var builder:TestTokenTreeBuilder = null;
+		try {
+			builder = TestTokenTreeBuilder.parseCode(code);
+		}
+		catch (e:Any) {
+			Assert.isTrue(true, pos);
+			return;
+		}
+		Assert.fail("code should throw an exception", pos);
 	}
 }
 
@@ -393,4 +414,105 @@ abstract TokenTreeBuilderParsingTests(String) to String {
 		}
 	}";
 
+	var COMMENTS_IN_FUNCTION_PARAMS = "
+	class Test {
+		function test( /* comment */ a:String /* comment */) { }
+		function test2( /* comment */ /* comment */) { }
+	}";
+
+	var BLOCK_OBJECT_DECL_SAMPLES_ISSUE_396_1 = "
+	class Test {
+		function test() {
+			//fails with: bad token Comma != BrClose
+			var test = switch a
+			{
+			    case 3: {a: 1, b: 2};
+			    default: {a: 0, b: 2};
+			}
+		}
+	}";
+
+	var BLOCK_OBJECT_DECL_SAMPLES_ISSUE_396_2 = "
+	class Test {
+		function test() {
+			//fails with: bad token Kwd(KwdFunction) != DblDot
+			return {
+			    #if js
+			    something:
+			    #else
+			    somethingelse:
+			    #end
+			    function (e)
+			    {
+			        e.preventDefault();
+			        callback();
+			    }
+			};
+		}
+	}";
+
+	var BLOCK_OBJECT_DECL_SAMPLES_ISSUE_396_3 = "
+	class Test {
+		function test() {
+			return {
+			    doSomething();
+			    1;
+			}
+		}
+	}";
+
+	var BLOCK_OBJECT_DECL_WITH_TERNARY = "
+	class Test {
+		public function new() {
+			checkInfos[names[i]] = {
+				name: names[i],
+				clazz: cl,
+				test: new Value(1),
+				test2: function() { return 1 },
+				isAlias: i > 0,
+				description: (i == 0) ? desc : desc + ' [DEPRECATED, use ' + names[0] + ' instead]'
+			};
+		}
+	}";
+
+	var TYPEDEF_COMMENTS = "
+	typedef CheckFile = {
+		// °
+		var name:String;
+		// öäü
+		var content:String;
+		// €łµ
+		var index:Int;
+		// æ@ð
+	}";
+
+	var TYPEDEF_COMMENTS_2 = "
+	typedef CheckFile = {
+		// °
+		var name:String;
+		var content:String;
+		// €łµ
+		var index:Int;
+	}";
+
+	var FUNCTION_RETURN_TYPE = "
+	class Test {
+		function test(x:String->Int->Void):String->Int->Void {
+			return new TestCallback().with(x);
+		}
+	}";
+
+	var FUNCTION_SHARP = "
+	class Test {
+		#if test
+		function test() {
+		#else
+		function _test() {
+		#end
+			doSomething();
+			if (test2()) return false;
+		}
+		function test2() {
+		}
+	}";
 }

@@ -47,7 +47,7 @@ class WalkSwitch {
 				case Comment(_), CommentLine(_):
 					WalkComment.walkComment(stream, parent);
 				default:
-					stream.error('bad token ${stream.token()} != case/default');
+					WalkStatement.walkStatement(stream, parent);
 			}
 		}
 	}
@@ -67,7 +67,7 @@ class WalkSwitch {
 	 *          |- BrClose
 	 *
 	 */
-	static function walkCase(stream:TokenStream, parent:TokenTree) {
+	public static function walkCase(stream:TokenStream, parent:TokenTree) {
 		WalkComment.walkComment(stream, parent);
 		var caseTok:TokenTree = stream.consumeToken();
 		parent.addChild(caseTok);
@@ -81,6 +81,35 @@ class WalkSwitch {
 					return;
 				case BrOpen:
 					WalkBlock.walkBlock(stream, dblDot);
+				case Comment(_), CommentLine(_):
+					WalkComment.walkComment(stream, parent);
+				case Sharp(_):
+					WalkSharp.walkSharp(stream, parent, WalkSwitch.walkSwitchCases);
+					/*
+					 * relocate sharp subtree from:
+					 *  |- BrOpen
+					 *      |- Kwd(KwdCase)
+					 *      |   |- expression
+					 *      |   |- DblDot
+					 *      |       |- statement
+					 *      |- Sharp(If)
+					 *      |   |- condition
+					 *      |   |- statement (if not a new case)
+					 * to:
+					 *      |- Kwd(KwdCase)
+					 *      |   |- expression
+					 *      |   |- DblDot
+					 *      |       |- statement
+					 *      |       |- Sharp(If)
+					 *      |           |- condition
+					 *      |           |- statement
+					 */
+					var sharp:TokenTree = parent.getLastChild();
+					if (sharp.children.length < 2) continue;
+					var body:TokenTree = sharp.children[1];
+					if (body.is(Kwd(KwdCase))) continue;
+					parent.children.pop();
+					dblDot.addChild(sharp);
 				default:
 					WalkStatement.walkStatement(stream, dblDot);
 			}
@@ -94,7 +123,7 @@ class WalkSwitch {
 				case POpen:
 					WalkPOpen.walkPOpen(stream, parent);
 				case BrOpen:
-					WalkObjectDecl.walkObjectDecl(stream, parent);
+					WalkBlock.walkBlock(stream, parent);
 				case BkOpen:
 					WalkArrayAccess.walkArrayAccess(stream, parent);
 				case Kwd(KwdFunction):
