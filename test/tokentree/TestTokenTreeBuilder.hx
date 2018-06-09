@@ -5,10 +5,6 @@ import haxeparser.HaxeLexer;
 
 import haxeparser.Data.Token;
 
-import tokentree.TokenTree;
-import tokentree.TokenStream;
-import tokentree.TokenTreeBuilder;
-
 import tokentree.walk.WalkFile;
 
 class TestTokenTreeBuilder extends TokenTreeBuilder {

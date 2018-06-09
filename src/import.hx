@@ -1,4 +1,3 @@
-
 import haxe.macro.Expr;
 import haxeparser.Data;
 

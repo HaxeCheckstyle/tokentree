@@ -6,9 +6,6 @@ import haxeparser.Data.TokenDef;
 
 import massive.munit.Assert;
 
-import tokentree.TokenTree;
-import tokentree.TokenStream;
-
 import tokentree.walk.WalkAt;
 import tokentree.walk.WalkIf;
 import tokentree.walk.WalkPackageImport;
