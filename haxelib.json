@@ -1,0 +1,14 @@
+{
+    "name": "tokentree",
+    "classPath": "src",
+    "license": "MIT",
+    "tags": [],
+    "description": "TokenTree library used by haxe-checkstyle",
+    "contributors": [
+        "AlexHaxe"
+    ],
+    "releasenote": "initial commit - see CHANGES",
+    "version": "1.0.0",
+    "url": "https://github.com/HaxeCheckstyle/tokentree",
+    "dependencies": {}
+}

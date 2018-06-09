@@ -1,0 +1,40 @@
+git:
+  depth: 1
+
+language: haxe
+script:
+  - haxe build.hxml
+  - cd checkstyle
+  - haxe buildAll.hxml
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash) || echo "Codecov did not collect coverage reports"
+sudo: false
+dist: trusty
+
+matrix:
+  include:
+    - haxe: 3.4.7
+      install:
+        - haxelib install haxeparser 3.3.0
+        - haxelib install compiletime 2.6.0
+        - haxelib install hxargs 3.0.2
+        - haxelib install mcover 2.1.1
+        - haxelib install munit
+        - haxelib dev tokentree .
+        - git clone -b dev https://github.com/HaxeCheckstyle/haxe-checkstyle.git --depth=1 checkstyle
+    - haxe: development
+      install:
+        - haxelib git hxparse https://github.com/simn/hxparse
+        - haxelib git haxeparser https://github.com/simn/haxeparser
+        - haxelib git mcover https://github.com/massiveinteractive/mcover master src
+        - haxelib install mconsole
+        - haxelib install compiletime 2.6.0
+        - haxelib install hxargs 3.0.2
+        - haxelib install munit
+        - haxelib dev tokentree .
+        - git clone -b dev https://github.com/HaxeCheckstyle/haxe-checkstyle.git --depth=1 checkstyle
+        - sed -i 's/:3.3.0//' checkstyle/buildGlobal.hxml
+  allow_failures:
+    - haxe: development
+
