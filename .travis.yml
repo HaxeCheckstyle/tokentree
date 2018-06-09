@@ -4,8 +4,7 @@ git:
 language: haxe
 script:
   - haxe build.hxml
-  - cd checkstyle
-  - haxe buildAll.hxml
+  - cd checkstyle && haxe buildAll.hxml && cd ..
 
 after_success:
   - bash <(curl -s https://codecov.io/bash) || echo "Codecov did not collect coverage reports"
