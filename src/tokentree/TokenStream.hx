@@ -1,11 +1,12 @@
 package tokentree;
 
 import byte.ByteData;
-import hxparse.Position;
 
 class TokenStream {
 
 	public static inline var NO_MORE_TOKENS:String = "no more tokens";
+
+	public static var MODE:TokenStreamMode = STRICT;
 
 	var tokens:Array<Token>;
 	var current:Int;
@@ -22,7 +23,12 @@ class TokenStream {
 	}
 
 	public function consumeToken():TokenTree {
-		if ((current < 0) || (current >= tokens.length)) throw NO_MORE_TOKENS;
+		if ((current < 0) || (current >= tokens.length)) {
+			switch (MODE) {
+				case RELAXED: return createDummyToken(CommentLine("dummy token"));
+				case STRICT: throw NO_MORE_TOKENS;
+			}
+		}
 		var token:Token = tokens[current];
 		current++;
 		#if debugTokenTree
@@ -35,20 +41,31 @@ class TokenStream {
 		switch (token()) {
 			case Dollar(_): return consumeToken();
 			case Const(CIdent(_)): return consumeToken();
-			default: error('bad token ${token()} != Const(CIdent(_))');
+			default:
+				switch (MODE) {
+					case RELAXED: return createDummyToken(Const(CIdent("autoInsert")));
+					case STRICT: error('bad token ${token()} != Const(CIdent(_))');
+				}
 		}
 	}
 
 	public function consumeConst():TokenTree {
 		switch (token()) {
 			case Const(_): return consumeToken();
-			default: error('bad token ${token()} != Const(_)');
+			default:
+				switch (MODE) {
+					case RELAXED: return createDummyToken(Const(CString("autoInsert")));
+					case STRICT: error('bad token ${token()} != Const(_)');
+				}
 		}
 	}
 
 	public function consumeTokenDef(tokenDef:TokenDef):TokenTree {
 		if (is(tokenDef)) return consumeToken();
-		error('bad token ${token()} != $tokenDef');
+		switch (MODE) {
+			case RELAXED: return createDummyToken(tokenDef);
+			case STRICT: error('bad token ${token()} != $tokenDef');
+		}
 	}
 
 	public inline function error(s:String) {
@@ -57,7 +74,7 @@ class TokenStream {
 
 	function formatCurrentPos():String {
 		var pos = tokens[current].pos;
-		return new Position(pos.file, pos.min, pos.max).format(bytes);
+		return new hxparse.Position(pos.file, pos.min, pos.max).format(bytes);
 	}
 
 	public function is(tokenDef:TokenDef):Bool {
@@ -101,7 +118,12 @@ class TokenStream {
 	}
 
 	public function token():TokenDef {
-		if ((current < 0) || (current >= tokens.length)) throw NO_MORE_TOKENS;
+		if ((current < 0) || (current >= tokens.length)) {
+			switch (MODE) {
+				case RELAXED: return CommentLine("auto insert");
+				case STRICT: throw NO_MORE_TOKENS;
+			}
+		}
 		return tokens[current].tok;
 	}
 
@@ -234,4 +256,22 @@ class TokenStream {
 	public function getCurrentPos():Int {
 		return current;
 	}
+
+	function createDummyToken(tokDef:TokenDef):TokenTree {
+		var pos:Position = null;
+		if ((current < 0) || (current >= tokens.length)) {
+			pos = tokens[tokens.length - 1].pos;
+			pos.min = pos.max;
+		}
+		else {
+			pos = tokens[current].pos;
+			pos.max = pos.min;
+		}
+		return new TokenTree(tokDef, pos, -1, true);
+	}
+}
+
+enum TokenStreamMode {
+	STRICT;
+	RELAXED;
 }
