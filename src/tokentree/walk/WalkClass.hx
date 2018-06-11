@@ -51,11 +51,17 @@ class WalkClass {
 				case Comment(_), CommentLine(_):
 					parent.addChild(stream.consumeToken());
 				default:
-					throw "invalid token tree structure";
+					switch (TokenStream.MODE) {
+						case RELAXED: WalkStatement.walkStatement(stream, parent);
+						case STRICT: throw "invalid token tree structure";
+					}
 			}
 		}
 		if (tempStore.length > 0) {
-			throw "invalid token tree structure";
+			switch (TokenStream.MODE) {
+				case RELAXED: for (tok in tempStore) parent.addChild(tok);
+				case STRICT: throw "invalid token tree structure";
+			}
 		}
 	}
 

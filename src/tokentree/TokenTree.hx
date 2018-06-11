@@ -9,10 +9,12 @@ class TokenTree extends Token {
 	public var nextSibling:TokenTree;
 	public var children:Array<TokenTree>;
 	public var index:Int;
+	public var inserted:Bool;
 
-	public function new(tok:TokenDef, pos:Position, index:Int) {
+	public function new(tok:TokenDef, pos:Position, index:Int, inserted:Bool = false) {
 		super(tok, pos);
 		this.index = index;
+		this.inserted = inserted;
 	}
 
 	public function is(tokenDef:TokenDef):Bool {
@@ -113,7 +115,9 @@ class TokenTree extends Token {
 
 	public function printTokenTree(prefix:String = ""):String {
 		var buf:StringBuf = new StringBuf();
-		if (tok != null) buf.add('$prefix${tok}\t\t\t\t${getPos()}');
+		var tokString:String = '$tok';
+		if (inserted) tokString = '*** $tokString ***';
+		if (tok != null) buf.add('$prefix$tokString\t\t\t\t${getPos()}');
 		if (children == null) return buf.toString();
 		for (child in children) buf.add('\n$prefix${child.printTokenTree(prefix + "  ")}');
 		return buf.toString();
