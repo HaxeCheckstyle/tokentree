@@ -12,9 +12,12 @@ class TokenStream {
 	var current:Int;
 	var bytes:ByteData;
 
+	var sharpIfStack:Array<TokenTree>;
+
 	public function new(tokens:Array<Token>, bytes:ByteData) {
 		this.tokens = tokens;
 		this.bytes = bytes;
+		sharpIfStack = [];
 		current = 0;
 	}
 
@@ -255,6 +258,33 @@ class TokenStream {
 
 	public function getCurrentPos():Int {
 		return current;
+	}
+
+	public function pushSharpIf(token:TokenTree) {
+		trace ("push");
+		sharpIfStack.push(token);
+	}
+
+	public function popSharpIf():TokenTree {
+		trace ("pop " + sharpIfStack.length);
+		if (sharpIfStack.length <= 0) {
+			switch (MODE) {
+				case RELAXED: return createDummyToken(CommentLine("dummy token"));
+				case STRICT: throw NO_MORE_TOKENS;
+			}
+		}
+		return sharpIfStack.pop();
+	}
+
+	public function peekSharpIf():TokenTree {
+		trace ("peek");
+		if (sharpIfStack.length <= 0) {
+			switch (MODE) {
+				case RELAXED: return createDummyToken(CommentLine("dummy token"));
+				case STRICT: throw NO_MORE_TOKENS;
+			}
+		}
+		return sharpIfStack[sharpIfStack.length - 1];
 	}
 
 	function createDummyToken(tokDef:TokenDef):TokenTree {
