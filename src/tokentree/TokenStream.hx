@@ -261,12 +261,10 @@ class TokenStream {
 	}
 
 	public function pushSharpIf(token:TokenTree) {
-		trace ("push");
 		sharpIfStack.push(token);
 	}
 
 	public function popSharpIf():TokenTree {
-		trace ("pop " + sharpIfStack.length);
 		if (sharpIfStack.length <= 0) {
 			switch (MODE) {
 				case RELAXED: return createDummyToken(CommentLine("dummy token"));
@@ -277,7 +275,6 @@ class TokenStream {
 	}
 
 	public function peekSharpIf():TokenTree {
-		trace ("peek");
 		if (sharpIfStack.length <= 0) {
 			switch (MODE) {
 				case RELAXED: return createDummyToken(CommentLine("dummy token"));
