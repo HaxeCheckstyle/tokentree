@@ -1,5 +1,8 @@
 ## dev branch / next version (1.x.x)
 
+- Fixed thread safety of SharpIf handling [#4](https://github.com/HaxeCheckstyle/tokentree/issues/4)
+- Changed position of top level comments [#4](https://github.com/HaxeCheckstyle/tokentree/issues/4)
+
 ## version 1.0.1 (2018-06-14)
 
 - Added `RELAX` mode to make parser more fault tolerant [#2](https://github.com/HaxeCheckstyle/tokentree/issues/2)
