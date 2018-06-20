@@ -20,7 +20,7 @@ class WalkFile {
 				case At:
 					tempStore.push(WalkAt.walkAt(stream));
 				case Comment(_), CommentLine(_):
-					tempStore.push(stream.consumeToken());
+					WalkComment.walkComment(stream, parent);
 				case Kwd(KwdClass), Kwd(KwdInterface), Kwd(KwdEnum), Kwd(KwdTypedef), Kwd(KwdAbstract):
 					WalkType.walkType(stream, parent, tempStore);
 					tempStore = [];
@@ -34,7 +34,11 @@ class WalkFile {
 		}
 		for (stored in tempStore) {
 			switch (stored.tok) {
-				case Kwd(KwdExtern), Kwd(KwdPrivate), Kwd(KwdPublic), At: throw "invalid token tree structure";
+				case Kwd(KwdExtern), Kwd(KwdPrivate), Kwd(KwdPublic), At:
+					switch (TokenStream.MODE) {
+						case RELAXED: parent.addChild(stored);
+						case STRICT: throw "invalid token tree structure";
+					}
 				default: parent.addChild(stored);
 			}
 		}
