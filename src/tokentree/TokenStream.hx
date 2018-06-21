@@ -28,7 +28,7 @@ class TokenStream {
 	public function consumeToken():TokenTree {
 		if ((current < 0) || (current >= tokens.length)) {
 			switch (MODE) {
-				case RELAXED: return createDummyToken(CommentLine("dummy token"));
+				case RELAXED: return createDummyToken(CommentLine("auto insert"));
 				case STRICT: throw NO_MORE_TOKENS;
 			}
 		}
