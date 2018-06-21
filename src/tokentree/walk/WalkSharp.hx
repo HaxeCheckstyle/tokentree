@@ -1,11 +1,6 @@
 package tokentree.walk;
 
 class WalkSharp {
-	static var SHARP_IFS:Array<TokenTree> = [];
-
-	public static function clear() {
-		SHARP_IFS = [];
-	}
 
 	/**
 	 * Sharp("if") | Sharp("elseif")
@@ -51,7 +46,7 @@ class WalkSharp {
 		var ifToken:TokenTree = stream.consumeToken();
 		parent.addChild(ifToken);
 		WalkSharp.walkSharpIfExpr(stream, ifToken);
-		SHARP_IFS.push(ifToken);
+		stream.pushSharpIf(ifToken);
 		var newParent:TokenTree = ifToken;
 
 		var progress:TokenStreamProgress = new TokenStreamProgress(stream);
@@ -70,7 +65,7 @@ class WalkSharp {
 				newParent = e.token;
 			}
 			catch (e:SharpEndException) {
-				SHARP_IFS.pop();
+				stream.popSharpIf();
 				if (!stream.hasMore()) return;
 				switch (stream.token()) {
 					case Comma:
@@ -84,14 +79,14 @@ class WalkSharp {
 	}
 
 	static function walkSharpElse(stream:TokenStream, parent:TokenTree) {
-		var sharpIfParent:TokenTree = SHARP_IFS[SHARP_IFS.length - 1];
+		var sharpIfParent:TokenTree = stream.peekSharpIf();
 		var ifToken:TokenTree = stream.consumeToken();
 		sharpIfParent.addChild(ifToken);
 		throw new SharpElseException(ifToken);
 	}
 
 	static function walkSharpElseIf(stream:TokenStream, parent:TokenTree) {
-		var sharpIfParent:TokenTree = SHARP_IFS[SHARP_IFS.length - 1];
+		var sharpIfParent:TokenTree = stream.peekSharpIf();
 		var ifToken:TokenTree = stream.consumeToken();
 		sharpIfParent.addChild(ifToken);
 		WalkSharp.walkSharpIfExpr(stream, ifToken);
@@ -99,7 +94,7 @@ class WalkSharp {
 	}
 
 	static function walkSharpEnd(stream:TokenStream, parent:TokenTree) {
-		var sharpIfParent:TokenTree = SHARP_IFS[SHARP_IFS.length - 1];
+		var sharpIfParent:TokenTree = stream.peekSharpIf();
 		var endToken:TokenTree = stream.consumeToken();
 		sharpIfParent.addChild(endToken);
 		throw new SharpEndException();

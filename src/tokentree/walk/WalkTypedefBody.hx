@@ -35,5 +35,8 @@ class WalkTypedefBody {
 			newParent.addChild(arrowTok);
 			walkTypedefAlias(stream, arrowTok);
 		}
+		if (stream.is(Semicolon)) {
+			newParent.addChild(stream.consumeTokenDef(Semicolon));
+		}
 	}
 }

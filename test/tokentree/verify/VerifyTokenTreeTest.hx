@@ -82,23 +82,20 @@ class VerifyTokenTreeTest {
 		brOpen.childAt(0).is(CommentLine(" °"));
 
 		// var name:String;
-		var v:IVerifyTokenTree = brOpen.childAt(1).is(Kwd(KwdVar)).oneChild().childFirst().is(Const(CIdent("name"))).childCount(2);
-		v.childFirst().is(DblDot).oneChild().childFirst().is(Const(CIdent("String"))).noChilds();
-		v.childLast().is(Semicolon).noChilds();
+		var v:IVerifyTokenTree = brOpen.childAt(1).is(Kwd(KwdVar)).oneChild().childFirst().is(Const(CIdent("name"))).oneChild();
+		v.childFirst().is(DblDot).oneChild().childFirst().is(Const(CIdent("String"))).oneChild().childFirst().is(Semicolon).noChilds();
 
 		brOpen.childAt(2).is(CommentLine(" öäü")).noChilds();
 
 		// var content:String;
-		v = brOpen.childAt(3).is(Kwd(KwdVar)).oneChild().childFirst().is(Const(CIdent("content"))).childCount(2);
-		v.childFirst().is(DblDot).oneChild().childFirst().is(Const(CIdent("String"))).noChilds();
-		v.childLast().is(Semicolon).noChilds();
+		v = brOpen.childAt(3).is(Kwd(KwdVar)).oneChild().childFirst().is(Const(CIdent("content"))).oneChild();
+		v.childFirst().is(DblDot).oneChild().childFirst().is(Const(CIdent("String"))).oneChild().childFirst().is(Semicolon).noChilds();
 
 		brOpen.childAt(4).is(CommentLine(" €łµ")).noChilds();
 
 		// var index:Int;
-		v = brOpen.childAt(5).is(Kwd(KwdVar)).oneChild().childFirst().is(Const(CIdent("index"))).childCount(2);
-		v.childFirst().is(DblDot).oneChild().childFirst().is(Const(CIdent("Int"))).noChilds();
-		v.childLast().is(Semicolon).noChilds();
+		v = brOpen.childAt(5).is(Kwd(KwdVar)).oneChild().childFirst().is(Const(CIdent("index"))).oneChild();
+		v.childFirst().is(DblDot).oneChild().childFirst().is(Const(CIdent("Int"))).oneChild().childFirst().is(Semicolon).noChilds();
 
 		brOpen.childAt(6).is(CommentLine(" æ@ð")).noChilds();
 		brOpen.childLast().is(BrClose).noChilds();
@@ -114,21 +111,18 @@ class VerifyTokenTreeTest {
 		brOpen.childAt(0).is(CommentLine(" °"));
 
 		// var name:String;
-		var v:IVerifyTokenTree = brOpen.childAt(1).is(Kwd(KwdVar)).oneChild().childFirst().is(Const(CIdent("name"))).childCount(2);
-		v.childFirst().is(DblDot).oneChild().childFirst().is(Const(CIdent("String"))).noChilds();
-		v.childLast().is(Semicolon).noChilds();
+		var v:IVerifyTokenTree = brOpen.childAt(1).is(Kwd(KwdVar)).oneChild().childFirst().is(Const(CIdent("name"))).oneChild();
+		v.childFirst().is(DblDot).oneChild().childFirst().is(Const(CIdent("String"))).oneChild().childFirst().is(Semicolon).noChilds();
 
 		// var content:String;
-		v = brOpen.childAt(2).is(Kwd(KwdVar)).oneChild().childFirst().is(Const(CIdent("content"))).childCount(2);
-		v.childFirst().is(DblDot).oneChild().childFirst().is(Const(CIdent("String"))).noChilds();
-		v.childLast().is(Semicolon).noChilds();
+		v = brOpen.childAt(2).is(Kwd(KwdVar)).oneChild().childFirst().is(Const(CIdent("content"))).oneChild();
+		v.childFirst().is(DblDot).oneChild().childFirst().is(Const(CIdent("String"))).oneChild().childFirst().is(Semicolon).noChilds();
 
 		brOpen.childAt(3).is(CommentLine(" €łµ")).noChilds();
 
 		// var index:Int;
-		v = brOpen.childAt(4).is(Kwd(KwdVar)).oneChild().childFirst().is(Const(CIdent("index"))).childCount(2);
-		v.childFirst().is(DblDot).oneChild().childFirst().is(Const(CIdent("Int"))).noChilds();
-		v.childLast().is(Semicolon).noChilds();
+		v = brOpen.childAt(4).is(Kwd(KwdVar)).oneChild().childFirst().is(Const(CIdent("index"))).oneChild();
+		v.childFirst().is(DblDot).oneChild().childFirst().is(Const(CIdent("Int"))).oneChild().childFirst().is(Semicolon).noChilds();
 
 		brOpen.childLast().is(BrClose).noChilds();
 	}
