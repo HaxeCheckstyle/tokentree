@@ -39,6 +39,7 @@ class TokenTreeBuilderParsingTest {
 		assertCodeParses(TYPEDEF_COMMENTS_2);
 		assertCodeParses(FUNCTION_RETURN_TYPE);
 		assertCodeParses(FUNCTION_SHARP);
+		assertCodeParses(SWITCH_IN_OBJECT_DECL);
 	}
 
 	public function assertCodeParses(code:String, ?pos:PosInfos) {
@@ -514,5 +515,16 @@ abstract TokenTreeBuilderParsingTests(String) to String {
 		}
 		function test2() {
 		}
+	}";
+
+	var SWITCH_IN_OBJECT_DECL = "
+	class Test {
+		function foo()
+			return {
+				value: switch(x) {
+						case 1: 1;
+						case 2: 2;
+					}
+				}
 	}";
 }
