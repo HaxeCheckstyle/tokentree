@@ -15,7 +15,7 @@ module.exports = function(grunt) {
             release: {
                 src: [
                     "src/**",
-                    "haxelib.json", "README.md", "CHANGES.md", "LICENCE"
+                    "haxelib.json", "README.md", "CHANGELOG.md", "LICENSE"
                 ],
                 dest: "tokentree.zip",
                 compression: "DEFLATE"

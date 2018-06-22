@@ -7,8 +7,8 @@
     "contributors": [
         "AlexHaxe"
     ],
-    "releasenote": "fixed cast -1 + added RELAXED mode - see CHANGES",
-    "version": "1.0.1",
+    "releasenote": "fixed comment handling - see CHANGELOG",
+    "version": "1.0.2",
     "url": "https://github.com/HaxeCheckstyle/tokentree",
     "dependencies": {}
 }

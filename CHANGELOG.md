@@ -1,5 +1,7 @@
 ## dev branch / next version (1.x.x)
 
+## version 1.0.2 (2018-06-22)
+
 - Fixed thread safety of SharpIf handling [#4](https://github.com/HaxeCheckstyle/tokentree/issues/4)
 - Fixed handling of Semicolon in typedefs [#4](https://github.com/HaxeCheckstyle/tokentree/issues/4)
 - Fixed WalkComment at end of stream [#4](https://github.com/HaxeCheckstyle/tokentree/issues/4)
