@@ -77,28 +77,7 @@ class WalkStatement {
 			case Dot:
 				WalkStatement.walkStatement(stream, parent);
 			case DblDot:
-				var question:TokenTree = findQuestionParent(parent);
-				if (question != null) {
-					WalkStatement.walkStatement(stream, question);
-					return;
-				}
-				var dblDotTok:TokenTree = stream.consumeToken();
-				parent.addChild(dblDotTok);
-				if (stream.is(Kwd(KwdNew))) {
-					WalkNew.walkNew(stream, dblDotTok);
-					return;
-				}
-				if (stream.is(Kwd(KwdFunction))) {
-					WalkFunction.walkFunction(stream, dblDotTok, WalkAt.walkAts(stream));
-					return;
-				}
-				WalkTypeNameDef.walkTypeNameDef(stream, dblDotTok);
-				if (stream.is(Binop(OpAssign))) {
-					walkStatement(stream, parent);
-				}
-				if (stream.is(Arrow)) {
-					walkStatement(stream, parent);
-				}
+				walkDblDot(stream, parent);
 			case Arrow:
 				WalkStatement.walkStatement(stream, parent);
 			case Binop(_), Unop(_):
@@ -150,6 +129,28 @@ class WalkStatement {
 				return true;
 		}
 		return false;
+	}
+
+	static function walkDblDot(stream:TokenStream, parent:TokenTree) {
+		var question:TokenTree = findQuestionParent(parent);
+		if (question != null) {
+			WalkStatement.walkStatement(stream, question);
+			return;
+		}
+		var dblDotTok:TokenTree = stream.consumeToken();
+		parent.addChild(dblDotTok);
+		if (stream.is(Kwd(KwdNew))) {
+			WalkNew.walkNew(stream, dblDotTok);
+			return;
+		}
+		if (!walkKeyword(stream, dblDotTok)) return;
+		WalkTypeNameDef.walkTypeNameDef(stream, dblDotTok);
+		if (stream.is(Binop(OpAssign))) {
+			walkStatement(stream, parent);
+		}
+		if (stream.is(Arrow)) {
+			walkStatement(stream, parent);
+		}
 	}
 
 	static function findQuestionParent(token:TokenTree):TokenTree {
