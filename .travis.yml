@@ -28,8 +28,8 @@ matrix:
       install:
         - haxelib git hxparse https://github.com/simn/hxparse
         - haxelib git haxeparser https://github.com/simn/haxeparser
-        - haxelib git mcover https://github.com/AlexHaxe/mcover support-eval src
-        - haxelib git munit https://github.com/AlexHaxe/munit support-eval src
+        - haxelib git mcover https://github.com/AlexHaxe/mcover.git support-eval src
+        - haxelib git munit https://github.com/AlexHaxe/MassiveUnit.git support-eval src
         - haxelib git hxnodejs https://github.com/HaxeFoundation/hxnodejs.git master
         - haxelib install mconsole
         - haxelib install compiletime 2.6.0
