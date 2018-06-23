@@ -31,6 +31,7 @@ matrix:
         - haxelib git mcover https://github.com/AlexHaxe/mcover.git support-eval src
         - haxelib git munit https://github.com/AlexHaxe/MassiveUnit.git support-eval src
         - haxelib git hxnodejs https://github.com/HaxeFoundation/hxnodejs.git master
+        - haxelib install mlib
         - haxelib install mconsole
         - haxelib install compiletime 2.6.0
         - haxelib install hxargs 3.0.2
