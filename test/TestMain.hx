@@ -6,7 +6,6 @@ import sys.io.FileOutput;
 
 import massive.munit.TestRunner;
 
-import mcover.coverage.client.PrintClient;
 import mcover.coverage.munit.client.MCoverPrintClient;
 import mcover.coverage.data.CoverageResult;
 import mcover.coverage.data.Statement;
@@ -41,13 +40,8 @@ class TestMain {
 	}
 
 	function setupCoverageReport() {
-		var client:PrintClient = new PrintClient();
-		var logger = MCoverage.getLogger();
-		logger.addClient(client);
-		logger.report();
-
 		var report = { coverage: {} };
-		var classes = logger.coverage.getClasses();
+		var classes = MCoverage.getLogger().coverage.getClasses();
 		for (cls in classes) {
 			var coverageData:Array<LineCoverageResult> = [null];
 			var results:CoverageResult = cls.getResults();
