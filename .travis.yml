@@ -4,7 +4,7 @@ git:
 language: haxe
 script:
   - haxe build.hxml
-  - cd checkstyle && haxe buildAll.hxml && rm coverage.json && cd ..
+  - cd checkstyle && haxe buildAll.hxml && rm -f coverage.json && cd ..
   - neko checkstyle/run.n -s src -s test
 
 after_success:
