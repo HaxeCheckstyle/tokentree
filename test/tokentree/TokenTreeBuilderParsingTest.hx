@@ -40,6 +40,7 @@ class TokenTreeBuilderParsingTest {
 		assertCodeParses(FUNCTION_RETURN_TYPE);
 		assertCodeParses(FUNCTION_SHARP);
 		assertCodeParses(SWITCH_IN_OBJECT_DECL);
+		assertCodeParses(COMMENTS_IN_TYPES);
 	}
 
 	public function assertCodeParses(code:String, ?pos:PosInfos) {
@@ -527,4 +528,36 @@ abstract TokenTreeBuilderParsingTests(String) to String {
 					}
 				}
 	}";
+
+	var COMMENTS_IN_TYPES = "
+	// comment
+	abstract Test {
+		// comment
+		function foo() {}
+	}
+
+	// comment
+	class Test {
+		// comment
+		function foo() {}
+	}
+
+	// comment
+	interface Test {
+		// comment
+		function foo();
+	}
+
+	// comment
+	enum Test {
+		// comment
+		FOO;
+	}
+
+	// comment
+	typedef Test = {
+		// comment
+		var foo:String;
+	}
+	";
 }
