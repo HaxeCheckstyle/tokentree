@@ -34,6 +34,8 @@ class WalkInterface {
 				case BrClose: break;
 				case Semicolon:
 					parent.addChild(stream.consumeToken());
+				case Comment(_), CommentLine(_):
+					parent.addChild(stream.consumeToken());
 				default:
 					tempStore.push(stream.consumeToken());
 			}
