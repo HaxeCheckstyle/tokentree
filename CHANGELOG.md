@@ -1,7 +1,7 @@
 ## dev branch / next version (1.x.x)
 
 - Fixed position of comments in abstracts and interfaces [#7](https://github.com/HaxeCheckstyle/tokentree/issues/7)
-- Changed coverage reporting
+- Fixed unittest and coverage reporting for Haxe 4 [#8](https://github.com/HaxeCheckstyle/tokentree/issues/8)
 
 ## version 1.0.2 (2018-06-22)
 
