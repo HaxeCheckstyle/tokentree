@@ -1,5 +1,7 @@
 ## dev branch / next version (1.x.x)
 
+- Added parent and sibling access methods to TokenTreeAccessHelper
+
 ## version 1.0.3 (2018-06-24)
 
 - Fixed position of comments in abstracts and interfaces [#7](https://github.com/HaxeCheckstyle/tokentree/issues/7)
