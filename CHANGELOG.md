@@ -1,6 +1,6 @@
 ## dev branch / next version (1.x.x)
 
-- Added parent and sibling access methods to TokenTreeAccessHelper
+- Added parent and sibling access methods to TokenTreeAccessHelper [#10](https://github.com/HaxeCheckstyle/tokentree/issues/10)
 
 ## version 1.0.3 (2018-06-24)
 
