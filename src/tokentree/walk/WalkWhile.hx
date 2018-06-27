@@ -16,7 +16,7 @@ class WalkWhile {
 		var whileTok:TokenTree = stream.consumeTokenDef(Kwd(KwdWhile));
 		parent.addChild(whileTok);
 		WalkComment.walkComment(stream, whileTok);
-		WalkPOpen.walkPOpen(stream, whileTok);
+		WalkStatement.walkStatement(stream, whileTok);
 		WalkComment.walkComment(stream, whileTok);
 		WalkBlock.walkBlock(stream, whileTok);
 	}

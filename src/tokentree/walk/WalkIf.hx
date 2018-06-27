@@ -21,7 +21,7 @@ class WalkIf {
 		var ifTok:TokenTree = stream.consumeTokenDef(Kwd(KwdIf));
 		parent.addChild(ifTok);
 		// condition
-		WalkPOpen.walkPOpen(stream, ifTok);
+		WalkStatement.walkStatement(stream, ifTok);
 		if (stream.is(DblDot)) return;
 		// if-expr
 		WalkBlock.walkBlock(stream, ifTok);

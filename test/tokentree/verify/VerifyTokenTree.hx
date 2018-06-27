@@ -55,6 +55,7 @@ class VerifyTokenTree implements IVerifyTokenTree {
 	}
 
 	public function oneChild(?pos:PosInfos):IVerifyTokenTree {
+		if (token.children == null) Assert.fail("no childs", pos);
 		Assert.areEqual(1, token.children.length, pos);
 		return this;
 	}

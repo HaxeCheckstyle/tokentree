@@ -375,6 +375,10 @@ abstract TokenTreeBuilderParsingTests(String) to String {
 	class Test {
 		function foo() {
 			doSomething(withThis, Std.is(args, Array) ? cast args : [args]);
+			doSomething(withThis, Std.is(args, Array) ? [args] : cast args);
+			doSomething(withThis, Std.is(args, Array) ? (args) : cast args);
+			doSomething(withThis, Std.is(args, Array) ? new X(args) : cast args);
+			doSomething(withThis, Std.is(args, Array) ? args + 2 : cast args);
 		}
 	}";
 

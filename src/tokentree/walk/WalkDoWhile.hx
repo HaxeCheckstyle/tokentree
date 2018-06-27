@@ -21,7 +21,7 @@ class WalkDoWhile {
 		WalkBlock.walkBlock(stream, doTok);
 		var whileTok:TokenTree = stream.consumeTokenDef(Kwd(KwdWhile));
 		doTok.addChild(whileTok);
-		WalkPOpen.walkPOpen(stream, whileTok);
+		WalkStatement.walkStatement(stream, whileTok);
 		WalkComment.walkComment(stream, whileTok);
 		if (stream.is(Semicolon)) whileTok.addChild(stream.consumeToken());
 	}
