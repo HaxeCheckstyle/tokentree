@@ -1,16 +1,10 @@
 package tokentree.verify;
 
-import massive.munit.Assert;
-
 import haxeparser.Data;
-
-import tokentree.TokenTree;
-
-import tokentree.walk.WalkFile;
 
 import tokentree.TokenTreeBuilderParsingTest.TokenTreeBuilderParsingTests;
 
-class VerifyTokenTreeTest {
+class VerifyTokenTreeTest extends VerifyTokenTreeBase {
 
 	@Test
 	public function testImport() {
@@ -125,14 +119,6 @@ class VerifyTokenTreeTest {
 		v.childFirst().is(DblDot).oneChild().childFirst().is(Const(CIdent("Int"))).oneChild().childFirst().is(Semicolon).noChilds();
 
 		brOpen.childLast().is(BrClose).noChilds();
-	}
-
-	function buildTokenTree(content:String):IVerifyTokenTree {
-		var builder:TestTokenTreeBuilder = new TestTokenTreeBuilder(content);
-		var root:TokenTree = new TokenTree(null, null, -1);
-		WalkFile.walkFile(builder.getTokenStream(), root);
-		Assert.isTrue(builder.isStreamEmpty());
-		return new VerifyTokenTree(root);
 	}
 }
 

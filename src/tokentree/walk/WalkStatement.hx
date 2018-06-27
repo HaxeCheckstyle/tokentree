@@ -73,6 +73,7 @@ class WalkStatement {
 	}
 
 	public static function walkStatementContinue(stream:TokenStream, parent:TokenTree) {
+		if (!stream.hasMore()) return;
 		switch (stream.token()) {
 			case Dot:
 				WalkStatement.walkStatement(stream, parent);
@@ -83,7 +84,7 @@ class WalkStatement {
 			case Binop(_), Unop(_):
 				WalkStatement.walkStatement(stream, parent);
 			case Question:
-				WalkStatement.walkStatement(stream, parent);
+				WalkQuestion.walkQuestion(stream, parent);
 			case Semicolon:
 				WalkStatement.walkStatement(stream, parent);
 			case BkOpen:
@@ -117,6 +118,12 @@ class WalkStatement {
 				return true;
 			case Kwd(KwdSwitch):
 				WalkSwitch.walkSwitch(stream, parent);
+			case Kwd(KwdCase):
+				return false;
+			case Kwd(KwdDefault):
+				// switch or property
+				if (parent.is(BrOpen)) return false;
+				return true;
 			case Kwd(KwdIf):
 				WalkIf.walkIf(stream, parent);
 			case Kwd(KwdTry):
@@ -125,6 +132,9 @@ class WalkStatement {
 				WalkDoWhile.walkDoWhile(stream, parent);
 			case Kwd(KwdWhile):
 				WalkWhile.walkWhile(stream, parent);
+			case Kwd(KwdNull):
+				parent.addChild(stream.consumeToken());
+				return false;
 			default:
 				return true;
 		}
@@ -134,7 +144,6 @@ class WalkStatement {
 	static function walkDblDot(stream:TokenStream, parent:TokenTree) {
 		var question:TokenTree = findQuestionParent(parent);
 		if (question != null) {
-			WalkStatement.walkStatement(stream, question);
 			return;
 		}
 		var dblDotTok:TokenTree = stream.consumeToken();
@@ -157,8 +166,13 @@ class WalkStatement {
 		var parent:TokenTree = token;
 		while (parent != null && parent.tok != null) {
 			switch (parent.tok) {
-				case Question: return parent;
+				case Question:
+					if (WalkQuestion.isTernary(parent)) return parent;
+					return null;
 				case Comma: return null;
+				case BrOpen: return null;
+				case Kwd(KwdCase): return parent;
+				case Kwd(KwdDefault): return parent;
 				default:
 			}
 			parent = parent.parent;
