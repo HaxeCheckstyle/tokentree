@@ -37,7 +37,11 @@ class TokenStream {
 		#if debugTokenTree
 		Sys.println(token);
 		#end
-		return new TokenTree(token.tok, token.pos, current - 1);
+		var space:String = "";
+		#if keep_whitespace
+		space = token.space;
+		#end
+		return new TokenTree(token.tok, space, token.pos, current - 1);
 	}
 
 	public function consumeConstIdent():TokenTree {
@@ -163,7 +167,7 @@ class TokenStream {
 				return consumeOpShr(tok);
 			case Binop(OpAssign):
 				var assignTok:TokenTree = consumeTokenDef(Binop(OpAssign));
-				return new TokenTree(Binop(OpGte), {
+				return new TokenTree(Binop(OpGte), tok.space + assignTok.space, {
 					file:tok.pos.file,
 					min:tok.pos.min,
 					max:assignTok.pos.max
@@ -181,14 +185,14 @@ class TokenStream {
 				var innerGt:TokenTree = consumeTokenDef(Binop(OpGt));
 				if (is(Binop(OpAssign))) {
 					var assignTok:TokenTree = consumeTokenDef(Binop(OpAssign));
-					return new TokenTree(Binop(OpAssignOp(OpUShr)), {
+					return new TokenTree(Binop(OpAssignOp(OpUShr)), assignTok.space, {
 						file:parent.pos.file,
 						min:parent.pos.min,
 						max:assignTok.pos.max
 					},
 					parent.index);
 				}
-				return new TokenTree(Binop(OpUShr), {
+				return new TokenTree(Binop(OpUShr), innerGt.space, {
 					file:parent.pos.file,
 					min:parent.pos.min,
 					max:innerGt.pos.max
@@ -196,14 +200,14 @@ class TokenStream {
 				parent.index);
 			case Binop(OpAssign):
 				var assignTok:TokenTree = consumeTokenDef(Binop(OpAssign));
-				return new TokenTree(Binop(OpAssignOp(OpShr)), {
+				return new TokenTree(Binop(OpAssignOp(OpShr)), assignTok.space, {
 					file:parent.pos.file,
 					min:parent.pos.min,
 					max:assignTok.pos.max
 				},
 				parent.index);
 			default:
-				return new TokenTree(Binop(OpShr), {
+				return new TokenTree(Binop(OpShr), tok.space, {
 					file:parent.pos.file,
 					min:parent.pos.min,
 					max:tok.pos.max
@@ -223,7 +227,7 @@ class TokenStream {
 		switch (token()) {
 			case Const(CInt(_)), Const(CFloat(_)):
 			default:
-				return new TokenTree(tok.tok, tok.pos, tok.index);
+				return new TokenTree(tok.tok, tok.space, tok.pos, tok.index);
 		}
 		var previous:Int = current - 2;
 		if (previous < 0) throw NO_MORE_TOKENS;
@@ -232,12 +236,12 @@ class TokenStream {
 			case Binop(_), Unop(_), BkOpen, POpen, Comma, DblDot, IntInterval(_), Question:
 			case Kwd(KwdReturn), Kwd(KwdIf), Kwd(KwdElse), Kwd(KwdWhile), Kwd(KwdDo), Kwd(KwdFor), Kwd(KwdCase), Kwd(KwdCast):
 			default:
-				return new TokenTree(tok.tok, tok.pos, tok.index);
+				return new TokenTree(tok.tok, tok.space, tok.pos, tok.index);
 		}
 		switch (token()) {
 			case Const(CInt(n)):
 				var const:TokenTree = consumeConst();
-				return new TokenTree(Const(CInt('-$n')), {
+				return new TokenTree(Const(CInt('-$n')), const.space, {
 					file:tok.pos.file,
 					min:tok.pos.min,
 					max:const.pos.max
@@ -245,7 +249,7 @@ class TokenStream {
 				tok.index);
 			case Const(CFloat(n)):
 				var const:TokenTree = consumeConst();
-				return new TokenTree(Const(CFloat('-$n')), {
+				return new TokenTree(Const(CFloat('-$n')), const.space, {
 					file:tok.pos.file,
 					min:tok.pos.min,
 					max:const.pos.max
@@ -294,7 +298,7 @@ class TokenStream {
 			pos = tokens[current].pos;
 			pos.max = pos.min;
 		}
-		return new TokenTree(tokDef, pos, -1, true);
+		return new TokenTree(tokDef, "", pos, -1, true);
 	}
 }
 
