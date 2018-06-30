@@ -132,7 +132,7 @@ class WalkStatement {
 				WalkDoWhile.walkDoWhile(stream, parent);
 			case Kwd(KwdWhile):
 				WalkWhile.walkWhile(stream, parent);
-			case Kwd(KwdNull):
+			case Kwd(KwdNull), Kwd(KwdTrue), Kwd(KwdFalse):
 				parent.addChild(stream.consumeToken());
 				return false;
 			default:

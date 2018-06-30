@@ -37,7 +37,9 @@ class WalkArrayAccess {
 					tempStore = [];
 				case Comma:
 					var comma:TokenTree = stream.consumeTokenDef(Comma);
-					bkOpen.addChild(comma);
+					var child:TokenTree = bkOpen.getLastChild();
+					if (child == null) child = bkOpen;
+					child.addChild(comma);
 				default:
 					for (stored in tempStore) bkOpen.addChild(stored);
 					tempStore = [];
