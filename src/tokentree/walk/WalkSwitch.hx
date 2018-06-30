@@ -120,33 +120,15 @@ class WalkSwitch {
 		var progress:TokenStreamProgress = new TokenStreamProgress(stream);
 		while (progress.streamHasChanged()) {
 			switch (stream.token()) {
-				case POpen:
-					WalkPOpen.walkPOpen(stream, parent);
-				case BrOpen:
-					WalkBlock.walkBlock(stream, parent);
-				case BkOpen:
-					WalkArrayAccess.walkArrayAccess(stream, parent);
-				case Kwd(KwdFunction):
-					WalkFunction.walkFunction(stream, parent, []);
-				case Kwd(KwdIf):
-					WalkIf.walkIf(stream, parent);
-				case Binop(OpGt):
-					var child:TokenTree = stream.consumeOpGt();
-					parent.addChild(child);
-					WalkSwitch.walkCaseExpr(stream, child);
-				case Binop(OpSub):
-					var child:TokenTree = stream.consumeOpSub();
-					parent.addChild(child);
-					WalkSwitch.walkCaseExpr(stream, child);
+				case Comma:
+					var comma:TokenTree = stream.consumeTokenDef(Comma);
+					var child:TokenTree = parent.getLastChild();
+					if (child == null) child = parent;
+					child.addChild(comma);
 				case Semicolon, BrClose, BkClose, PClose, DblDot:
 					return;
-				case Comment(_), CommentLine(_):
-					var child:TokenTree = stream.consumeToken();
-					parent.addChild(child);
 				default:
-					var child:TokenTree = stream.consumeToken();
-					parent.addChild(child);
-					WalkSwitch.walkCaseExpr(stream, child);
+					WalkStatement.walkStatement(stream, parent);
 			}
 		}
 	}

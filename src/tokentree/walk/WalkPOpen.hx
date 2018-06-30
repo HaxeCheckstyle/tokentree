@@ -25,7 +25,9 @@ class WalkPOpen {
 					WalkSharp.walkSharp(stream, parent, WalkPOpen.walkPOpenParts);
 				case Comma:
 					var comma:TokenTree = stream.consumeToken();
-					parent.addChild(comma);
+					var child:TokenTree = parent.getLastChild();
+					if (child == null) child = parent;
+					child.addChild(comma);
 				default:
 					WalkStatement.walkStatement(stream, parent);
 			}

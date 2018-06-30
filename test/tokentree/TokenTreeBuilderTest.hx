@@ -132,7 +132,7 @@ abstract TokenTreeBuilderTests(String) to String {
 		"      POpen\n" +
 		"        BkOpen\n" +
 		"          Const(CString(checkstyle:MagicNumber))\n" +
-		"          Comma\n" +
+		"            Comma\n" +
 		"          Const(CString(checkstyle:AvoidStarImport))\n" +
 		"          BkClose\n" +
 		"        PClose\n" +

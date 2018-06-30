@@ -6,6 +6,7 @@
 - Added support for haxeparser's whitespace (`-D keep_whitespace`) [#12](https://github.com/HaxeCheckstyle/tokentree/issues/12)
 - Fixed handling of `if`, `while` and `do`…`while` conditions [#11](https://github.com/HaxeCheckstyle/tokentree/issues/11)
 - Fixed handling of ternary expressions [#11](https://github.com/HaxeCheckstyle/tokentree/issues/11)
+- Fixed tree position of `Comma` [#13](https://github.com/HaxeCheckstyle/tokentree/issues/13)
 
 ## version 1.0.3 (2018-06-24)
 
