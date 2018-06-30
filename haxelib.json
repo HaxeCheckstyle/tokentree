@@ -7,8 +7,8 @@
     "contributors": [
         "AlexHaxe"
     ],
-    "releasenote": "Fixed position of comments in abstracts and interfaces - see CHANGELOG",
-    "version": "1.0.3",
+    "releasenote": "Added parent and sibling access methods to TokenTreeAccessHelper - see CHANGELOG",
+    "version": "1.0.4",
     "url": "https://github.com/HaxeCheckstyle/tokentree",
     "dependencies": {}
 }
