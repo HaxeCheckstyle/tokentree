@@ -39,6 +39,3 @@ matrix:
         - git clone -b dev https://github.com/HaxeCheckstyle/haxe-checkstyle.git --depth=1 checkstyle
         - sed -i 's/:3.3.0//' build.hxml
         - sed -i 's/:3.3.0//' checkstyle/buildGlobal.hxml
-  allow_failures:
-    - haxe: development
-

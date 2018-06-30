@@ -11,7 +11,7 @@ class TestTokenTreeBuilder extends TokenTreeBuilder {
 
 	public static function parseCode(code:String):TestTokenTreeBuilder {
 		var builder:TestTokenTreeBuilder = new TestTokenTreeBuilder(code);
-		var root:TokenTree = new TokenTree(null, null, -1);
+		var root:TokenTree = new TokenTree(null, "", null, -1);
 		WalkFile.walkFile(builder.stream, root);
 		return builder;
 	}

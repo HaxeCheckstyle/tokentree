@@ -19,7 +19,7 @@ class TokenTreeBuilderTest {
 	@Test
 	public function testImports() {
 		var builder:TestTokenTreeBuilder = new TestTokenTreeBuilder(TokenTreeBuilderTests.IMPORT);
-		var root:TokenTree = new TokenTree(null, null, -1);
+		var root:TokenTree = new TokenTree(null, "", null, -1);
 		var stream:TokenStream = builder.getTokenStream();
 		WalkPackageImport.walkPackageImport(stream, root);
 		WalkPackageImport.walkPackageImport(stream, root);
@@ -34,7 +34,7 @@ class TokenTreeBuilderTest {
 	@Test
 	public function testAt() {
 		var builder:TestTokenTreeBuilder = new TestTokenTreeBuilder(TokenTreeBuilderTests.AT_ANNOTATION);
-		var root:TokenTree = new TokenTree(null, null, -1);
+		var root:TokenTree = new TokenTree(null, "", null, -1);
 		var stream:TokenStream = builder.getTokenStream();
 		root.addChild(WalkAt.walkAt(stream));
 		root.addChild(WalkAt.walkAt(stream));
@@ -49,7 +49,7 @@ class TokenTreeBuilderTest {
 	@Test
 	public function testIf() {
 		var builder:TestTokenTreeBuilder = new TestTokenTreeBuilder(TokenTreeBuilderTests.IF);
-		var root:TokenTree = new TokenTree(null, null, -1);
+		var root:TokenTree = new TokenTree(null, "", null, -1);
 		var stream:TokenStream = builder.getTokenStream();
 		WalkIf.walkIf(stream, root);
 		WalkIf.walkIf(stream, root);
