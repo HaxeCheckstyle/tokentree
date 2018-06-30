@@ -1,7 +1,9 @@
 ## dev branch / next version (1.x.x)
 
+## version 1.0.4 (2018-06-30)
+
 - Added parent and sibling access methods to TokenTreeAccessHelper [#10](https://github.com/HaxeCheckstyle/tokentree/issues/10)
-- Added support for haxeparser's whitespace (`-D keep_whitespace`)
+- Added support for haxeparser's whitespace (`-D keep_whitespace`) [#12](https://github.com/HaxeCheckstyle/tokentree/issues/12)
 - Fixed handling of `if`, `while` and `do`…`while` conditions [#11](https://github.com/HaxeCheckstyle/tokentree/issues/11)
 - Fixed handling of ternary expressions [#11](https://github.com/HaxeCheckstyle/tokentree/issues/11)
 
