@@ -46,8 +46,19 @@ class WalkClass {
 				case BrClose: break;
 				case Semicolon:
 					parent.addChild(stream.consumeToken());
-				case Kwd(KwdPublic), Kwd(KwdPrivate), Kwd(KwdStatic), Kwd(KwdInline), Kwd(KwdMacro), Kwd(KwdOverride), Kwd(KwdDynamic):
+				case Kwd(KwdPublic),
+						Kwd(KwdPrivate),
+						Kwd(KwdStatic),
+						Kwd(KwdInline),
+						Kwd(KwdMacro),
+						Kwd(KwdOverride),
+						Kwd(KwdDynamic),
+						Kwd(KwdExtern):
 					tempStore.push(stream.consumeToken());
+				// #if (haxe_ver >= 4.0)
+				// case Kwd(KwdFinal):
+				// 	tempStore.push(stream.consumeToken());
+				// #end
 				case Comment(_), CommentLine(_):
 					parent.addChild(stream.consumeToken());
 				default:

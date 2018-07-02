@@ -9,8 +9,13 @@ class WalkVar {
 		var progress:TokenStreamProgress = new TokenStreamProgress(stream);
 		while (progress.streamHasChanged()) {
 			WalkComment.walkComment(stream, parent);
+			var nameParent:TokenTree = varTok;
+			if (stream.is(Question)) {
+				nameParent = stream.consumeToken();
+				varTok.addChild(nameParent);
+			}
 			name = stream.consumeConstIdent();
-			varTok.addChild(name);
+			nameParent.addChild(name);
 			WalkComment.walkComment(stream, name);
 			if (stream.is(POpen)) {
 				WalkPOpen.walkPOpen(stream, name);
