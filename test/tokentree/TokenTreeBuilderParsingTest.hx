@@ -365,7 +365,7 @@ abstract TokenTreeBuilderParsingTests(String) to String {
 	class Test {
 		function foo() {
 			if (true)
-				@in('test') @do {
+				@inc('test') @:dox {
 					someStuff();
 				}
 		}
@@ -413,10 +413,10 @@ abstract TokenTreeBuilderParsingTests(String) to String {
 
 	var BLOCK_METADATA = "
 	class Test2 {
-		static function main() @in('test') @do {
+		static function main() @inc('test') @:dox {
 			@test 5 - @test 2;
 
-			if (test) @test @do return x;
+			if (test) @test @:dox return x;
 		}
 	}";
 

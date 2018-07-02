@@ -1,5 +1,10 @@
 ## dev branch / next version (1.x.x)
 
+- Added support for `enum abstract`
+- Added support for `@:a.b.c`
+- Added support for `var ?x:Int`
+- Added support for `extern` fields
+
 ## version 1.0.4 (2018-06-30)
 
 - Added parent and sibling access methods to TokenTreeAccessHelper [#10](https://github.com/HaxeCheckstyle/tokentree/issues/10)

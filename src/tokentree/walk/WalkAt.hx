@@ -31,16 +31,36 @@ class WalkAt {
 			atTok.addChild(dblDot);
 			parent = dblDot;
 		}
-		var name:TokenTree;
-		switch (stream.token()) {
-			case Const(_):
-				name = stream.consumeConstIdent();
-			default:
-				name = stream.consumeToken();
-		}
-		parent.addChild(name);
-		if (stream.is(POpen)) WalkPOpen.walkPOpen(stream, name);
+		walkIdent(stream, parent);
 		return atTok;
+	}
+
+	static function walkIdent(stream:TokenStream, parent:TokenTree) {
+		var ident:TokenTree;
+		switch (stream.token()) {
+			case Const(CIdent(_)):
+				ident = stream.consumeConstIdent();
+			case Kwd(KwdExtern):
+				ident = stream.consumeToken();
+			case Kwd(KwdEnum):
+				ident = stream.consumeToken();
+			// case Kwd(KwdFinal):
+			// 	ident = stream.consumeToken();
+			case Kwd(KwdAbstract):
+				ident = stream.consumeToken();
+			default:
+				return;
+		}
+		parent.addChild(ident);
+		switch (stream.token()) {
+			case Dot:
+				var child:TokenTree = stream.consumeToken();
+				ident.addChild(child);
+				walkIdent(stream, child);
+			case POpen:
+				WalkPOpen.walkPOpen(stream, ident);
+			default:
+		}
 	}
 
 	public static function walkAts(stream:TokenStream):Array<TokenTree> {
