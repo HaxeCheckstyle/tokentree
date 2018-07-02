@@ -1,9 +1,9 @@
 ## dev branch / next version (1.x.x)
 
-- Added support for `enum abstract`
-- Added support for `@:a.b.c`
-- Added support for `var ?x:Int`
-- Added support for `extern` fields
+- Added support for `enum abstract` [#14](https://github.com/HaxeCheckstyle/tokentree/issues/14)
+- Added support for `@:a.b.c` [#14](https://github.com/HaxeCheckstyle/tokentree/issues/14)
+- Added support for `var ?x:Int` [#14](https://github.com/HaxeCheckstyle/tokentree/issues/14)
+- Added support for `extern` fields [#14](https://github.com/HaxeCheckstyle/tokentree/issues/14)
 
 ## version 1.0.4 (2018-06-30)
 

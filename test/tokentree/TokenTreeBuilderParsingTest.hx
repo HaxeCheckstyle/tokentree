@@ -41,6 +41,10 @@ class TokenTreeBuilderParsingTest {
 		assertCodeParses(FUNCTION_SHARP);
 		assertCodeParses(SWITCH_IN_OBJECT_DECL);
 		assertCodeParses(COMMENTS_IN_TYPES);
+		assertCodeParses(ENUM_ABSTRACT);
+		assertCodeParses(QUALIFIED_META);
+		assertCodeParses(VAR_QUESTION);
+		assertCodeParses(EXTERN_FIELD);
 	}
 
 	public function assertCodeParses(code:String, ?pos:PosInfos) {
@@ -562,6 +566,32 @@ abstract TokenTreeBuilderParsingTests(String) to String {
 	typedef Test = {
 		// comment
 		var foo:String;
+	}
+	";
+
+	var ENUM_ABSTRACT = "
+	enum abstract Test(String) {
+		var foo:String;
+	}
+	";
+
+	var QUALIFIED_META = "
+	@:a.b.c('test')
+	class Test {
+		var foo:String;
+	}
+	";
+
+	var VAR_QUESTION = "
+	class Test {
+		var ?foo:Int;
+	}
+	";
+
+	var EXTERN_FIELD = "
+	class Test {
+		extern var foo:Int;
+		extern function foo():Int {};
 	}
 	";
 }
