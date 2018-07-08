@@ -64,14 +64,14 @@ class WalkClass {
 				default:
 					switch (TokenStream.MODE) {
 						case RELAXED: WalkStatement.walkStatement(stream, parent);
-						case STRICT: throw "invalid token tree structure";
+						case STRICT: throw "invalid token tree structure - found:" + '${stream.token()}';
 					}
 			}
 		}
 		if (tempStore.length > 0) {
 			switch (TokenStream.MODE) {
 				case RELAXED: for (tok in tempStore) parent.addChild(tok);
-				case STRICT: throw "invalid token tree structure";
+				case STRICT: throw "invalid token tree structure - found:" + '$tempStore';
 			}
 		}
 	}

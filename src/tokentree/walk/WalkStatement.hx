@@ -48,7 +48,12 @@ class WalkStatement {
 				return;
 			case POpen:
 				var pOpen:TokenTree = WalkPOpen.walkPOpen(stream, parent);
-				WalkStatement.walkStatementContinue(stream, pOpen);
+				if (parent.isCIdent()) {
+					WalkStatement.walkStatementContinue(stream, parent);
+				}
+				else {
+					WalkStatement.walkStatementContinue(stream, pOpen);
+				}
 				return;
 			case Question:
 				WalkQuestion.walkQuestion(stream, parent);
