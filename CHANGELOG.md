@@ -1,10 +1,12 @@
 ## dev branch / next version (1.x.x)
 
+## version 1.0.5 (2018-07-08)
+
 - Added support for `enum abstract` [#14](https://github.com/HaxeCheckstyle/tokentree/issues/14)
 - Added support for `@:a.b.c` [#14](https://github.com/HaxeCheckstyle/tokentree/issues/14)
 - Added support for `var ?x:Int` [#14](https://github.com/HaxeCheckstyle/tokentree/issues/14)
 - Added support for `extern` fields [#14](https://github.com/HaxeCheckstyle/tokentree/issues/14)
-- Changed position of Dot in method chains
+- Changed position of Dot in method chains [#15](https://github.com/HaxeCheckstyle/tokentree/issues/15)
 
 ## version 1.0.4 (2018-06-30)
 
