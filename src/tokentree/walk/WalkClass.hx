@@ -55,6 +55,8 @@ class WalkClass {
 						Kwd(KwdDynamic),
 						Kwd(KwdExtern):
 					tempStore.push(stream.consumeToken());
+				case Const(CIdent("final")):
+					tempStore.push(stream.consumeToken());
 				// #if (haxe_ver >= 4.0)
 				// case Kwd(KwdFinal):
 				// 	tempStore.push(stream.consumeToken());
