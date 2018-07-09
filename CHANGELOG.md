@@ -1,7 +1,7 @@
 ## dev branch / next version (1.x.x)
 
 - Added `TokenTreeCheckUtils.isTypeEnumAbstract` [#16](https://github.com/HaxeCheckstyle/tokentree/issues/16)
-- Added FieldUtils
+- Added FieldUtils [#17](https://github.com/HaxeCheckstyle/tokentree/issues/17)
 
 ## version 1.0.5 (2018-07-08)
 
