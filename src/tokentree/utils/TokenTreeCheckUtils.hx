@@ -77,4 +77,29 @@ class TokenTreeCheckUtils {
 		if (!tok.getLastChild().tok.match(DblDot)) return false;
 		return true;
 	}
+
+	public static function isTypeEnumAbstract(type:TokenTree):Bool {
+		switch (type.tok) {
+			case Kwd(KwdEnum):
+				var child:TokenTree = TokenTreeAccessHelper.access(type).firstChild().is(Kwd(KwdAbstract)).token;
+				return (child != null);
+			case Kwd(KwdAbstract):
+				var name:TokenTree = TokenTreeAccessHelper.access(type).firstChild().token;
+				if ((name == null) || (name.children.length <= 0)) {
+					return false;
+				}
+				for (child in name.children) {
+					if (!child.is(At)) {
+						continue;
+					}
+					var enumTok:TokenTree = TokenTreeAccessHelper.access(child).firstChild().is(DblDot).firstChild().is(Kwd(KwdEnum)).token;
+					if (enumTok == null) {
+						continue;
+					}
+					return true;
+				}
+			default:
+		}
+		return false;
+	}
 }
