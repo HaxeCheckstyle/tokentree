@@ -58,7 +58,6 @@ class FieldUtils {
 		}
 		return FUNCTION(name, visibility, isStatic, isInline, isOverride, isFinal, isExtern);
 	}
-	public var x(default, null):Int;
 
 	static function getVarFieldType(field:TokenTree, defaultVisibility:TokenFieldVisibility):TokenFieldType {
 		var access:TokenTreeAccessHelper = TokenTreeAccessHelper.access(field).firstChild();
