@@ -2,7 +2,7 @@
 
 - Added `TokenTreeCheckUtils.isTypeEnumAbstract` [#16](https://github.com/HaxeCheckstyle/tokentree/issues/16)
 - Added FieldUtils [#17](https://github.com/HaxeCheckstyle/tokentree/issues/17)
-- Fixed `@:default`
+- Fixed `@:default` [#18](https://github.com/HaxeCheckstyle/tokentree/issues/18)
 
 ## version 1.0.5 (2018-07-08)
 
