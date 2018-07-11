@@ -45,6 +45,7 @@ class TokenTreeBuilderParsingTest {
 		assertCodeParses(QUALIFIED_META);
 		assertCodeParses(VAR_QUESTION);
 		assertCodeParses(EXTERN_FIELD);
+		assertCodeParses(CAST_IN_OBJECT);
 	}
 
 	public function assertCodeParses(code:String, ?pos:PosInfos) {
@@ -592,6 +593,17 @@ abstract TokenTreeBuilderParsingTests(String) to String {
 	class Test {
 		extern var foo:Int;
 		extern function foo():Int {};
+	}
+	";
+
+	var CAST_IN_OBJECT = "
+	class Test {
+		function foo():Int {
+			var x = {
+				name:arg,
+				content:cast File.getBytes(arg)
+			};
+		};
 	}
 	";
 }

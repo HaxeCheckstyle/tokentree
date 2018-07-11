@@ -140,6 +140,11 @@ class WalkStatement {
 			case Kwd(KwdNull), Kwd(KwdTrue), Kwd(KwdFalse):
 				parent.addChild(stream.consumeToken());
 				return false;
+			case Kwd(KwdCast):
+				var newChild:TokenTree = stream.consumeToken();
+				parent.addChild(newChild);
+				walkStatement(stream, newChild);
+				return false;
 			default:
 				return true;
 		}
