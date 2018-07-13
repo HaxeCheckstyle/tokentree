@@ -1,6 +1,7 @@
 package tokentree.walk;
 
 class WalkSwitch {
+
 	/**
 	 * Kwd(KwdSwitch)
 	 *  |- POpen
@@ -82,7 +83,7 @@ class WalkSwitch {
 				case BrOpen:
 					WalkBlock.walkBlock(stream, dblDot);
 				case Comment(_), CommentLine(_):
-					WalkComment.walkComment(stream, parent);
+					WalkComment.walkComment(stream, dblDot);
 				case Sharp(_):
 					WalkSharp.walkSharp(stream, parent, WalkSwitch.walkSwitchCases);
 					/*
