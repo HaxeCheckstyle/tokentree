@@ -5,6 +5,7 @@
 - Fixed `@:default` [#18](https://github.com/HaxeCheckstyle/tokentree/issues/18)
 - Fixed position of `cast` children [#19](https://github.com/HaxeCheckstyle/tokentree/issues/19)
 - Fixed position of comments in `case`/`default` [#20](https://github.com/HaxeCheckstyle/tokentree/issues/20)
+- Fixed error handling to work with `--no-inline` [#21](https://github.com/HaxeCheckstyle/tokentree/issues/21)
 - Changed isImport to also incluide `using` [#20](https://github.com/HaxeCheckstyle/tokentree/issues/20)
 
 ## version 1.0.5 (2018-07-08)

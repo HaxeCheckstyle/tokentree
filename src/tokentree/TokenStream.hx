@@ -51,7 +51,9 @@ class TokenStream {
 			default:
 				switch (MODE) {
 					case RELAXED: return createDummyToken(Const(CIdent("autoInsert")));
-					case STRICT: error('bad token ${token()} != Const(CIdent(_))');
+					case STRICT:
+						error('bad token ${token()} != Const(CIdent(_))');
+						return null;
 				}
 		}
 	}
@@ -62,7 +64,9 @@ class TokenStream {
 			default:
 				switch (MODE) {
 					case RELAXED: return createDummyToken(Const(CString("autoInsert")));
-					case STRICT: error('bad token ${token()} != Const(_)');
+					case STRICT:
+						error('bad token ${token()} != Const(_)');
+						return null;
 				}
 		}
 	}
@@ -71,7 +75,9 @@ class TokenStream {
 		if (is(tokenDef)) return consumeToken();
 		switch (MODE) {
 			case RELAXED: return createDummyToken(tokenDef);
-			case STRICT: error('bad token ${token()} != $tokenDef');
+			case STRICT:
+				error('bad token ${token()} != $tokenDef');
+				return null;
 		}
 	}
 
