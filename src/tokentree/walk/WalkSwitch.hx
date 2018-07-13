@@ -1,6 +1,7 @@
 package tokentree.walk;
 
 class WalkSwitch {
+
 	/**
 	 * Kwd(KwdSwitch)
 	 *  |- POpen
@@ -21,7 +22,7 @@ class WalkSwitch {
 	 *      |- Kwd(KwdDefault)
 	 *      |- BrClose
 	 *
-	 */
+	*/
 	public static function walkSwitch(stream:TokenStream, parent:TokenTree) {
 		var switchTok:TokenTree = stream.consumeTokenDef(Kwd(KwdSwitch));
 		parent.addChild(switchTok);
@@ -66,7 +67,7 @@ class WalkSwitch {
 	 *          |- statement
 	 *          |- BrClose
 	 *
-	 */
+	*/
 	public static function walkCase(stream:TokenStream, parent:TokenTree) {
 		WalkComment.walkComment(stream, parent);
 		var caseTok:TokenTree = stream.consumeToken();
@@ -82,28 +83,28 @@ class WalkSwitch {
 				case BrOpen:
 					WalkBlock.walkBlock(stream, dblDot);
 				case Comment(_), CommentLine(_):
-					WalkComment.walkComment(stream, parent);
+					WalkComment.walkComment(stream, dblDot);
 				case Sharp(_):
 					WalkSharp.walkSharp(stream, parent, WalkSwitch.walkSwitchCases);
-					/*
-					 * relocate sharp subtree from:
-					 *  |- BrOpen
-					 *      |- Kwd(KwdCase)
-					 *      |   |- expression
-					 *      |   |- DblDot
-					 *      |       |- statement
-					 *      |- Sharp(If)
-					 *      |   |- condition
-					 *      |   |- statement (if not a new case)
-					 * to:
-					 *      |- Kwd(KwdCase)
-					 *      |   |- expression
-					 *      |   |- DblDot
-					 *      |       |- statement
-					 *      |       |- Sharp(If)
-					 *      |           |- condition
-					 *      |           |- statement
-					 */
+				/*
+				 * relocate sharp subtree from:
+				 *  |- BrOpen
+				 *      |- Kwd(KwdCase)
+				 *      |   |- expression
+				 *      |   |- DblDot
+				 *      |       |- statement
+				 *      |- Sharp(If)
+				 *      |   |- condition
+				 *      |   |- statement (if not a new case)
+				 * to:
+				 *      |- Kwd(KwdCase)
+				 *      |   |- expression
+				 *      |   |- DblDot
+				 *      |       |- statement
+				 *      |       |- Sharp(If)
+				 *      |           |- condition
+				 *      |           |- statement
+				*/
 					var sharp:TokenTree = parent.getLastChild();
 					if (sharp.children.length < 2) continue;
 					var body:TokenTree = sharp.children[1];

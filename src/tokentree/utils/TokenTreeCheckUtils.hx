@@ -24,6 +24,7 @@ class TokenTreeCheckUtils {
 				case Binop(OpIn):
 				#end
 				case Kwd(KwdImport): return true;
+				case Kwd(KwdUsing): return true;
 				default: return false;
 			}
 			parent = parent.parent;
