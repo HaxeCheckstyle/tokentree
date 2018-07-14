@@ -1,5 +1,9 @@
 package tokentree.utils;
 
+import tokentree.TokenTreeAccessHelper;
+
+using tokentree.TokenTreeAccessHelper;
+
 class TokenTreeCheckUtils {
 
 	public static function isImportMult(token:TokenTree):Bool {
@@ -36,6 +40,14 @@ class TokenTreeCheckUtils {
 		return switch (token.tok) {
 			case Binop(OpGt): token.parent.tok.match(Binop(OpLt));
 			case Binop(OpLt): token.getLastChild().tok.match(Binop(OpGt));
+			default: false;
+		}
+	}
+
+	public static function isTypedefExtension(token:TokenTree):Bool {
+		return switch (token.tok) {
+			case Binop(OpGt):
+				(token.access().parent().is(BrOpen).parent().is(Binop(OpAssign)).parent().isCIdent().parent().is(Kwd(KwdTypedef)).token != null);
 			default: false;
 		}
 	}
