@@ -158,6 +158,10 @@ class WalkStatement {
 		}
 		var dblDotTok:TokenTree = stream.consumeToken();
 		parent.addChild(dblDotTok);
+		if (parent.isCIdent() && parent.parent.is(BrOpen)) {
+			WalkStatement.walkStatement(stream, dblDotTok);
+			return;
+		}
 		if (stream.is(Kwd(KwdNew))) {
 			WalkNew.walkNew(stream, dblDotTok);
 			return;
