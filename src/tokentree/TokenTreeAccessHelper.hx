@@ -71,4 +71,16 @@ class TokenTreeAccessHelper {
 		if (token.is(tokenDef)) return this;
 		return NULL_TOKEN;
 	}
+
+	public function isComment():TokenTreeAccessHelper {
+		if (token == null) return this;
+		if (token.isComment()) return this;
+		return NULL_TOKEN;
+	}
+
+	public function isCIdent():TokenTreeAccessHelper {
+		if (token == null) return this;
+		if (token.isCIdent()) return this;
+		return NULL_TOKEN;
+	}
 }
