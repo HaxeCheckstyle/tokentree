@@ -2,6 +2,7 @@
 
 - Added `TokenTreeCheckUtils.isTypeEnumAbstract` [#16](https://github.com/HaxeCheckstyle/tokentree/issues/16)
 - Added FieldUtils [#17](https://github.com/HaxeCheckstyle/tokentree/issues/17)
+- Added `isComment` and `isCIdent` to `TokentTreeAccessHelper`
 - Fixed `@:default` [#18](https://github.com/HaxeCheckstyle/tokentree/issues/18)
 - Fixed position of `cast` children [#19](https://github.com/HaxeCheckstyle/tokentree/issues/19)
 - Fixed position of comments in `case`/`default` [#20](https://github.com/HaxeCheckstyle/tokentree/issues/20)
