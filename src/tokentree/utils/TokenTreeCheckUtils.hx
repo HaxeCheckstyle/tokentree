@@ -40,6 +40,18 @@ class TokenTreeCheckUtils {
 		}
 	}
 
+	public static function isTypedefExtension(token:TokenTree):Bool {
+		return switch (token.tok) {
+			case Binop(OpGt):
+				token.parent != null &&
+				token.parent.parent != null &&
+				token.parent.parent.parent != null &&
+				token.parent.parent.parent.parent != null &&
+				Type.enumEq(token.parent.parent.parent.parent.tok, Kwd(KwdTypedef));
+			default: false;
+		}
+	}
+
 	public static function filterOpSub(token:TokenTree):Bool {
 		if (!token.tok.match(Binop(OpSub))) return false;
 		return switch (token.parent.tok) {
