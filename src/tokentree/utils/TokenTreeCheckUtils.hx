@@ -1,5 +1,9 @@
 package tokentree.utils;
 
+import tokentree.TokenTreeAccessHelper;
+
+using tokentree.TokenTreeAccessHelper;
+
 class TokenTreeCheckUtils {
 
 	public static function isImportMult(token:TokenTree):Bool {
@@ -43,11 +47,7 @@ class TokenTreeCheckUtils {
 	public static function isTypedefExtension(token:TokenTree):Bool {
 		return switch (token.tok) {
 			case Binop(OpGt):
-				token.parent != null &&
-				token.parent.parent != null &&
-				token.parent.parent.parent != null &&
-				token.parent.parent.parent.parent != null &&
-				Type.enumEq(token.parent.parent.parent.parent.tok, Kwd(KwdTypedef));
+				(token.access().parent().is(BrOpen).parent().is(Binop(OpAssign).parent().isCIdent().parent().is(Kwd(KwdTypedef)).token != null);
 			default: false;
 		}
 	}
