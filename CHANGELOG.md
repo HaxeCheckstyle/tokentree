@@ -9,6 +9,7 @@
 - Fixed position of comments in `case`/`default` [#20](https://github.com/HaxeCheckstyle/tokentree/issues/20)
 - Fixed error handling to work with `--no-inline` [#21](https://github.com/HaxeCheckstyle/tokentree/issues/21)
 - Fixed position of BinOp() in anon objects [#22](https://github.com/HaxeCheckstyle/tokentree/issues/22)
+- Fixed ternary handling
 - Changed isImport to also incluide `using` [#20](https://github.com/HaxeCheckstyle/tokentree/issues/20)
 
 ## version 1.0.5 (2018-07-08)

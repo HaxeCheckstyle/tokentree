@@ -19,7 +19,7 @@ class WalkQuestion {
 		var lastChild:TokenTree = parent.getLastChild();
 		if (lastChild == null) {
 			return switch (parent.tok) {
-				case Const(CIdent(_)): true;
+				case Const(_): true;
 				default: false;
 			}
 		}
@@ -31,6 +31,7 @@ class WalkQuestion {
 				case Binop(OpAdd), Binop(OpSub): true;
 				case Kwd(KwdCast): true;
 				case Kwd(KwdNew): true;
+				case Kwd(KwdTrue), Kwd(KwdFalse), Kwd(KwdNull): true;
 				case POpen: true;
 				case PClose: true;
 				default: false;
