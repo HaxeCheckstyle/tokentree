@@ -34,8 +34,8 @@ class TokenTreeCheckUtils {
 
 	public static function isTypeParameter(token:TokenTree):Bool {
 		return switch (token.tok) {
-			case Binop(OpGt): token.parent.tok.match(Binop(OpLt));
-			case Binop(OpLt): token.getLastChild().tok.match(Binop(OpGt));
+			case Binop(OpGt): (token.access().parent().is(Binop(OpLt)).token != null);
+			case Binop(OpLt): (token.access().firstOf(Binop(OpGt)).token != null);
 			default: false;
 		}
 	}
@@ -81,10 +81,33 @@ class TokenTreeCheckUtils {
 		}
 	}
 
-	public static function isTernary(tok:TokenTree):Bool {
-		if (!tok.tok.match(Question)) return false;
-		if (!tok.getLastChild().tok.match(DblDot)) return false;
-		return true;
+	public static function isTernary(token:TokenTree):Bool {
+		if (token == null) {
+			return false;
+		}
+		if (token.is(DblDot)) {
+			return isTernary(token.parent);
+		}
+		if (!token.is(Question)) {
+			return false;
+		}
+		if (token.access().firstOf(DblDot).token == null) {
+			return false;
+		}
+		if (token.parent == null) {
+			return false;
+		}
+		switch (token.parent.tok) {
+			case POpen:
+				if ((token.previousSibling != null) && (token.previousSibling.is(PClose))) return true;
+				return false;
+			case Comma:
+				return false;
+			case Binop(_):
+				return false;
+			default:
+				return true;
+		}
 	}
 
 	public static function isTypeEnumAbstract(type:TokenTree):Bool {
