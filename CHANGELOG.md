@@ -4,6 +4,7 @@
 - Added FieldUtils [#17](https://github.com/HaxeCheckstyle/tokentree/issues/17)
 - Added `isComment` and `isCIdent` to `TokentTreeAccessHelper` [#23](https://github.com/HaxeCheckstyle/tokentree/issues/23)
 - Added `TokenTreeCheckUtils.isOpGtTypedefExtension` [#24](https://github.com/HaxeCheckstyle/tokentree/issues/24)
+- Added `TokenTreeCheckUtils.isBrOpenAnonTypeOrTypedef`
 - Fixed `@:default` [#18](https://github.com/HaxeCheckstyle/tokentree/issues/18)
 - Fixed position of `cast` children [#19](https://github.com/HaxeCheckstyle/tokentree/issues/19)
 - Fixed position of comments in `case`/`default` [#20](https://github.com/HaxeCheckstyle/tokentree/issues/20)
