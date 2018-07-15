@@ -134,4 +134,41 @@ class TokenTreeCheckUtils {
 		}
 		return false;
 	}
+
+	public static function isBrOpenAnonTypeOrTypedef(token:TokenTree):Bool {
+		if ((token == null) || (!token.is(BrOpen)) || (token.children == null)) {
+			return false;
+		}
+		if (token.children.length <= 0) {
+			return true;
+		}
+		for (child in token.children) {
+			switch (child.tok) {
+				case Const(CIdent(_)):
+					if (child.access().firstOf(DblDot).token == null) {
+						return false;
+					}
+				case BrClose:
+				default:
+					return false;
+			}
+		}
+		if (token.parent == null) {
+			return true;
+		}
+		var parent:TokenTree = token.parent;
+		switch (parent.tok) {
+			case DblDot:
+				return true;
+			case Binop(OpLt):
+				return true;
+			case Binop(OpAssign):
+				if (parent.access().parent().isCIdent().parent().is(Kwd(KwdTypedef)).token != null) {
+					return true;
+				}
+			default:
+				return false;
+		}
+		return false;
+	}
 }
