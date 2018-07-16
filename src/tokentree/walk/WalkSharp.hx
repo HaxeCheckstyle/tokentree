@@ -82,6 +82,7 @@ class WalkSharp {
 		var sharpIfParent:TokenTree = stream.peekSharpIf();
 		var ifToken:TokenTree = stream.consumeToken();
 		sharpIfParent.addChild(ifToken);
+		stream.applyTempStore(sharpIfParent);
 		throw new SharpElseException(ifToken);
 	}
 
@@ -89,6 +90,7 @@ class WalkSharp {
 		var sharpIfParent:TokenTree = stream.peekSharpIf();
 		var ifToken:TokenTree = stream.consumeToken();
 		sharpIfParent.addChild(ifToken);
+		stream.applyTempStore(sharpIfParent);
 		WalkSharp.walkSharpIfExpr(stream, ifToken);
 		throw new SharpElseException(ifToken);
 	}
@@ -97,6 +99,7 @@ class WalkSharp {
 		var sharpIfParent:TokenTree = stream.peekSharpIf();
 		var endToken:TokenTree = stream.consumeToken();
 		sharpIfParent.addChild(endToken);
+		stream.applyTempStore(sharpIfParent);
 		throw new SharpEndException();
 	}
 

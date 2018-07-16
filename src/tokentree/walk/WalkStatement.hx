@@ -103,7 +103,7 @@ class WalkStatement {
 	static function walkKeyword(stream:TokenStream, parent:TokenTree):Bool {
 		switch (stream.token()) {
 			case Kwd(KwdVar):
-				WalkVar.walkVar(stream, parent, []);
+				WalkVar.walkVar(stream, parent);
 			case Kwd(KwdNew):
 				if (parent.is(Dot)) {
 					var newChild:TokenTree = stream.consumeToken();
@@ -116,9 +116,9 @@ class WalkStatement {
 			case Kwd(KwdFor):
 				WalkFor.walkFor(stream, parent);
 			case Kwd(KwdFunction):
-				WalkFunction.walkFunction(stream, parent, []);
+				WalkFunction.walkFunction(stream, parent);
 			case Kwd(KwdClass):
-				WalkClass.walkClass(stream, parent, []);
+				WalkClass.walkClass(stream, parent);
 			case Kwd(KwdMacro), Kwd(KwdReturn):
 				return true;
 			case Kwd(KwdSwitch):

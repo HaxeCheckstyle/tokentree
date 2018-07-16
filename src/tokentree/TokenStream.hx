@@ -13,6 +13,7 @@ class TokenStream {
 	var bytes:ByteData;
 
 	var sharpIfStack:Array<TokenTree>;
+	var tempStore:Array<TokenTree> = [];
 
 	public function new(tokens:Array<Token>, bytes:ByteData) {
 		this.tokens = tokens;
@@ -79,6 +80,24 @@ class TokenStream {
 				error('bad token ${token()} != $tokenDef');
 				return null;
 		}
+	}
+
+	public function consumeToTempStore() {
+		tempStore.push(consumeToken());
+	}
+
+	public function addToTempStore(token:TokenTree) {
+		tempStore.push(token);
+	}
+
+	public function applyTempStore(parent:TokenTree) {
+		while (tempStore.length > 0) {
+			parent.addChild(tempStore.shift());
+		}
+	}
+
+	public function getTempStore():Array<TokenTree> {
+		return tempStore;
 	}
 
 	public inline function error(s:String) {

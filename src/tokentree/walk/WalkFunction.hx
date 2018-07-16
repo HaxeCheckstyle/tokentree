@@ -1,7 +1,7 @@
 package tokentree.walk;
 
 class WalkFunction {
-	public static function walkFunction(stream:TokenStream, parent:TokenTree, prefixes:Array<TokenTree>) {
+	public static function walkFunction(stream:TokenStream, parent:TokenTree) {
 		var funcTok:TokenTree = stream.consumeTokenDef(Kwd(KwdFunction));
 		parent.addChild(funcTok);
 		WalkComment.walkComment(stream, funcTok);
@@ -17,7 +17,7 @@ class WalkFunction {
 			default:
 				name = WalkTypeNameDef.walkTypeNameDef(stream, funcTok);
 		}
-		for (stored in prefixes) name.addChild(stored);
+		stream.applyTempStore(name);
 		WalkComment.walkComment(stream, name);
 		WalkFunction.walkFunctionParameters(stream, name);
 		WalkComment.walkComment(stream, name);
