@@ -1,17 +1,21 @@
 ## dev branch / next version (1.x.x)
 
+## version 1.0.6 (2018-07-16)
+
 - Added `TokenTreeCheckUtils.isTypeEnumAbstract` [#16](https://github.com/HaxeCheckstyle/tokentree/issues/16)
 - Added FieldUtils [#17](https://github.com/HaxeCheckstyle/tokentree/issues/17)
 - Added `isComment` and `isCIdent` to `TokentTreeAccessHelper` [#23](https://github.com/HaxeCheckstyle/tokentree/issues/23)
 - Added `TokenTreeCheckUtils.isOpGtTypedefExtension` [#24](https://github.com/HaxeCheckstyle/tokentree/issues/24)
 - Added `TokenTreeCheckUtils.isBrOpenAnonTypeOrTypedef` [#26](https://github.com/HaxeCheckstyle/tokentree/issues/26)
+- Added `tempStore` to `TokenStream` [#27](https://github.com/HaxeCheckstyle/tokentree/issues/27)
 - Fixed `@:default` [#18](https://github.com/HaxeCheckstyle/tokentree/issues/18)
 - Fixed position of `cast` children [#19](https://github.com/HaxeCheckstyle/tokentree/issues/19)
 - Fixed position of comments in `case`/`default` [#20](https://github.com/HaxeCheckstyle/tokentree/issues/20)
 - Fixed error handling to work with `--no-inline` [#21](https://github.com/HaxeCheckstyle/tokentree/issues/21)
 - Fixed position of BinOp() in anon objects [#22](https://github.com/HaxeCheckstyle/tokentree/issues/22)
 - Fixed ternary handling [#25](https://github.com/HaxeCheckstyle/tokentree/issues/25)
-- Changed isImport to also incluide `using` [#20](https://github.com/HaxeCheckstyle/tokentree/issues/20)
+- Fixed missing modifiers in conditionals [#27](https://github.com/HaxeCheckstyle/tokentree/issues/27)
+- Changed `isImport` to also incluide `using` [#20](https://github.com/HaxeCheckstyle/tokentree/issues/20)
 
 ## version 1.0.5 (2018-07-08)
 

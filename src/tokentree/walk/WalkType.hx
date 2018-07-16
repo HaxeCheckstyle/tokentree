@@ -1,18 +1,18 @@
 package tokentree.walk;
 
 class WalkType {
-	public static function walkType(stream:TokenStream, parent:TokenTree, prefixes:Array<TokenTree>) {
+	public static function walkType(stream:TokenStream, parent:TokenTree) {
 		switch (stream.token()) {
 			case Kwd(KwdClass):
-				WalkClass.walkClass(stream, parent, prefixes);
+				WalkClass.walkClass(stream, parent);
 			case Kwd(KwdInterface):
-				WalkInterface.walkInterface(stream, parent, prefixes);
+				WalkInterface.walkInterface(stream, parent);
 			case Kwd(KwdAbstract):
-				WalkAbstract.walkAbstract(stream, parent, prefixes);
+				WalkAbstract.walkAbstract(stream, parent);
 			case Kwd(KwdTypedef):
-				WalkTypedef.walkTypedef(stream, parent, prefixes);
+				WalkTypedef.walkTypedef(stream, parent);
 			case Kwd(KwdEnum):
-				WalkEnum.walkEnum(stream, parent, prefixes);
+				WalkEnum.walkEnum(stream, parent);
 			default:
 		}
 	}

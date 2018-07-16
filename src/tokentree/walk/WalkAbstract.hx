@@ -1,12 +1,12 @@
 package tokentree.walk;
 
 class WalkAbstract {
-	public static function walkAbstract(stream:TokenStream, parent:TokenTree, prefixes:Array<TokenTree>) {
+	public static function walkAbstract(stream:TokenStream, parent:TokenTree) {
 		var typeTok:TokenTree = stream.consumeToken();
 		parent.addChild(typeTok);
 		var name:TokenTree = WalkTypeNameDef.walkTypeNameDef(stream, typeTok);
 		// add all comments, annotations
-		for (prefix in prefixes) name.addChild(prefix);
+		stream.applyTempStore(name);
 		if (stream.is(POpen)) WalkPOpen.walkPOpen(stream, name);
 		var typeParent:TokenTree = name;
 		var typeChild:TokenTree;
@@ -31,29 +31,26 @@ class WalkAbstract {
 	}
 
 	public static function walkAbstractBody(stream:TokenStream, parent:TokenTree) {
-		var tempStore:Array<TokenTree> = [];
 		var progress:TokenStreamProgress = new TokenStreamProgress(stream);
 		while (progress.streamHasChanged()) {
 			switch (stream.token()) {
 				case Kwd(KwdVar):
-					WalkVar.walkVar(stream, parent, tempStore);
-					tempStore = [];
+					WalkVar.walkVar(stream, parent);
 				case Kwd(KwdFunction):
-					WalkFunction.walkFunction(stream, parent, tempStore);
-					tempStore = [];
+					WalkFunction.walkFunction(stream, parent);
 				case Sharp(_):
 					WalkSharp.walkSharp(stream, parent, WalkAbstract.walkAbstractBody);
 				case At:
-					tempStore.push(WalkAt.walkAt(stream));
+					stream.addToTempStore(WalkAt.walkAt(stream));
 				case BrClose: break;
 				case Semicolon:
 					parent.addChild(stream.consumeToken());
 				case Comment(_), CommentLine(_):
 					parent.addChild(stream.consumeToken());
 				default:
-					tempStore.push(stream.consumeToken());
+					stream.consumeToTempStore();
 			}
 		}
-		for (tok in tempStore) parent.addChild(tok);
+		stream.applyTempStore(parent);
 	}
 }

@@ -4,13 +4,13 @@ import tokentree.TokenTreeAccessHelper;
 
 class WalkClass {
 
-	public static function walkClass(stream:TokenStream, parent:TokenTree, prefixes:Array<TokenTree>) {
+	public static function walkClass(stream:TokenStream, parent:TokenTree) {
 		var typeTok:TokenTree = stream.consumeToken();
 		parent.addChild(typeTok);
 		WalkComment.walkComment(stream, parent);
 		var name:TokenTree = WalkTypeNameDef.walkTypeNameDef(stream, typeTok);
 		// add all comments, annotations
-		for (prefix in prefixes) name.addChild(prefix);
+		stream.applyTempStore(name);
 		if (stream.isSharp()) WalkSharp.walkSharp(stream, name, WalkClass.walkClassExtends);
 		WalkClass.walkClassExtends(stream, name);
 		var block:TokenTree = stream.consumeTokenDef(BrOpen);
@@ -28,21 +28,18 @@ class WalkClass {
 	}
 
 	public static function walkClassBody(stream:TokenStream, parent:TokenTree) {
-		var tempStore:Array<TokenTree> = [];
 		var progress:TokenStreamProgress = new TokenStreamProgress(stream);
 		while (progress.streamHasChanged()) {
 			switch (stream.token()) {
 				case Kwd(KwdVar):
-					WalkVar.walkVar(stream, parent, tempStore);
-					tempStore = [];
+					WalkVar.walkVar(stream, parent);
 				case Kwd(KwdFunction):
-					WalkFunction.walkFunction(stream, parent, tempStore);
-					tempStore = [];
+					WalkFunction.walkFunction(stream, parent);
 				case Sharp(_):
 					WalkSharp.walkSharp(stream, parent, WalkClass.walkClassBody);
 					walkClassContinueAfterSharp(stream, parent);
 				case At:
-					tempStore.push(WalkAt.walkAt(stream));
+					stream.addToTempStore(WalkAt.walkAt(stream));
 				case BrClose: break;
 				case Semicolon:
 					parent.addChild(stream.consumeToken());
@@ -54,12 +51,12 @@ class WalkClass {
 						Kwd(KwdOverride),
 						Kwd(KwdDynamic),
 						Kwd(KwdExtern):
-					tempStore.push(stream.consumeToken());
+					stream.consumeToTempStore();
 				case Const(CIdent("final")):
-					tempStore.push(stream.consumeToken());
+					stream.consumeToTempStore();
 				// #if (haxe_ver >= 4.0)
 				// case Kwd(KwdFinal):
-				// 	tempStore.push(stream.consumeToken());
+				// stream.consumeToTempStore();
 				// #end
 				case Comment(_), CommentLine(_):
 					parent.addChild(stream.consumeToken());
@@ -70,9 +67,10 @@ class WalkClass {
 					}
 			}
 		}
+		var tempStore:Array<TokenTree> = stream.getTempStore();
 		if (tempStore.length > 0) {
 			switch (TokenStream.MODE) {
-				case RELAXED: for (tok in tempStore) parent.addChild(tok);
+				case RELAXED: stream.applyTempStore(parent);
 				case STRICT: throw "invalid token tree structure - found:" + '$tempStore';
 			}
 		}

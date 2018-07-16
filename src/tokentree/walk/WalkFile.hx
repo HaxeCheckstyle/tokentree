@@ -2,12 +2,10 @@ package tokentree.walk;
 
 class WalkFile {
 	public static function walkFile(stream:TokenStream, parent:TokenTree) {
-		var tempStore:Array<TokenTree> = [];
 		while (stream.hasMore()) {
 			switch (stream.token()) {
 				case Kwd(KwdPackage), Kwd(KwdImport), Kwd(KwdUsing):
-					for (stored in tempStore) parent.addChild(stored);
-					tempStore = [];
+					stream.applyTempStore(parent);
 					WalkPackageImport.walkPackageImport(stream, parent);
 				case Sharp(_):
 					WalkSharp.walkSharp(stream, parent, WalkFile.walkFile);
@@ -18,20 +16,20 @@ class WalkFile {
 						default:
 					}
 				case At:
-					tempStore.push(WalkAt.walkAt(stream));
+					stream.addToTempStore(WalkAt.walkAt(stream));
 				case Comment(_), CommentLine(_):
 					WalkComment.walkComment(stream, parent);
 				case Kwd(KwdClass), Kwd(KwdInterface), Kwd(KwdEnum), Kwd(KwdTypedef), Kwd(KwdAbstract):
-					WalkType.walkType(stream, parent, tempStore);
-					tempStore = [];
+					WalkType.walkType(stream, parent);
 				case PClose, BrClose, BkClose, Semicolon, Comma:
 					parent.addChild(stream.consumeToken());
 				case Kwd(KwdExtern), Kwd(KwdPrivate), Kwd(KwdPublic):
-					tempStore.push(stream.consumeToken());
+					stream.consumeToTempStore();
 				default:
 					WalkBlock.walkBlock(stream, parent);
 			}
 		}
+		var tempStore:Array<TokenTree> = stream.getTempStore();
 		for (stored in tempStore) {
 			switch (stored.tok) {
 				case Kwd(KwdExtern), Kwd(KwdPrivate), Kwd(KwdPublic), At:

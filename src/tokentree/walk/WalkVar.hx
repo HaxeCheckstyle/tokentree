@@ -1,7 +1,7 @@
 package tokentree.walk;
 
 class WalkVar {
-	public static function walkVar(stream:TokenStream, parent:TokenTree, prefixes:Array<TokenTree>) {
+	public static function walkVar(stream:TokenStream, parent:TokenTree) {
 		var name:TokenTree = null;
 		var varTok:TokenTree = stream.consumeTokenDef(Kwd(KwdVar));
 		parent.addChild(varTok);
@@ -20,7 +20,7 @@ class WalkVar {
 			if (stream.is(POpen)) {
 				WalkPOpen.walkPOpen(stream, name);
 			}
-			for (stored in prefixes) name.addChild(stored);
+			stream.applyTempStore(name);
 			if (stream.is(DblDot)) {
 				var dblDot:TokenTree = stream.consumeTokenDef(DblDot);
 				name.addChild(dblDot);

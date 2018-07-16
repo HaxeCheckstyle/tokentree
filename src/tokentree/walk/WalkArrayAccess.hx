@@ -4,45 +4,37 @@ class WalkArrayAccess {
 	public static function walkArrayAccess(stream:TokenStream, parent:TokenTree) {
 		var bkOpen:TokenTree = stream.consumeTokenDef(BkOpen);
 		parent.addChild(bkOpen);
-		var tempStore:Array<TokenTree> = [];
 		var progress:TokenStreamProgress = new TokenStreamProgress(stream);
 		while (progress.streamHasChanged()) {
 			switch (stream.token()) {
 				case Kwd(KwdFor):
-					for (stored in tempStore) bkOpen.addChild(stored);
-					tempStore = [];
+					stream.applyTempStore(bkOpen);
 					WalkFor.walkFor(stream, bkOpen);
 				case Kwd(KwdWhile):
-					for (stored in tempStore) bkOpen.addChild(stored);
-					tempStore = [];
+					stream.applyTempStore(bkOpen);
 					WalkWhile.walkWhile(stream, bkOpen);
 				case POpen:
-					for (stored in tempStore) bkOpen.addChild(stored);
-					tempStore = [];
+					stream.applyTempStore(bkOpen);
 					WalkPOpen.walkPOpen(stream, bkOpen);
 				case BrOpen:
-					for (stored in tempStore) bkOpen.addChild(stored);
-					tempStore = [];
+					stream.applyTempStore(bkOpen);
 					WalkBlock.walkBlock(stream, bkOpen);
 				case BkOpen:
-					for (stored in tempStore) bkOpen.addChild(stored);
-					tempStore = [];
+					stream.applyTempStore(bkOpen);
 					WalkArrayAccess.walkArrayAccess(stream, bkOpen);
 				case BkClose:
 					break;
 				case At:
-					tempStore.push(WalkAt.walkAt(stream));
+					stream.addToTempStore(WalkAt.walkAt(stream));
 				case Kwd(KwdFunction):
-					WalkFunction.walkFunction(stream, bkOpen, tempStore);
-					tempStore = [];
+					WalkFunction.walkFunction(stream, bkOpen);
 				case Comma:
 					var comma:TokenTree = stream.consumeTokenDef(Comma);
 					var child:TokenTree = bkOpen.getLastChild();
 					if (child == null) child = bkOpen;
 					child.addChild(comma);
 				default:
-					for (stored in tempStore) bkOpen.addChild(stored);
-					tempStore = [];
+					stream.applyTempStore(bkOpen);
 					WalkStatement.walkStatement(stream, bkOpen);
 			}
 		}
