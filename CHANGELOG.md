@@ -1,5 +1,7 @@
 ## dev branch / next version (1.x.x)
 
+## version 1.0.6 (2018-07-16)
+
 - Added `TokenTreeCheckUtils.isTypeEnumAbstract` [#16](https://github.com/HaxeCheckstyle/tokentree/issues/16)
 - Added FieldUtils [#17](https://github.com/HaxeCheckstyle/tokentree/issues/17)
 - Added `isComment` and `isCIdent` to `TokentTreeAccessHelper` [#23](https://github.com/HaxeCheckstyle/tokentree/issues/23)

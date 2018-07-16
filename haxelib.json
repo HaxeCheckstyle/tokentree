@@ -7,8 +7,8 @@
     "contributors": [
         "AlexHaxe"
     ],
-    "releasenote": "Added support for some Haxe 4 syntax changes - see CHANGELOG",
-    "version": "1.0.5",
+    "releasenote": "Added helper functions TokenTreeCheckUtils and bugfixes - see CHANGELOG",
+    "version": "1.0.6",
     "url": "https://github.com/HaxeCheckstyle/tokentree",
     "dependencies": {}
 }
