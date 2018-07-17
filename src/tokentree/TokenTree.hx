@@ -74,8 +74,8 @@ class TokenTree extends Token {
 		var childPos:Position;
 		for (child in children) {
 			childPos = child.getPos();
-			if (childPos.min < pos.min) fullPos.min = childPos.min;
-			if (childPos.max > pos.max) fullPos.max = childPos.max;
+			if (childPos.min < fullPos.min) fullPos.min = childPos.min;
+			if (childPos.max > fullPos.max) fullPos.max = childPos.max;
 		}
 		return fullPos;
 	}
