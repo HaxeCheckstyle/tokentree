@@ -1,6 +1,6 @@
 ## dev branch / next version (1.x.x)
 
-- Fixed running out of tokens during package and imports
+- Fixed running out of tokens during package and imports [#28](https://github.com/HaxeCheckstyle/tokentree/issues/28)
 
 ## version 1.0.6 (2018-07-16)
 
