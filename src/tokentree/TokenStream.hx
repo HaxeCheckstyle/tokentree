@@ -13,12 +13,13 @@ class TokenStream {
 	var bytes:ByteData;
 
 	var sharpIfStack:Array<TokenTree>;
-	var tempStore:Array<TokenTree> = [];
+	var tempStore:Array<TokenTree>;
 
 	public function new(tokens:Array<Token>, bytes:ByteData) {
 		this.tokens = tokens;
 		this.bytes = bytes;
 		sharpIfStack = [];
+		tempStore = [];
 		current = 0;
 	}
 
