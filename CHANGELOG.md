@@ -1,5 +1,7 @@
 ## dev branch / next version (1.x.x)
 
+- Fixed running out of tokens during package and imports
+
 ## version 1.0.6 (2018-07-16)
 
 - Added `TokenTreeCheckUtils.isTypeEnumAbstract` [#16](https://github.com/HaxeCheckstyle/tokentree/issues/16)

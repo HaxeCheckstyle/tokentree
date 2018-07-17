@@ -20,6 +20,7 @@ class WalkPackageImport {
 		newChild = stream.consumeToken();
 		parent.addChild(newChild);
 		if (Type.enumEq(Semicolon, newChild.tok)) return;
+		if (!stream.hasMore()) return;
 		WalkPackageImport.walkPackageImport(stream, newChild);
 	}
 }
