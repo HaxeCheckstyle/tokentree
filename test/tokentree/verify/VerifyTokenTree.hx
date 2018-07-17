@@ -76,7 +76,10 @@ class VerifyTokenTree implements IVerifyTokenTree {
 	}
 
 	public function childCount(count:Int, ?pos:PosInfos):IVerifyTokenTree {
-		if ((token.children == null) && (count != 0)) Assert.fail('${token.tok} has no childs', pos);
+		if (token.children == null) {
+			if (count != 0) Assert.fail('${token.tok} has no childs', pos);
+			else return this;
+		}
 		Assert.areEqual(count, token.children.length, '[${token.tok}] child count [${token.children.length}] was not equal to expected [$count]', pos);
 		return this;
 	}
