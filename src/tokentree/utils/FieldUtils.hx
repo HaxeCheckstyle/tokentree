@@ -20,40 +20,35 @@ class FieldUtils {
 		if (access.token == null) {
 			return UNKNOWN;
 		}
-		var name:String = "";
-		switch (access.token.tok) {
-			case Const(CIdent(text)):
-				name = text;
-			case Kwd(KwdNew):
-				name = "new";
-			default:
-		}
+		var name = TokenTreeCheckUtils.getName(field);
 		var visibility:TokenFieldVisibility = defaultVisibility;
 		var isStatic:Bool = false;
 		var isInline:Bool = false;
 		var isOverride:Bool = false;
 		var isFinal:Bool = false;
 		var isExtern:Bool = false;
-		for (child in access.token.children) {
-			switch (child.tok) {
-				case Kwd(KwdPublic):
-					visibility = PUBLIC;
-				case Kwd(KwdPrivate):
-					visibility = PRIVATE;
-				case Kwd(KwdStatic):
-					isStatic = true;
-				case Kwd(KwdInline):
-					isInline = true;
-				case Kwd(KwdOverride):
-					isOverride = true;
-				case Kwd(KwdExtern):
-					isExtern = true;
-				// case Kwd(KwdFinal):
-				case Const(CIdent("final")):
-					isFinal = true;
-				case POpen, BrOpen:
-					break;
-				default:
+		if (access.token.children != null) {
+			for (child in access.token.children) {
+				switch (child.tok) {
+					case Kwd(KwdPublic):
+						visibility = PUBLIC;
+					case Kwd(KwdPrivate):
+						visibility = PRIVATE;
+					case Kwd(KwdStatic):
+						isStatic = true;
+					case Kwd(KwdInline):
+						isInline = true;
+					case Kwd(KwdOverride):
+						isOverride = true;
+					case Kwd(KwdExtern):
+						isExtern = true;
+					// case Kwd(KwdFinal):
+					case Const(CIdent("final")):
+						isFinal = true;
+					case POpen, BrOpen:
+						break;
+					default:
+				}
 			}
 		}
 		return FUNCTION(name, visibility, isStatic, isInline, isOverride, isFinal, isExtern);
@@ -64,34 +59,30 @@ class FieldUtils {
 		if (access.token == null) {
 			return UNKNOWN;
 		}
-		var name:String = "";
-		switch (access.token.tok) {
-			case Const(CIdent(text)):
-				name = text;
-			default:
-		}
-
+		var name = TokenTreeCheckUtils.getName(field);
 		var visibility:TokenFieldVisibility = defaultVisibility;
 		var isStatic:Bool = false;
 		var isInline:Bool = false;
 		var isFinal:Bool = false;
 		var isExtern:Bool = false;
-		for (child in access.token.children) {
-			switch (child.tok) {
-				case Kwd(KwdPublic):
-					visibility = PUBLIC;
-				case Kwd(KwdPrivate):
-					visibility = PRIVATE;
-				case Kwd(KwdStatic):
-					isStatic = true;
-				case Kwd(KwdInline):
-					isInline = true;
-				case Kwd(KwdExtern):
-					isExtern = true;
-				// case Kwd(KwdFinal):
-				case Const(CIdent("final")):
-					isFinal = true;
-				default:
+		if (access.token.children != null) {
+			for (child in access.token.children) {
+				switch (child.tok) {
+					case Kwd(KwdPublic):
+						visibility = PUBLIC;
+					case Kwd(KwdPrivate):
+						visibility = PRIVATE;
+					case Kwd(KwdStatic):
+						isStatic = true;
+					case Kwd(KwdInline):
+						isInline = true;
+					case Kwd(KwdExtern):
+						isExtern = true;
+					// case Kwd(KwdFinal):
+					case Const(CIdent("final")):
+						isFinal = true;
+					default:
+				}
 			}
 		}
 		access = access.firstOf(POpen);

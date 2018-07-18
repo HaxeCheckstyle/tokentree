@@ -184,4 +184,22 @@ class TokenTreeCheckUtils {
 		}
 		return false;
 	}
+
+	/**
+		Gets the name of a type, var or function.
+	**/
+	public static function getName(declToken:TokenTree):String {
+		var nameToken = declToken.access().firstChild().token;
+		if (nameToken == null) {
+			return null;
+		}
+		return switch (nameToken.tok) {
+			case Const(CIdent(ident)):
+				ident;
+			case Kwd(KwdNew):
+				"new";
+			default:
+				null;
+		}
+	}
 }
