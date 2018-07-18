@@ -203,20 +203,28 @@ class TokenTreeCheckUtils {
 	}
 
 	/**
-		Gets the name of a type, var or function.
+		Gets the name of a type, var or function token, or a CIdent token itself.
 	**/
-	public static function getName(declToken:TokenTree):String {
-		var nameToken = declToken.access().firstChild().token;
+	public static function getName(token:TokenTree):Null<String> {
+		function extractName(token:TokenTree):Null<String> {
+			return switch (token.tok) {
+				case Const(CIdent(ident)):
+					ident;
+				case Kwd(KwdNew):
+					"new";
+				default:
+					null;
+			}
+		}
+
+		var name = extractName(token);
+		if (name != null) {
+			return name;
+		}
+		var nameToken = token.access().firstChild().token;
 		if (nameToken == null) {
 			return null;
 		}
-		return switch (nameToken.tok) {
-			case Const(CIdent(ident)):
-				ident;
-			case Kwd(KwdNew):
-				"new";
-			default:
-				null;
-		}
+		return extractName(nameToken);
 	}
 }
