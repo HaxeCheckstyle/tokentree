@@ -3,6 +3,7 @@
 - Fixed running out of tokens during package and imports [#28](https://github.com/HaxeCheckstyle/tokentree/issues/28)
 - Fixed function in typedef body [#30](https://github.com/HaxeCheckstyle/tokentree/issues/30)
 - Changed `getPos` to calculate full position of all childs [#29](https://github.com/HaxeCheckstyle/tokentree/issues/29)
+- Refactored `tempStore` handling and moved it to `TokenStream` childs [#28](https://github.com/HaxeCheckstyle/tokentree/issues/28) + [#30](https://github.com/HaxeCheckstyle/tokentree/issues/30)
 
 ## version 1.0.6 (2018-07-16)
 
