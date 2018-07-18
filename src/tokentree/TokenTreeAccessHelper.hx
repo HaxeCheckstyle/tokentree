@@ -12,27 +12,27 @@ abstract TokenTreeAccessHelper(TokenTree) from TokenTree {
 	}
 
 	public function parent():TokenTreeAccessHelper {
-		return if (this != null) this.parent else null;
+		return if (exists()) this.parent else null;
 	}
 
 	public function previousSibling():TokenTreeAccessHelper {
-		return if (this != null) this.previousSibling else null;
+		return if (exists()) this.previousSibling else null;
 	}
 
 	public function nextSibling():TokenTreeAccessHelper {
-		return if (this != null) this.nextSibling else null;
+		return if (exists()) this.nextSibling else null;
 	}
 
 	public function firstChild():TokenTreeAccessHelper {
-		return if (this != null) this.getFirstChild() else null;
+		return if (exists()) this.getFirstChild() else null;
 	}
 
 	public function lastChild():TokenTreeAccessHelper {
-		return if (this != null) this.getLastChild() else null;
+		return if (exists()) this.getLastChild() else null;
 	}
 
 	public function firstOf(tokenDef:TokenDef):TokenTreeAccessHelper {
-		if (this == null || this.children == null) return null;
+		if (!exists() || this.children == null) return null;
 
 		for (tok in this.children) {
 			if (tok.is(tokenDef)) return tok;
@@ -41,7 +41,7 @@ abstract TokenTreeAccessHelper(TokenTree) from TokenTree {
 	}
 
 	public function lastOf(tokenDef:TokenDef):TokenTreeAccessHelper {
-		if (this == null || this.children == null) return null;
+		if (!exists() || this.children == null) return null;
 
 		var found:TokenTree = null;
 		for (tok in this.children) {
@@ -51,23 +51,23 @@ abstract TokenTreeAccessHelper(TokenTree) from TokenTree {
 	}
 
 	public function child(index:Int):TokenTreeAccessHelper {
-		return if (this != null && this.children != null) this.children[index] else null;
+		return if (exists() && this.children != null) this.children[index] else null;
 	}
 
 	public function is(tokenDef:TokenDef):TokenTreeAccessHelper {
-		return if (this != null && this.is(tokenDef)) this else null;
+		return if (exists() && this.is(tokenDef)) this else null;
 	}
 
 	public function isComment():TokenTreeAccessHelper {
-		return if (this != null && this.isComment()) this else null;
+		return if (exists() && this.isComment()) this else null;
 	}
 
 	public function isCIdent():TokenTreeAccessHelper {
-		return if (this != null && this.isCIdent()) this else null;
+		return if (exists() && this.isCIdent()) this else null;
 	}
 
 	public function or(other:TokenTree):TokenTree {
-		return if (this != null) this else other;
+		return if (exists()) this else other;
 	}
 
 	public inline function exists():Bool {
