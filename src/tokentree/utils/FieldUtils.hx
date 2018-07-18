@@ -1,5 +1,8 @@
 package tokentree.utils;
 
+using tokentree.utils.TokenTreeCheckUtils;
+using Lambda;
+
 class FieldUtils {
 	public static function getFieldType(field:TokenTree, defaultVisibility:TokenFieldVisibility):TokenFieldType {
 		if (field == null) {
@@ -104,6 +107,17 @@ class FieldUtils {
 			case Const(CIdent("set")): SET;
 			default: DEFAULT;
 		}
+	}
+
+	public static function isOperatorFunction(functionToken:TokenTree):Bool {
+		return functionToken.getMetadata().exists(function(meta) {
+			return switch (meta.tok) {
+				case Const(CIdent("op")): true;
+				case Const(CIdent("arrayAccess")): true;
+				case Const(CIdent("resolve")): true;
+				case _: false;
+			}
+		});
 	}
 }
 
