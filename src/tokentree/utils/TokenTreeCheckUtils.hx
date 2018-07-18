@@ -227,4 +227,37 @@ class TokenTreeCheckUtils {
 		}
 		return extractName(nameToken);
 	}
+
+	/**
+		Returns a list of metas (without At + DblDot) for a given decl keyword (`function`, `var`...).
+	**/
+	public static function getMetadata(declToken:TokenTree):Array<TokenTree> {
+		var ident = declToken.access().firstChild().isCIdent().token;
+		if (ident == null || !ident.hasChildren()) {
+			return [];
+		}
+
+		return ident.children.map(function(token) {
+			return token.access().is(At).firstChild().is(DblDot).firstChild().token;
+		}).filter(function(token) {
+			return token != null;
+		});
+	}
+
+	public static function isModifier(keyword:TokenTree):Bool {
+		if (keyword == null) {
+			return false;
+		}
+		return switch (keyword.tok) {
+			case Kwd(KwdPublic): true;
+			case Kwd(KwdPrivate): true;
+			case Kwd(KwdStatic): true;
+			case Kwd(KwdInline): true;
+			case Kwd(KwdOverride): true;
+			case Kwd(KwdExtern): true;
+			case Kwd(KwdDynamic): true;
+			case Kwd(KwdMacro): true;
+			case _: false;
+		}
+	}
 }
