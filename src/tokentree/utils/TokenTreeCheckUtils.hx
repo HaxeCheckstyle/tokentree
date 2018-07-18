@@ -99,12 +99,15 @@ class TokenTreeCheckUtils {
 		}
 		switch (token.parent.tok) {
 			case POpen:
-				if ((token.previousSibling != null) && (token.previousSibling.is(PClose))) return true;
+				var pos:Position = token.parent.getPos();
+				if ((pos.min < token.pos.min) && (pos.max > token.pos.max)) {
+					return true;
+				}
 				return false;
 			case Comma:
 				return false;
 			case Binop(_):
-				return false;
+				return true;
 			default:
 				return true;
 		}
@@ -119,7 +122,7 @@ class TokenTreeCheckUtils {
 					return true;
 				}
 				var name:TokenTree = type.access().firstChild().token;
-				if ((name == null) || (name.children.length <= 0)) {
+				if ((name == null) || (name.children == null) || (name.children.length <= 0)) {
 					return false;
 				}
 				for (child in name.children) {
