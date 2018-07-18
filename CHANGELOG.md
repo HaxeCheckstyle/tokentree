@@ -5,7 +5,7 @@
 - Fixed `function` in typedef body [#30](https://github.com/HaxeCheckstyle/tokentree/issues/30)
 - Fixed handling of `switch this {` [#34](https://github.com/HaxeCheckstyle/tokentree/issues/34)
 - Fixed handling of `macro class` [#37](https://github.com/HaxeCheckstyle/tokentree/issues/37)
-- Fixed `isTernary`
+- Fixed `isTernary` [#38](https://github.com/HaxeCheckstyle/tokentree/issues/38)
 - Changed `getPos` to calculate full position of all childs [#29](https://github.com/HaxeCheckstyle/tokentree/issues/29)
 - Refactored `tempStore` handling and moved it to `TokenStream` childs [#28](https://github.com/HaxeCheckstyle/tokentree/issues/28) + [#30](https://github.com/HaxeCheckstyle/tokentree/issues/30)
 - Refactored `TokenTreeAccessHelper` and made it an abstract [#31](https://github.com/HaxeCheckstyle/tokentree/issues/31) + [#32]
