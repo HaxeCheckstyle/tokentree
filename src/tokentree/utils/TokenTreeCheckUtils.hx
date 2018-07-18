@@ -161,6 +161,10 @@ class TokenTreeCheckUtils {
 		return true;
 	}
 
+	public static function isTypeMacroClass(classToken:TokenTree):Bool {
+		return classToken.is(Kwd(KwdClass)) && classToken.access().parent().is(Kwd(KwdMacro)).exists();
+	}
+
 	public static function isBrOpenAnonTypeOrTypedef(token:TokenTree):Bool {
 		if ((token == null) || (!token.is(BrOpen)) || (token.children == null)) {
 			return false;
