@@ -137,6 +137,14 @@ class TokenTreeCheckUtils {
 		return false;
 	}
 
+	/**
+		Whether this is a `typedef` to an anonymous structure, rather than being a "plain type alias".
+	**/
+	public static function isTypeStructure(typedefToken:TokenTree):Bool {
+		// TODO: check for intersection types once #35 is resolved
+		return typedefToken.access().firstChild().isCIdent().firstOf(Binop(OpAssign)).firstChild().is(BrOpen).exists();
+	}
+
 	public static function isBrOpenAnonTypeOrTypedef(token:TokenTree):Bool {
 		if ((token == null) || (!token.is(BrOpen)) || (token.children == null)) {
 			return false;
