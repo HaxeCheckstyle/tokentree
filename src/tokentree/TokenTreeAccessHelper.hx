@@ -1,86 +1,69 @@
 package tokentree;
 
-class TokenTreeAccessHelper {
+abstract TokenTreeAccessHelper(TokenTree) from TokenTree {
 
-	static var NULL_TOKEN:TokenTreeAccessHelper = new TokenTreeAccessHelper(null);
+	public var token(get, never):TokenTree;
 
-	public var token:TokenTree;
-
-	function new(tok:TokenTree) {
-		token = tok;
+	inline function get_token():TokenTree {
+		return this;
 	}
 
-	public static function access(tok:TokenTree):TokenTreeAccessHelper {
-		return new TokenTreeAccessHelper(tok);
+	public static inline function access(tok:TokenTree):TokenTreeAccessHelper {
+		return tok;
 	}
 
 	public function parent():TokenTreeAccessHelper {
-		if (token == null) return this;
-		return new TokenTreeAccessHelper(token.parent);
+		return if (this != null) this.parent else null;
 	}
 
 	public function previousSibling():TokenTreeAccessHelper {
-		if (token == null) return this;
-		return new TokenTreeAccessHelper(token.previousSibling);
+		return if (this != null) this.previousSibling else null;
 	}
 
 	public function nextSibling():TokenTreeAccessHelper {
-		if (token == null) return this;
-		return new TokenTreeAccessHelper(token.nextSibling);
+		return if (this != null) this.nextSibling else null;
 	}
 
 	public function firstChild():TokenTreeAccessHelper {
-		if (token == null) return this;
-		return new TokenTreeAccessHelper(token.getFirstChild());
+		return if (this != null) this.getFirstChild() else null;
 	}
 
 	public function lastChild():TokenTreeAccessHelper {
-		if (token == null) return this;
-		return new TokenTreeAccessHelper(token.getLastChild());
+		return if (this != null) this.getLastChild() else null;
 	}
 
 	public function firstOf(tokenDef:TokenDef):TokenTreeAccessHelper {
-		if (token == null) return this;
-		if (token.children == null) return NULL_TOKEN;
-		for (tok in token.children) {
-			if (tok.is(tokenDef)) return new TokenTreeAccessHelper(tok);
+		if (this == null || this.children == null) return null;
+
+		for (tok in this.children) {
+			if (tok.is(tokenDef)) return tok;
 		}
-		return NULL_TOKEN;
+		return null;
 	}
 
 	public function lastOf(tokenDef:TokenDef):TokenTreeAccessHelper {
-		if (token == null) return this;
-		if (token.children == null) return NULL_TOKEN;
+		if (this == null || this.children == null) return null;
+
 		var found:TokenTree = null;
-		for (tok in token.children) {
+		for (tok in this.children) {
 			if (tok.is(tokenDef)) found = tok;
 		}
-		return new TokenTreeAccessHelper(found);
+		return found;
 	}
 
 	public function child(index:Int):TokenTreeAccessHelper {
-		if (token == null) return this;
-		if (token.children == null) return NULL_TOKEN;
-		if (index < 0) return NULL_TOKEN;
-		if (token.children.length <= index) return NULL_TOKEN;
-		return new TokenTreeAccessHelper(token.children[index]);
+		return if (this != null && this.children != null) this.children[index] else null;
 	}
 
 	public function is(tokenDef:TokenDef):TokenTreeAccessHelper {
-		if (token == null) return this;
-		if (token.is(tokenDef)) return this;
-		return NULL_TOKEN;
+		return if (this != null && this.is(tokenDef)) this else null;
 	}
 
 	public function isComment():TokenTreeAccessHelper {
-		if (token == null) return this;
-		if (token.isComment()) return this;
-		return NULL_TOKEN;
+		return if (this != null && this.isComment()) this else null;
 	}
 
 	public function isCIdent():TokenTreeAccessHelper {
-		if (token == null) return this;
-		if (token.isCIdent()) return this;
-		return NULL_TOKEN;
+		return if (this != null && this.isCIdent()) this else null;
 	}
 }
