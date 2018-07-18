@@ -66,4 +66,8 @@ abstract TokenTreeAccessHelper(TokenTree) from TokenTree {
 	public function isCIdent():TokenTreeAccessHelper {
 		return if (this != null && this.isCIdent()) this else null;
 	}
+
+	public inline function exists():Bool {
+		return this != null;
+	}
 }
