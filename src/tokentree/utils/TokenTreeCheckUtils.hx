@@ -148,6 +148,19 @@ class TokenTreeCheckUtils {
 		return typedefToken.access().firstChild().isCIdent().firstOf(Binop(OpAssign)).firstChild().is(BrOpen).exists();
 	}
 
+	public static function isTypeEnum(enumToken:TokenTree):Bool {
+		if (!enumToken.is(Kwd(KwdEnum))) {
+			return false;
+		}
+		if (isTypeEnumAbstract(enumToken)) {
+			return false;
+		}
+		if (enumToken.access().parent().is(DblDot).parent().is(At).exists()) {
+			return false;
+		}
+		return true;
+	}
+
 	public static function isBrOpenAnonTypeOrTypedef(token:TokenTree):Bool {
 		if ((token == null) || (!token.is(BrOpen)) || (token.children == null)) {
 			return false;
