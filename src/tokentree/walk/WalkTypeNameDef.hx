@@ -3,7 +3,7 @@ package tokentree.walk;
 class WalkTypeNameDef {
 	public static function walkTypeNameDef(stream:TokenStream, parent:TokenTree):TokenTree {
 		WalkComment.walkComment(stream, parent);
-		var tempStore:Array<TokenTree> = WalkAt.walkAts(stream);
+		WalkAt.walkAts(stream);
 		if (stream.is(Question)) {
 			var questTok:TokenTree = stream.consumeTokenDef(Question);
 			parent.addChild(questTok);
@@ -42,7 +42,7 @@ class WalkTypeNameDef {
 			default:
 				name = stream.consumeToken();
 		}
-		for (tok in tempStore) name.addChild(tok);
+		stream.applyTempStore(name);
 		if (bAdd) parent.addChild(name);
 		walkTypeNameDefContinue(stream, name);
 		return name;

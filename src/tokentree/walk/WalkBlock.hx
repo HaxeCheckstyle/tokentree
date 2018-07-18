@@ -9,13 +9,12 @@ class WalkBlock {
 	 *
 	 */
 	public static function walkBlock(stream:TokenStream, parent:TokenTree) {
-		var tempStore:Array<TokenTree> = [];
+		while (stream.is(At)) stream.addToTempStore(WalkAt.walkAt(stream));
 		var rewindPos:Int = stream.currentPos();
-		while (stream.is(At)) tempStore.push(WalkAt.walkAt(stream));
 		if (stream.is(BrOpen)) {
 			var openTok:TokenTree = stream.consumeTokenDef(BrOpen);
 			parent.addChild(openTok);
-			for (tok in tempStore) openTok.addChild(tok);
+			stream.applyTempStore(openTok);
 			walkBlockContinue(stream, openTok);
 		}
 		else {

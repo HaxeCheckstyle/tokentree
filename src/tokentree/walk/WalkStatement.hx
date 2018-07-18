@@ -4,10 +4,9 @@ class WalkStatement {
 	public static function walkStatement(stream:TokenStream, parent:TokenTree) {
 		WalkComment.walkComment(stream, parent);
 
-		var tempStore:Array<TokenTree> = [];
 		var wantMore:Bool = true;
 
-		while (stream.is(At)) tempStore.push(WalkAt.walkAt(stream));
+		WalkAt.walkAts(stream);
 		switch (stream.token()) {
 			case Binop(OpSub):
 				WalkBinopSub.walkBinopSub(stream, parent);
@@ -72,7 +71,7 @@ class WalkStatement {
 		}
 		var newChild:TokenTree = stream.consumeToken();
 		parent.addChild(newChild);
-		for (tok in tempStore) newChild.addChild(tok);
+		stream.applyTempStore(newChild);
 		if (wantMore) WalkStatement.walkStatement(stream, newChild);
 		WalkStatement.walkStatementContinue(stream, newChild);
 	}
