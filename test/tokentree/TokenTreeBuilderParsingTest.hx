@@ -46,6 +46,7 @@ class TokenTreeBuilderParsingTest {
 		assertCodeParses(VAR_QUESTION);
 		assertCodeParses(EXTERN_FIELD);
 		assertCodeParses(CAST_IN_OBJECT);
+		assertCodeParses(MACRO_CLASS_REIFICATION);
 	}
 
 	public function assertCodeParses(code:String, ?pos:PosInfos) {
@@ -604,6 +605,16 @@ abstract TokenTreeBuilderParsingTests(String) to String {
 				content:cast File.getBytes(arg)
 			};
 		};
+	}
+	";
+
+	var MACRO_CLASS_REIFICATION = "
+	class Macro {
+		static function foo() {
+			macro class {
+				public function new() {}
+			}
+		}
 	}
 	";
 }

@@ -8,9 +8,14 @@ class WalkClass {
 		var typeTok:TokenTree = stream.consumeToken();
 		parent.addChild(typeTok);
 		WalkComment.walkComment(stream, parent);
-		var name:TokenTree = WalkTypeNameDef.walkTypeNameDef(stream, typeTok);
-		// add all comments, annotations
-		stream.applyTempStore(name);
+		var name:TokenTree = typeTok;
+		switch (stream.token()){
+			case Const(CIdent(_)):
+				name = WalkTypeNameDef.walkTypeNameDef(stream, typeTok);
+				// add all comments, annotations
+				stream.applyTempStore(name);
+			default:
+		}
 		if (stream.isSharp()) WalkSharp.walkSharp(stream, name, WalkClass.walkClassExtends);
 		WalkClass.walkClassExtends(stream, name);
 		var block:TokenTree = stream.consumeTokenDef(BrOpen);
