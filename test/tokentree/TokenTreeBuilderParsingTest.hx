@@ -46,6 +46,7 @@ class TokenTreeBuilderParsingTest {
 		assertCodeParses(VAR_QUESTION);
 		assertCodeParses(EXTERN_FIELD);
 		assertCodeParses(CAST_IN_OBJECT);
+		assertCodeParses(SWITCH_THIS);
 		assertCodeParses(MACRO_CLASS_REIFICATION);
 	}
 
@@ -605,6 +606,16 @@ abstract TokenTreeBuilderParsingTests(String) to String {
 				content:cast File.getBytes(arg)
 			};
 		};
+	}
+	";
+
+	var SWITCH_THIS = "
+	class Foo {
+		public function toString() {
+			return switch this {
+				case Right(e): Type.getEnumName(e);
+			}
+		}
 	}
 	";
 
