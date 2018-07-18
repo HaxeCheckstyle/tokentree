@@ -149,10 +149,16 @@ class TokenTreeCheckUtils {
 	}
 
 	public static function isTypeEnum(enumToken:TokenTree):Bool {
+		if (!enumToken.is(Kwd(KwdEnum))) {
+			return false;
+		}
 		if (isTypeEnumAbstract(enumToken)) {
 			return false;
 		}
-		return !enumToken.access().parent().is(DblDot).parent().is(At).exists();
+		if (enumToken.access().parent().is(DblDot).parent().is(At).exists()) {
+			return false;
+		}
+		return true;
 	}
 
 	public static function isBrOpenAnonTypeOrTypedef(token:TokenTree):Bool {
