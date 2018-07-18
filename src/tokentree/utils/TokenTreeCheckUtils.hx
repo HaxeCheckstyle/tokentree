@@ -122,7 +122,7 @@ class TokenTreeCheckUtils {
 					return true;
 				}
 				var name:TokenTree = type.access().firstChild().token;
-				if ((name == null) || (name.children.length <= 0)) {
+				if ((name == null) || (name.children == null) || (name.children.length <= 0)) {
 					return false;
 				}
 				for (child in name.children) {
