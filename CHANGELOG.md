@@ -1,6 +1,9 @@
 ## dev branch / next version (1.x.x)
 
 - Added `TokenTreeCheckUtils.isTypeStructure()` [#36](https://github.com/HaxeCheckstyle/tokentree/issues/36)
+- Added `TokenTreeCheckUtils.getName()` [#39](https://github.com/HaxeCheckstyle/tokentree/issues/39) + [#43](https://github.com/HaxeCheckstyle/tokentree/issues/43)
+- Added `TokenTreeCheckUtils.isTypeEnum()` [#40](https://github.com/HaxeCheckstyle/tokentree/issues/40)
+- Added `TokenTreeCheckUtils.isMacroClass()` [#42](https://github.com/HaxeCheckstyle/tokentree/issues/42)
 - Fixed running out of tokens during package and imports [#28](https://github.com/HaxeCheckstyle/tokentree/issues/28)
 - Fixed `function` in typedef body [#30](https://github.com/HaxeCheckstyle/tokentree/issues/30)
 - Fixed handling of `switch this {` [#34](https://github.com/HaxeCheckstyle/tokentree/issues/34)
@@ -9,7 +12,8 @@
 - Changed `getPos` to calculate full position of all childs [#29](https://github.com/HaxeCheckstyle/tokentree/issues/29)
 - Refactored `tempStore` handling and moved it to `TokenStream` childs [#28](https://github.com/HaxeCheckstyle/tokentree/issues/28) + [#30](https://github.com/HaxeCheckstyle/tokentree/issues/30)
 - Refactored `TokenTreeAccessHelper` and made it an abstract [#31](https://github.com/HaxeCheckstyle/tokentree/issues/31) + [#32]
-(https://github.com/HaxeCheckstyle/tokentree/issues/32)
+(https://github.com/HaxeCheckstyle/tokentree/issues/32) + [#41]
+(https://github.com/HaxeCheckstyle/tokentree/issues/41)
 - Refactored `isTypeEnumAbstract` [#33](https://github.com/HaxeCheckstyle/tokentree/issues/33)
 
 ## version 1.0.6 (2018-07-16)
