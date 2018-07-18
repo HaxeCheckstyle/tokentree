@@ -65,15 +65,13 @@ class WalkAt {
 		}
 	}
 
-	public static function walkAts(stream:TokenStream):Array<TokenTree> {
-		var tempStore:Array<TokenTree> = [];
+	public static function walkAts(stream:TokenStream) {
 		var progress:TokenStreamProgress = new TokenStreamProgress(stream);
 		while (progress.streamHasChanged()) {
 			switch (stream.token()) {
-				case At: tempStore.push(WalkAt.walkAt(stream));
+				case At: stream.addToTempStore(WalkAt.walkAt(stream));
 				default:
 			}
 		}
-		return tempStore;
 	}
 }

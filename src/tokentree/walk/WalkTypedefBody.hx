@@ -11,6 +11,8 @@ class WalkTypedefBody {
 					case BrClose: break;
 					case Comment(_), CommentLine(_):
 						WalkComment.walkComment(stream, openTok);
+					case Kwd(KwdFunction):
+						WalkFunction.walkFunction(stream, openTok);
 					default:
 						WalkFieldDef.walkFieldDef(stream, openTok);
 				}
