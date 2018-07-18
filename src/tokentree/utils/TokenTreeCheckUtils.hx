@@ -99,12 +99,15 @@ class TokenTreeCheckUtils {
 		}
 		switch (token.parent.tok) {
 			case POpen:
-				if ((token.previousSibling != null) && (token.previousSibling.is(PClose))) return true;
+				var pos:Position = token.parent.getPos();
+				if ((pos.min < token.pos.min) && (pos.max > token.pos.max)) {
+					return true;
+				}
 				return false;
 			case Comma:
 				return false;
 			case Binop(_):
-				return false;
+				return true;
 			default:
 				return true;
 		}
