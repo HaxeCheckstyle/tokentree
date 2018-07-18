@@ -113,10 +113,12 @@ class TokenTreeCheckUtils {
 	public static function isTypeEnumAbstract(type:TokenTree):Bool {
 		switch (type.tok) {
 			case Kwd(KwdEnum):
-				var child:TokenTree = TokenTreeAccessHelper.access(type).firstChild().is(Kwd(KwdAbstract)).token;
-				return (child != null);
+				return type.access().firstChild().is(Kwd(KwdAbstract)).exists();
 			case Kwd(KwdAbstract):
-				var name:TokenTree = TokenTreeAccessHelper.access(type).firstChild().token;
+				if (type.access().parent().is(Kwd(KwdEnum)).exists()) {
+					return true;
+				}
+				var name:TokenTree = type.access().firstChild().token;
 				if ((name == null) || (name.children.length <= 0)) {
 					return false;
 				}
@@ -124,8 +126,8 @@ class TokenTreeCheckUtils {
 					if (!child.is(At)) {
 						continue;
 					}
-					var enumTok:TokenTree = TokenTreeAccessHelper.access(child).firstChild().is(DblDot).firstChild().is(Kwd(KwdEnum)).token;
-					if (enumTok == null) {
+					var enumTok = child.access().firstChild().is(DblDot).firstChild().is(Kwd(KwdEnum));
+					if (!enumTok.exists()) {
 						continue;
 					}
 					return true;
