@@ -11,7 +11,7 @@ class FieldUtils {
 		switch (field.tok) {
 			case Kwd(KwdFunction):
 				return getFunctionFieldType(field, defaultVisibility);
-			case Kwd(KwdVar):
+			case Kwd(KwdVar), Kwd(KwdFinal):
 				return getVarFieldType(field, defaultVisibility);
 			default:
 		}
@@ -45,8 +45,7 @@ class FieldUtils {
 						isOverride = true;
 					case Kwd(KwdExtern):
 						isExtern = true;
-					// case Kwd(KwdFinal):
-					case Const(CIdent("final")):
+					case Kwd(KwdFinal):
 						isFinal = true;
 					case POpen, BrOpen:
 						break;
@@ -66,7 +65,7 @@ class FieldUtils {
 		var visibility:TokenFieldVisibility = defaultVisibility;
 		var isStatic:Bool = false;
 		var isInline:Bool = false;
-		var isFinal:Bool = false;
+		var isFinal:Bool = field.is(Kwd(KwdFinal));
 		var isExtern:Bool = false;
 		if (access.token.children != null) {
 			for (child in access.token.children) {
@@ -81,9 +80,6 @@ class FieldUtils {
 						isInline = true;
 					case Kwd(KwdExtern):
 						isExtern = true;
-					// case Kwd(KwdFinal):
-					case Const(CIdent("final")):
-						isFinal = true;
 					default:
 				}
 			}
