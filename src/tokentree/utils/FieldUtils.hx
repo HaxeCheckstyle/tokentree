@@ -11,7 +11,7 @@ class FieldUtils {
 		switch (field.tok) {
 			case Kwd(KwdFunction):
 				return getFunctionFieldType(field, defaultVisibility);
-			case Kwd(KwdVar):
+			case Kwd(KwdVar) #if (haxe_ver >= 4), Kwd(KwdFinal) #end:
 				return getVarFieldType(field, defaultVisibility);
 			default:
 		}
@@ -45,9 +45,10 @@ class FieldUtils {
 						isOverride = true;
 					case Kwd(KwdExtern):
 						isExtern = true;
-					// case Kwd(KwdFinal):
-					case Const(CIdent("final")):
+					#if (haxe_ver >= 4)
+					case Kwd(KwdFinal):
 						isFinal = true;
+					#end
 					case POpen, BrOpen:
 						break;
 					default:
@@ -66,7 +67,7 @@ class FieldUtils {
 		var visibility:TokenFieldVisibility = defaultVisibility;
 		var isStatic:Bool = false;
 		var isInline:Bool = false;
-		var isFinal:Bool = false;
+		var isFinal:Bool = #if (haxe_ver >= 4) field.is(Kwd(KwdFinal)) #else false #end;
 		var isExtern:Bool = false;
 		if (access.token.children != null) {
 			for (child in access.token.children) {
@@ -81,15 +82,12 @@ class FieldUtils {
 						isInline = true;
 					case Kwd(KwdExtern):
 						isExtern = true;
-					// case Kwd(KwdFinal):
-					case Const(CIdent("final")):
-						isFinal = true;
 					default:
 				}
 			}
 		}
 		access = access.firstOf(POpen);
-		if (access.token == null) {
+		if (isFinal || access.token == null) {
 			return VAR(name, visibility, isStatic, isInline, isFinal, isExtern);
 		}
 		var getterAccess:TokenPropertyAccess = makePropertyAccess(access.firstChild().token);
@@ -98,6 +96,9 @@ class FieldUtils {
 	}
 
 	static function makePropertyAccess(accessToken:TokenTree):TokenPropertyAccess {
+		if (accessToken == null) {
+			return DEFAULT;
+		}
 		return switch (accessToken.tok) {
 			case Kwd(KwdDefault): DEFAULT;
 			case Kwd(KwdNull): NULL;
