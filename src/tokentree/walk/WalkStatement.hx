@@ -51,6 +51,9 @@ class WalkStatement {
 					WalkStatement.walkStatementContinue(stream, parent);
 				}
 				else {
+					if (parent.is(Kwd(KwdIf)) && stream.is(Binop(OpSub))) {
+						return;
+					}
 					WalkStatement.walkStatementContinue(stream, pOpen);
 				}
 				return;
