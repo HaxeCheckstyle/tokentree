@@ -20,6 +20,17 @@ class WalkIfTest extends VerifyTokenTreeBase {
 	}
 
 	@Test
+	public function testIfUnOpSub() {
+		var root:IVerifyTokenTree = buildTokenTree("if (test) -1;");
+
+		var ifTok:IVerifyTokenTree = root.oneChild().first().is(Kwd(KwdIf)).childCount(2);
+		var ifExpr:IVerifyTokenTree = ifTok.first().is(POpen).childCount(2);
+		ifExpr.first().is(Const(CIdent("test"))).noChilds();
+		ifExpr.last().is(PClose).noChilds();
+		ifTok.last().is(Binop(OpSub)).oneChild().first().is(Const(CInt("1"))).oneChild().first().is(Semicolon).noChilds();
+	}
+
+	@Test
 	public function testIfExprAndExpr() {
 		var root:IVerifyTokenTree = buildTokenTree("if (test && test2) {doSomething();}");
 
