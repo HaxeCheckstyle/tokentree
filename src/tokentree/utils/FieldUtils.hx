@@ -67,7 +67,7 @@ class FieldUtils {
 		var visibility:TokenFieldVisibility = defaultVisibility;
 		var isStatic:Bool = false;
 		var isInline:Bool = false;
-		var isFinal:Bool = field.is(Kwd(KwdFinal));
+		var isFinal:Bool = #if (haxe_ver >= 4) field.is(Kwd(KwdFinal)) #else false #end;
 		var isExtern:Bool = false;
 		if (access.token.children != null) {
 			for (child in access.token.children) {
