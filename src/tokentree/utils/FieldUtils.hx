@@ -11,7 +11,7 @@ class FieldUtils {
 		switch (field.tok) {
 			case Kwd(KwdFunction):
 				return getFunctionFieldType(field, defaultVisibility);
-			case Kwd(KwdVar), Kwd(KwdFinal):
+			case Kwd(KwdVar) #if (haxe_ver >= 4), Kwd(KwdFinal) #end:
 				return getVarFieldType(field, defaultVisibility);
 			default:
 		}
@@ -45,8 +45,10 @@ class FieldUtils {
 						isOverride = true;
 					case Kwd(KwdExtern):
 						isExtern = true;
+					#if (haxe_ver >= 4)
 					case Kwd(KwdFinal):
 						isFinal = true;
+					#end
 					case POpen, BrOpen:
 						break;
 					default:
