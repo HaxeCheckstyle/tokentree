@@ -1,11 +1,12 @@
 ## dev branch / next version (1.x.x)
 
 - Added `TokenTreeCheckUtils.isTypeStructure()` [#36](https://github.com/HaxeCheckstyle/tokentree/issues/36)
-- Added `TokenTreeCheckUtils.getName()` [#39](https://github.com/HaxeCheckstyle/tokentree/issues/39) + [#43](https://github.com/HaxeCheckstyle/tokentree/issues/43)
+- Added `TokenTreeCheckUtils.getName()` [#39](https://github.com/HaxeCheckstyle/tokentree/issues/39) + [#43](https://github.com/HaxeCheckstyle/tokentree/issues/43) + [#48](https://github.com/HaxeCheckstyle/tokentree/issues/48)
 - Added `TokenTreeCheckUtils.isTypeEnum()` [#40](https://github.com/HaxeCheckstyle/tokentree/issues/40)
 - Added `TokenTreeCheckUtils.isMacroClass()` [#42](https://github.com/HaxeCheckstyle/tokentree/issues/42)
 - Added `TokenTreeCheckUtils.isOperatorFunction` [#44](https://github.com/HaxeCheckstyle/tokentree/issues/44)
 - Added `TokenTreeCheckUtils.getMetadata()` and `isModifier()` [#44](https://github.com/HaxeCheckstyle/tokentree/issues/44)
+- Added support for structural extension
 - Fixed running out of tokens during package and imports [#28](https://github.com/HaxeCheckstyle/tokentree/issues/28)
 - Fixed `function` in typedef body [#30](https://github.com/HaxeCheckstyle/tokentree/issues/30)
 - Fixed handling of `switch this {` [#34](https://github.com/HaxeCheckstyle/tokentree/issues/34)
