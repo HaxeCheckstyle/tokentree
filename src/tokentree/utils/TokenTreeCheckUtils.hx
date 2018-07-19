@@ -207,6 +207,7 @@ class TokenTreeCheckUtils {
 	**/
 	public static function getName(token:TokenTree):Null<String> {
 		function extractName(token:TokenTree):Null<String> {
+			token = token.access().is(Question).firstChild().or(token);
 			return switch (token.tok) {
 				case Const(CIdent(ident)):
 					ident;
