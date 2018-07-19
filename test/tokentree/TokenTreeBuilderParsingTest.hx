@@ -48,6 +48,7 @@ class TokenTreeBuilderParsingTest {
 		assertCodeParses(CAST_IN_OBJECT);
 		assertCodeParses(SWITCH_THIS);
 		assertCodeParses(MACRO_CLASS_REIFICATION);
+		assertCodeParses(STRUCTURE_EXTENSION);
 	}
 
 	public function assertCodeParses(code:String, ?pos:PosInfos) {
@@ -627,5 +628,19 @@ abstract TokenTreeBuilderParsingTests(String) to String {
 			}
 		}
 	}
+	";
+
+	var STRUCTURE_EXTENSION = "
+	typedef Bar = {
+		> Foo, > Bar2, var foo:Int; var bar:Int;
+	}
+
+	typedef Bar2 = {
+		> Foo,   foo:Int, ?bar:Int
+	}
+
+	typedef Bar3 = Bar &{
+		foo:Int, ?bar:Int
+	} & Bar2
 	";
 }
