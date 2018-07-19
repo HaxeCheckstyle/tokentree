@@ -87,18 +87,11 @@ class FieldUtils {
 			}
 		}
 		access = access.firstOf(POpen);
-		if (access.token == null) {
+		if (isFinal || access.token == null) {
 			return VAR(name, visibility, isStatic, isInline, isFinal, isExtern);
 		}
-		var getterAccess:TokenPropertyAccess;
-		var setterAccess:TokenPropertyAccess;
-		if (isFinal) {
-			getterAccess = DEFAULT;
-			setterAccess = CTOR;
-		} else {
-			getterAccess = makePropertyAccess(access.firstChild().token);
-			setterAccess = makePropertyAccess(access.child(1).token);
-		}
+		var getterAccess:TokenPropertyAccess = makePropertyAccess(access.firstChild().token);
+		var setterAccess:TokenPropertyAccess = makePropertyAccess(access.child(1).token);
 		return PROP(name, visibility, isExtern, getterAccess, setterAccess);
 	}
 
@@ -148,5 +141,4 @@ enum TokenPropertyAccess {
 	SET;
 	DYNAMIC;
 	NEVER;
-	CTOR;
 }
