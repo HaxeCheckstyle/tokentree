@@ -12,7 +12,7 @@ class VerifyTokenTreeBase {
 		var builder:TestTokenTreeBuilder = new TestTokenTreeBuilder(content);
 		var root:TokenTree = new TokenTree(null, "", null, -1);
 		walkStream(builder.getTokenStream(), root);
-		Assert.isTrue(builder.isStreamEmpty());
+		Assert.isTrue(builder.isStreamEmpty(), "there are still unused tokens in stream!!");
 		return new VerifyTokenTree(root);
 	}
 
