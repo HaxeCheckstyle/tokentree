@@ -90,12 +90,22 @@ class FieldUtils {
 		if (access.token == null) {
 			return VAR(name, visibility, isStatic, isInline, isFinal, isExtern);
 		}
-		var getterAccess:TokenPropertyAccess = makePropertyAccess(access.firstChild().token);
-		var setterAccess:TokenPropertyAccess = makePropertyAccess(access.child(1).token);
+		var getterAccess:TokenPropertyAccess;
+		var setterAccess:TokenPropertyAccess;
+		if (isFinal) {
+			getterAccess = DEFAULT;
+			setterAccess = CTOR;
+		} else {
+			getterAccess = makePropertyAccess(access.firstChild().token);
+			setterAccess = makePropertyAccess(access.child(1).token);
+		}
 		return PROP(name, visibility, isExtern, getterAccess, setterAccess);
 	}
 
 	static function makePropertyAccess(accessToken:TokenTree):TokenPropertyAccess {
+		if (accessToken == null) {
+			return DEFAULT;
+		}
 		return switch (accessToken.tok) {
 			case Kwd(KwdDefault): DEFAULT;
 			case Kwd(KwdNull): NULL;
@@ -138,4 +148,5 @@ enum TokenPropertyAccess {
 	SET;
 	DYNAMIC;
 	NEVER;
+	CTOR;
 }
