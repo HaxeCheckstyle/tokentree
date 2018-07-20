@@ -166,40 +166,18 @@ class TokenTreeCheckUtils {
 	}
 
 	public static function isBrOpenAnonTypeOrTypedef(token:TokenTree):Bool {
-		if ((token == null) || (!token.is(BrOpen)) || (token.children == null)) {
-			return false;
-		}
-		if (token.children.length <= 0) {
-			return true;
-		}
-		for (child in token.children) {
-			switch (child.tok) {
-				case Const(CIdent(_)):
-					if (child.access().firstOf(DblDot).token == null) {
-						return false;
-					}
-				case BrClose:
-				default:
-					return false;
-			}
-		}
-		if (token.parent == null) {
-			return true;
-		}
-		var parent:TokenTree = token.parent;
-		switch (parent.tok) {
-			case DblDot:
+		switch (getBrOpenType(token)) {
+			case BLOCK:
+				return false;
+			case TYPEDEFDECL:
 				return true;
-			case Binop(OpLt):
+			case OBJECTDECL:
+				return false;
+			case ANONTYPE:
 				return true;
-			case Binop(OpAssign):
-				if (parent.access().parent().isCIdent().parent().is(Kwd(KwdTypedef)).token != null) {
-					return true;
-				}
-			default:
+			case UNKNOWN:
 				return false;
 		}
-		return false;
 	}
 
 	/**
@@ -261,4 +239,119 @@ class TokenTreeCheckUtils {
 			case _: false;
 		}
 	}
+
+	public static function getBrOpenType(token:TokenTree):BrOpenType {
+		if (token == null) {
+			return UNKNOWN;
+		}
+		switch (token.parent.tok) {
+			case Binop(OpAnd), Binop(OpAssign):
+				if (isInsideTypedef(token.parent)) {
+					return TYPEDEFDECL;
+				}
+				return OBJECTDECL;
+			case Kwd(KwdReturn):
+				return OBJECTDECL;
+			case DblDot:
+				if (isTernary(token.parent)) {
+					return OBJECTDECL;
+				}
+				var parent:TokenTree = token.parent.parent;
+				if (!parent.access().isCIdent().exists()) {
+					return ANONTYPE;
+				}
+				parent = parent.parent;
+				switch (parent.tok) {
+					case Question:
+						return ANONTYPE;
+					case Kwd(KwdVar):
+						return ANONTYPE;
+					case Kwd(KwdFunction):
+						return ANONTYPE;
+					case BrOpen:
+						return getBrOpenType(parent);
+					case POpen:
+						return ANONTYPE;
+					default:
+						return OBJECTDECL;
+				}
+			case Binop(OpLt):
+				return ANONTYPE;
+			case POpen:
+				var pOpenType:POpenType = getPOpenType(token.parent);
+				switch (pOpenType) {
+					case PARAMETER:
+						return ANONTYPE;
+					case CALL:
+						return OBJECTDECL;
+					case CONDITION:
+						return UNKNOWN;
+					case FORLOOP:
+						return UNKNOWN;
+					case EXPRESSION:
+						return UNKNOWN;
+				}
+			case BkOpen:
+				return OBJECTDECL;
+			default:
+		}
+		return BLOCK;
+	}
+
+	public static function getPOpenType(token:TokenTree):POpenType {
+		if (token == null) {
+			return EXPRESSION;
+		}
+		switch (token.parent.tok) {
+			case Kwd(KwdIf):
+				return CONDITION;
+			case Kwd(KwdWhile):
+				return CONDITION;
+			case Kwd(KwdFor):
+				return FORLOOP;
+			case Kwd(KwdCatch):
+				return CONDITION;
+			case POpen:
+				return EXPRESSION;
+			case Kwd(KwdFunction):
+				return PARAMETER;
+			case Const(CIdent(_)):
+				if (token.parent.parent.is(Kwd(KwdFunction))) {
+					return PARAMETER;
+				}
+				return CALL;
+			default:
+		}
+		return EXPRESSION;
+	}
+
+	public static function isInsideTypedef(token:TokenTree):Bool {
+		if (token == null) {
+			return false;
+		}
+		var parent:TokenTree = token;
+		while (parent.parent != null) {
+			if (parent.is(Kwd(KwdTypedef))) {
+				return true;
+			}
+			parent = parent.parent;
+		}
+		return false;
+	}
+}
+
+enum BrOpenType {
+	BLOCK;
+	TYPEDEFDECL;
+	OBJECTDECL;
+	ANONTYPE;
+	UNKNOWN;
+}
+
+enum POpenType {
+	PARAMETER;
+	CALL;
+	CONDITION;
+	FORLOOP;
+	EXPRESSION;
 }

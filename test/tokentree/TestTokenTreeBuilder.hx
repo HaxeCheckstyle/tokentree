@@ -11,8 +11,8 @@ class TestTokenTreeBuilder extends TokenTreeBuilder {
 
 	public static function parseCode(code:String):TestTokenTreeBuilder {
 		var builder:TestTokenTreeBuilder = new TestTokenTreeBuilder(code);
-		var root:TokenTree = new TokenTree(null, "", null, -1);
-		WalkFile.walkFile(builder.stream, root);
+		builder.root = new TokenTree(null, "", null, -1);
+		WalkFile.walkFile(builder.stream, builder.root);
 		return builder;
 	}
 
@@ -28,6 +28,7 @@ class TestTokenTreeBuilder extends TokenTreeBuilder {
 	}
 
 	var stream:TokenStream;
+	public var root:TokenTree;
 
 	public function new(code:String) {
 		stream = makeTokenStream(code);
@@ -38,7 +39,7 @@ class TestTokenTreeBuilder extends TokenTreeBuilder {
 	}
 
 	public function getTokenStream():TokenStream {
-		return this.stream;
+		return stream;
 	}
 
 	public function isStreamEmpty():Bool {
