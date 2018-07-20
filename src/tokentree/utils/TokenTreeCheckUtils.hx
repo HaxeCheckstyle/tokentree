@@ -144,8 +144,8 @@ class TokenTreeCheckUtils {
 		Whether this is a `typedef` to an anonymous structure, rather than being a "plain type alias".
 	**/
 	public static function isTypeStructure(typedefToken:TokenTree):Bool {
-		// TODO: check for intersection types once #35 is resolved
-		return typedefToken.access().firstChild().isCIdent().firstOf(Binop(OpAssign)).firstChild().is(BrOpen).exists();
+		var afterAssign = typedefToken.access().firstChild().isCIdent().firstOf(Binop(OpAssign)).firstChild();
+		return afterAssign.is(BrOpen).exists() || afterAssign.isCIdent().firstOf(Binop(OpAnd)).exists();
 	}
 
 	public static function isTypeEnum(enumToken:TokenTree):Bool {
