@@ -549,10 +549,16 @@
             "token"
         ],
         "CyclomaticComplexity": [
-            "tokentree/walk/WalkStatement"
-        ],
+            "tokentree/walk/WalkStatement",
+			"tokentree/utils/TokenTreeCheckUtils:getBrOpenType"
+		],
+		"MemberName": [
+			"tokentree/utils/TokenTreeCheckUtils:BrOpenType",
+			"tokentree/utils/TokenTreeCheckUtils:POpenType"
+		],
         "MethodLength": [
-            "tokentree/walk/WalkStatement"
+			"tokentree/walk/WalkStatement",
+			"tokentree/utils/TokenTreeCheckUtils:getBrOpenType"
         ],
         "NestedForDepth": [
             "TestMain"
