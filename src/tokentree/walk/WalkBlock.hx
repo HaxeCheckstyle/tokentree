@@ -28,7 +28,16 @@ class WalkBlock {
 		while (progress.streamHasChanged()) {
 			switch (stream.token()) {
 				case BrClose: break;
-				case Comma, BkClose, PClose:
+				case Comma:
+					var child:TokenTree = stream.consumeToken();
+					var lastChild:TokenTree = parent.getLastChild();
+					if (lastChild == null) {
+						parent.addChild(child);
+					}
+					else {
+						lastChild.addChild(child);
+					}
+				case BkClose, PClose:
 					var child:TokenTree = stream.consumeToken();
 					parent.addChild(child);
 				default: WalkStatement.walkStatement(stream, parent);
