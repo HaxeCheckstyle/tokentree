@@ -46,8 +46,10 @@ class WalkAt {
 				ident = stream.consumeToken();
 			case Kwd(KwdEnum):
 				ident = stream.consumeToken();
-			// case Kwd(KwdFinal):
-			// 	ident = stream.consumeToken();
+			#if (haxe_ver >= 4.0)
+			case Kwd(KwdFinal):
+				ident = stream.consumeToken();
+			#end
 			case Kwd(KwdAbstract):
 				ident = stream.consumeToken();
 			default:
