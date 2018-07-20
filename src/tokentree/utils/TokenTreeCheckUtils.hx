@@ -322,7 +322,7 @@ class TokenTreeCheckUtils {
 				return CALL;
 			default:
 		}
-		return EXPRESION;
+		return EXPRESSION;
 	}
 
 	public static function isInsideTypedef(token:TokenTree):Bool {
