@@ -55,7 +55,9 @@ class TokenTreeCheckUtils {
 			case IntInterval(_): true;
 			case BkOpen: true;
 			case BrOpen: true;
-			case POpen: true;
+			case POpen:
+				if ((token.previousSibling != null) && (token.previousSibling.is(PClose))) false;
+				else true;
 			case Question: true;
 			case DblDot: true;
 			case Kwd(KwdIf): true;
