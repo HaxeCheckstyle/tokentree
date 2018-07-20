@@ -288,7 +288,7 @@ class TokenTreeCheckUtils {
 						return UNKNOWN;
 					case FORLOOP:
 						return UNKNOWN;
-					case EXPRESION:
+					case EXPRESSION:
 						return UNKNOWN;
 				}
 			case BkOpen:
@@ -300,7 +300,7 @@ class TokenTreeCheckUtils {
 
 	public static function getPOpenType(token:TokenTree):POpenType {
 		if (token == null) {
-			return EXPRESION;
+			return EXPRESSION;
 		}
 		switch (token.parent.tok) {
 			case Kwd(KwdIf):
@@ -312,7 +312,7 @@ class TokenTreeCheckUtils {
 			case Kwd(KwdCatch):
 				return CONDITION;
 			case POpen:
-				return EXPRESION;
+				return EXPRESSION;
 			case Kwd(KwdFunction):
 				return PARAMETER;
 			case Const(CIdent(_)):
@@ -353,5 +353,5 @@ enum POpenType {
 	CALL;
 	CONDITION;
 	FORLOOP;
-	EXPRESION;
+	EXPRESSION;
 }
