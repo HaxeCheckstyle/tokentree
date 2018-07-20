@@ -49,6 +49,7 @@ class TokenTreeBuilderParsingTest {
 		assertCodeParses(SWITCH_THIS);
 		assertCodeParses(MACRO_CLASS_REIFICATION);
 		assertCodeParses(STRUCTURE_EXTENSION);
+		assertCodeParses(BROKEN_OBJECT_DECL);
 	}
 
 	public function assertCodeParses(code:String, ?pos:PosInfos) {
@@ -642,5 +643,13 @@ abstract TokenTreeBuilderParsingTests(String) to String {
 	typedef Bar3 = Bar &{
 		foo:Int, ?bar:Int
 	} & Bar2
+	";
+
+	var BROKEN_OBJECT_DECL = "
+	class Macro {
+		function foo() {
+			return {, i:1};
+		}
+	}
 	";
 }
