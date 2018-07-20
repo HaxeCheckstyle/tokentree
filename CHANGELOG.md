@@ -6,6 +6,7 @@
 - Added `TokenTreeCheckUtils.isMacroClass()` [#42](https://github.com/HaxeCheckstyle/tokentree/issues/42)
 - Added `TokenTreeCheckUtils.isOperatorFunction` [#44](https://github.com/HaxeCheckstyle/tokentree/issues/44)
 - Added `TokenTreeCheckUtils.getMetadata()` and `isModifier()` [#44](https://github.com/HaxeCheckstyle/tokentree/issues/44)
+- Added `TokenTreeCheckUtils.getBrOpenType()` and `getPOpenType()`
 - Added support for structural extension [#49](https://github.com/HaxeCheckstyle/tokentree/issues/49)
 - Fixed running out of tokens during package and imports [#28](https://github.com/HaxeCheckstyle/tokentree/issues/28)
 - Fixed `function` in typedef body [#30](https://github.com/HaxeCheckstyle/tokentree/issues/30)
