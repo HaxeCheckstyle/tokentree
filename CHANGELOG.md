@@ -16,7 +16,7 @@
 - Fixed handling `return if (cond) -1 else 0` [#46](https://github.com/HaxeCheckstyle/tokentree/issues/46)
 - Fixed `Comma` in object declarations [#52](https://github.com/HaxeCheckstyle/tokentree/issues/52)
 - Fixed `@:final` handling in Haxe 4 [#53](https://github.com/HaxeCheckstyle/tokentree/issues/53)
-- Fixed `Binop(OpSub)` detection
+- Fixed `Binop(OpSub)` detection  [#54](https://github.com/HaxeCheckstyle/tokentree/issues/54)
 - Changed `getPos` to calculate full position of all childs [#29](https://github.com/HaxeCheckstyle/tokentree/issues/29)
 - Refactored `tempStore` handling and moved it to `TokenStream` childs [#28](https://github.com/HaxeCheckstyle/tokentree/issues/28) + [#30](https://github.com/HaxeCheckstyle/tokentree/issues/30)
 - Refactored `TokenTreeAccessHelper` and made it an abstract [#31](https://github.com/HaxeCheckstyle/tokentree/issues/31) + [#32](https://github.com/HaxeCheckstyle/tokentree/issues/32) + [#41](https://github.com/HaxeCheckstyle/tokentree/issues/41)
