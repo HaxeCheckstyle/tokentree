@@ -53,6 +53,7 @@ class TokenTreeBuilderParsingTest {
 		assertCodeParses(FINAL_VARS);
 		assertCodeParses(CONST_TYPE_PARAMETER);
 		assertCodeParses(CASE_VAR);
+		assertCodeParses(COMMENTS_IN_IF_ELSE);
 	}
 
 	public function assertCodeParses(code:String, ?pos:PosInfos) {
@@ -676,6 +677,21 @@ abstract TokenTreeBuilderParsingTests(String) to String {
 					trace('');
 				case Pattern(var foo, var bar):
 			}
+		}
+	}
+	";
+
+	var COMMENTS_IN_IF_ELSE = "
+	class Main {
+		static function main() {
+			if (nBuckets > (size << 1))
+				resize(nBuckets - 1); // clear 'eleted' elements
+			else
+				resize(nBuckets + 2); // clear 'eleted' elements
+			if (nBuckets > (size << 1)) // clear 'eleted' elements
+				resize(nBuckets - 1); // clear 'eleted' elements
+			else // clear 'eleted' elements
+				resize(nBuckets + 2); // clear 'eleted' elements
 		}
 	}
 	";
