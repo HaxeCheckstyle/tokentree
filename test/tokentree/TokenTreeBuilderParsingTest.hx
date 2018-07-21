@@ -51,6 +51,7 @@ class TokenTreeBuilderParsingTest {
 		assertCodeParses(STRUCTURE_EXTENSION);
 		assertCodeParses(BROKEN_OBJECT_DECL);
 		assertCodeParses(FINAL_VARS);
+		assertCodeParses(CONST_TYPE_PARAMETER);
 	}
 
 	public function assertCodeParses(code:String, ?pos:PosInfos) {
@@ -660,5 +661,9 @@ abstract TokenTreeBuilderParsingTests(String) to String {
         final static function main():{final x:Int, y:Int} {
         }
 	}
+	";
+
+	var CONST_TYPE_PARAMETER = "
+	abstract Tls<T>(hl.Abstract <\"hl_tls\">) {}
 	";
 }
