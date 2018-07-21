@@ -77,6 +77,24 @@ class WalkStatement {
 		stream.applyTempStore(newChild);
 		if (wantMore) WalkStatement.walkStatement(stream, newChild);
 		WalkStatement.walkStatementContinue(stream, newChild);
+		walkTrailingComment(stream, newChild);
+	}
+
+	public static function walkTrailingComment(stream:TokenStream, parent:TokenTree) {
+		if (!stream.hasMore()) {
+			return;
+		}
+		switch (stream.token()) {
+			case CommentLine(_):
+				var currentPos:Int = stream.getCurrentPos();
+				var commentTok:TokenTree = stream.consumeToken();
+				if (!stream.is(Kwd(KwdElse))) {
+					stream.rewindTo(currentPos);
+					return;
+				}
+				parent.addChild(commentTok);
+			default:
+		}
 	}
 
 	public static function walkStatementContinue(stream:TokenStream, parent:TokenTree) {

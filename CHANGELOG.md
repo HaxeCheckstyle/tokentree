@@ -22,6 +22,7 @@
 - Fixed handling of const type parameters [#57](https://github.com/HaxeCheckstyle/tokentree/issues/57)
 - Fixed `case var` handling [#58](https://github.com/HaxeCheckstyle/tokentree/issues/58)
 - Fixed `case Pattern(var foo, var bar)` handling [#59](https://github.com/HaxeCheckstyle/tokentree/issues/59)
+- Fixed comments in if…else [#60](https://github.com/HaxeCheckstyle/tokentree/issues/60)
 - Changed `getPos` to calculate full position of all childs [#29](https://github.com/HaxeCheckstyle/tokentree/issues/29)
 - Refactored `tempStore` handling and moved it to `TokenStream` childs [#28](https://github.com/HaxeCheckstyle/tokentree/issues/28) + [#30](https://github.com/HaxeCheckstyle/tokentree/issues/30)
 - Refactored `TokenTreeAccessHelper` and made it an abstract [#31](https://github.com/HaxeCheckstyle/tokentree/issues/31) + [#32](https://github.com/HaxeCheckstyle/tokentree/issues/32) + [#41](https://github.com/HaxeCheckstyle/tokentree/issues/41)
