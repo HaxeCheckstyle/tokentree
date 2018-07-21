@@ -58,11 +58,11 @@ class WalkClass {
 						Kwd(KwdExtern):
 					stream.consumeToTempStore();
 				case Const(CIdent("final")):
-					stream.consumeToTempStore();
-				// #if (haxe_ver >= 4.0)
-				// case Kwd(KwdFinal):
-				// stream.consumeToTempStore();
-				// #end
+					WalkFinal.walkFinal(stream, parent);
+				#if (haxe_ver >= 4.0)
+				case Kwd(KwdFinal):
+					WalkFinal.walkFinal(stream, parent);
+				#end
 				case Comment(_), CommentLine(_):
 					parent.addChild(stream.consumeToken());
 				default:

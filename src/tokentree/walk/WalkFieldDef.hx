@@ -6,10 +6,16 @@ class WalkFieldDef {
 		var progress:TokenStreamProgress = new TokenStreamProgress(stream);
 		while (progress.streamHasChanged()) {
 			switch (stream.token()) {
-				case Kwd(KwdVar), Kwd(KwdFunction):
+				case Kwd(KwdVar), Kwd(KwdFunction), Const(CIdent("final")):
 					var tok:TokenTree = stream.consumeToken();
 					parent.addChild(tok);
 					parent = tok;
+				#if (haxe_ver >= 4.0)
+				case Kwd(KwdFinal):
+					var tok:TokenTree = stream.consumeToken();
+					parent.addChild(tok);
+					parent = tok;
+				#end
 				case At:
 					stream.addToTempStore(WalkAt.walkAt(stream));
 				case Comment(_), CommentLine(_):

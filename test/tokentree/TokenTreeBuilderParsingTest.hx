@@ -50,6 +50,7 @@ class TokenTreeBuilderParsingTest {
 		assertCodeParses(MACRO_CLASS_REIFICATION);
 		assertCodeParses(STRUCTURE_EXTENSION);
 		assertCodeParses(BROKEN_OBJECT_DECL);
+		assertCodeParses(FINAL_VARS);
 	}
 
 	public function assertCodeParses(code:String, ?pos:PosInfos) {
@@ -650,6 +651,14 @@ abstract TokenTreeBuilderParsingTests(String) to String {
 		function foo() {
 			return {, i:1};
 		}
+	}
+	";
+
+	var FINAL_VARS = "
+	class Main {
+		final foo:Int = 1;
+        final static function main():{final x:Int, y:Int} {
+        }
 	}
 	";
 }
