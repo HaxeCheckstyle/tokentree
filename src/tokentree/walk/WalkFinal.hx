@@ -22,17 +22,18 @@ class WalkFinal {
 			}
 		}
 		parent.addChild(finalTok);
-		stream.clearTempStore();
 		var tempStore:Array<TokenTree> = stream.getTempStore();
 		for (stored in tempStore) {
 			switch (stored.tok) {
-				case Kwd(KwdPublic), Kwd(KwdPrivate), Kwd(KwdStatic), Kwd(KwdInline), Kwd(KwdMacro), Kwd(KwdOverride), Kwd(KwdDynamic), Kwd(KwdExtern):
-					finalTok.addChild(stored);
-				case Comment(_), CommentLine(_):
-					finalTok.addChild(stored);
+				case Const(CIdent("final")):
+				#if (haxe_ver >= 4.0)
+				case Kwd(KwdFinal):
+				#end
 				default:
+					name.addChild(stored);
 			}
 		}
+		stream.clearTempStore();
 		finalTok.addChild(name);
 		WalkComment.walkComment(stream, name);
 		if (stream.is(DblDot)) {
