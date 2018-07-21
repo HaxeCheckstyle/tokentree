@@ -8,6 +8,9 @@ class WalkVar {
 		WalkComment.walkComment(stream, parent);
 		var progress:TokenStreamProgress = new TokenStreamProgress(stream);
 		while (progress.streamHasChanged()) {
+			if (stream.is(Kwd(KwdVar))) {
+				return;
+			}
 			WalkComment.walkComment(stream, parent);
 			var nameParent:TokenTree = varTok;
 			if (stream.is(Question)) {

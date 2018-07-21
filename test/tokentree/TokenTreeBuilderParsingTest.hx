@@ -674,6 +674,7 @@ abstract TokenTreeBuilderParsingTests(String) to String {
 			switch (foo) {
 				case var bar:
 					trace('');
+				case Pattern(var foo, var bar):
 			}
 		}
 	}
