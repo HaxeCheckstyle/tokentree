@@ -128,6 +128,10 @@ class WalkSwitch {
 					child.addChild(comma);
 				case Semicolon, BrClose, BkClose, PClose, DblDot:
 					return;
+				case Kwd(KwdVar):
+					var varTok:TokenTree = stream.consumeToken();
+					parent.addChild(varTok);
+					WalkStatement.walkStatement(stream, varTok);
 				default:
 					WalkStatement.walkStatement(stream, parent);
 			}
