@@ -659,7 +659,7 @@ abstract TokenTreeBuilderParsingTests(String) to String {
 
 	var FINAL_VARS = "
 	class Main {
-		final foo:Int = 1;
+		public final foo:Int = 1;
         final static function main():{final x:Int, y:Int} {
         }
 	}
