@@ -666,5 +666,4 @@ abstract TokenTreeBuilderParsingTests(String) to String {
 	var CONST_TYPE_PARAMETER = "
 	abstract Tls<T>(hl.Abstract <\"hl_tls\">) {}
 	";
-
 }
