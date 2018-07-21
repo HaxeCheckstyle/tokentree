@@ -101,6 +101,10 @@ class TokenStream {
 		return tempStore;
 	}
 
+	public function clearTempStore() {
+		tempStore = [];
+	}
+
 	public inline function error(s:String) {
 		throw formatCurrentPos() + ": " + s;
 	}
