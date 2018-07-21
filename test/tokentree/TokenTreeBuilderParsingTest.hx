@@ -52,6 +52,7 @@ class TokenTreeBuilderParsingTest {
 		assertCodeParses(BROKEN_OBJECT_DECL);
 		assertCodeParses(FINAL_VARS);
 		assertCodeParses(CONST_TYPE_PARAMETER);
+		assertCodeParses(CASE_VAR);
 	}
 
 	public function assertCodeParses(code:String, ?pos:PosInfos) {
@@ -665,5 +666,16 @@ abstract TokenTreeBuilderParsingTests(String) to String {
 
 	var CONST_TYPE_PARAMETER = "
 	abstract Tls<T>(hl.Abstract <\"hl_tls\">) {}
+	";
+
+	var CASE_VAR = "
+	class Main {
+		static function main() {
+			switch (foo) {
+				case var bar:
+					trace('');
+			}
+		}
+	}
 	";
 }
