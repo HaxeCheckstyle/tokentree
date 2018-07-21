@@ -143,7 +143,7 @@ class TokenStream {
 				case Dot:
 				case DblDot:
 				case Comma:
-				case Const(CIdent(_)):
+				case Const(_):
 				case Kwd(_):
 				case Dollar(_):
 				case Binop(OpLt):
