@@ -25,13 +25,11 @@ class WalkIf {
 		if (stream.is(DblDot)) return;
 		// if-expr
 		WalkBlock.walkBlock(stream, ifTok);
-		WalkComment.walkComment(stream, ifTok);
 		if (stream.is(Kwd(KwdElse))) {
 			var elseTok:TokenTree = stream.consumeTokenDef(Kwd(KwdElse));
 			ifTok.addChild(elseTok);
 			// else-expr
 			WalkBlock.walkBlock(stream, elseTok);
-			WalkComment.walkComment(stream, elseTok);
 		}
 	}
 }
