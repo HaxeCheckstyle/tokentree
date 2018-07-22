@@ -4,6 +4,7 @@ class WalkArrayAccess {
 	public static function walkArrayAccess(stream:TokenStream, parent:TokenTree) {
 		var bkOpen:TokenTree = stream.consumeTokenDef(BkOpen);
 		parent.addChild(bkOpen);
+		stream.applyTempStore(bkOpen);
 		var progress:TokenStreamProgress = new TokenStreamProgress(stream);
 		while (progress.streamHasChanged()) {
 			switch (stream.token()) {
@@ -20,7 +21,6 @@ class WalkArrayAccess {
 					stream.applyTempStore(bkOpen);
 					WalkBlock.walkBlock(stream, bkOpen);
 				case BkOpen:
-					stream.applyTempStore(bkOpen);
 					WalkArrayAccess.walkArrayAccess(stream, bkOpen);
 				case BkClose:
 					break;
@@ -29,10 +29,14 @@ class WalkArrayAccess {
 				case Kwd(KwdFunction):
 					WalkFunction.walkFunction(stream, bkOpen);
 				case Comma:
-					var comma:TokenTree = stream.consumeTokenDef(Comma);
+					var comma:TokenTree = stream.consumeToken();
 					var child:TokenTree = bkOpen.getLastChild();
 					if (child == null) child = bkOpen;
 					child.addChild(comma);
+				case Binop(OpArrow):
+					var child:TokenTree = bkOpen.getLastChild();
+					if (child == null) child = bkOpen;
+					WalkStatement.walkStatement(stream, child);
 				default:
 					stream.applyTempStore(bkOpen);
 					WalkStatement.walkStatement(stream, bkOpen);

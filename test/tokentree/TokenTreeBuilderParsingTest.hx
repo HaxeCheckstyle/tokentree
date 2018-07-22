@@ -54,6 +54,8 @@ class TokenTreeBuilderParsingTest {
 		assertCodeParses(CONST_TYPE_PARAMETER);
 		assertCodeParses(CASE_VAR);
 		assertCodeParses(COMMENTS_IN_IF_ELSE);
+		assertCodeParses(COMMENTS_IN_TYPEDEF);
+		assertCodeParses(ADVANCED_ARRAY_ITEMS);
 	}
 
 	public function assertCodeParses(code:String, ?pos:PosInfos) {
@@ -693,6 +695,32 @@ abstract TokenTreeBuilderParsingTests(String) to String {
 			else // clear 'eleted' elements
 				resize(nBuckets + 2); // clear 'eleted' elements
 		}
+	}
+	";
+
+	var COMMENTS_IN_TYPEDEF = "
+	typedef Package = {
+		var path:JsonPackagePath;
+		// var ?contents:Array<{name:String, kind:PackageContentKind}>;
+	}
+
+	typedef Module = {
+		var path:JsonModulePath;
+	}
+	";
+
+	var ADVANCED_ARRAY_ITEMS = "
+	class Main {
+		var argHandler = hxargs.Args.generate([
+			@doc('File or directory with .hx files to format (multiple allowed)')
+			['-s', '--source'] => function(path:String) paths.push(path),
+			@doc('Print additional information')
+			['-v'] => function() verbose = true,
+			@doc('Dont format, only check if files are formatted correctly')
+			['--check'] => function() mode = Check,
+			@doc('Display this list of options')
+			['--help'] => function() help = true
+		]);
 	}
 	";
 }

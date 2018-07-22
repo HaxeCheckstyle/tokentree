@@ -19,6 +19,7 @@ class WalkTypedefBody {
 					default:
 						WalkFieldDef.walkFieldDef(stream, openTok);
 				}
+				WalkComment.walkComment(stream, openTok);
 				if (stream.is(BrClose)) break;
 				WalkFieldDef.walkFieldDef(stream, openTok);
 			}

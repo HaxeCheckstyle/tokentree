@@ -27,8 +27,6 @@ class WalkFieldDef {
 
 		var name:TokenTree = WalkTypeNameDef.walkTypeNameDef(stream, parent);
 		stream.applyTempStore(name);
-		WalkComment.walkComment(stream, name);
-
 		if (stream.is(DblDot)) {
 			var dblDot:TokenTree = stream.consumeTokenDef(DblDot);
 			name.addChild(dblDot);
