@@ -7,7 +7,6 @@ class WalkArrayAccess {
 		stream.applyTempStore(bkOpen);
 		var progress:TokenStreamProgress = new TokenStreamProgress(stream);
 		while (progress.streamHasChanged()) {
-			trace(stream.token());
 			switch (stream.token()) {
 				case Kwd(KwdFor):
 					stream.applyTempStore(bkOpen);
