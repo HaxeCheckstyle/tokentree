@@ -716,7 +716,7 @@ abstract TokenTreeBuilderParsingTests(String) to String {
 			['-s', '--source'] => function(path:String) paths.push(path),
 			@doc('Print additional information')
 			['-v'] => function() verbose = true,
-			@doc('Don't format, only check if files are formatted correctly')
+			@doc('Dont format, only check if files are formatted correctly')
 			['--check'] => function() mode = Check,
 			@doc('Display this list of options')
 			['--help'] => function() help = true
