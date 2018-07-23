@@ -13,6 +13,8 @@
 	},
 	"emptyLines":{
 		"finalNewline": false,
-		"betweenEnumAbstractVars":  1
+		"enumAbstractEmptyLines":{
+			"betweenVars": 1
+		}
 	}
 }

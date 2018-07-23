@@ -78,7 +78,7 @@ class TokenStream {
 	}
 
 	public function consumeTokenDef(tokenDef:TokenDef):TokenTree {
-		if ( is (tokenDef)) return consumeToken();
+		if (is(tokenDef)) return consumeToken();
 		switch (MODE) {
 			case RELAXED:
 				return createDummyToken(tokenDef);
@@ -220,7 +220,7 @@ class TokenStream {
 		switch (token()) {
 			case Binop(OpGt):
 				var innerGt:TokenTree = consumeTokenDef(Binop(OpGt));
-				if ( is (Binop(OpAssign))) {
+				if (is(Binop(OpAssign))) {
 					var assignTok:TokenTree = consumeTokenDef(Binop(OpAssign));
 					return new TokenTree(Binop(OpAssignOp(OpUShr)), assignTok.space, {
 						file: parent.pos.file, min: parent.pos.min, max: assignTok.pos.max

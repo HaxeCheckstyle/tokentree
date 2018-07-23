@@ -11,8 +11,8 @@ class TokenTree extends Token {
 	public var inserted:Bool;
 	#if (!keep_whitespace)
 	public var space:String;
-
 	#end
+
 	public function new(tok:TokenDef, space:String, pos:Position, index:Int, inserted:Bool = false) {
 		super(tok, pos);
 		this.index = index;
