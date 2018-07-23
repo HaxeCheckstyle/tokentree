@@ -1,7 +1,6 @@
 package tokentree;
 
 import byte.ByteData;
-
 import tokentree.walk.WalkFile;
 
 class TokenTreeBuilder {

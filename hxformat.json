@@ -1,0 +1,18 @@
+{
+	"sameLine":{
+		"ifBody": "same",
+		"elseBody": "same",
+		"ifElse": "next",
+		"forBody": "same",
+		"whileBody": "same",
+		"tryCatch": "next",
+		"tryBody": "next",
+		"catchBody": "next",
+		"caseBody": "next",
+		"expressionCase": "same"
+	},
+	"emptyLines":{
+		"finalNewline": false,
+		"betweenEnumAbstractVars":  1
+	}
+}

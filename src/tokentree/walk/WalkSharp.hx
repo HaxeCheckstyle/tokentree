@@ -1,7 +1,6 @@
 package tokentree.walk;
 
 class WalkSharp {
-
 	/**
 	 * Sharp("if") | Sharp("elseif")
 	 *  |- POpen
@@ -127,25 +126,29 @@ class WalkSharp {
 	}
 }
 
-typedef WalkCB = TokenStream -> TokenTree -> Void;
+typedef WalkCB = TokenStream->TokenTree->Void;
 
 class SharpElseException {
 	public var token:TokenTree;
 
-	public function new (token:TokenTree) {
+	public function new(token:TokenTree) {
 		this.token = token;
 	}
 }
 
 class SharpEndException {
-	public function new () {}
+	public function new() {}
 }
 
 @:enum
 abstract WalkSharpConsts(String) to String {
 	var IF = "if";
+
 	var ELSEIF = "elseif";
+
 	var ELSE = "else";
+
 	var END = "end";
+
 	var ERROR = "error";
 }

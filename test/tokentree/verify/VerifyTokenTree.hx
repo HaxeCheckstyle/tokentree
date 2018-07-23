@@ -1,15 +1,11 @@
 package tokentree.verify;
 
 import haxe.PosInfos;
-
 import massive.munit.Assert;
-
 import haxeparser.Data;
-
 import tokentree.TokenTree;
 
 class VerifyTokenTree implements IVerifyTokenTree {
-
 	var token:TokenTree;
 
 	public function new(token:TokenTree) {
@@ -97,7 +93,8 @@ class VerifyTokenTree implements IVerifyTokenTree {
 
 	public function isComment(?pos:PosInfos):IVerifyTokenTree {
 		switch (token.tok) {
-			case Comment(_), CommentLine(_): return this;
+			case Comment(_), CommentLine(_):
+				return this;
 			default:
 				Assert.fail('${token.tok} is not a comment', pos);
 		}

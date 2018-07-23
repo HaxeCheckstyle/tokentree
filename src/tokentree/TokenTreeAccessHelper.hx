@@ -33,7 +33,6 @@ abstract TokenTreeAccessHelper(TokenTree) from TokenTree {
 
 	public function firstOf(tokenDef:TokenDef):TokenTreeAccessHelper {
 		if (!exists() || this.children == null) return null;
-
 		for (tok in this.children) {
 			if (tok.is(tokenDef)) return tok;
 		}
@@ -42,7 +41,6 @@ abstract TokenTreeAccessHelper(TokenTree) from TokenTree {
 
 	public function lastOf(tokenDef:TokenDef):TokenTreeAccessHelper {
 		if (!exists() || this.children == null) return null;
-
 		var found:TokenTree = null;
 		for (tok in this.children) {
 			if (tok.is(tokenDef)) found = tok;

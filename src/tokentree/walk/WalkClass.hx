@@ -3,13 +3,12 @@ package tokentree.walk;
 import tokentree.TokenTreeAccessHelper;
 
 class WalkClass {
-
 	public static function walkClass(stream:TokenStream, parent:TokenTree) {
 		var typeTok:TokenTree = stream.consumeToken();
 		parent.addChild(typeTok);
 		WalkComment.walkComment(stream, parent);
 		var name:TokenTree = typeTok;
-		switch (stream.token()){
+		switch (stream.token()) {
 			case Const(CIdent(_)):
 				name = WalkTypeNameDef.walkTypeNameDef(stream, typeTok);
 				// add all comments, annotations
@@ -45,17 +44,11 @@ class WalkClass {
 					walkClassContinueAfterSharp(stream, parent);
 				case At:
 					stream.addToTempStore(WalkAt.walkAt(stream));
-				case BrClose: break;
+				case BrClose:
+					break;
 				case Semicolon:
 					parent.addChild(stream.consumeToken());
-				case Kwd(KwdPublic),
-						Kwd(KwdPrivate),
-						Kwd(KwdStatic),
-						Kwd(KwdInline),
-						Kwd(KwdMacro),
-						Kwd(KwdOverride),
-						Kwd(KwdDynamic),
-						Kwd(KwdExtern):
+				case Kwd(KwdPublic), Kwd(KwdPrivate), Kwd(KwdStatic), Kwd(KwdInline), Kwd(KwdMacro), Kwd(KwdOverride), Kwd(KwdDynamic), Kwd(KwdExtern):
 					stream.consumeToTempStore();
 				case Const(CIdent("final")):
 					WalkFinal.walkFinal(stream, parent);
@@ -67,28 +60,27 @@ class WalkClass {
 					parent.addChild(stream.consumeToken());
 				default:
 					switch (TokenStream.MODE) {
-						case RELAXED: WalkStatement.walkStatement(stream, parent);
-						case STRICT: throw "invalid token tree structure - found:" + '${stream.token()}';
+						case RELAXED:
+							WalkStatement.walkStatement(stream, parent);
+						case STRICT:
+							throw "invalid token tree structure - found:" + '${stream.token()}';
 					}
 			}
 		}
 		var tempStore:Array<TokenTree> = stream.getTempStore();
 		if (tempStore.length > 0) {
 			switch (TokenStream.MODE) {
-				case RELAXED: stream.applyTempStore(parent);
-				case STRICT: throw "invalid token tree structure - found:" + '$tempStore';
+				case RELAXED:
+					stream.applyTempStore(parent);
+				case STRICT:
+					throw "invalid token tree structure - found:" + '$tempStore';
 			}
 		}
 	}
 
 	static function walkClassContinueAfterSharp(stream:TokenStream, parent:TokenTree) {
-		var brOpen:TokenTreeAccessHelper = TokenTreeAccessHelper
-			.access(parent)
-			.lastChild().is(Sharp("if"))
-			.lastOf(Kwd(KwdFunction))
-			.firstChild()
-			.lastChild()
-			.is(BrOpen);
+		var brOpen:TokenTreeAccessHelper = TokenTreeAccessHelper.access(parent).lastChild().is(Sharp("if")).lastOf(Kwd(KwdFunction)).firstChild().lastChild().is(
+			BrOpen);
 		if (brOpen.token == null) return;
 		if (brOpen.lastChild().is(BrClose).token != null) return;
 		WalkBlock.walkBlockContinue(stream, parent);

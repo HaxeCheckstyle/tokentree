@@ -1,11 +1,9 @@
 package tokentree;
 
 import haxe.PosInfos;
-
 import massive.munit.Assert;
 
 class TokenTreeBuilderParsingTest {
-
 	@Test
 	public function testIssues() {
 		assertCodeParses(ISSUE_76);

@@ -1,7 +1,6 @@
 package tokentree;
 
 class TokenStreamProgress {
-
 	var stream:TokenStream;
 	var pos:Int;
 

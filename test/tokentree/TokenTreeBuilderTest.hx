@@ -1,17 +1,13 @@
 package tokentree;
 
 import haxe.PosInfos;
-
 import haxeparser.Data.TokenDef;
-
 import massive.munit.Assert;
-
 import tokentree.walk.WalkAt;
 import tokentree.walk.WalkIf;
 import tokentree.walk.WalkPackageImport;
 
 class TokenTreeBuilderTest {
-
 	function assertTokenEquals(testCase:TokenTreeBuilderTests, actual:String, ?pos:PosInfos) {
 		Assert.areEqual((testCase:String), actual, pos);
 	}
@@ -77,6 +73,7 @@ class TokenTreeBuilderTest {
 	}
 }
 
+// @formatter:off
 @:enum
 abstract TokenTreeBuilderTests(String) to String {
 	var IMPORT = "

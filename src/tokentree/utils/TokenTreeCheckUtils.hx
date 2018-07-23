@@ -1,7 +1,6 @@
 package tokentree.utils;
 
 class TokenTreeCheckUtils {
-
 	public static function isImportMult(token:TokenTree):Bool {
 		return switch (token.tok) {
 			case Binop(OpMult), Dot: isImport(token.parent);
@@ -23,9 +22,12 @@ class TokenTreeCheckUtils {
 				#else
 				case Binop(OpIn):
 				#end
-				case Kwd(KwdImport): return true;
-				case Kwd(KwdUsing): return true;
-				default: return false;
+				case Kwd(KwdImport):
+					return true;
+				case Kwd(KwdUsing):
+					return true;
+				default:
+					return false;
 			}
 			parent = parent.parent;
 		}
@@ -42,8 +44,7 @@ class TokenTreeCheckUtils {
 
 	public static function isOpGtTypedefExtension(token:TokenTree):Bool {
 		return switch (token.tok) {
-			case Binop(OpGt):
-				(token.access().parent().is(BrOpen).parent().is(Binop(OpAssign)).parent().isCIdent().parent().is(Kwd(KwdTypedef)).token != null);
+			case Binop(OpGt): (token.access().parent().is(BrOpen).parent().is(Binop(OpAssign)).parent().isCIdent().parent().is(Kwd(KwdTypedef)).token != null);
 			default: false;
 		}
 	}
@@ -55,9 +56,7 @@ class TokenTreeCheckUtils {
 			case IntInterval(_): true;
 			case BkOpen: true;
 			case BrOpen: true;
-			case POpen:
-				if ((token.previousSibling != null) && (token.previousSibling.is(PClose))) false;
-				else true;
+			case POpen: if ((token.previousSibling != null) && (token.previousSibling.is(PClose))) false; else true;
 			case Question: true;
 			case DblDot: true;
 			case Kwd(KwdIf): true;
@@ -189,12 +188,9 @@ class TokenTreeCheckUtils {
 		function extractName(token:TokenTree):Null<String> {
 			token = token.access().is(Question).firstChild().or(token);
 			return switch (token.tok) {
-				case Const(CIdent(ident)):
-					ident;
-				case Kwd(KwdNew):
-					"new";
-				default:
-					null;
+				case Const(CIdent(ident)): ident;
+				case Kwd(KwdNew): "new";
+				default: null;
 			}
 		}
 

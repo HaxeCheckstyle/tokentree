@@ -2,12 +2,10 @@ package tokentree.walk;
 
 import tokentree.TokenTree;
 import tokentree.TokenStream;
-
 import tokentree.verify.IVerifyTokenTree;
 import tokentree.verify.VerifyTokenTreeBase;
 
 class WalkIfTest extends VerifyTokenTreeBase {
-
 	@Test
 	public function testIfExpr() {
 		var root:IVerifyTokenTree = buildTokenTree("if (test) {doSomething();}");

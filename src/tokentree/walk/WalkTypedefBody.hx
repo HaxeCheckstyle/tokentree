@@ -8,7 +8,8 @@ class WalkTypedefBody {
 			var progress:TokenStreamProgress = new TokenStreamProgress(stream);
 			while (progress.streamHasChanged()) {
 				switch (stream.token()) {
-					case BrClose: break;
+					case BrClose:
+						break;
 					case Binop(OpGt):
 						walkStructureExtension(stream, openTok);
 						continue;
@@ -59,7 +60,8 @@ class WalkTypedefBody {
 		gt.addChild(name);
 		while (progress.streamHasChanged()) {
 			switch (stream.token()) {
-				case Comma: break;
+				case Comma:
+					break;
 				default:
 					var child:TokenTree = stream.consumeToken();
 					name.addChild(child);

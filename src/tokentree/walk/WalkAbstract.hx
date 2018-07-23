@@ -13,7 +13,8 @@ class WalkAbstract {
 		var progress:TokenStreamProgress = new TokenStreamProgress(stream);
 		while (progress.streamHasChanged()) {
 			switch (stream.token()) {
-				case BrOpen: break;
+				case BrOpen:
+					break;
 				case Const(CIdent("from")), Const(CIdent("to")):
 					var fromToken:TokenTree = stream.consumeToken();
 					name.addChild(fromToken);
@@ -48,7 +49,8 @@ class WalkAbstract {
 					WalkSharp.walkSharp(stream, parent, WalkAbstract.walkAbstractBody);
 				case At:
 					stream.addToTempStore(WalkAt.walkAt(stream));
-				case BrClose: break;
+				case BrClose:
+					break;
 				case Semicolon:
 					parent.addChild(stream.consumeToken());
 				case Comment(_), CommentLine(_):
