@@ -25,12 +25,12 @@
 - Fixed comments in if…else [#60](https://github.com/HaxeCheckstyle/tokentree/issues/60)
 - Fixed comments in typedefs [#62](https://github.com/HaxeCheckstyle/tokentree/issues/62)
 - Fixed handling of array items [#62](https://github.com/HaxeCheckstyle/tokentree/issues/62)
-- Fixed handling of `null`, `true` and `false` as body of if
+- Fixed handling of `null`, `true` and `false` as body of if [#63](https://github.com/HaxeCheckstyle/tokentree/issues/63)
 - Changed `getPos` to calculate full position of all childs [#29](https://github.com/HaxeCheckstyle/tokentree/issues/29)
 - Refactored `tempStore` handling and moved it to `TokenStream` childs [#28](https://github.com/HaxeCheckstyle/tokentree/issues/28) + [#30](https://github.com/HaxeCheckstyle/tokentree/issues/30)
 - Refactored `TokenTreeAccessHelper` and made it an abstract [#31](https://github.com/HaxeCheckstyle/tokentree/issues/31) + [#32](https://github.com/HaxeCheckstyle/tokentree/issues/32) + [#41](https://github.com/HaxeCheckstyle/tokentree/issues/41)
 - Refactored `isTypeEnumAbstract` [#33](https://github.com/HaxeCheckstyle/tokentree/issues/33)
-- Refactored to apply formatting
+- Refactored to apply formatting [#63](https://github.com/HaxeCheckstyle/tokentree/issues/63)
 
 ## version 1.0.6 (2018-07-16)
 
