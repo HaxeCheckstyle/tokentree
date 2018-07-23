@@ -71,7 +71,8 @@ class WalkAt {
 		var progress:TokenStreamProgress = new TokenStreamProgress(stream);
 		while (progress.streamHasChanged()) {
 			switch (stream.token()) {
-				case At: stream.addToTempStore(WalkAt.walkAt(stream));
+				case At:
+					stream.addToTempStore(WalkAt.walkAt(stream));
 				default:
 			}
 		}

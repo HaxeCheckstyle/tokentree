@@ -2,12 +2,10 @@ package tokentree.walk;
 
 import tokentree.TokenTree;
 import tokentree.TokenStream;
-
 import tokentree.verify.IVerifyTokenTree;
 import tokentree.verify.VerifyTokenTreeBase;
 
 class WalkIfTest extends VerifyTokenTreeBase {
-
 	@Test
 	public function testIfExpr() {
 		var root:IVerifyTokenTree = buildTokenTree("if (test) {doSomething();}");
@@ -28,6 +26,17 @@ class WalkIfTest extends VerifyTokenTreeBase {
 		ifExpr.first().is(Const(CIdent("test"))).noChilds();
 		ifExpr.last().is(PClose).noChilds();
 		ifTok.last().is(Binop(OpSub)).oneChild().first().is(Const(CInt("1"))).oneChild().first().is(Semicolon).noChilds();
+	}
+
+	@Test
+	public function testIfNull() {
+		var root:IVerifyTokenTree = buildTokenTree("if (test) null;");
+
+		var ifTok:IVerifyTokenTree = root.oneChild().first().is(Kwd(KwdIf)).childCount(2);
+		var ifExpr:IVerifyTokenTree = ifTok.first().is(POpen).childCount(2);
+		ifExpr.first().is(Const(CIdent("test"))).noChilds();
+		ifExpr.last().is(PClose).noChilds();
+		ifTok.last().is(Kwd(KwdNull)).oneChild().first().is(Semicolon).noChilds();
 	}
 
 	@Test

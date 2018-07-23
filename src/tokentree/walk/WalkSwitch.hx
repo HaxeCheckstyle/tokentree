@@ -1,7 +1,6 @@
 package tokentree.walk;
 
 class WalkSwitch {
-
 	/**
 	 * Kwd(KwdSwitch)
 	 *  |- POpen

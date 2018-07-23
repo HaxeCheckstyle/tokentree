@@ -1,11 +1,9 @@
 package tokentree.verify;
 
 import haxe.PosInfos;
-
 import haxeparser.Data;
 
 interface IVerifyTokenTree {
-
 	function filter(tok:TokenDef, ?pos:PosInfos):IVerifyTokenTree;
 	function childs(?pos:PosInfos):IVerifyTokenTree;
 	function first(?pos:PosInfos):IVerifyTokenTree;

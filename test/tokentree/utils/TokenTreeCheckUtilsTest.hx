@@ -3,7 +3,6 @@ package tokentree.utils;
 import tokentree.utils.TokenTreeCheckUtils.BrOpenType;
 import tokentree.TokenTreeBuilderParsingTest.TokenTreeBuilderParsingTests;
 import haxe.PosInfos;
-
 import massive.munit.Assert;
 
 class TokenTreeCheckUtilsTest {

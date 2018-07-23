@@ -2,12 +2,10 @@ package tokentree.walk;
 
 import tokentree.TokenTree;
 import tokentree.TokenStream;
-
 import tokentree.verify.IVerifyTokenTree;
 import tokentree.verify.VerifyTokenTreeBase;
 
 class WalkFileTest extends VerifyTokenTreeBase {
-
 	@Test
 	public function testEmpty() {
 		var root:IVerifyTokenTree = buildTokenTree("");

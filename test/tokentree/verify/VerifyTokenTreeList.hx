@@ -1,13 +1,10 @@
 package tokentree.verify;
 
 import haxe.PosInfos;
-
 import massive.munit.Assert;
-
 import haxeparser.Data;
 
 class VerifyTokenTreeList implements IVerifyTokenTree {
-
 	var tokens:Array<IVerifyTokenTree>;
 
 	public function new(tokens:Array<IVerifyTokenTree>) {
@@ -36,17 +33,17 @@ class VerifyTokenTreeList implements IVerifyTokenTree {
 	}
 
 	public function first(?pos:PosInfos):IVerifyTokenTree {
-		Assert.isTrue (tokens.length >= 1, pos);
+		Assert.isTrue(tokens.length >= 1, pos);
 		return tokens[0];
 	}
 
 	public function last(?pos:PosInfos):IVerifyTokenTree {
-		Assert.isTrue (tokens.length >= 2, pos);
+		Assert.isTrue(tokens.length >= 2, pos);
 		return tokens[tokens.length - 1];
 	}
 
 	public function at(index:Int, ?pos:PosInfos):IVerifyTokenTree {
-		Assert.isTrue (tokens.length > index, pos);
+		Assert.isTrue(tokens.length > index, pos);
 		return tokens[index];
 	}
 
@@ -57,55 +54,55 @@ class VerifyTokenTreeList implements IVerifyTokenTree {
 
 	public function noChilds(?pos:PosInfos):IVerifyTokenTree {
 		var list:Array<IVerifyTokenTree> = [];
-		for (token in tokens) list.push (token.noChilds(pos));
+		for (token in tokens) list.push(token.noChilds(pos));
 		return new VerifyTokenTreeList(list);
 	}
 
 	public function oneChild(?pos:PosInfos):IVerifyTokenTree {
 		var list:Array<IVerifyTokenTree> = [];
-		for (token in tokens) list.push (token.oneChild());
+		for (token in tokens) list.push(token.oneChild());
 		return new VerifyTokenTreeList(list);
 	}
 
 	public function childFirst(?pos:PosInfos):IVerifyTokenTree {
 		var list:Array<IVerifyTokenTree> = [];
-		for (token in tokens) list.push (token.childFirst(pos));
+		for (token in tokens) list.push(token.childFirst(pos));
 		return new VerifyTokenTreeList(list);
 	}
 
 	public function childLast(?pos:PosInfos):IVerifyTokenTree {
 		var list:Array<IVerifyTokenTree> = [];
-		for (token in tokens) list.push (token.childLast(pos));
+		for (token in tokens) list.push(token.childLast(pos));
 		return new VerifyTokenTreeList(list);
 	}
 
 	public function childAt(index:Int, ?pos:PosInfos):IVerifyTokenTree {
 		var list:Array<IVerifyTokenTree> = [];
-		for (token in tokens) list.push (token.childAt(index, pos));
+		for (token in tokens) list.push(token.childAt(index, pos));
 		return new VerifyTokenTreeList(list);
 	}
 
 	public function childCount(count:Int, ?pos:PosInfos):IVerifyTokenTree {
 		var list:Array<IVerifyTokenTree> = [];
-		for (token in tokens) list.push (token.childCount(count, pos));
+		for (token in tokens) list.push(token.childCount(count, pos));
 		return new VerifyTokenTreeList(list);
 	}
 
 	public function childCountAtLeast(count:Int, ?pos:PosInfos):IVerifyTokenTree {
 		var list:Array<IVerifyTokenTree> = [];
-		for (token in tokens) list.push (token.childCountAtLeast(count, pos));
+		for (token in tokens) list.push(token.childCountAtLeast(count, pos));
 		return new VerifyTokenTreeList(list);
 	}
 
 	public function is(tok:TokenDef, ?pos:PosInfos):IVerifyTokenTree {
 		var list:Array<IVerifyTokenTree> = [];
-		for (token in tokens) list.push (token.is(tok, pos));
+		for (token in tokens) list.push(token.is(tok, pos));
 		return new VerifyTokenTreeList(list);
 	}
 
 	public function isComment(?pos:PosInfos):IVerifyTokenTree {
 		var list:Array<IVerifyTokenTree> = [];
-		for (token in tokens) list.push (token.isComment(pos));
+		for (token in tokens) list.push(token.isComment(pos));
 		return new VerifyTokenTreeList(list);
 	}
 

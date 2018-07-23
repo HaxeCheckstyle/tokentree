@@ -28,7 +28,8 @@ class WalkInterface {
 					WalkSharp.walkSharp(stream, parent, WalkInterface.walkInterfaceBody);
 				case At:
 					stream.addToTempStore(WalkAt.walkAt(stream));
-				case BrClose: break;
+				case BrClose:
+					break;
 				case Semicolon:
 					parent.addChild(stream.consumeToken());
 				case Comment(_), CommentLine(_):

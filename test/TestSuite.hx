@@ -7,7 +7,6 @@ import tokentree.walk.WalkWhileTest;
 import tokentree.walk.WalkFileTest;
 
 class TestSuite extends massive.munit.TestSuite {
-
 	public function new() {
 		super();
 

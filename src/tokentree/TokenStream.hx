@@ -3,15 +3,12 @@ package tokentree;
 import byte.ByteData;
 
 class TokenStream {
-
 	public static inline var NO_MORE_TOKENS:String = "no more tokens";
-
 	public static var MODE:TokenStreamMode = STRICT;
 
 	var tokens:Array<Token>;
 	var current:Int;
 	var bytes:ByteData;
-
 	var sharpIfStack:Array<TokenTree>;
 	var tempStore:Array<TokenTree>;
 
@@ -30,8 +27,10 @@ class TokenStream {
 	public function consumeToken():TokenTree {
 		if ((current < 0) || (current >= tokens.length)) {
 			switch (MODE) {
-				case RELAXED: return createDummyToken(CommentLine("auto insert"));
-				case STRICT: throw NO_MORE_TOKENS;
+				case RELAXED:
+					return createDummyToken(CommentLine("auto insert"));
+				case STRICT:
+					throw NO_MORE_TOKENS;
 			}
 		}
 		var token:Token = tokens[current];
@@ -48,11 +47,14 @@ class TokenStream {
 
 	public function consumeConstIdent():TokenTree {
 		switch (token()) {
-			case Dollar(_): return consumeToken();
-			case Const(CIdent(_)): return consumeToken();
+			case Dollar(_):
+				return consumeToken();
+			case Const(CIdent(_)):
+				return consumeToken();
 			default:
 				switch (MODE) {
-					case RELAXED: return createDummyToken(Const(CIdent("autoInsert")));
+					case RELAXED:
+						return createDummyToken(Const(CIdent("autoInsert")));
 					case STRICT:
 						error('bad token ${token()} != Const(CIdent(_))');
 						return null;
@@ -62,10 +64,12 @@ class TokenStream {
 
 	public function consumeConst():TokenTree {
 		switch (token()) {
-			case Const(_): return consumeToken();
+			case Const(_):
+				return consumeToken();
 			default:
 				switch (MODE) {
-					case RELAXED: return createDummyToken(Const(CString("autoInsert")));
+					case RELAXED:
+						return createDummyToken(Const(CString("autoInsert")));
 					case STRICT:
 						error('bad token ${token()} != Const(_)');
 						return null;
@@ -74,9 +78,10 @@ class TokenStream {
 	}
 
 	public function consumeTokenDef(tokenDef:TokenDef):TokenTree {
-		if (is(tokenDef)) return consumeToken();
+		if ( is (tokenDef)) return consumeToken();
 		switch (MODE) {
-			case RELAXED: return createDummyToken(tokenDef);
+			case RELAXED:
+				return createDummyToken(tokenDef);
 			case STRICT:
 				error('bad token ${token()} != $tokenDef');
 				return null;
@@ -135,7 +140,8 @@ class TokenStream {
 		var token:Token = tokens[current];
 		switch (token.tok) {
 			case Binop(OpLt):
-			default: return false;
+			default:
+				return false;
 		}
 		while (true) {
 			token = tokens[index++];
@@ -147,8 +153,10 @@ class TokenStream {
 				case Kwd(_):
 				case Dollar(_):
 				case Binop(OpLt):
-				case Binop(OpGt): return true;
-				default: return false;
+				case Binop(OpGt):
+					return true;
+				default:
+					return false;
 			}
 		}
 		return false;
@@ -157,8 +165,10 @@ class TokenStream {
 	public function token():TokenDef {
 		if ((current < 0) || (current >= tokens.length)) {
 			switch (MODE) {
-				case RELAXED: return CommentLine("auto insert");
-				case STRICT: throw NO_MORE_TOKENS;
+				case RELAXED:
+					return CommentLine("auto insert");
+				case STRICT:
+					throw NO_MORE_TOKENS;
 			}
 		}
 		return tokens[current].tok;
@@ -198,11 +208,8 @@ class TokenStream {
 			case Binop(OpAssign):
 				var assignTok:TokenTree = consumeTokenDef(Binop(OpAssign));
 				return new TokenTree(Binop(OpGte), tok.space + assignTok.space, {
-					file:tok.pos.file,
-					min:tok.pos.min,
-					max:assignTok.pos.max
-				},
-				tok.index);
+					file: tok.pos.file, min: tok.pos.min, max: assignTok.pos.max
+				}, tok.index);
 			default:
 				return tok;
 		}
@@ -213,36 +220,24 @@ class TokenStream {
 		switch (token()) {
 			case Binop(OpGt):
 				var innerGt:TokenTree = consumeTokenDef(Binop(OpGt));
-				if (is(Binop(OpAssign))) {
+				if ( is (Binop(OpAssign))) {
 					var assignTok:TokenTree = consumeTokenDef(Binop(OpAssign));
 					return new TokenTree(Binop(OpAssignOp(OpUShr)), assignTok.space, {
-						file:parent.pos.file,
-						min:parent.pos.min,
-						max:assignTok.pos.max
-					},
-					parent.index);
+						file: parent.pos.file, min: parent.pos.min, max: assignTok.pos.max
+					}, parent.index);
 				}
 				return new TokenTree(Binop(OpUShr), innerGt.space, {
-					file:parent.pos.file,
-					min:parent.pos.min,
-					max:innerGt.pos.max
-				},
-				parent.index);
+					file: parent.pos.file, min: parent.pos.min, max: innerGt.pos.max
+				}, parent.index);
 			case Binop(OpAssign):
 				var assignTok:TokenTree = consumeTokenDef(Binop(OpAssign));
 				return new TokenTree(Binop(OpAssignOp(OpShr)), assignTok.space, {
-					file:parent.pos.file,
-					min:parent.pos.min,
-					max:assignTok.pos.max
-				},
-				parent.index);
+					file: parent.pos.file, min: parent.pos.min, max: assignTok.pos.max
+				}, parent.index);
 			default:
 				return new TokenTree(Binop(OpShr), tok.space, {
-					file:parent.pos.file,
-					min:parent.pos.min,
-					max:tok.pos.max
-				},
-				parent.index);
+					file: parent.pos.file, min: parent.pos.min, max: tok.pos.max
+				}, parent.index);
 		}
 	}
 
@@ -272,19 +267,13 @@ class TokenStream {
 			case Const(CInt(n)):
 				var const:TokenTree = consumeConst();
 				return new TokenTree(Const(CInt('-$n')), const.space, {
-					file:tok.pos.file,
-					min:tok.pos.min,
-					max:const.pos.max
-				},
-				tok.index);
+					file: tok.pos.file, min: tok.pos.min, max: const.pos.max
+				}, tok.index);
 			case Const(CFloat(n)):
 				var const:TokenTree = consumeConst();
 				return new TokenTree(Const(CFloat('-$n')), const.space, {
-					file:tok.pos.file,
-					min:tok.pos.min,
-					max:const.pos.max
-				},
-				tok.index);
+					file: tok.pos.file, min: tok.pos.min, max: const.pos.max
+				}, tok.index);
 			default:
 				throw NO_MORE_TOKENS;
 		}
@@ -301,8 +290,10 @@ class TokenStream {
 	public function popSharpIf():TokenTree {
 		if (sharpIfStack.length <= 0) {
 			switch (MODE) {
-				case RELAXED: return createDummyToken(CommentLine("dummy token"));
-				case STRICT: throw NO_MORE_TOKENS;
+				case RELAXED:
+					return createDummyToken(CommentLine("dummy token"));
+				case STRICT:
+					throw NO_MORE_TOKENS;
 			}
 		}
 		return sharpIfStack.pop();
@@ -311,8 +302,10 @@ class TokenStream {
 	public function peekSharpIf():TokenTree {
 		if (sharpIfStack.length <= 0) {
 			switch (MODE) {
-				case RELAXED: return createDummyToken(CommentLine("dummy token"));
-				case STRICT: throw NO_MORE_TOKENS;
+				case RELAXED:
+					return createDummyToken(CommentLine("dummy token"));
+				case STRICT:
+					throw NO_MORE_TOKENS;
 			}
 		}
 		return sharpIfStack[sharpIfStack.length - 1];

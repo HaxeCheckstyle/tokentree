@@ -2,13 +2,10 @@ package tokentree;
 
 import byte.ByteData;
 import haxeparser.HaxeLexer;
-
 import haxeparser.Data.Token;
-
 import tokentree.walk.WalkFile;
 
 class TestTokenTreeBuilder extends TokenTreeBuilder {
-
 	public static function parseCode(code:String):TestTokenTreeBuilder {
 		var builder:TestTokenTreeBuilder = new TestTokenTreeBuilder(code);
 		builder.root = new TokenTree(null, "", null, -1);
@@ -28,6 +25,7 @@ class TestTokenTreeBuilder extends TokenTreeBuilder {
 	}
 
 	var stream:TokenStream;
+
 	public var root:TokenTree;
 
 	public function new(code:String) {

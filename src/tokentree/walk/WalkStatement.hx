@@ -158,7 +158,15 @@ class WalkStatement {
 			case Kwd(KwdWhile):
 				WalkWhile.walkWhile(stream, parent);
 			case Kwd(KwdNull), Kwd(KwdTrue), Kwd(KwdFalse):
-				parent.addChild(stream.consumeToken());
+				var newChild:TokenTree = stream.consumeToken();
+				parent.addChild(newChild);
+				switch (stream.token()) {
+					case Semicolon:
+						newChild.addChild(stream.consumeToken());
+					case Binop(_):
+						walkStatement(stream, newChild);
+					default:
+				}
 				return false;
 			case Kwd(KwdCast):
 				var newChild:TokenTree = stream.consumeToken();
@@ -208,10 +216,14 @@ class WalkStatement {
 				case Question:
 					if (WalkQuestion.isTernary(parent)) return parent;
 					return null;
-				case Comma: return null;
-				case BrOpen: return null;
-				case Kwd(KwdCase): return parent;
-				case Kwd(KwdDefault): return parent;
+				case Comma:
+					return null;
+				case BrOpen:
+					return null;
+				case Kwd(KwdCase):
+					return parent;
+				case Kwd(KwdDefault):
+					return parent;
 				default:
 			}
 			parent = parent.parent;

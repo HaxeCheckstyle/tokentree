@@ -2,12 +2,10 @@ package tokentree.walk;
 
 import tokentree.TokenTree;
 import tokentree.TokenStream;
-
 import tokentree.verify.IVerifyTokenTree;
 import tokentree.verify.VerifyTokenTreeBase;
 
 class WalkWhileTest extends VerifyTokenTreeBase {
-
 	@Test
 	public function testWhile() {
 		var root:IVerifyTokenTree = buildTokenTree("while (test) {doSomething();}");

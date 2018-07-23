@@ -1,11 +1,9 @@
 package tokentree.verify;
 
 import haxeparser.Data;
-
 import tokentree.TokenTreeBuilderParsingTest.TokenTreeBuilderParsingTests;
 
 class VerifyTokenTreeTest extends VerifyTokenTreeBase {
-
 	@Test
 	public function testImport() {
 		var root:IVerifyTokenTree = buildTokenTree(VerifyTokenTreeTests.IMPORT);
@@ -54,7 +52,7 @@ class VerifyTokenTreeTest extends VerifyTokenTreeBase {
 		cas.at(1).is(Const(CIdent("b"))).childs().count(1).is(DblDot).childs().count(1).is(Const(CInt("2"))).noChilds();
 		cas.last().is(BrClose).noChilds();
 
-		//default
+		// default
 		cas = block.childAt(1).is(Kwd(KwdDefault)).childs().is(DblDot).childs().count(2);
 		cas.last().is(Semicolon).noChilds();
 		cas = cas.first().is(BrOpen).childCount(3).childs();

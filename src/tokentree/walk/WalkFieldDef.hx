@@ -1,7 +1,6 @@
 package tokentree.walk;
 
 class WalkFieldDef {
-
 	public static function walkFieldDef(stream:TokenStream, parent:TokenTree) {
 		var progress:TokenStreamProgress = new TokenStreamProgress(stream);
 		while (progress.streamHasChanged()) {

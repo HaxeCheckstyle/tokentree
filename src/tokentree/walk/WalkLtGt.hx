@@ -12,7 +12,8 @@ class WalkLtGt {
 					ltTok.addChild(comma);
 					WalkTypeNameDef.walkTypeNameDef(stream, ltTok);
 					WalkFieldDef.walkFieldDef(stream, ltTok);
-				case Binop(OpGt): break;
+				case Binop(OpGt):
+					break;
 				case DblDot:
 					var dblDot:TokenTree = stream.consumeTokenDef(DblDot);
 					ltTok.addChild(dblDot);

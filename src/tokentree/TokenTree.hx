@@ -1,7 +1,6 @@
 package tokentree;
 
 class TokenTree extends Token {
-
 	static inline var MAX_LEVEL:Int = 9999;
 
 	public var parent:TokenTree;
@@ -12,8 +11,8 @@ class TokenTree extends Token {
 	public var inserted:Bool;
 	#if (!keep_whitespace)
 	public var space:String;
-	#end
 
+	#end
 	public function new(tok:TokenDef, space:String, pos:Position, index:Int, inserted:Bool = false) {
 		super(tok, pos);
 		this.index = index;
@@ -69,8 +68,7 @@ class TokenTree extends Token {
 
 	public function getPos():Position {
 		if ((children == null) || (children.length <= 0)) return pos;
-
-		var fullPos:Position = {file:pos.file, min:pos.min, max:pos.max};
+		var fullPos:Position = {file: pos.file, min: pos.min, max: pos.max};
 		var childPos:Position;
 		for (child in children) {
 			childPos = child.getPos();
@@ -141,7 +139,7 @@ enum TokenFilterMode {
 	FIRST;
 }
 
-typedef FilterCallback = TokenTree -> Int -> FilterResult;
+typedef FilterCallback = TokenTree->Int->FilterResult;
 
 enum FilterResult {
 	FOUND_SKIP_SUBTREE;
