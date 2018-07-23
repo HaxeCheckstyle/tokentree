@@ -116,15 +116,13 @@ class TokenTreeCheckUtils {
 
 	public static function isTypeEnumAbstract(type:TokenTree):Bool {
 		switch (type.tok) {
-			case Kwd(KwdEnum):
-				return type.access().firstChild().is(Kwd(KwdAbstract)).exists();
 			case Kwd(KwdAbstract):
-				if (type.access().parent().is(Kwd(KwdEnum)).exists()) {
-					return true;
-				}
 				var name:TokenTree = type.access().firstChild().token;
 				if ((name == null) || (name.children == null) || (name.children.length <= 0)) {
 					return false;
+				}
+				if (name.access().firstOf(Kwd(KwdEnum)).exists()) {
+					return true;
 				}
 				for (child in name.children) {
 					if (!child.is(At)) {
