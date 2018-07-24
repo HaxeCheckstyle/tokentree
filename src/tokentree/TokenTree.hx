@@ -89,30 +89,34 @@ class TokenTree extends Token {
 		});
 	}
 
-	public function filterCallback(callback:FilterCallback, depth:Int = 0):Array<TokenTree> {
+	public function filterCallback(callback:FilterCallback):Array<TokenTree> {
 		var results:Array<TokenTree> = [];
+		internalFilterCallback(callback, results, 0);
+		return results;
+	}
 
+	function internalFilterCallback(callback:FilterCallback, results:Array<TokenTree>, depth:Int = 0) {
 		if (tok != null) {
 			switch (callback(this, depth)) {
 				case FOUND_GO_DEEPER:
 					results.push(this);
 				case FOUND_SKIP_SUBTREE:
-					return [this];
+					results.push(this);
+					return;
 				case GO_DEEPER:
 				case SKIP_SUBTREE:
-					return [];
+					return;
 			}
 		}
-		if (children == null) return results;
+		if (children == null) return;
 		for (child in children) {
 			switch (child.tok) {
 				case Sharp(_):
-					results = results.concat(child.filterCallback(callback, depth));
+					child.internalFilterCallback(callback, results, depth);
 				default:
-					results = results.concat(child.filterCallback(callback, depth + 1));
+					child.internalFilterCallback(callback, results, depth + 1);
 			}
 		}
-		return results;
 	}
 
 	function matchesAny(searchFor:Array<TokenDef>):Bool {
