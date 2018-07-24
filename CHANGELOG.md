@@ -32,7 +32,7 @@
 - Refactored `TokenTreeAccessHelper` and made it an abstract [#31](https://github.com/HaxeCheckstyle/tokentree/issues/31) + [#32](https://github.com/HaxeCheckstyle/tokentree/issues/32) + [#41](https://github.com/HaxeCheckstyle/tokentree/issues/41)
 - Refactored `isTypeEnumAbstract` [#33](https://github.com/HaxeCheckstyle/tokentree/issues/33)
 - Refactored to apply formatting [#63](https://github.com/HaxeCheckstyle/tokentree/issues/63) +  [#65](https://github.com/HaxeCheckstyle/tokentree/issues/65)
-- Refactored `filterCallback` to remove `Array.concat` calls
+- Refactored `filterCallback` to remove `Array.concat` calls [#66](https://github.com/HaxeCheckstyle/tokentree/issues/66)
 
 ## version 1.0.6 (2018-07-16)
 
