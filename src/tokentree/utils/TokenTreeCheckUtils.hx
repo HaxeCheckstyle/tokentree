@@ -1,5 +1,7 @@
 package tokentree.utils;
 
+using Lambda;
+
 class TokenTreeCheckUtils {
 	public static function isImportMult(token:TokenTree):Bool {
 		return switch (token.tok) {
@@ -333,6 +335,13 @@ class TokenTreeCheckUtils {
 			parent = parent.parent;
 		}
 		return false;
+	}
+
+	/**
+		Whether a given type or field has `@:deprecated` metadata.
+	**/
+	public static function isDeprecated(declToken:TokenTree):Bool {
+		return getMetadata(declToken).exists(function(meta) return meta.tok.match(Const(CIdent("deprecated"))));
 	}
 }
 
