@@ -182,27 +182,48 @@ class TokenTreeCheckUtils {
 	}
 
 	/**
-		Gets the name of a type, var or function token, or a CIdent token itself.
+		Gets the name for a name token (`KwdNew`, `CIdent`).
 	**/
 	public static function getName(token:TokenTree):Null<String> {
-		function extractName(token:TokenTree):Null<String> {
-			token = token.access().is(Question).firstChild().or(token);
-			return switch (token.tok) {
-				case Const(CIdent(ident)): ident;
-				case Kwd(KwdNew): "new";
-				default: null;
-			}
-		}
-
-		var name = extractName(token);
-		if (name != null) {
-			return name;
-		}
-		var nameToken = token.access().firstChild().token;
-		if (nameToken == null) {
+		if (token == null) {
 			return null;
 		}
-		return extractName(nameToken);
+		return switch (token.tok) {
+			case Const(CIdent(ident)): ident;
+			case Kwd(KwdNew): "new";
+			case _: null;
+		}
+	}
+
+	/**
+		Gets the name token of a type, var or function token, or a CIdent token itself.
+	**/
+	public static function getNameToken(token:TokenTree):Null<TokenTree> {
+		if (isNameToken(token)) {
+			return token;
+		}
+		var nameToken = token.access().firstChild();
+		if (isNameToken(nameToken.token)) {
+			return nameToken.token;
+		}
+		nameToken = nameToken.is(Question).firstChild();
+		if (isNameToken(nameToken.token)) {
+			return nameToken.token;
+		}
+		return null;
+	}
+
+	/**
+		Whether the token is a name token (`KwdNew`, `CIdent`).
+	**/
+	public static function isNameToken(token:TokenTree):Bool {
+		if (token == null) {
+			return false;
+		}
+		return switch (token.tok) {
+			case Const(CIdent(_)), Kwd(KwdNew): true;
+			case _: false;
+		}
 	}
 
 	/**
