@@ -23,7 +23,7 @@ class FieldUtils {
 		if (access.token == null) {
 			return UNKNOWN;
 		}
-		var name = TokenTreeCheckUtils.getName(field);
+		var name = field.getNameToken().getName();
 		var visibility:TokenFieldVisibility = defaultVisibility;
 		var isStatic:Bool = false;
 		var isInline:Bool = false;
@@ -65,7 +65,7 @@ class FieldUtils {
 		if (access.token == null) {
 			return UNKNOWN;
 		}
-		var name = TokenTreeCheckUtils.getName(field);
+		var name = field.getNameToken().getName();
 		var visibility:TokenFieldVisibility = defaultVisibility;
 		var isStatic:Bool = false;
 		var isInline:Bool = false;

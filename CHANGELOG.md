@@ -1,7 +1,9 @@
 ## dev branch / next version (1.x.x)
 
 - Added `TokenTreeCheckUtils.isTypeStructure()` [#36](https://github.com/HaxeCheckstyle/tokentree/issues/36) + [#50](https://github.com/HaxeCheckstyle/tokentree/issues/50)
-- Added `TokenTreeCheckUtils.getName()` [#39](https://github.com/HaxeCheckstyle/tokentree/issues/39) + [#43](https://github.com/HaxeCheckstyle/tokentree/issues/43) + [#48](https://github.com/HaxeCheckstyle/tokentree/issues/48)
+- Added `TokenTreeCheckUtils.getName()` [#67](https://github.com/HaxeCheckstyle/tokentree/issues/67)
+- Added `TokenTreeCheckUtils.getNameToken()` [#67](https://github.com/HaxeCheckstyle/tokentree/issues/67)
+- Added `TokenTreeCheckUtils.isNameToken()` [#67](https://github.com/HaxeCheckstyle/tokentree/issues/67)
 - Added `TokenTreeCheckUtils.isTypeEnum()` [#40](https://github.com/HaxeCheckstyle/tokentree/issues/40)
 - Added `TokenTreeCheckUtils.isMacroClass()` [#42](https://github.com/HaxeCheckstyle/tokentree/issues/42)
 - Added `TokenTreeCheckUtils.isOperatorFunction` [#44](https://github.com/HaxeCheckstyle/tokentree/issues/44)
