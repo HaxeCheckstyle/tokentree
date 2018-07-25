@@ -139,6 +139,7 @@ abstract TokenTreeCheckUtilsTests(String) to String {
 			var f:(Int->Int) ->Int->Int;
 		}
 	}
+	typedef ExtendedFieldsCB = Array<ObjectDeclField>->String->Position->DynamicAccess<Expr>->Void;
 	";
 
 	var FUNCTION_TYPE_HAXE_4 = "

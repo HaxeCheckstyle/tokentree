@@ -260,7 +260,8 @@ class TokenTreeCheckUtils {
 				case _:
 					return null;
 			}
-		} while (true);
+		}
+		while (true);
 		return null;
 	}
 
@@ -394,11 +395,9 @@ class TokenTreeCheckUtils {
 		var child:TokenTree = token.getFirstChild();
 		while (child != null) {
 			switch (child.tok) {
-				case Arrow:
-				case Const(CIdent(_)):
-				case Dot:
-				case Kwd(KwdMacro):
-				case Semicolon:
+				case Arrow, Dot, Semicolon:
+				case Const(CIdent(_)), Kwd(KwdMacro):
+				case Binop(OpLt):
 				default:
 					return ARROW_FUNCTION;
 			}
@@ -420,10 +419,9 @@ class TokenTreeCheckUtils {
 			switch (child.tok) {
 				case Arrow:
 					seenArrow = true;
-				case Const(CIdent(_)):
-				case Dot:
-				case Kwd(KwdMacro):
-				case Semicolon:
+				case Const(CIdent(_)), Kwd(KwdMacro):
+				case Dot, Semicolon:
+				case Binop(OpLt):
 				default:
 					return FUNCTION_TYPE_HAXE4;
 			}
