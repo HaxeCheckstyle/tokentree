@@ -261,6 +261,7 @@ class TokenTreeCheckUtils {
 					return null;
 			}
 		} while (true);
+		return null;
 	}
 
 	public static function isModifier(keyword:TokenTree):Bool {
