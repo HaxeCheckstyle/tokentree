@@ -242,6 +242,28 @@ class TokenTreeCheckUtils {
 		});
 	}
 
+	/**
+		Tries to get the doc comment for a given type or field.
+	**/
+	public static function getDocComment(declToken:TokenTree):Null<TokenTree> {
+		var access = declToken.access();
+		do {
+			access = access.previousSibling();
+			if (access.token == null) {
+				return null;
+			}
+			switch (access.token.tok) {
+				case Comment(_):
+					return access.token;
+				case CommentLine(_):
+					continue;
+				case _:
+					return null;
+			}
+		} while (true);
+		return null;
+	}
+
 	public static function isModifier(keyword:TokenTree):Bool {
 		if (keyword == null) {
 			return false;
