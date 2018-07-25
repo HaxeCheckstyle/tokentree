@@ -386,6 +386,54 @@ class TokenTreeCheckUtils {
 	public static function isDeprecated(declToken:TokenTree):Bool {
 		return getMetadata(declToken).exists(function(meta) return meta.tok.match(Const(CIdent("deprecated"))));
 	}
+
+	public static function getArrowType(token:TokenTree):ArrowType {
+		if (token == null) {
+			return ARROW_FUNCTION;
+		}
+		var child:TokenTree = token.getFirstChild();
+		while (child != null) {
+			switch (child.tok) {
+				case Arrow:
+				case Const(CIdent(_)):
+				case Dot:
+				case Kwd(KwdMacro):
+				case Semicolon:
+				default:
+					return ARROW_FUNCTION;
+			}
+			child = child.getFirstChild();
+		}
+		var parent:TokenTree = token.parent;
+		if (parent == null) {
+			return ARROW_FUNCTION;
+		}
+		if (!parent.is(POpen)) {
+			return FUNCTION_TYPE_HAXE3;
+		}
+		child = parent.getFirstChild();
+		if (child == null) {
+			return ARROW_FUNCTION;
+		}
+		var seenArrow:Bool = false;
+		while (child != null) {
+			switch (child.tok) {
+				case Arrow:
+					seenArrow = true;
+				case Const(CIdent(_)):
+				case Dot:
+				case Kwd(KwdMacro):
+				case Semicolon:
+				default:
+					return FUNCTION_TYPE_HAXE4;
+			}
+			child = child.getFirstChild();
+		}
+		if (seenArrow) {
+			return FUNCTION_TYPE_HAXE3;
+		}
+		return FUNCTION_TYPE_HAXE4;
+	}
 }
 
 enum BrOpenType {
@@ -402,4 +450,10 @@ enum POpenType {
 	CONDITION;
 	FORLOOP;
 	EXPRESSION;
+}
+
+enum ArrowType {
+	ARROW_FUNCTION;
+	FUNCTION_TYPE_HAXE3;
+	FUNCTION_TYPE_HAXE4;
 }
