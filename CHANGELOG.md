@@ -13,6 +13,7 @@
 - Added `TokenTreeCheckUtils.getDocComment()` [#69](https://github.com/HaxeCheckstyle/tokentree/issues/69)
 - Added support for structural extension [#49](https://github.com/HaxeCheckstyle/tokentree/issues/49)
 - Added support for `final` [#55](https://github.com/HaxeCheckstyle/tokentree/issues/55) + [#56](https://github.com/HaxeCheckstyle/tokentree/issues/56) + [#61](https://github.com/HaxeCheckstyle/tokentree/issues/61)
+- Added `TokenTreeCheckUtils.getArrowType()` [#70](https://github.com/HaxeCheckstyle/tokentree/issues/70)
 - Fixed running out of tokens during package and imports [#28](https://github.com/HaxeCheckstyle/tokentree/issues/28)
 - Fixed `function` in typedef body [#30](https://github.com/HaxeCheckstyle/tokentree/issues/30)
 - Fixed handling of `switch this {` [#34](https://github.com/HaxeCheckstyle/tokentree/issues/34)
