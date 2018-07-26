@@ -13,4 +13,25 @@ class WalkComment {
 			}
 		}
 	}
+
+	public static function tryWalkComment(stream:TokenStream, parent:TokenTree, expect:TokenDef) {
+		var currentPos:Int = stream.getCurrentPos();
+		var progress:TokenStreamProgress = new TokenStreamProgress(stream);
+		var comments:Array<TokenTree> = [];
+		while (stream.hasMore() && progress.streamHasChanged()) {
+			switch (stream.token()) {
+				case Comment(_), CommentLine(_):
+					comments.push(stream.consumeToken());
+				default:
+					if (stream.is(expect)) {
+						for (comment in comments) {
+							parent.addChild(comment);
+						}
+						return;
+					}
+					stream.rewindTo(currentPos);
+					return;
+			}
+		}
+	}
 }
