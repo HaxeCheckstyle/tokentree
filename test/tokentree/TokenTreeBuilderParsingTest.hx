@@ -54,6 +54,7 @@ class TokenTreeBuilderParsingTest {
 		assertCodeParses(COMMENTS_IN_IF_ELSE);
 		assertCodeParses(COMMENTS_IN_TYPEDEF);
 		assertCodeParses(ADVANCED_ARRAY_ITEMS);
+		assertCodeParses(IF_ELSE_COMMENTS);
 	}
 
 	public function assertCodeParses(code:String, ?pos:PosInfos) {
@@ -719,6 +720,32 @@ abstract TokenTreeBuilderParsingTests(String) to String {
 			@doc('Display this list of options')
 			['--help'] => function() help = true
 		]);
+	}
+	";
+
+	var IF_ELSE_COMMENTS = "
+	class Main {
+		function recycle() {
+			// rotated recycling
+			if (maxSize > 0) {
+				// create new instance
+				if (length < maxSize) {
+					return recycleCreateObject(ObjectClass, ObjectFactory);
+				}
+				// get the next member if at capacity
+				else {
+					if (Revive)
+						basic.revive();
+				}
+			}
+			// grow-style recycling - grab a basic with exists == false or create a new one
+			else {
+				if (basic != null) {
+					if (Revive)
+						basic.revive();
+				}
+			}
+		}
 	}
 	";
 }
