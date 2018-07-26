@@ -1,5 +1,7 @@
 ## dev branch / next version (1.x.x)
 
+## version 1.0.7 (2018-07-26)
+
 - Added `TokenTreeCheckUtils.isTypeStructure()` [#36](https://github.com/HaxeCheckstyle/tokentree/issues/36) + [#50](https://github.com/HaxeCheckstyle/tokentree/issues/50)
 - Added `TokenTreeCheckUtils.isTypeEnum()` [#40](https://github.com/HaxeCheckstyle/tokentree/issues/40)
 - Added `TokenTreeCheckUtils.isMacroClass()` [#42](https://github.com/HaxeCheckstyle/tokentree/issues/42)
@@ -27,7 +29,7 @@
 - Fixed handling of const type parameters [#57](https://github.com/HaxeCheckstyle/tokentree/issues/57)
 - Fixed `case var` handling [#58](https://github.com/HaxeCheckstyle/tokentree/issues/58)
 - Fixed `case Pattern(var foo, var bar)` handling [#59](https://github.com/HaxeCheckstyle/tokentree/issues/59)
-- Fixed comments in if…else [#60](https://github.com/HaxeCheckstyle/tokentree/issues/60)
+- Fixed comments in if…else [#60](https://github.com/HaxeCheckstyle/tokentree/issues/60) +[#72](https://github.com/HaxeCheckstyle/tokentree/issues/72)
 - Fixed comments in typedefs [#62](https://github.com/HaxeCheckstyle/tokentree/issues/62)
 - Fixed handling of array items [#62](https://github.com/HaxeCheckstyle/tokentree/issues/62)
 - Fixed handling of `null`, `true` and `false` as body of if [#63](https://github.com/HaxeCheckstyle/tokentree/issues/63)
