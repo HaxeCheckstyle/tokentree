@@ -8,7 +8,7 @@
 .DS_Store
 *.n
 *.zip
-.haxelib/
+.haxelib.*/
 out/
 node_modules
 .DS_Store
