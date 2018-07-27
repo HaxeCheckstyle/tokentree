@@ -1,5 +1,7 @@
 ## dev branch / next version (1.x.x)
 
+- Fixed null poiner in `getPOpenType` [#73](https://github.com/HaxeCheckstyle/tokentree/issues/73)
+
 ## version 1.0.7 (2018-07-26)
 
 - Added `TokenTreeCheckUtils.isTypeStructure()` [#36](https://github.com/HaxeCheckstyle/tokentree/issues/36) + [#50](https://github.com/HaxeCheckstyle/tokentree/issues/50)
