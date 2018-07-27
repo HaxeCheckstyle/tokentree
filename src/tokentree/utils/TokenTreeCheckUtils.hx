@@ -405,6 +405,9 @@ class TokenTreeCheckUtils {
 				case Arrow, Dot, Semicolon:
 				case Const(CIdent(_)), Kwd(KwdMacro):
 				case Binop(OpLt):
+					child = child.nextSibling;
+					continue;
+				case POpen:
 				default:
 					return ARROW_FUNCTION;
 			}
@@ -428,7 +431,10 @@ class TokenTreeCheckUtils {
 					seenArrow = true;
 				case Const(CIdent(_)), Kwd(KwdMacro):
 				case Dot, Semicolon:
-				case Binop(OpLt):
+				case Binop(OpLt), POpen:
+					child = child.nextSibling;
+					continue;
+				case PClose:
 				default:
 					return FUNCTION_TYPE_HAXE4;
 			}

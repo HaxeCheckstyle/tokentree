@@ -14,6 +14,9 @@ class WalkStatement {
 			case Binop(OpLt):
 				if (stream.isTypedParam()) {
 					WalkLtGt.walkLtGt(stream, parent);
+					if (stream.is(Arrow)) {
+						walkStatement(stream, parent);
+					}
 					return;
 				}
 				wantMore = true;
