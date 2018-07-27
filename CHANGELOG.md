@@ -3,6 +3,7 @@
 - Fixed null poiner in `getPOpenType` [#73](https://github.com/HaxeCheckstyle/tokentree/issues/73)
 - Fixed property modifiers [#74](https://github.com/HaxeCheckstyle/tokentree/issues/74)
 - Fixed function type detection [#74](https://github.com/HaxeCheckstyle/tokentree/issues/74)
+- Fixed `getBrOpenType` detection of blocks
 
 ## version 1.0.7 (2018-07-26)
 
