@@ -33,6 +33,10 @@ class TokenTreeBuilderParsingTest {
 		assertCodeParses(BLOCK_OBJECT_DECL_SAMPLES_ISSUE_396_2);
 		assertCodeParses(BLOCK_OBJECT_DECL_SAMPLES_ISSUE_396_3);
 		assertCodeParses(BLOCK_OBJECT_DECL_WITH_TERNARY);
+	}
+
+	@Test
+	public function testIssues2() {
 		assertCodeParses(TYPEDEF_COMMENTS);
 		assertCodeParses(TYPEDEF_COMMENTS_2);
 		assertCodeParses(FUNCTION_RETURN_TYPE);
@@ -55,6 +59,7 @@ class TokenTreeBuilderParsingTest {
 		assertCodeParses(COMMENTS_IN_TYPEDEF);
 		assertCodeParses(ADVANCED_ARRAY_ITEMS);
 		assertCodeParses(IF_ELSE_COMMENTS);
+		assertCodeParses(PROPS_AND_VARS);
 	}
 
 	public function assertCodeParses(code:String, ?pos:PosInfos) {
@@ -746,6 +751,13 @@ abstract TokenTreeBuilderParsingTests(String) to String {
 				}
 			}
 		}
+	}
+	";
+
+	var PROPS_AND_VARS = "
+	class Main {
+		public var canceled(default,null):Bool;
+		public var callback:Void->Void;
 	}
 	";
 }
