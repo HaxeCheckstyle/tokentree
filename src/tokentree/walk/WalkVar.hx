@@ -19,11 +19,11 @@ class WalkVar {
 			}
 			name = stream.consumeConstIdent();
 			nameParent.addChild(name);
+			stream.applyTempStore(name);
 			WalkComment.walkComment(stream, name);
 			if (stream.is(POpen)) {
 				WalkPOpen.walkPOpen(stream, name);
 			}
-			stream.applyTempStore(name);
 			if (stream.is(DblDot)) {
 				var dblDot:TokenTree = stream.consumeTokenDef(DblDot);
 				name.addChild(dblDot);

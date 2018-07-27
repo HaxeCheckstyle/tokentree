@@ -1,6 +1,7 @@
 ## dev branch / next version (1.x.x)
 
 - Fixed null poiner in `getPOpenType` [#73](https://github.com/HaxeCheckstyle/tokentree/issues/73)
+- Fixed property modifiers
 
 ## version 1.0.7 (2018-07-26)
 
