@@ -344,7 +344,11 @@ class TokenTreeCheckUtils {
 		if (token == null) {
 			return EXPRESSION;
 		}
-		switch (token.parent.tok) {
+		var parent:TokenTree = token.parent;
+		if ((parent == null) || (parent.tok == null)) {
+			return EXPRESSION;
+		}
+		switch (parent.tok) {
 			case Kwd(KwdIf):
 				return CONDITION;
 			case Kwd(KwdWhile):
@@ -358,7 +362,10 @@ class TokenTreeCheckUtils {
 			case Kwd(KwdFunction):
 				return PARAMETER;
 			case Const(CIdent(_)):
-				if (token.parent.parent.is(Kwd(KwdFunction))) {
+				if (parent.parent == null) {
+					return CALL;
+				}
+				if (parent.parent.is(Kwd(KwdFunction))) {
 					return PARAMETER;
 				}
 				return CALL;
