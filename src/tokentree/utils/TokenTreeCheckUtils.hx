@@ -287,13 +287,15 @@ class TokenTreeCheckUtils {
 			return UNKNOWN;
 		}
 		switch (token.parent.tok) {
-			case Binop(OpAnd), Binop(OpAssign):
+			case Binop(OpAnd):
+				return TYPEDEFDECL;
+			case Binop(OpAssign):
 				if (isInsideTypedef(token.parent)) {
 					return TYPEDEFDECL;
 				}
-				return OBJECTDECL;
+				return determinBrChildren(token);
 			case Kwd(KwdReturn):
-				return OBJECTDECL;
+				return determinBrChildren(token);
 			case DblDot:
 				if (isTernary(token.parent)) {
 					return OBJECTDECL;
@@ -338,6 +340,25 @@ class TokenTreeCheckUtils {
 			default:
 		}
 		return BLOCK;
+	}
+
+	static function determinBrChildren(token:TokenTree):BrOpenType {
+		if ((token.children == null) || (token.children.length <= 0)) {
+			return OBJECTDECL;
+		}
+		for (child in token.children) {
+			switch (child.tok) {
+				case Const(CIdent(_)), Const(CString(_)):
+					if (!child.access().firstChild().is(DblDot).exists()) {
+						return BLOCK;
+					}
+				case BrClose:
+					return OBJECTDECL;
+				default:
+					return BLOCK;
+			}
+		}
+		return OBJECTDECL;
 	}
 
 	public static function getPOpenType(token:TokenTree):POpenType {
