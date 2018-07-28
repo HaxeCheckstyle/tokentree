@@ -97,8 +97,8 @@ class WalkSharp {
 	static function walkSharpEnd(stream:TokenStream, parent:TokenTree) {
 		var sharpIfParent:TokenTree = stream.peekSharpIf();
 		var endToken:TokenTree = stream.consumeToken();
-		sharpIfParent.addChild(endToken);
 		stream.applyTempStore(sharpIfParent);
+		sharpIfParent.addChild(endToken);
 		throw new SharpEndException();
 	}
 
