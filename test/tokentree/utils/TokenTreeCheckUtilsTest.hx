@@ -21,7 +21,7 @@ class TokenTreeCheckUtilsTest {
 	public function testMixedBrOpenTypes() {
 		var root:TokenTree = assertCodeParses(TokenTreeCheckUtilsTests.MIXED_BR_OPEN_TYPES);
 		var allBr:Array<TokenTree> = root.filter([BrOpen], ALL);
-		Assert.areEqual(10, allBr.length);
+		Assert.areEqual(11, allBr.length);
 		Assert.areEqual(BrOpenType.BLOCK, TokenTreeCheckUtils.getBrOpenType(allBr[0]));
 		Assert.areEqual(BrOpenType.ANONTYPE, TokenTreeCheckUtils.getBrOpenType(allBr[1]));
 		Assert.areEqual(BrOpenType.ANONTYPE, TokenTreeCheckUtils.getBrOpenType(allBr[2]));
@@ -32,6 +32,7 @@ class TokenTreeCheckUtilsTest {
 		Assert.areEqual(BrOpenType.BLOCK, TokenTreeCheckUtils.getBrOpenType(allBr[7]));
 		Assert.areEqual(BrOpenType.BLOCK, TokenTreeCheckUtils.getBrOpenType(allBr[8]));
 		Assert.areEqual(BrOpenType.OBJECTDECL, TokenTreeCheckUtils.getBrOpenType(allBr[9]));
+		Assert.areEqual(BrOpenType.OBJECTDECL, TokenTreeCheckUtils.getBrOpenType(allBr[10]));
 	}
 
 	@Test
@@ -114,6 +115,7 @@ abstract TokenTreeCheckUtilsTests(String) to String {
 			}
 			var foo = switch (None) {
 				case Some(v): {i: 0}
+				default: {i: 1}
 			}
 		}
 	}
