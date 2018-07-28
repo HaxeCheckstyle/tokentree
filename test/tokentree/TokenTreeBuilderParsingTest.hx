@@ -60,6 +60,7 @@ class TokenTreeBuilderParsingTest {
 		assertCodeParses(ADVANCED_ARRAY_ITEMS);
 		assertCodeParses(IF_ELSE_COMMENTS);
 		assertCodeParses(PROPS_AND_VARS);
+		assertCodeParses(MULTIPLE_METADATA);
 	}
 
 	public function assertCodeParses(code:String, ?pos:PosInfos) {
@@ -758,6 +759,14 @@ abstract TokenTreeBuilderParsingTests(String) to String {
 	class Main {
 		public var canceled(default,null):Bool;
 		public var callback:Void->Void;
+	}
+	";
+
+	var MULTIPLE_METADATA = "
+	@:allow(pack.Base)
+	@test('foo')
+	class Main {
+		function main() {}
 	}
 	";
 }

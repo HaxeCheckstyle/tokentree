@@ -4,6 +4,7 @@
 - Fixed property modifiers [#74](https://github.com/HaxeCheckstyle/tokentree/issues/74)
 - Fixed function type detection [#74](https://github.com/HaxeCheckstyle/tokentree/issues/74)
 - Fixed `getBrOpenType` detection of blocks [#75](https://github.com/HaxeCheckstyle/tokentree/issues/75)
+- Fixed using multiple metadata with popen
 
 ## version 1.0.7 (2018-07-26)
 
