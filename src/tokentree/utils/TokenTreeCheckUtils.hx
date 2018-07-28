@@ -260,8 +260,7 @@ class TokenTreeCheckUtils {
 				case _:
 					return null;
 			}
-		}
-		while (true);
+		} while (true);
 		return null;
 	}
 
@@ -301,8 +300,14 @@ class TokenTreeCheckUtils {
 					return OBJECTDECL;
 				}
 				var parent:TokenTree = token.parent.parent;
-				if (!parent.access().isCIdent().exists()) {
-					return ANONTYPE;
+				switch (parent.tok) {
+					case Const(CIdent(_)):
+					case Kwd(KwdCase):
+						return OBJECTDECL;
+					case Kwd(KwdDefault):
+						return OBJECTDECL;
+					default:
+						return ANONTYPE;
 				}
 				parent = parent.parent;
 				switch (parent.tok) {
