@@ -765,6 +765,7 @@ abstract TokenTreeBuilderParsingTests(String) to String {
 	var MULTIPLE_METADATA = "
 	@:allow(pack.Base)
 	@test('foo')
+	@new
 	class Main {
 		function main() {}
 	}

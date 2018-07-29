@@ -40,17 +40,7 @@ class WalkAt {
 		switch (stream.token()) {
 			case Const(CIdent(_)):
 				ident = stream.consumeConstIdent();
-			case Kwd(KwdDefault):
-				ident = stream.consumeToken();
-			case Kwd(KwdExtern):
-				ident = stream.consumeToken();
-			case Kwd(KwdEnum):
-				ident = stream.consumeToken();
-			#if (haxe_ver >= 4.0)
-			case Kwd(KwdFinal):
-				ident = stream.consumeToken();
-			#end
-			case Kwd(KwdAbstract):
+			case Kwd(_):
 				ident = stream.consumeToken();
 			default:
 				return;

@@ -5,6 +5,7 @@
 - Fixed function type detection [#74](https://github.com/HaxeCheckstyle/tokentree/issues/74)
 - Fixed `getBrOpenType` detection of blocks [#75](https://github.com/HaxeCheckstyle/tokentree/issues/75) +  [#77](https://github.com/HaxeCheckstyle/tokentree/issues/77)
 - Fixed using multiple metadata with popen [#76](https://github.com/HaxeCheckstyle/tokentree/issues/76)
+- Fixed support for @new
 
 ## version 1.0.7 (2018-07-26)
 
