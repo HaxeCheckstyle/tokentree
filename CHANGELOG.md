@@ -3,7 +3,7 @@
 - Fixed null poiner in `getPOpenType` [#73](https://github.com/HaxeCheckstyle/tokentree/issues/73)
 - Fixed property modifiers [#74](https://github.com/HaxeCheckstyle/tokentree/issues/74)
 - Fixed function type detection [#74](https://github.com/HaxeCheckstyle/tokentree/issues/74)
-- Fixed `getBrOpenType` detection of blocks [#75](https://github.com/HaxeCheckstyle/tokentree/issues/75) +  [#77](https://github.com/HaxeCheckstyle/tokentree/issues/77)
+- Fixed `getBrOpenType` detection of blocks [#75](https://github.com/HaxeCheckstyle/tokentree/issues/75) + [#77](https://github.com/HaxeCheckstyle/tokentree/issues/77) + [#79](https://github.com/HaxeCheckstyle/tokentree/issues/79)
 - Fixed using multiple metadata with popen [#76](https://github.com/HaxeCheckstyle/tokentree/issues/76)
 - Fixed support for @new [#78](https://github.com/HaxeCheckstyle/tokentree/issues/78)
 
