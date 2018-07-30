@@ -6,6 +6,8 @@
 - Fixed `getBrOpenType` detection of blocks [#75](https://github.com/HaxeCheckstyle/tokentree/issues/75) + [#77](https://github.com/HaxeCheckstyle/tokentree/issues/77) + [#79](https://github.com/HaxeCheckstyle/tokentree/issues/79)
 - Fixed using multiple metadata with popen [#76](https://github.com/HaxeCheckstyle/tokentree/issues/76)
 - Fixed support for @new [#78](https://github.com/HaxeCheckstyle/tokentree/issues/78)
+- Fixed `isTernary` [#80](https://github.com/HaxeCheckstyle/tokentree/issues/80)
+- Fixed `getArrowType` [#80](https://github.com/HaxeCheckstyle/tokentree/issues/80)
 
 ## version 1.0.7 (2018-07-26)
 
