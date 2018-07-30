@@ -87,6 +87,26 @@ class TokenTreeCheckUtilsTest {
 		}
 	}
 
+	@Test
+	public function testIsTernary() {
+		var root:TokenTree = assertCodeParses(TokenTreeCheckUtilsTests.TERNARY);
+		var allQuestion:Array<TokenTree> = root.filter([Question], ALL);
+		Assert.areEqual(6, allQuestion.length);
+		for (quest in allQuestion) {
+			Assert.isTrue(TokenTreeCheckUtils.isTernary(quest));
+		}
+	}
+
+	@Test
+	public function testNotIsTernary() {
+		var root:TokenTree = assertCodeParses(TokenTreeCheckUtilsTests.NOT_TERNARY);
+		var allQuestion:Array<TokenTree> = root.filter([Question], ALL);
+		Assert.areEqual(4, allQuestion.length);
+		for (quest in allQuestion) {
+			Assert.isFalse(TokenTreeCheckUtils.isTernary(quest));
+		}
+	}
+
 	public function assertCodeParses(code:String, ?pos:PosInfos):TokenTree {
 		var builder:TestTokenTreeBuilder = null;
 		try {
@@ -95,7 +115,7 @@ class TokenTreeCheckUtilsTest {
 			return builder.root;
 		}
 		catch (e:Any) {
-			Assert.fail("code should not throw execption", pos);
+			Assert.fail("code should not throw execption " + e, pos);
 		}
 		return null;
 	}
@@ -172,6 +192,30 @@ abstract TokenTreeCheckUtilsTests(String) to String {
 			var f:(Int, String) ->Bool;
 			var f:(resolve:(value:Dynamic) ->Void, reject:(reason:Dynamic) ->Void) ->Void;
 		}
+	}
+	";
+
+	var TERNARY = "
+	class Main {
+        static function main(value:Int) {
+                true ? 0 : 1;
+                (true) ? 0 : 1;
+                doSomething(true) ? 0 : 1;
+                setNext(transform != null ? transform.alphaMultiplier : 1.0);
+                angle = ((y < 0) ? -angle : angle) * FlxAngle.TO_DEG;
+				return e2 == null ? { t : HDyn } : bar(e2);
+        }
+	}
+	";
+
+	var NOT_TERNARY = "
+	class Main {
+        static function main(?value:Int) {}
+		public function recycle(?ObjectClass:Class<T>, ?ObjectFactory:Void->T, Force : Bool = false, Revive : Bool = true) : T {}
+	}
+
+	enum Item {
+		Staff(block:Float, ?magic:Int);
 	}
 	";
 }

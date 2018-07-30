@@ -102,11 +102,22 @@ class TokenTreeCheckUtils {
 		}
 		switch (token.parent.tok) {
 			case POpen:
-				var pos:Position = token.parent.getPos();
-				if ((pos.min < token.pos.min) && (pos.max > token.pos.max)) {
-					return true;
+				var prev:TokenTree = token.previousSibling;
+				if (prev == null) {
+					return false;
 				}
-				return false;
+				var lastToken:TokenTree = getLastToken(prev);
+				if (lastToken == null) {
+					return false;
+				}
+				switch (lastToken.tok) {
+					case Comma:
+						return false;
+					case Semicolon:
+						return false;
+					default:
+						return true;
+				}
 			case Comma:
 				return false;
 			case Binop(_):
@@ -471,6 +482,27 @@ class TokenTreeCheckUtils {
 			return FUNCTION_TYPE_HAXE3;
 		}
 		return FUNCTION_TYPE_HAXE4;
+	}
+
+	public static function getLastToken(token:TokenTree):TokenTree {
+		if (token == null) {
+			return null;
+		}
+		if (token.children == null) {
+			return token;
+		}
+		if (token.children.length <= 0) {
+			return token;
+		}
+		var lastChild:TokenTree = token.getLastChild();
+		while (lastChild != null) {
+			var newLast:TokenTree = lastChild.getLastChild();
+			if (newLast == null) {
+				return lastChild;
+			}
+			lastChild = newLast;
+		}
+		return null;
 	}
 }
 
