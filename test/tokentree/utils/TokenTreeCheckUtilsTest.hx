@@ -166,6 +166,7 @@ abstract TokenTreeCheckUtilsTests(String) to String {
 			var f = arg-> {};
 			var f = (arg) -> {};
 			var f = (arg1:Int, arg2:String) -> {};
+			fields.map(field -> field.type);
 		}
 	}
 	";

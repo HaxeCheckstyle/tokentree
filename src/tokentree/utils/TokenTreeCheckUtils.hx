@@ -455,8 +455,9 @@ class TokenTreeCheckUtils {
 		if (parent == null) {
 			return ARROW_FUNCTION;
 		}
-		if (!parent.is(POpen)) {
-			return FUNCTION_TYPE_HAXE3;
+		var resultType:ArrowType = checkArrowParent(parent);
+		if (resultType != null) {
+			return resultType;
 		}
 		child = parent.getFirstChild();
 		if (child == null) {
@@ -482,6 +483,29 @@ class TokenTreeCheckUtils {
 			return FUNCTION_TYPE_HAXE3;
 		}
 		return FUNCTION_TYPE_HAXE4;
+	}
+
+	static function checkArrowParent(parent:TokenTree):ArrowType {
+		if (parent == null) {
+			return ARROW_FUNCTION;
+		}
+		switch (parent.tok) {
+			case POpen:
+			case Const(CIdent(_)):
+				if (parent.parent.is(POpen)) {
+					switch (getPOpenType(parent.parent)) {
+						case PARAMETER:
+							return FUNCTION_TYPE_HAXE3;
+						case EXPRESSION:
+							return FUNCTION_TYPE_HAXE3;
+						default:
+							return ARROW_FUNCTION;
+					}
+				}
+			default:
+				return FUNCTION_TYPE_HAXE3;
+		}
+		return null;
 	}
 
 	public static function getLastToken(token:TokenTree):TokenTree {
