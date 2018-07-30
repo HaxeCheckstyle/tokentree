@@ -357,6 +357,7 @@ class TokenTreeCheckUtils {
 					if (!child.access().firstChild().is(DblDot).exists()) {
 						return BLOCK;
 					}
+				case Comment(_), CommentLine(_):
 				case BrClose:
 					return OBJECTDECL;
 				default:
