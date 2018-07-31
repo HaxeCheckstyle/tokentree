@@ -304,6 +304,10 @@ class TokenTreeCheckUtils {
 					return TYPEDEFDECL;
 				}
 				return determinBrChildren(token);
+			case Binop(OpLt):
+				return ANONTYPE;
+			case Binop(_):
+				return OBJECTDECL;
 			case Kwd(KwdReturn):
 				return determinBrChildren(token);
 			case DblDot:
@@ -335,8 +339,6 @@ class TokenTreeCheckUtils {
 					default:
 						return OBJECTDECL;
 				}
-			case Binop(OpLt):
-				return ANONTYPE;
 			case POpen:
 				var pOpenType:POpenType = getPOpenType(token.parent);
 				switch (pOpenType) {
