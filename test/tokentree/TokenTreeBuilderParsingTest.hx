@@ -61,6 +61,7 @@ class TokenTreeBuilderParsingTest {
 		assertCodeParses(IF_ELSE_COMMENTS);
 		assertCodeParses(PROPS_AND_VARS);
 		assertCodeParses(MULTIPLE_METADATA);
+		assertCodeParses(A_LOT_OF_COMMENTS);
 	}
 
 	public function assertCodeParses(code:String, ?pos:PosInfos) {
@@ -768,6 +769,20 @@ abstract TokenTreeBuilderParsingTests(String) to String {
 	@new
 	class Main {
 		function main() {}
+	}
+	";
+
+	var A_LOT_OF_COMMENTS = "
+	class /**/ Main /**/ extends /**/ openfl.display.DisplayObject /**/ {} /**/
+	abstract /**/ Abstract /**/ (/**/ String /**/) /**/ from /**/ String /**/ to /**/ /**/ String /**/ {}
+	interface /**/ ITest /**/ extends /**/ IBase /**/ {} /**/
+	typedef /**/ WinHandle /**/ = /**/ hl.Abstract /**/ <@:const 5 /**/>;
+	enum Color /**/ </**/ T> /**/ {} /**/
+
+	public function dispatch2(/**/?/**/value1/**/:/**/T1/**/<T2>/**/ = /**/ '',
+		/**/ @:const value2:T2 = SomeClass.Constant,
+		value2:/**/{ /**/ ?foo /**/ : /**/ Dynamic /**/ <String> /**/ }):Void
+	{
 	}
 	";
 }

@@ -8,6 +8,7 @@ class WalkTypeNameDef {
 			var questTok:TokenTree = stream.consumeTokenDef(Question);
 			parent.addChild(questTok);
 			parent = questTok;
+			WalkComment.walkComment(stream, parent);
 		}
 		var name:TokenTree;
 		var bAdd:Bool = true;
@@ -49,6 +50,7 @@ class WalkTypeNameDef {
 	}
 
 	static function walkTypeNameDefContinue(stream:TokenStream, parent:TokenTree) {
+		WalkComment.walkComment(stream, parent);
 		if (stream.is(Dot)) {
 			var dot:TokenTree = stream.consumeTokenDef(Dot);
 			parent.addChild(dot);

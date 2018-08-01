@@ -207,9 +207,7 @@ class TokenStream {
 				return consumeOpShr(tok);
 			case Binop(OpAssign):
 				var assignTok:TokenTree = consumeTokenDef(Binop(OpAssign));
-				return new TokenTree(Binop(OpGte), tok.space + assignTok.space, {
-					file: tok.pos.file, min: tok.pos.min, max: assignTok.pos.max
-				}, tok.index);
+				return new TokenTree(Binop(OpGte), tok.space + assignTok.space, {file: tok.pos.file, min: tok.pos.min, max: assignTok.pos.max}, tok.index);
 			default:
 				return tok;
 		}
@@ -223,21 +221,21 @@ class TokenStream {
 				if (is(Binop(OpAssign))) {
 					var assignTok:TokenTree = consumeTokenDef(Binop(OpAssign));
 					return new TokenTree(Binop(OpAssignOp(OpUShr)), assignTok.space, {
-						file: parent.pos.file, min: parent.pos.min, max: assignTok.pos.max
+						file: parent.pos.file,
+						min: parent.pos.min,
+						max: assignTok.pos.max
 					}, parent.index);
 				}
-				return new TokenTree(Binop(OpUShr), innerGt.space, {
-					file: parent.pos.file, min: parent.pos.min, max: innerGt.pos.max
-				}, parent.index);
+				return new TokenTree(Binop(OpUShr), innerGt.space, {file: parent.pos.file, min: parent.pos.min, max: innerGt.pos.max}, parent.index);
 			case Binop(OpAssign):
 				var assignTok:TokenTree = consumeTokenDef(Binop(OpAssign));
 				return new TokenTree(Binop(OpAssignOp(OpShr)), assignTok.space, {
-					file: parent.pos.file, min: parent.pos.min, max: assignTok.pos.max
+					file: parent.pos.file,
+					min: parent.pos.min,
+					max: assignTok.pos.max
 				}, parent.index);
 			default:
-				return new TokenTree(Binop(OpShr), tok.space, {
-					file: parent.pos.file, min: parent.pos.min, max: tok.pos.max
-				}, parent.index);
+				return new TokenTree(Binop(OpShr), tok.space, {file: parent.pos.file, min: parent.pos.min, max: tok.pos.max}, parent.index);
 		}
 	}
 
@@ -266,14 +264,10 @@ class TokenStream {
 		switch (token()) {
 			case Const(CInt(n)):
 				var const:TokenTree = consumeConst();
-				return new TokenTree(Const(CInt('-$n')), const.space, {
-					file: tok.pos.file, min: tok.pos.min, max: const.pos.max
-				}, tok.index);
+				return new TokenTree(Const(CInt('-$n')), const.space, {file: tok.pos.file, min: tok.pos.min, max: const.pos.max}, tok.index);
 			case Const(CFloat(n)):
 				var const:TokenTree = consumeConst();
-				return new TokenTree(Const(CFloat('-$n')), const.space, {
-					file: tok.pos.file, min: tok.pos.min, max: const.pos.max
-				}, tok.index);
+				return new TokenTree(Const(CFloat('-$n')), const.space, {file: tok.pos.file, min: tok.pos.min, max: const.pos.max}, tok.index);
 			default:
 				throw NO_MORE_TOKENS;
 		}
