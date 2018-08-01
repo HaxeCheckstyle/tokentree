@@ -5,6 +5,7 @@ class WalkQuestion {
 		var ternary:Bool = isTernary(parent);
 		var question:TokenTree = stream.consumeTokenDef(Question);
 		parent.addChild(question);
+		WalkComment.walkComment(stream, question);
 		if (!ternary) {
 			WalkStatement.walkStatement(stream, question);
 			return;
