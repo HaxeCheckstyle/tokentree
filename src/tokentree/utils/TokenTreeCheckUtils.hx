@@ -310,6 +310,10 @@ class TokenTreeCheckUtils {
 				return OBJECTDECL;
 			case Kwd(KwdReturn):
 				return determinBrChildren(token);
+			case Question:
+				if (isTernary(token.parent)) {
+					return OBJECTDECL;
+				}
 			case DblDot:
 				if (isTernary(token.parent)) {
 					return OBJECTDECL;
