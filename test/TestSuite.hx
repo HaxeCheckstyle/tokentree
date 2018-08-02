@@ -1,3 +1,4 @@
+import tokentree.utils.FieldUtilsTest;
 import tokentree.utils.TokenTreeCheckUtilsTest;
 import tokentree.TokenTreeBuilderTest;
 import tokentree.TokenTreeBuilderParsingTest;
@@ -10,6 +11,7 @@ class TestSuite extends massive.munit.TestSuite {
 	public function new() {
 		super();
 
+		add(FieldUtilsTest);
 		add(TokenTreeCheckUtilsTest);
 		add(TokenTreeBuilderTest);
 		add(TokenTreeBuilderParsingTest);
