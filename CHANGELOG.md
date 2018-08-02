@@ -9,6 +9,7 @@
 - Fixed `isTernary` [#80](https://github.com/HaxeCheckstyle/tokentree/issues/80)
 - Fixed `getArrowType` [#80](https://github.com/HaxeCheckstyle/tokentree/issues/80)
 - Fixed comment detection in type hints [#82](https://github.com/HaxeCheckstyle/tokentree/issues/82)
+- Fixed property handling in `getFieldType` [#84](https://github.com/HaxeCheckstyle/tokentree/issues/84)
 
 ## version 1.0.7 (2018-07-26)
 

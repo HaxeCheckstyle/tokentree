@@ -94,7 +94,7 @@ class FieldUtils {
 		}
 		var getterAccess:TokenPropertyAccess = makePropertyAccess(access.firstChild().token);
 		var setterAccess:TokenPropertyAccess = makePropertyAccess(access.child(1).token);
-		return PROP(name, visibility, isExtern, getterAccess, setterAccess);
+		return PROP(name, visibility, isStatic, getterAccess, setterAccess);
 	}
 
 	static function makePropertyAccess(accessToken:TokenTree):TokenPropertyAccess {
