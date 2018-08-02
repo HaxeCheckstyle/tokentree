@@ -12,8 +12,7 @@ class FieldUtilsTest {
 		var root:TokenTree = assertCodeParses(FieldUtilsTests.PROPERTIES);
 		var allBr:Array<TokenTree> = root.filter([BrOpen], ALL);
 		Assert.areEqual(1, allBr.length);
-		Assert.areEqual(2, allBr.children.length);
-
+		Assert.areEqual(3, allBr[0].children.length);
 		checkFieldType(VAR("_haxelibRepo", PRIVATE, true, false, false, false), FieldUtils.getFieldType(allBr[0].children[0], PRIVATE));
 		checkFieldType(PROP("haxelibRepo", PRIVATE, true, GET, NEVER), FieldUtils.getFieldType(allBr[0].children[1], PRIVATE));
 	}
