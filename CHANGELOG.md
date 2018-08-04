@@ -7,7 +7,7 @@
 - Fixed using multiple metadata with popen [#76](https://github.com/HaxeCheckstyle/tokentree/issues/76)
 - Fixed support for @new [#78](https://github.com/HaxeCheckstyle/tokentree/issues/78)
 - Fixed `isTernary` [#80](https://github.com/HaxeCheckstyle/tokentree/issues/80)
-- Fixed `getArrowType` [#80](https://github.com/HaxeCheckstyle/tokentree/issues/80)
+- Fixed `getArrowType` [#80](https://github.com/HaxeCheckstyle/tokentree/issues/80) +  [#85](https://github.com/HaxeCheckstyle/tokentree/issues/85)
 - Fixed comment detection in type hints [#82](https://github.com/HaxeCheckstyle/tokentree/issues/82)
 - Fixed property handling in `getFieldType` [#84](https://github.com/HaxeCheckstyle/tokentree/issues/84)
 
