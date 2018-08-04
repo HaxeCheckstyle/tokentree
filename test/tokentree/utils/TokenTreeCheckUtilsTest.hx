@@ -172,6 +172,7 @@ abstract TokenTreeCheckUtilsTests(String) to String {
 			var f = (arg1:Int, arg2:String) -> {};
 			fields.map(field -> field.type);
 			protocol.logError = message -> protocol.sendNotification(Methods.LogMessage, {type: Warning, message: message});
+			protocol.logError = message -> protocol.sendNotification();
 		}
 	}
 	";

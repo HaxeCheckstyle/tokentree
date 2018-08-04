@@ -506,10 +506,7 @@ class TokenTreeCheckUtils {
 	}
 
 	static function checkArrowPOpen(token:TokenTree):ArrowType {
-		if (token.children == null) {
-			return null;
-		}
-		if (token.children.length <= 1) {
+		if ((token.children == null) || (token.children.length <= 1)) {
 			return null;
 		}
 		if (token.parent.isCIdent()) {
