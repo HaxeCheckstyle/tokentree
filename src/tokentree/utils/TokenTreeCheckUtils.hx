@@ -465,7 +465,12 @@ class TokenTreeCheckUtils {
 		if (resultType != null) {
 			return resultType;
 		}
-		child = parent.getFirstChild();
+		return checkArrowChildren(parent);
+	}
+
+	static function checkArrowChildren(parent:TokenTree):ArrowType {
+		var child:TokenTree = parent.getFirstChild();
+
 		if (child == null) {
 			return ARROW_FUNCTION;
 		}
@@ -474,9 +479,18 @@ class TokenTreeCheckUtils {
 			switch (child.tok) {
 				case Arrow:
 					seenArrow = true;
-				case Const(CIdent(_)), Kwd(KwdMacro):
+				case Const(CIdent(_)):
+				case Kwd(_):
+					return ARROW_FUNCTION;
 				case Dot, Semicolon:
-				case Binop(OpLt), POpen:
+				case Binop(OpLt):
+					child = child.nextSibling;
+					continue;
+				case POpen:
+					var result:ArrowType = checkArrowPOpen(child);
+					if (result != null) {
+						return result;
+					}
 					child = child.nextSibling;
 					continue;
 				case PClose:
@@ -489,6 +503,23 @@ class TokenTreeCheckUtils {
 			return FUNCTION_TYPE_HAXE3;
 		}
 		return FUNCTION_TYPE_HAXE4;
+	}
+
+	static function checkArrowPOpen(token:TokenTree):ArrowType {
+		if (token.children == null) {
+			return null;
+		}
+		if (token.children.length <= 1) {
+			return null;
+		}
+		if (token.parent.isCIdent()) {
+			return ARROW_FUNCTION;
+		}
+		var childArrows:Array<TokenTree> = token.filter([Arrow], ALL);
+		if (childArrows.length <= 0) {
+			return ARROW_FUNCTION;
+		}
+		return FUNCTION_TYPE_HAXE3;
 	}
 
 	static function checkArrowParent(parent:TokenTree):ArrowType {
