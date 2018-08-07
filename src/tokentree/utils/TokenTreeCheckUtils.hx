@@ -391,17 +391,17 @@ class TokenTreeCheckUtils {
 					onlyComment = false;
 				case Comment(_), CommentLine(_):
 				case BrClose:
+					if (onlyComment) {
+						switch (token.parent.tok) {
+							case Kwd(_):
+								return BLOCK;
+							default:
+								return OBJECTDECL;
+						}
+					}
 					return OBJECTDECL;
 				default:
 					return BLOCK;
-			}
-		}
-		if (onlyComment) {
-			switch (token.parent.tok) {
-				case Kwd(_):
-					return BLOCK;
-				default:
-					return OBJECTDECL;
 			}
 		}
 		return OBJECTDECL;
