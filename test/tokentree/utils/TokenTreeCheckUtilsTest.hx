@@ -21,7 +21,7 @@ class TokenTreeCheckUtilsTest {
 	public function testMixedBrOpenTypes() {
 		var root:TokenTree = assertCodeParses(TokenTreeCheckUtilsTests.MIXED_BR_OPEN_TYPES);
 		var allBr:Array<TokenTree> = root.filter([BrOpen], ALL);
-		Assert.areEqual(15, allBr.length);
+		Assert.areEqual(16, allBr.length);
 		Assert.areEqual(BrOpenType.BLOCK, TokenTreeCheckUtils.getBrOpenType(allBr[0]));
 		Assert.areEqual(BrOpenType.ANONTYPE, TokenTreeCheckUtils.getBrOpenType(allBr[1]));
 		Assert.areEqual(BrOpenType.ANONTYPE, TokenTreeCheckUtils.getBrOpenType(allBr[2]));
@@ -37,6 +37,7 @@ class TokenTreeCheckUtilsTest {
 		Assert.areEqual(BrOpenType.OBJECTDECL, TokenTreeCheckUtils.getBrOpenType(allBr[12]));
 		Assert.areEqual(BrOpenType.OBJECTDECL, TokenTreeCheckUtils.getBrOpenType(allBr[13]));
 		Assert.areEqual(BrOpenType.OBJECTDECL, TokenTreeCheckUtils.getBrOpenType(allBr[14]));
+		Assert.areEqual(BrOpenType.BLOCK, TokenTreeCheckUtils.getBrOpenType(allBr[15]));
 	}
 
 	@Test
@@ -151,6 +152,7 @@ abstract TokenTreeCheckUtilsTests(String) to String {
 					if (key.code == DKUnusedImport)
 						{range: patchRange(doc, key.range), newText: ''}
 			];
+			if (is('')) {}
 		}
 	}
 	";

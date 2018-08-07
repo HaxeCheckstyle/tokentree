@@ -366,19 +366,42 @@ class TokenTreeCheckUtils {
 
 	static function determinBrChildren(token:TokenTree):BrOpenType {
 		if ((token.children == null) || (token.children.length <= 0)) {
-			return OBJECTDECL;
+			switch (token.parent.tok) {
+				case Kwd(_):
+					return BLOCK;
+				default:
+					return OBJECTDECL;
+			}
 		}
+		if ((token.children.length == 1)) {
+			switch (token.parent.tok) {
+				case Kwd(_):
+					return BLOCK;
+				default:
+					return OBJECTDECL;
+			}
+		}
+		var onlyComment:Bool = true;
 		for (child in token.children) {
 			switch (child.tok) {
 				case Const(CIdent(_)), Const(CString(_)):
 					if (!child.access().firstChild().is(DblDot).exists()) {
 						return BLOCK;
 					}
+					onlyComment = false;
 				case Comment(_), CommentLine(_):
 				case BrClose:
 					return OBJECTDECL;
 				default:
 					return BLOCK;
+			}
+		}
+		if (onlyComment) {
+			switch (token.parent.tok) {
+				case Kwd(_):
+					return BLOCK;
+				default:
+					return OBJECTDECL;
 			}
 		}
 		return OBJECTDECL;
