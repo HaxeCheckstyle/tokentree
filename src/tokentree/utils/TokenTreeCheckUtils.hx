@@ -361,7 +361,7 @@ class TokenTreeCheckUtils {
 				return OBJECTDECL;
 			default:
 		}
-		return BLOCK;
+		return determinBrChildren(token);
 	}
 
 	static function determinBrChildren(token:TokenTree):BrOpenType {
