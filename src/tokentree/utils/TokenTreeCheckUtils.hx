@@ -359,6 +359,10 @@ class TokenTreeCheckUtils {
 				}
 			case BkOpen:
 				return OBJECTDECL;
+			case Const(CIdent("from")), Const(CIdent("to")):
+				return ANONTYPE;
+			case Const(_):
+				return BLOCK;
 			default:
 		}
 		return determinBrChildren(token);
@@ -433,6 +437,9 @@ class TokenTreeCheckUtils {
 					return CALL;
 				}
 				if (parent.parent.is(Kwd(KwdFunction))) {
+					return PARAMETER;
+				}
+				if (parent.parent.is(Kwd(KwdAbstract))) {
 					return PARAMETER;
 				}
 				return CALL;
