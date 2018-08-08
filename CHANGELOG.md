@@ -10,6 +10,7 @@
 - Fixed `getArrowType` [#80](https://github.com/HaxeCheckstyle/tokentree/issues/80) + [#85](https://github.com/HaxeCheckstyle/tokentree/issues/85)
 - Fixed comment detection in type hints [#82](https://github.com/HaxeCheckstyle/tokentree/issues/82)
 - Fixed property handling in `getFieldType` [#84](https://github.com/HaxeCheckstyle/tokentree/issues/84)
+- Fixed `getPOpenType` [#88](https://github.com/HaxeCheckstyle/tokentree/issues/88)
 
 ## version 1.0.7 (2018-07-26)
 
