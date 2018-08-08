@@ -5,25 +5,7 @@ class WalkTypedefBody {
 		if (stream.is(BrOpen)) {
 			var openTok:TokenTree = stream.consumeTokenDef(BrOpen);
 			parent.addChild(openTok);
-			var progress:TokenStreamProgress = new TokenStreamProgress(stream);
-			while (progress.streamHasChanged()) {
-				switch (stream.token()) {
-					case BrClose:
-						break;
-					case Binop(OpGt):
-						walkStructureExtension(stream, openTok);
-						continue;
-					case Comment(_), CommentLine(_):
-						WalkComment.walkComment(stream, openTok);
-					case Kwd(KwdFunction):
-						WalkFunction.walkFunction(stream, openTok);
-					default:
-						WalkFieldDef.walkFieldDef(stream, openTok);
-				}
-				WalkComment.walkComment(stream, openTok);
-				if (stream.is(BrClose)) break;
-				WalkFieldDef.walkFieldDef(stream, openTok);
-			}
+			walkTypedefCurlyBody(stream, openTok);
 			openTok.addChild(stream.consumeTokenDef(BrClose));
 		}
 		else walkTypedefAlias(stream, parent);
@@ -31,6 +13,46 @@ class WalkTypedefBody {
 			var and:TokenTree = stream.consumeTokenDef(Binop(OpAnd));
 			parent.getLastChild().addChild(and);
 			walkTypedefBody(stream, and);
+		}
+	}
+
+
+	public static function walkTypedefCurlyBody(stream:TokenStream, openTok:TokenTree) {
+		var progress:TokenStreamProgress = new TokenStreamProgress(stream);
+		while (progress.streamHasChanged()) {
+			switch (stream.token()) {
+				case At:
+					stream.addToTempStore(WalkAt.walkAt(stream));
+				case BrClose:
+					break;
+				case Sharp(_):
+					WalkSharp.walkSharp(stream, openTok, WalkTypedefBody.walkTypedefCurlyBody);
+				case Binop(OpGt):
+					walkStructureExtension(stream, openTok);
+				case Comment(_), CommentLine(_):
+					WalkComment.walkComment(stream, openTok);
+				case Kwd(KwdFunction):
+					WalkFunction.walkFunction(stream, openTok);
+				case Kwd(KwdPublic), Kwd(KwdPrivate), Kwd(KwdStatic), Kwd(KwdInline), Kwd(KwdMacro), Kwd(KwdOverride), Kwd(KwdDynamic), Kwd(KwdExtern):
+					stream.consumeToTempStore();
+				case Const(CIdent("final")):
+					WalkFinal.walkFinal(stream, openTok);
+				#if (haxe_ver >= 4.0)
+				case Kwd(KwdFinal):
+					WalkFinal.walkFinal(stream, openTok);
+				#end
+				default:
+					WalkFieldDef.walkFieldDef(stream, openTok);
+			}
+		}
+		var tempStore:Array<TokenTree> = stream.getTempStore();
+		if (tempStore.length > 0) {
+			switch (TokenStream.MODE) {
+				case RELAXED:
+					stream.applyTempStore(openTok);
+				case STRICT:
+					throw "invalid token tree structure - found:" + '$tempStore';
+			}
 		}
 	}
 

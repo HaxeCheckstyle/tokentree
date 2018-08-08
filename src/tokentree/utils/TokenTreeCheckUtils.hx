@@ -122,6 +122,14 @@ class TokenTreeCheckUtils {
 				return false;
 			case Binop(_):
 				return true;
+			case Kwd(KwdVar), Kwd(KwdFunction):
+				return false;
+			case Const(CIdent("final")):
+				return false;
+			#if (haxe_ver >= 4.0)
+			case Kwd(KwdFinal):
+				return false;
+			#end
 			default:
 				return true;
 		}

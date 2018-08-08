@@ -6,11 +6,12 @@
 - Fixed `getBrOpenType` detection of blocks [#75](https://github.com/HaxeCheckstyle/tokentree/issues/75) + [#77](https://github.com/HaxeCheckstyle/tokentree/issues/77) + [#79](https://github.com/HaxeCheckstyle/tokentree/issues/79) + [#81](https://github.com/HaxeCheckstyle/tokentree/issues/81) + [#83](https://github.com/HaxeCheckstyle/tokentree/issues/83) + [#86](https://github.com/HaxeCheckstyle/tokentree/issues/86) + [#87](https://github.com/HaxeCheckstyle/tokentree/issues/87) + [#88](https://github.com/HaxeCheckstyle/tokentree/issues/88)
 - Fixed using multiple metadata with popen [#76](https://github.com/HaxeCheckstyle/tokentree/issues/76)
 - Fixed support for @new [#78](https://github.com/HaxeCheckstyle/tokentree/issues/78)
-- Fixed `isTernary` [#80](https://github.com/HaxeCheckstyle/tokentree/issues/80)
+- Fixed `isTernary` [#80](https://github.com/HaxeCheckstyle/tokentree/issues/80) + [#89](https://github.com/HaxeCheckstyle/tokentree/issues/89)
 - Fixed `getArrowType` [#80](https://github.com/HaxeCheckstyle/tokentree/issues/80) + [#85](https://github.com/HaxeCheckstyle/tokentree/issues/85)
 - Fixed comment detection in type hints [#82](https://github.com/HaxeCheckstyle/tokentree/issues/82)
 - Fixed property handling in `getFieldType` [#84](https://github.com/HaxeCheckstyle/tokentree/issues/84)
 - Fixed `getPOpenType` [#88](https://github.com/HaxeCheckstyle/tokentree/issues/88)
+- Fixed handling of typedef fields (@:overload, etc.) [#89](https://github.com/HaxeCheckstyle/tokentree/issues/89)
 
 ## version 1.0.7 (2018-07-26)
 

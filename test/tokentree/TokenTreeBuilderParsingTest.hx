@@ -62,6 +62,7 @@ class TokenTreeBuilderParsingTest {
 		assertCodeParses(PROPS_AND_VARS);
 		assertCodeParses(MULTIPLE_METADATA);
 		assertCodeParses(A_LOT_OF_COMMENTS);
+		assertCodeParses(TYPEDEF_OVERLOAD);
 	}
 
 	public function assertCodeParses(code:String, ?pos:PosInfos) {
@@ -783,6 +784,32 @@ abstract TokenTreeBuilderParsingTests(String) to String {
 		/**/ @:const value2:T2 = SomeClass.Constant,
 		value2:/**/{ /**/ ?foo /**/ : /**/ Dynamic /**/ <String> /**/ }):Void
 	{
+	}
+	";
+
+	var TYPEDEF_OVERLOAD = "
+	typedef TextDocument = {
+		@:overload(function(position:Position):TextLine {})
+		function lineAt(line:Int):TextLine;
+
+		@:overload(function(position:Position):TextLine {})
+		@:overload(function(position:Pos):TextLine {})
+		function lineAt(line:Int):TextLine;
+	}
+
+	typedef Test4 = {
+		@SuppressWarnings('checkstyle:LocalVariableName')
+		public function test() {
+			var Count1:Int;
+		};
+	}
+
+	typedef HaxeMethodResult = {
+		final ?additionalTimes:{
+			final arrival:Float;
+			final beforeProcessing:Float;
+			final afterProcessing:Float;
+		}
 	}
 	";
 }
