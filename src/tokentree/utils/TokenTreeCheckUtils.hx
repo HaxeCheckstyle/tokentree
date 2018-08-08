@@ -439,6 +439,9 @@ class TokenTreeCheckUtils {
 				if (parent.parent.is(Kwd(KwdFunction))) {
 					return PARAMETER;
 				}
+				if (parent.parent.is(Kwd(KwdAbstract))) {
+					return PARAMETER;
+				}
 				return CALL;
 			default:
 		}
