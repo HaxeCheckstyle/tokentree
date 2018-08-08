@@ -12,6 +12,12 @@ class WalkFinal {
 				case Const(CIdent(_)):
 					name = stream.consumeToken();
 					break;
+				case Question:
+					var nameParent:TokenTree = stream.consumeToken();
+					name = stream.consumeConstIdent();
+					nameParent.addChild(name);
+					name = nameParent;
+					break;
 				case Kwd(KwdPublic), Kwd(KwdPrivate), Kwd(KwdStatic), Kwd(KwdInline), Kwd(KwdMacro), Kwd(KwdOverride), Kwd(KwdDynamic), Kwd(KwdExtern):
 					stream.consumeToTempStore();
 				case Comment(_), CommentLine(_):

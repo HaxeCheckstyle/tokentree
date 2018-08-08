@@ -11,6 +11,7 @@
 - Fixed comment detection in type hints [#82](https://github.com/HaxeCheckstyle/tokentree/issues/82)
 - Fixed property handling in `getFieldType` [#84](https://github.com/HaxeCheckstyle/tokentree/issues/84)
 - Fixed `getPOpenType` [#88](https://github.com/HaxeCheckstyle/tokentree/issues/88)
+- Fixed handling of typedef fields (@:overload, etc.)
 
 ## version 1.0.7 (2018-07-26)
 
