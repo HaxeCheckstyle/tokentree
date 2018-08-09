@@ -63,6 +63,7 @@ class TokenTreeBuilderParsingTest {
 		assertCodeParses(MULTIPLE_METADATA);
 		assertCodeParses(A_LOT_OF_COMMENTS);
 		assertCodeParses(TYPEDEF_OVERLOAD);
+		assertCodeParses(TERNARY_PARSING);
 	}
 
 	public function assertCodeParses(code:String, ?pos:PosInfos) {
@@ -809,6 +810,25 @@ abstract TokenTreeBuilderParsingTests(String) to String {
 			final arrival:Float;
 			final beforeProcessing:Float;
 			final afterProcessing:Float;
+		}
+	}
+	";
+
+	var TERNARY_PARSING = "
+	class Main {
+		function __dispatchEvent(event:Event):Bool {
+			var parent = event.bubbles ? this.parent : null;
+			var result = super.__dispatchEvent(event);
+			return result;
+		}
+	}
+
+	class FlxSimplex
+	{
+		static inline function getCornerNoise(a:Int):Float
+		{
+			y = b3 == 1 ? b0 == 1 ? -y : y : b2 == 0 ? b1 == 1 ? -y : y : 0;
+			return t * t * (x + y);
 		}
 	}
 	";
