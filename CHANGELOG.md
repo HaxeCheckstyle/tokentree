@@ -12,7 +12,7 @@
 - Fixed property handling in `getFieldType` [#84](https://github.com/HaxeCheckstyle/tokentree/issues/84)
 - Fixed `getPOpenType` [#88](https://github.com/HaxeCheckstyle/tokentree/issues/88)
 - Fixed handling of typedef fields (@:overload, etc.) [#89](https://github.com/HaxeCheckstyle/tokentree/issues/89)
-- Fixed ternary parsing
+- Fixed ternary parsing [#90](https://github.com/HaxeCheckstyle/tokentree/issues/90)
 
 ## version 1.0.7 (2018-07-26)
 
