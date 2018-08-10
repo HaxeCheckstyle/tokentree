@@ -441,16 +441,20 @@ class TokenTreeCheckUtils {
 			case Kwd(KwdFunction):
 				return PARAMETER;
 			case Const(CIdent(_)):
-				if (parent.parent == null) {
+				if ((parent.parent == null) || (parent.parent.tok == null)){
 					return CALL;
 				}
-				if (parent.parent.is(Kwd(KwdFunction))) {
-					return PARAMETER;
+				switch (parent.parent.tok) {
+					case Kwd(KwdFunction):
+						if (parent.previousSibling == null) {
+							return PARAMETER;
+						}
+						return CALL;
+					case Kwd(KwdAbstract):
+						return PARAMETER;
+					default:
+						return CALL;
 				}
-				if (parent.parent.is(Kwd(KwdAbstract))) {
-					return PARAMETER;
-				}
-				return CALL;
 			default:
 		}
 		return EXPRESSION;
