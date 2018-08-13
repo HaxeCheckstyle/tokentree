@@ -65,6 +65,7 @@ class TokenTreeBuilderParsingTest {
 		assertCodeParses(TYPEDEF_OVERLOAD);
 		assertCodeParses(TERNARY_PARSING);
 		assertCodeParses(SWITCH_CONDITIONAL);
+		assertCodeParses(IMPLEMENTS_EXTENDS);
 	}
 
 	public function assertCodeParses(code:String, ?pos:PosInfos) {
@@ -885,6 +886,24 @@ abstract TokenTreeBuilderParsingTests(String) to String {
 					Sys.println(' errored');
 			}
 		}
+	}
+	";
+
+	var IMPLEMENTS_EXTENDS = "
+	class Server implements ISocket extends BaseHandler
+	{
+	}
+
+	class Server extends BaseHandler implements ISocket
+	{
+	}
+
+	interface Server implements ISocket extends IBaseHandler
+	{
+	}
+
+	interface Server extends IBaseHandler implements ISocket
+	{
 	}
 	";
 }

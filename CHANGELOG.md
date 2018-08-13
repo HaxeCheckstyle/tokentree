@@ -1,5 +1,7 @@
 ## dev branch / next version (1.x.x)
 
+- Fixed implements / extends handling
+
 ## version 1.0.9 (2018-08-13)
 
 - Fixed endless loop with case and conditionals [#93](https://github.com/HaxeCheckstyle/tokentree/issues/93)

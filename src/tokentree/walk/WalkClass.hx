@@ -24,11 +24,13 @@ class WalkClass {
 	}
 
 	public static function walkClassExtends(stream:TokenStream, name:TokenTree) {
-		WalkExtends.walkExtends(stream, name);
-		if (stream.isSharp()) WalkSharp.walkSharp(stream, name, WalkClass.walkClassExtends);
-		WalkImplements.walkImplements(stream, name);
-		if (stream.isSharp()) WalkSharp.walkSharp(stream, name, WalkClass.walkClassExtends);
-		WalkComment.walkComment(stream, name);
+		var progress:TokenStreamProgress = new TokenStreamProgress(stream);
+		while (progress.streamHasChanged()) {
+			WalkExtends.walkExtends(stream, name);
+			WalkImplements.walkImplements(stream, name);
+			if (stream.isSharp()) WalkSharp.walkSharp(stream, name, WalkClass.walkClassExtends);
+			WalkComment.walkComment(stream, name);
+		}
 	}
 
 	public static function walkClassBody(stream:TokenStream, parent:TokenTree) {
