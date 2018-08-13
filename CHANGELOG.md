@@ -1,6 +1,7 @@
 ## dev branch / next version (1.x.x)
 
 - Fixed implements / extends handling
+- Fixed endless loop with macro patterns
 
 ## version 1.0.9 (2018-08-13)
 

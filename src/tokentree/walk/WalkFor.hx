@@ -52,22 +52,33 @@ class WalkFor {
 	 */
 	static function walkForPOpen(stream:TokenStream, parent:TokenTree) {
 		var pOpen:TokenTree = stream.consumeTokenDef(POpen);
-		WalkComment.walkComment(stream, pOpen);
-		var identifier:TokenTree = stream.consumeConstIdent();
 		parent.addChild(pOpen);
-		pOpen.addChild(identifier);
-		WalkComment.walkComment(stream, identifier);
-		#if (haxe_ver < 4.0)
-		var inTok:TokenTree = stream.consumeTokenDef(Kwd(KwdIn));
-		#else
-		var inTok:TokenTree = stream.consumeTokenDef(Binop(OpIn));
-		#end
-		identifier.addChild(inTok);
-		WalkComment.walkComment(stream, inTok);
-		WalkStatement.walkStatement(stream, inTok);
 		WalkComment.walkComment(stream, pOpen);
-		pOpen.addChild(stream.consumeTokenDef(PClose));
-		WalkComment.walkComment(stream, parent);
-		return;
+		var identifier:TokenTree = null;
+		switch (stream.token()) {
+			case Dollar(_):
+				WalkStatement.walkStatement(stream, pOpen);
+				identifier = pOpen.getLastChild();
+			default:
+				identifier = stream.consumeConstIdent();
+				pOpen.addChild(identifier);
+		}
+		WalkComment.walkComment(stream, identifier);
+		var inTok:TokenTree = null;
+		switch (stream.token()) {
+			case #if (haxe_ver < 4.0) Kwd(KwdIn) #else Binop(OpIn) #end:
+				inTok = stream.consumeToken();
+				identifier.addChild(inTok);
+				WalkComment.walkComment(stream, inTok);
+				WalkStatement.walkStatement(stream, inTok);
+				WalkComment.walkComment(stream, pOpen);
+				pOpen.addChild(stream.consumeTokenDef(PClose));
+				WalkComment.walkComment(stream, parent);
+			case PClose:
+				pOpen.addChild(stream.consumeTokenDef(PClose));
+				WalkComment.walkComment(stream, parent);
+				return;
+			default:
+		}
 	}
 }

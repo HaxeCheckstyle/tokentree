@@ -66,6 +66,7 @@ class TokenTreeBuilderParsingTest {
 		assertCodeParses(TERNARY_PARSING);
 		assertCodeParses(SWITCH_CONDITIONAL);
 		assertCodeParses(IMPLEMENTS_EXTENDS);
+		assertCodeParses(MACRO_PATTERNS);
 	}
 
 	public function assertCodeParses(code:String, ?pos:PosInfos) {
@@ -904,6 +905,19 @@ abstract TokenTreeBuilderParsingTests(String) to String {
 
 	interface Server extends IBaseHandler implements ISocket
 	{
+	}
+	";
+
+	var MACRO_PATTERNS = "
+	class ExtendedLoops {
+		static public function apply(e:Expr)
+			return switch e {
+				case macro for ($i{_} in $_)
+					$_: e;
+				case macro for ($head)
+					$body: e;
+				default: e;
+			}
 	}
 	";
 }
