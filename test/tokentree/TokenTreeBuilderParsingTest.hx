@@ -855,6 +855,17 @@ abstract TokenTreeBuilderParsingTests(String) to String {
 					Sys.println(' errored');
 			}
 		}
+		public static function main() {
+			#if neko
+				switch (Sys.command ('neko', ['tests.n', name, field.name])) {
+			#elseif cpp
+				switch (Sys.command ('./bin/FunctionalTest', [name, field.name])) {
+			#end
+				default:
+					passed++;
+					Sys.println (' succedded');
+			}
+		}
 	}
 	";
 }
