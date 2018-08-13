@@ -28,10 +28,17 @@ class WalkSwitch {
 		WalkComment.walkComment(stream, switchTok);
 		WalkStatement.walkStatement(stream, switchTok);
 		WalkComment.walkComment(stream, switchTok);
-		var brOpen:TokenTree = stream.consumeTokenDef(BrOpen);
-		switchTok.addChild(brOpen);
-		WalkSwitch.walkSwitchCases(stream, brOpen);
-		brOpen.addChild(stream.consumeTokenDef(BrClose));
+		switch (stream.token()) {
+			case Sharp(_):
+				WalkSharp.walkSharp(stream, parent, WalkSwitch.walkSwitchCases);
+			default:
+		}
+		if (stream.is(BrOpen)) {
+			var brOpen:TokenTree = stream.consumeTokenDef(BrOpen);
+			switchTok.addChild(brOpen);
+			WalkSwitch.walkSwitchCases(stream, brOpen);
+			brOpen.addChild(stream.consumeTokenDef(BrClose));
+		}
 	}
 
 	public static function walkSwitchCases(stream:TokenStream, parent:TokenTree) {
