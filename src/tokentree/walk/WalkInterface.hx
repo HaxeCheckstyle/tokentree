@@ -8,8 +8,11 @@ class WalkInterface {
 		var name:TokenTree = WalkTypeNameDef.walkTypeNameDef(stream, typeTok);
 		// add all comments, annotations
 		stream.applyTempStore(name);
-		WalkExtends.walkExtends(stream, name);
-		WalkImplements.walkImplements(stream, name);
+		var progress:TokenStreamProgress = new TokenStreamProgress(stream);
+		while (progress.streamHasChanged()) {
+			WalkExtends.walkExtends(stream, name);
+			WalkImplements.walkImplements(stream, name);
+		}
 		var block:TokenTree = stream.consumeTokenDef(BrOpen);
 		name.addChild(block);
 		WalkInterface.walkInterfaceBody(stream, block);

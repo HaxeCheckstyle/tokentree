@@ -65,6 +65,9 @@ class TokenTreeBuilderParsingTest {
 		assertCodeParses(TYPEDEF_OVERLOAD);
 		assertCodeParses(TERNARY_PARSING);
 		assertCodeParses(SWITCH_CONDITIONAL);
+		assertCodeParses(IMPLEMENTS_EXTENDS);
+		assertCodeParses(MACRO_PATTERNS);
+		assertCodeParses(MACRO_CLASS_NAME);
 	}
 
 	public function assertCodeParses(code:String, ?pos:PosInfos) {
@@ -883,6 +886,48 @@ abstract TokenTreeBuilderParsingTests(String) to String {
 					Sys.println(' failed');
 				case _:
 					Sys.println(' errored');
+			}
+		}
+	}
+	";
+
+	var IMPLEMENTS_EXTENDS = "
+	class Server implements ISocket extends BaseHandler
+	{
+	}
+
+	class Server extends BaseHandler implements ISocket
+	{
+	}
+
+	interface Server implements ISocket extends IBaseHandler
+	{
+	}
+
+	interface Server extends IBaseHandler implements ISocket
+	{
+	}
+	";
+
+	var MACRO_PATTERNS = "
+	class ExtendedLoops {
+		static public function apply(e:Expr)
+			return switch e {
+				case macro for ($i{_} in $_)
+					$_: e;
+				case macro for ($head)
+					$body: e;
+				default: e;
+			}
+	}
+	";
+
+	var MACRO_CLASS_NAME = "
+	class Main {
+		public static function main() {
+			var name = 'Foo';
+			var cl = macro class $name {
+				public function new() {}
 			}
 		}
 	}

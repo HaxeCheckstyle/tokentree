@@ -43,9 +43,12 @@ class WalkStatement {
 				WalkArrayAccess.walkArrayAccess(stream, parent);
 				WalkStatement.walkStatementContinue(stream, parent);
 				return;
-			case Dollar(_):
+			case Dollar(name):
 				var dollarTok:TokenTree = stream.consumeToken();
 				parent.addChild(dollarTok);
+				if (stream.is(DblDot)) {
+					return;
+				}
 				WalkBlock.walkBlock(stream, dollarTok);
 				return;
 			case POpen:
