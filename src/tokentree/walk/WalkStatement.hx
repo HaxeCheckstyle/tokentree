@@ -69,6 +69,7 @@ class WalkStatement {
 				return;
 			case Sharp(_):
 				WalkSharp.walkSharp(stream, parent, WalkStatement.walkStatement);
+				walkStatementContinueAfterSharp(stream, parent);
 				return;
 			case Dot, DblDot:
 				wantMore = true;
@@ -232,5 +233,17 @@ class WalkStatement {
 			parent = parent.parent;
 		}
 		return null;
+	}
+
+	static function walkStatementContinueAfterSharp(stream:TokenStream, parent:TokenTree) {
+		switch (stream.token()) {
+			case Kwd(KwdCase), Kwd(KwdDefault):
+				var lastChild:TokenTree = parent.getLastChild();
+				if (lastChild == null) {
+					lastChild = parent;
+				}
+				WalkSwitch.walkSwitchCases(stream, lastChild);
+			default:
+		}
 	}
 }

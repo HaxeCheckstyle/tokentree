@@ -64,6 +64,7 @@ class TokenTreeBuilderParsingTest {
 		assertCodeParses(A_LOT_OF_COMMENTS);
 		assertCodeParses(TYPEDEF_OVERLOAD);
 		assertCodeParses(TERNARY_PARSING);
+		assertCodeParses(SWITCH_CONDITIONAL);
 	}
 
 	public function assertCodeParses(code:String, ?pos:PosInfos) {
@@ -829,6 +830,41 @@ abstract TokenTreeBuilderParsingTests(String) to String {
 		{
 			y = b3 == 1 ? b0 == 1 ? -y : y : b2 == 0 ? b1 == 1 ? -y : y : 0;
 			return t * t * (x + y);
+		}
+	}
+	";
+
+	var SWITCH_CONDITIONAL = "
+	class Main {
+		public static function main() {
+			#if neko
+				switch (Sys.command ('neko', ['tests.n', name, field.name])) {
+			#elseif cpp
+				switch (Sys.command ('./bin/FunctionalTest', [name, field.name])) {
+			#end
+				case 0:
+					passed++;
+					Sys.println (' succedded');
+			#if neko
+				case 1:
+					Sys.println(' failed');
+			#end
+				case 1:
+					Sys.println(' failed');
+				case _:
+					Sys.println(' errored');
+			}
+		}
+		public static function main() {
+			#if neko
+				switch (Sys.command ('neko', ['tests.n', name, field.name])) {
+			#elseif cpp
+				switch (Sys.command ('./bin/FunctionalTest', [name, field.name])) {
+			#end
+				default:
+					passed++;
+					Sys.println (' succedded');
+			}
 		}
 	}
 	";

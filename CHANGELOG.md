@@ -1,5 +1,7 @@
 ## dev branch / next version (1.x.x)
 
+## version 1.0.8 (2018-08-13)
+
 - Fixed null poiner and detection in `getPOpenType` [#73](https://github.com/HaxeCheckstyle/tokentree/issues/73) + [#88](https://github.com/HaxeCheckstyle/tokentree/issues/88) +  [#91](https://github.com/HaxeCheckstyle/tokentree/issues/91)
 - Fixed property modifiers [#74](https://github.com/HaxeCheckstyle/tokentree/issues/74)
 - Fixed function type detection [#74](https://github.com/HaxeCheckstyle/tokentree/issues/74)
@@ -12,6 +14,7 @@
 - Fixed property handling in `getFieldType` [#84](https://github.com/HaxeCheckstyle/tokentree/issues/84)
 - Fixed handling of typedef fields (@:overload, etc.) [#89](https://github.com/HaxeCheckstyle/tokentree/issues/89)
 - Fixed ternary parsing [#90](https://github.com/HaxeCheckstyle/tokentree/issues/90)
+- Fixed endless loop with switch and conditionals [#92](https://github.com/HaxeCheckstyle/tokentree/issues/92)
 
 ## version 1.0.7 (2018-07-26)
 
