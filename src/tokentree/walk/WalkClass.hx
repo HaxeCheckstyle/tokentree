@@ -13,6 +13,9 @@ class WalkClass {
 				name = WalkTypeNameDef.walkTypeNameDef(stream, typeTok);
 				// add all comments, annotations
 				stream.applyTempStore(name);
+			case Dollar(_):
+				name = WalkTypeNameDef.walkTypeNameDef(stream, typeTok);
+				stream.applyTempStore(name);
 			default:
 		}
 		if (stream.isSharp()) WalkSharp.walkSharp(stream, name, WalkClass.walkClassExtends);

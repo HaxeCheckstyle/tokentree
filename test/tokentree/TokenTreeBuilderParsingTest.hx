@@ -67,6 +67,7 @@ class TokenTreeBuilderParsingTest {
 		assertCodeParses(SWITCH_CONDITIONAL);
 		assertCodeParses(IMPLEMENTS_EXTENDS);
 		assertCodeParses(MACRO_PATTERNS);
+		assertCodeParses(MACRO_CLASS_NAME);
 	}
 
 	public function assertCodeParses(code:String, ?pos:PosInfos) {
@@ -918,6 +919,17 @@ abstract TokenTreeBuilderParsingTests(String) to String {
 					$body: e;
 				default: e;
 			}
+	}
+	";
+
+	var MACRO_CLASS_NAME = "
+	class Main {
+		public static function main() {
+			var name = 'Foo';
+			var cl = macro class $name {
+				public function new() {}
+			}
+		}
 	}
 	";
 }
