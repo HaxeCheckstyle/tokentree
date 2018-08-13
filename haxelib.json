@@ -7,8 +7,8 @@
     "contributors": [
         "AlexHaxe"
     ],
-    "releasenote": "fixed POpen and BrOpen type detection, fixed endless loop with switch and conditionals - see CHANGELOG for details",
-    "version": "1.0.8",
+    "releasenote": "fixed endless loop with switch and conditionals - see CHANGELOG for details",
+    "version": "1.0.9",
     "url": "https://github.com/HaxeCheckstyle/tokentree",
     "dependencies": {}
 }
