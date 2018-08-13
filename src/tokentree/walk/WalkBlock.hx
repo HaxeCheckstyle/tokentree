@@ -41,6 +41,8 @@ class WalkBlock {
 				case BkClose, PClose:
 					var child:TokenTree = stream.consumeToken();
 					parent.addChild(child);
+				case Kwd(KwdCase), Kwd(KwdDefault):
+					WalkSwitch.walkSwitchCases(stream, parent);
 				default:
 					WalkStatement.walkStatement(stream, parent);
 			}
