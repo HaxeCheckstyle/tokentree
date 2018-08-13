@@ -12,6 +12,7 @@
 - Fixed property handling in `getFieldType` [#84](https://github.com/HaxeCheckstyle/tokentree/issues/84)
 - Fixed handling of typedef fields (@:overload, etc.) [#89](https://github.com/HaxeCheckstyle/tokentree/issues/89)
 - Fixed ternary parsing [#90](https://github.com/HaxeCheckstyle/tokentree/issues/90)
+- Fixed endless loop with switch and conditionals
 
 ## version 1.0.7 (2018-07-26)
 
