@@ -3,6 +3,7 @@
 - Fixed implements / extends handling [#94](https://github.com/HaxeCheckstyle/tokentree/issues/94)
 - Fixed endless loop with macro patterns [#94](https://github.com/HaxeCheckstyle/tokentree/issues/94)
 - Fixed macro class $name [#94](https://github.com/HaxeCheckstyle/tokentree/issues/94)
+- Fixed conditionals in new
 
 ## version 1.0.9 (2018-08-13)
 

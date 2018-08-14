@@ -15,7 +15,13 @@ class WalkNew {
 				default:
 			}
 		}
-		WalkPOpen.walkPOpen(stream, name);
+		switch (stream.token()) {
+			case POpen:
+				WalkPOpen.walkPOpen(stream, name);
+			case Sharp(_):
+				WalkSharp.walkSharp(stream, parent, WalkStatement.walkStatement);
+			default:
+		}
 		if (stream.is(Dot)) {
 			WalkStatement.walkStatement(stream, name);
 		}

@@ -68,6 +68,7 @@ class TokenTreeBuilderParsingTest {
 		assertCodeParses(IMPLEMENTS_EXTENDS);
 		assertCodeParses(MACRO_PATTERNS);
 		assertCodeParses(MACRO_CLASS_NAME);
+		assertCodeParses(CONDITIONALS_IN_NEW);
 	}
 
 	public function assertCodeParses(code:String, ?pos:PosInfos) {
@@ -929,6 +930,14 @@ abstract TokenTreeBuilderParsingTests(String) to String {
 			var cl = macro class $name {
 				public function new() {}
 			}
+		}
+	}
+	";
+
+	var CONDITIONALS_IN_NEW = "
+	class Main {
+		public static function main() {
+			var process = #if sys new sys.io.Process #elseif nodejs js.node.ChildProcess.spawn #end ('curl', []);
 		}
 	}
 	";
