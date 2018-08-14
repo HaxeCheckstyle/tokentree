@@ -489,7 +489,7 @@ class TokenTreeCheckUtils {
 		var child:TokenTree = token.getFirstChild();
 		while (child != null) {
 			switch (child.tok) {
-				case Arrow, Dot, Semicolon:
+				case Arrow, Dot, Semicolon, Question:
 				case Const(CIdent(_)), Kwd(KwdMacro):
 				case Binop(OpLt):
 					child = child.nextSibling;
@@ -537,6 +537,7 @@ class TokenTreeCheckUtils {
 					child = child.nextSibling;
 					continue;
 				case PClose:
+				case Question:
 				default:
 					return FUNCTION_TYPE_HAXE4;
 			}
