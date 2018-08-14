@@ -221,6 +221,7 @@ abstract TokenTreeCheckUtilsTests(String) to String {
 			var f:Void->Void;
 			var f:Int->String->Void;
 			var f:(Int->Int) ->Int->Int;
+			var f:Int->?Int->Void;
 		}
 	}
 	typedef ExtendedFieldsCB = Array<ObjectDeclField>->String->Position->DynamicAccess<Expr>->Void;
