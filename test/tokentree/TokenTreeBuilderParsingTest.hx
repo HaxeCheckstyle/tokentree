@@ -69,6 +69,7 @@ class TokenTreeBuilderParsingTest {
 		assertCodeParses(MACRO_PATTERNS);
 		assertCodeParses(MACRO_CLASS_NAME);
 		assertCodeParses(CONDITIONALS_IN_NEW);
+		assertCodeParses(ANON_FUNTION_IN_OBJECT_LITERAL);
 	}
 
 	public function assertCodeParses(code:String, ?pos:PosInfos) {
@@ -938,6 +939,20 @@ abstract TokenTreeBuilderParsingTests(String) to String {
 	class Main {
 		public static function main() {
 			var process = #if sys new sys.io.Process #elseif nodejs js.node.ChildProcess.spawn #end ('curl', []);
+		}
+	}
+	";
+
+	var ANON_FUNTION_IN_OBJECT_LITERAL = "
+	class Main {
+		public static function main() {
+			{
+				'outer ': {
+					foo: function() {
+						trace('bar ');
+					}
+				}
+			}
 		}
 	}
 	";
