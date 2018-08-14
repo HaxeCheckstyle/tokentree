@@ -41,6 +41,15 @@ class TokenTree extends Token {
 		}
 	}
 
+	public function isCIdentOrCString():Bool {
+		if (tok == null) return false;
+		return switch (tok) {
+			case Const(CIdent(_)): true;
+			case Const(CString(_)): true;
+			default: false;
+		}
+	}
+
 	public function addChild(child:TokenTree) {
 		if (children == null) children = [];
 		if (children.length > 0) {

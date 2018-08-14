@@ -4,6 +4,8 @@
 - Fixed endless loop with macro patterns [#94](https://github.com/HaxeCheckstyle/tokentree/issues/94)
 - Fixed macro class $name [#94](https://github.com/HaxeCheckstyle/tokentree/issues/94)
 - Fixed conditionals in new [#95](https://github.com/HaxeCheckstyle/tokentree/issues/95)
+- Fixed object literal detection
+- Fixed `getBrOpenType` detection of blocks
 
 ## version 1.0.9 (2018-08-13)
 
