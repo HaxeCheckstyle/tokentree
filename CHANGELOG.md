@@ -6,7 +6,7 @@
 - Fixed conditionals in new [#95](https://github.com/HaxeCheckstyle/tokentree/issues/95)
 - Fixed object literal detection [#96](https://github.com/HaxeCheckstyle/tokentree/issues/96)
 - Fixed `getBrOpenType` detection of blocks [#96](https://github.com/HaxeCheckstyle/tokentree/issues/96)
-- Fixed `getArrowType` detection
+- Fixed `getArrowType` detection [#97](https://github.com/HaxeCheckstyle/tokentree/issues/97)
 
 ## version 1.0.9 (2018-08-13)
 
