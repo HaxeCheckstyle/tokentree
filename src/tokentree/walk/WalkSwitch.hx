@@ -89,38 +89,47 @@ class WalkSwitch {
 				case BrOpen:
 					WalkBlock.walkBlock(stream, dblDot);
 				case Comment(_), CommentLine(_):
+					switch (stream.peekNonCommentToken()) {
+						case Kwd(KwdCase), Kwd(KwdDefault):
+							return;
+						default:
+					}
 					WalkComment.walkComment(stream, dblDot);
 				case Sharp(_):
 					WalkSharp.walkSharp(stream, parent, WalkSwitch.walkSwitchCases);
-					/*
-					 * relocate sharp subtree from:
-					 *  |- BrOpen
-					 *      |- Kwd(KwdCase)
-					 *      |   |- expression
-					 *      |   |- DblDot
-					 *      |       |- statement
-					 *      |- Sharp(If)
-					 *      |   |- condition
-					 *      |   |- statement (if not a new case)
-					 * to:
-					 *      |- Kwd(KwdCase)
-					 *      |   |- expression
-					 *      |   |- DblDot
-					 *      |       |- statement
-					 *      |       |- Sharp(If)
-					 *      |           |- condition
-					 *      |           |- statement
-					 */
-					var sharp:TokenTree = parent.getLastChild();
-					if (sharp.children.length < 2) continue;
-					var body:TokenTree = sharp.children[1];
-					if (body.is(Kwd(KwdCase))) continue;
-					parent.children.pop();
-					dblDot.addChild(sharp);
+					relocateSharpTree(parent, dblDot);
 				default:
 					WalkStatement.walkStatement(stream, dblDot);
 			}
 		}
+	}
+
+	static function relocateSharpTree(parent:TokenTree, dblDot:TokenTree) {
+		/*
+			* relocate sharp subtree from:
+			*  |- BrOpen
+			*      |- Kwd(KwdCase)
+			*      |   |- expression
+			*      |   |- DblDot
+			*      |       |- statement
+			*      |- Sharp(If)
+			*      |   |- condition
+			*      |   |- statement (if not a new case)
+			* to:
+			*      |- Kwd(KwdCase)
+			*      |   |- expression
+			*      |   |- DblDot
+			*      |       |- statement
+			*      |       |- Sharp(If)
+			*      |           |- condition
+			*      |           |- statement
+			*/
+		var sharp:TokenTree = parent.getLastChild();
+		if (sharp.children.length < 2) return;
+		var body:TokenTree = sharp.children[1];
+		if (body.is(Kwd(KwdCase))) return;
+		parent.children.pop();
+		dblDot.addChild(sharp);
 	}
 
 	static function walkCaseExpr(stream:TokenStream, parent:TokenTree) {

@@ -70,6 +70,7 @@ class TokenTreeBuilderParsingTest {
 		assertCodeParses(MACRO_CLASS_NAME);
 		assertCodeParses(CONDITIONALS_IN_NEW);
 		assertCodeParses(ANON_FUNTION_IN_OBJECT_LITERAL);
+		assertCodeParses(COMMENTS_IN_SWITCH_CASES);
 	}
 
 	public function assertCodeParses(code:String, ?pos:PosInfos) {
@@ -952,6 +953,37 @@ abstract TokenTreeBuilderParsingTests(String) to String {
 						trace('bar ');
 					}
 				}
+			}
+		}
+	}
+	";
+
+	var COMMENTS_IN_SWITCH_CASES = "
+	class Main {
+		public static function main() {
+			switch (foo) {
+				// nothing to do
+				case A:
+					// nothing to do
+					call();
+
+				// nothing to do
+				// nothing to do
+				case B:
+					// nothing to do
+			}
+			switch (foo) {
+				// nothing to do
+				case A:
+					// nothing to do
+					call();
+
+				// nothing to do
+				// nothing to do
+				case B:
+				// nothing to do
+				default:
+					// nothing to do
 			}
 		}
 	}
