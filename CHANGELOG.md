@@ -7,6 +7,7 @@
 - Fixed object literal detection [#96](https://github.com/HaxeCheckstyle/tokentree/issues/96)
 - Fixed `getBrOpenType` detection of blocks [#96](https://github.com/HaxeCheckstyle/tokentree/issues/96)
 - Fixed `getArrowType` detection [#97](https://github.com/HaxeCheckstyle/tokentree/issues/97)
+- Fixed position of trailing comments in switch/cases [#98](https://github.com/HaxeCheckstyle/tokentree/issues/98)
 
 ## version 1.0.9 (2018-08-13)
 

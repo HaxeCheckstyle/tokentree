@@ -174,6 +174,30 @@ class TokenStream {
 		return tokens[current].tok;
 	}
 
+	public function peekNonCommentToken():TokenDef {
+		if ((current < 0) || (current >= tokens.length)) {
+			switch (MODE) {
+				case RELAXED:
+					return Const(CString("auto insert"));
+				case STRICT:
+					throw NO_MORE_TOKENS;
+			}
+		}
+		var index:Int = current;
+		while (index < tokens.length) {
+			var token:Token = tokens[index++];
+			if (Token == null) {
+				continue;
+			}
+			switch (token.tok) {
+				case Comment(_), CommentLine(_):
+				default:
+					return token.tok;
+			}
+		}
+		return null;
+	}
+
 	public function rewind() {
 		if (current <= 0) return;
 		current--;
