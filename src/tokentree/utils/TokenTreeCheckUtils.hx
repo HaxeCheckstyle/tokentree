@@ -364,7 +364,7 @@ class TokenTreeCheckUtils {
 					case FORLOOP:
 						return UNKNOWN;
 					case EXPRESSION:
-						return UNKNOWN;
+						return OBJECTDECL;
 				}
 			case BkOpen:
 				return OBJECTDECL;
@@ -586,6 +586,83 @@ class TokenTreeCheckUtils {
 		return null;
 	}
 
+	public static function getColonType(token:TokenTree):ColonType {
+		if (token == null) {
+			return UNKNOWN;
+		}
+		if (isTernary(token)) {
+			return TERNARY;
+		}
+		var parent:TokenTree = token.parent;
+		if (parent == null) {
+			return UNKNOWN;
+		}
+		switch (parent.tok) {
+			case Kwd(KwdCase), Kwd(KwdDefault):
+				return SWITCH_CASE;
+			case At:
+				return AT;
+			case BrOpen:
+				var brClose:TokenTree = parent.access().firstOf(BrClose).token;
+				if (brClose == null) {
+					return UNKNOWN;
+				}
+				if (brClose.pos.max < token.pos.min) {
+					return TYPE_CHECK;
+				}
+
+			case Const(CIdent(_)), Const(CString(_)):
+				return findColonParent(parent);
+			default:
+		}
+		return UNKNOWN;
+	}
+
+	static function findColonParent(token:TokenTree):ColonType {
+		var parent:TokenTree = token;
+		while (parent.tok != null) {
+			switch (parent.tok) {
+				case Kwd(KwdFunction), Kwd(KwdVar), Const(CIdent("final")):
+					return TYPE_HINT;
+				#if (haxe_ver >= 4.0)
+				case Kwd(KwdFinal):
+					return TYPE_HINT;
+				#end
+				case BrOpen:
+					var brType:BrOpenType = getBrOpenType(parent);
+					switch (brType) {
+						case BLOCK:
+							return UNKNOWN;
+						case TYPEDEFDECL:
+							return TYPE_HINT;
+						case OBJECTDECL:
+							return OBJECT_LITERAL;
+						case ANONTYPE:
+							return TYPE_HINT;
+						case UNKNOWN:
+							return UNKNOWN;
+					}
+				case POpen:
+					var pType:POpenType = getPOpenType(parent);
+					switch (pType) {
+						case PARAMETER:
+							return TYPE_HINT;
+						case CALL:
+							return UNKNOWN;
+						case CONDITION:
+							return UNKNOWN;
+						case FORLOOP:
+							return UNKNOWN;
+						case EXPRESSION:
+							return TYPE_CHECK;
+					}
+				default:
+			}
+			parent = parent.parent;
+		}
+		return UNKNOWN;
+	}
+
 	public static function getLastToken(token:TokenTree):TokenTree {
 		if (token == null) {
 			return null;
@@ -628,4 +705,14 @@ enum ArrowType {
 	ARROW_FUNCTION;
 	FUNCTION_TYPE_HAXE3;
 	FUNCTION_TYPE_HAXE4;
+}
+
+enum ColonType {
+	SWITCH_CASE;
+	TYPE_HINT;
+	TYPE_CHECK;
+	TERNARY;
+	OBJECT_LITERAL;
+	AT;
+	UNKNOWN;
 }

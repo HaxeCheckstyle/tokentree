@@ -191,7 +191,7 @@ class WalkStatement {
 		return false;
 	}
 
-	static function walkDblDot(stream:TokenStream, parent:TokenTree) {
+	public static function walkDblDot(stream:TokenStream, parent:TokenTree) {
 		var question:TokenTree = findQuestionParent(parent);
 		if (question != null) {
 			return;
@@ -226,7 +226,9 @@ class WalkStatement {
 				case Comma:
 					return null;
 				case BrOpen:
-					return null;
+					if (!TokenTreeAccessHelper.access(parent).firstOf(BrClose).exists()) {
+						return null;
+					}
 				case Kwd(KwdCase):
 					return parent;
 				case Kwd(KwdDefault):
