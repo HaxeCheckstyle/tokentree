@@ -1,6 +1,6 @@
 ## dev branch / next version (1.x.x)
 
-- Added `TokenTreeCheckUtils.getColonType()` [#99](https://github.com/HaxeCheckstyle/tokentree/issues/99)
+- Added `TokenTreeCheckUtils.getColonType()` [#99](https://github.com/HaxeCheckstyle/tokentree/issues/99) + [#100](https://github.com/HaxeCheckstyle/tokentree/issues/100)
 - Fixed implements / extends handling [#94](https://github.com/HaxeCheckstyle/tokentree/issues/94)
 - Fixed endless loop with macro patterns [#94](https://github.com/HaxeCheckstyle/tokentree/issues/94)
 - Fixed macro class $name [#94](https://github.com/HaxeCheckstyle/tokentree/issues/94)
@@ -10,7 +10,7 @@
 - Fixed `getArrowType` detection [#97](https://github.com/HaxeCheckstyle/tokentree/issues/97)
 - Fixed position of trailing comments in switch/cases [#98](https://github.com/HaxeCheckstyle/tokentree/issues/98)
 - Fixed position of type checks on object literals [#99](https://github.com/HaxeCheckstyle/tokentree/issues/99)
-- Fixed `getPOpenType` parameter detection
+- Fixed `getPOpenType` parameter detection [#100](https://github.com/HaxeCheckstyle/tokentree/issues/100)
 
 ## version 1.0.9 (2018-08-13)
 
