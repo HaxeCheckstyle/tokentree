@@ -1,5 +1,6 @@
 package tokentree.utils;
 
+import tokentree.utils.TokenTreeCheckUtils.ColonType;
 import tokentree.utils.TokenTreeCheckUtils.BrOpenType;
 import tokentree.utils.TokenTreeCheckUtils.ArrowType;
 import tokentree.TokenTreeBuilderParsingTest.TokenTreeBuilderParsingTests;
@@ -123,6 +124,25 @@ class TokenTreeCheckUtilsTest {
 		for (quest in allQuestion) {
 			Assert.isFalse(TokenTreeCheckUtils.isTernary(quest));
 		}
+	}
+
+	@Test
+	public function testMixedColonTypes() {
+		var root:TokenTree = assertCodeParses(TokenTreeCheckUtilsTests.MIXED_COLON_TYPES);
+		var allBr:Array<TokenTree> = root.filter([DblDot], ALL);
+		Assert.areEqual(11, allBr.length);
+		var index:Int = 0;
+		Assert.areEqual(ColonType.OBJECT_LITERAL, TokenTreeCheckUtils.getColonType(allBr[index++]));
+		Assert.areEqual(ColonType.TYPE_CHECK, TokenTreeCheckUtils.getColonType(allBr[index++]));
+		Assert.areEqual(ColonType.TYPE_CHECK, TokenTreeCheckUtils.getColonType(allBr[index++]));
+		Assert.areEqual(ColonType.OBJECT_LITERAL, TokenTreeCheckUtils.getColonType(allBr[index++]));
+		Assert.areEqual(ColonType.TERNARY, TokenTreeCheckUtils.getColonType(allBr[index++]));
+		Assert.areEqual(ColonType.TYPE_HINT, TokenTreeCheckUtils.getColonType(allBr[index++]));
+		Assert.areEqual(ColonType.TYPE_HINT, TokenTreeCheckUtils.getColonType(allBr[index++]));
+		Assert.areEqual(ColonType.TYPE_HINT, TokenTreeCheckUtils.getColonType(allBr[index++]));
+		Assert.areEqual(ColonType.TYPE_HINT, TokenTreeCheckUtils.getColonType(allBr[index++]));
+		Assert.areEqual(ColonType.TYPE_HINT, TokenTreeCheckUtils.getColonType(allBr[index++]));
+		Assert.areEqual(ColonType.TYPE_HINT, TokenTreeCheckUtils.getColonType(allBr[index++]));
 	}
 
 	public function assertCodeParses(code:String, ?pos:PosInfos):TokenTree {
@@ -261,6 +281,19 @@ abstract TokenTreeCheckUtilsTests(String) to String {
 
 	enum Item {
 		Staff(block:Float, ?magic:Int);
+	}
+	";
+
+	var MIXED_COLON_TYPES = "
+	class Main {
+		function main () {
+			var item = ({title: 'Edit settings '} : vscode.MessageItem);
+			var output = (result.stderr:Buffer).toString().trim();
+			return e2 == null ? {t: HDyn} : bar(e2);
+		}
+
+        static function main(?value:Int) {}
+		public function recycle(?ObjectClass:Class<T>, ?ObjectFactory:Void->T, Force : Bool = false, Revive : Bool = true) : T {}
 	}
 	";
 }
