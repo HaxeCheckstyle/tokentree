@@ -10,6 +10,7 @@
 - Fixed `getArrowType` detection [#97](https://github.com/HaxeCheckstyle/tokentree/issues/97)
 - Fixed position of trailing comments in switch/cases [#98](https://github.com/HaxeCheckstyle/tokentree/issues/98)
 - Fixed position of type checks on object literals [#99](https://github.com/HaxeCheckstyle/tokentree/issues/99)
+- Fixed `getPOpenType` parameter detection
 
 ## version 1.0.9 (2018-08-13)
 
