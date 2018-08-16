@@ -16,7 +16,6 @@ class WalkTypedefBody {
 		}
 	}
 
-
 	public static function walkTypedefCurlyBody(stream:TokenStream, openTok:TokenTree) {
 		var progress:TokenStreamProgress = new TokenStreamProgress(stream);
 		while (progress.streamHasChanged()) {

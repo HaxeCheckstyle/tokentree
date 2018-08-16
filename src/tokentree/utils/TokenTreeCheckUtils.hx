@@ -441,6 +441,8 @@ class TokenTreeCheckUtils {
 				return EXPRESSION;
 			case Kwd(KwdFunction):
 				return PARAMETER;
+			case Kwd(KwdNew):
+				return PARAMETER;
 			case Const(CIdent(_)):
 				if ((parent.parent == null) || (parent.parent.tok == null)) {
 					return CALL;
@@ -457,6 +459,9 @@ class TokenTreeCheckUtils {
 						return CALL;
 				}
 			default:
+		}
+		if (TokenTreeAccessHelper.access(token).firstOf(Arrow).exists()) {
+			return PARAMETER;
 		}
 		return EXPRESSION;
 	}
@@ -610,8 +615,11 @@ class TokenTreeCheckUtils {
 				if (brClose.pos.max < token.pos.min) {
 					return TYPE_CHECK;
 				}
-
+			case POpen:
+				return findColonParent(token);
 			case Const(CIdent(_)), Const(CString(_)):
+				return findColonParent(parent);
+			case Kwd(KwdNew):
 				return findColonParent(parent);
 			default:
 		}

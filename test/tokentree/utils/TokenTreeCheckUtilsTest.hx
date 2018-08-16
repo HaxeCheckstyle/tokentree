@@ -130,7 +130,7 @@ class TokenTreeCheckUtilsTest {
 	public function testMixedColonTypes() {
 		var root:TokenTree = assertCodeParses(TokenTreeCheckUtilsTests.MIXED_COLON_TYPES);
 		var allBr:Array<TokenTree> = root.filter([DblDot], ALL);
-		Assert.areEqual(23, allBr.length);
+		Assert.areEqual(32, allBr.length);
 		var index:Int = 0;
 		Assert.areEqual(ColonType.OBJECT_LITERAL, TokenTreeCheckUtils.getColonType(allBr[index++]));
 		Assert.areEqual(ColonType.TYPE_CHECK, TokenTreeCheckUtils.getColonType(allBr[index++]));
@@ -156,6 +156,19 @@ class TokenTreeCheckUtilsTest {
 		Assert.areEqual(ColonType.SWITCH_CASE, TokenTreeCheckUtils.getColonType(allBr[index++]));
 		Assert.areEqual(ColonType.OBJECT_LITERAL, TokenTreeCheckUtils.getColonType(allBr[index++]));
 		Assert.areEqual(ColonType.OBJECT_LITERAL, TokenTreeCheckUtils.getColonType(allBr[index++]));
+
+		// function new
+		Assert.areEqual(ColonType.TYPE_HINT, TokenTreeCheckUtils.getColonType(allBr[index++]));
+		Assert.areEqual(ColonType.TYPE_HINT, TokenTreeCheckUtils.getColonType(allBr[index++]));
+		Assert.areEqual(ColonType.TYPE_HINT, TokenTreeCheckUtils.getColonType(allBr[index++]));
+
+		// typedef
+		Assert.areEqual(ColonType.TYPE_HINT, TokenTreeCheckUtils.getColonType(allBr[index++]));
+		Assert.areEqual(ColonType.TYPE_HINT, TokenTreeCheckUtils.getColonType(allBr[index++]));
+		Assert.areEqual(ColonType.TYPE_HINT, TokenTreeCheckUtils.getColonType(allBr[index++]));
+		Assert.areEqual(ColonType.TYPE_HINT, TokenTreeCheckUtils.getColonType(allBr[index++]));
+		Assert.areEqual(ColonType.TYPE_HINT, TokenTreeCheckUtils.getColonType(allBr[index++]));
+		Assert.areEqual(ColonType.TYPE_HINT, TokenTreeCheckUtils.getColonType(allBr[index++]));
 	}
 
 	public function assertCodeParses(code:String, ?pos:PosInfos):TokenTree {
@@ -319,6 +332,12 @@ abstract TokenTreeCheckUtilsTests(String) to String {
 					return {i: 0, s:''};
 			}
 		}
+		function new(anchor:Position, active:Position):Void;
+	}
+
+	typedef Middleware = {
+		?provideCompletionItem:(document:TextDocument, position:Position, context:CompletionContext, token:CancellationToken,
+			next:ProvideCompletionItemsSignature) -> ProviderResult<EitherType<Array<CompletionItem>, CompletionList>>,
 	}
 	";
 }
