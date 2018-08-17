@@ -71,6 +71,7 @@ class TokenTreeBuilderParsingTest {
 		assertCodeParses(CONDITIONALS_IN_NEW);
 		assertCodeParses(ANON_FUNTION_IN_OBJECT_LITERAL);
 		assertCodeParses(COMMENTS_IN_SWITCH_CASES);
+		assertCodeParses(TERNARY_WITH_MACRO);
 	}
 
 	public function assertCodeParses(code:String, ?pos:PosInfos) {
@@ -986,6 +987,28 @@ abstract TokenTreeBuilderParsingTests(String) to String {
 					// nothing to do
 			}
 		}
+	}
+	";
+
+	var TERNARY_WITH_MACRO = "
+	class GenExtractor {
+		static public function anon(fields:Array<FieldInfo>, ct)
+			return (macro function(value:$ct) {
+				var __ret:Dynamic = {};
+				$b{
+					[
+						for (f in fields) {
+							var name = f.name;
+							var assert = f.optional ? macro null:macro macro {
+								$assert;
+								var value = value.$name;
+								__ret.$name = ${f.expr};
+							}
+						}
+					]
+				}
+				return __ret;
+			}).getFunction().sure();
 	}
 	";
 }
