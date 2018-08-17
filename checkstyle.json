@@ -558,7 +558,7 @@
 		],
         "MethodLength": [
 			"tokentree/walk/WalkStatement",
-			"tokentree/utils/TokenTreeCheckUtils:getBrOpenType"
+			"tokentree/utils/TokenTreeCheckUtils"
         ],
         "NestedForDepth": [
             "TestMain"

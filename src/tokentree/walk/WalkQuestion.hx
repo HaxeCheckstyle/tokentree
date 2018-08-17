@@ -33,7 +33,7 @@ class WalkQuestion {
 				case Kwd(KwdCast): true;
 				case Kwd(KwdNew): true;
 				case Kwd(KwdTrue), Kwd(KwdFalse), Kwd(KwdNull): true;
-				case Kwd(KwdThis): true;
+				case Kwd(KwdThis), Kwd(KwdMacro): true;
 				case POpen: true;
 				case PClose: true;
 				case DblDot: true;
