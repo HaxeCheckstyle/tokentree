@@ -429,6 +429,11 @@ class TokenTreeCheckUtils {
 			return EXPRESSION;
 		}
 		switch (parent.tok) {
+			case Binop(OpLt):
+				parent = parent.parent;
+			default:
+		}
+		switch (parent.tok) {
 			case Kwd(KwdIf):
 				return CONDITION;
 			case Kwd(KwdWhile):
@@ -612,14 +617,18 @@ class TokenTreeCheckUtils {
 				if (brClose == null) {
 					return UNKNOWN;
 				}
-				if (brClose.pos.max < token.pos.min) {
+				if (brClose.pos.max <= token.pos.min) {
 					return TYPE_CHECK;
 				}
 			case POpen:
 				return findColonParent(token);
+			case Binop(OpLt):
+				return findColonParent(parent);
 			case Const(CIdent(_)), Const(CString(_)):
 				return findColonParent(parent);
 			case Kwd(KwdNew):
+				return findColonParent(parent);
+			case Kwd(KwdThis):
 				return findColonParent(parent);
 			default:
 		}
@@ -651,6 +660,10 @@ class TokenTreeCheckUtils {
 							return UNKNOWN;
 					}
 				case POpen:
+					var pClose:TokenTree = parent.access().firstOf(PClose).token;
+					if ((pClose != null) && (pClose.pos.max <= token.pos.min)) {
+						return TYPE_HINT;
+					}
 					var pType:POpenType = getPOpenType(parent);
 					switch (pType) {
 						case PARAMETER:

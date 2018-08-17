@@ -130,7 +130,7 @@ class TokenTreeCheckUtilsTest {
 	public function testMixedColonTypes() {
 		var root:TokenTree = assertCodeParses(TokenTreeCheckUtilsTests.MIXED_COLON_TYPES);
 		var allBr:Array<TokenTree> = root.filter([DblDot], ALL);
-		Assert.areEqual(32, allBr.length);
+		Assert.areEqual(43, allBr.length);
 		var index:Int = 0;
 		Assert.areEqual(ColonType.OBJECT_LITERAL, TokenTreeCheckUtils.getColonType(allBr[index++]));
 		Assert.areEqual(ColonType.TYPE_CHECK, TokenTreeCheckUtils.getColonType(allBr[index++]));
@@ -157,12 +157,31 @@ class TokenTreeCheckUtilsTest {
 		Assert.areEqual(ColonType.OBJECT_LITERAL, TokenTreeCheckUtils.getColonType(allBr[index++]));
 		Assert.areEqual(ColonType.OBJECT_LITERAL, TokenTreeCheckUtils.getColonType(allBr[index++]));
 
-		// function new
+		// return switch ((this : DiagnosticsKind<T>)) {}
+		Assert.areEqual(ColonType.TYPE_CHECK, TokenTreeCheckUtils.getColonType(allBr[index++]));
+
+		// function new(anchor:Position, active:Position):Void;
 		Assert.areEqual(ColonType.TYPE_HINT, TokenTreeCheckUtils.getColonType(allBr[index++]));
 		Assert.areEqual(ColonType.TYPE_HINT, TokenTreeCheckUtils.getColonType(allBr[index++]));
 		Assert.areEqual(ColonType.TYPE_HINT, TokenTreeCheckUtils.getColonType(allBr[index++]));
 
-		// typedef
+		// var tokens(default, null):Array<IToken>;
+		Assert.areEqual(ColonType.TYPE_HINT, TokenTreeCheckUtils.getColonType(allBr[index++]));
+
+		// @:overload(function<T>(key:String, defaultValue:T):T {})
+		Assert.areEqual(ColonType.AT, TokenTreeCheckUtils.getColonType(allBr[index++]));
+		Assert.areEqual(ColonType.TYPE_HINT, TokenTreeCheckUtils.getColonType(allBr[index++]));
+		Assert.areEqual(ColonType.TYPE_HINT, TokenTreeCheckUtils.getColonType(allBr[index++]));
+		Assert.areEqual(ColonType.TYPE_HINT, TokenTreeCheckUtils.getColonType(allBr[index++]));
+		// @:overload(function<T>(key:String):T {})
+		Assert.areEqual(ColonType.AT, TokenTreeCheckUtils.getColonType(allBr[index++]));
+		Assert.areEqual(ColonType.TYPE_HINT, TokenTreeCheckUtils.getColonType(allBr[index++]));
+		Assert.areEqual(ColonType.TYPE_HINT, TokenTreeCheckUtils.getColonType(allBr[index++]));
+		// function get<T>(key:String):Null<T>;
+		Assert.areEqual(ColonType.TYPE_HINT, TokenTreeCheckUtils.getColonType(allBr[index++]));
+		Assert.areEqual(ColonType.TYPE_HINT, TokenTreeCheckUtils.getColonType(allBr[index++]));
+
+		// typedef Middleware = {
 		Assert.areEqual(ColonType.TYPE_HINT, TokenTreeCheckUtils.getColonType(allBr[index++]));
 		Assert.areEqual(ColonType.TYPE_HINT, TokenTreeCheckUtils.getColonType(allBr[index++]));
 		Assert.areEqual(ColonType.TYPE_HINT, TokenTreeCheckUtils.getColonType(allBr[index++]));
@@ -331,8 +350,13 @@ abstract TokenTreeCheckUtilsTests(String) to String {
 				default:
 					return {i: 0, s:''};
 			}
+			return switch ((this:DiagnosticsKind<T>)) {}
 		}
 		function new(anchor:Position, active:Position):Void;
+		var tokens(default, null):Array<IToken>;
+		@:overload(function<T>(key:String, defaultValue:T):T {})
+		@:overload(function<T>(key:String):T {})
+		function get<T>(key:String):Null<T>;
 	}
 
 	typedef Middleware = {
