@@ -51,5 +51,8 @@ class WalkBlock {
 		if (stream.is(DblDot)) {
 			WalkStatement.walkDblDot(stream, parent);
 		}
+		if (stream.is(Arrow)) {
+			WalkStatement.walkStatement(stream, parent);
+		}
 	}
 }

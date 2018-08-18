@@ -31,11 +31,13 @@ class WalkQuestion {
 				case BkOpen: true;
 				case BrOpen: true;
 				case Binop(OpAdd), Binop(OpSub): true;
+				case Unop(OpNot): true;
 				case Kwd(KwdCast): true;
 				case Kwd(KwdNew): true;
 				case Kwd(KwdTrue), Kwd(KwdFalse), Kwd(KwdNull): true;
 				case Kwd(KwdThis), Kwd(KwdMacro), Kwd(KwdUntyped): true;
 				case Kwd(KwdFunction): true;
+				case Dollar(_): true;
 				case POpen: true;
 				case PClose: true;
 				case DblDot: true;

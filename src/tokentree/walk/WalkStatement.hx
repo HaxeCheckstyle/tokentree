@@ -173,7 +173,7 @@ class WalkStatement {
 			case Kwd(KwdDo):
 				WalkDoWhile.walkDoWhile(stream, parent);
 			case Kwd(KwdWhile):
-				if (parent.parent.is(Kwd(KwdDo))) {
+				if (!parent.is(BrOpen) && parent.parent.is(Kwd(KwdDo))) {
 					return false;
 				}
 				WalkWhile.walkWhile(stream, parent);
