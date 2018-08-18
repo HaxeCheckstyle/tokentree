@@ -14,6 +14,7 @@
 - Fixed ternary position [#102](https://github.com/HaxeCheckstyle/tokentree/issues/102) + [#105](https://github.com/HaxeCheckstyle/tokentree/issues/105)
 - Fixed structure extension position of `&` [#103](https://github.com/HaxeCheckstyle/tokentree/issues/103)
 - Fixed `do…while` handling [#105](https://github.com/HaxeCheckstyle/tokentree/issues/105)
+- Fixed "interesting" use of conditionals [#106](https://github.com/HaxeCheckstyle/tokentree/issues/106)
 
 ## version 1.0.9 (2018-08-13)
 

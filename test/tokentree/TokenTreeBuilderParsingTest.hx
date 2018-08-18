@@ -64,6 +64,10 @@ class TokenTreeBuilderParsingTest {
 		assertCodeParses(A_LOT_OF_COMMENTS);
 		assertCodeParses(TYPEDEF_OVERLOAD);
 		assertCodeParses(TERNARY_PARSING);
+	}
+
+	@Test
+	public function testIssues3() {
 		assertCodeParses(SWITCH_CONDITIONAL);
 		assertCodeParses(IMPLEMENTS_EXTENDS);
 		assertCodeParses(MACRO_PATTERNS);
@@ -74,6 +78,7 @@ class TokenTreeBuilderParsingTest {
 		assertCodeParses(TERNARY_WITH_MACRO);
 		assertCodeParses(STRUCTURE_EXTENSION_2);
 		assertCodeParses(MACRO_DO_WHILE);
+		assertCodeParses(INTERESTING_USE_OF_CONDITIONALS);
 	}
 
 	public function assertCodeParses(code:String, ?pos:PosInfos) {
@@ -1053,6 +1058,20 @@ abstract TokenTreeBuilderParsingTests(String) to String {
 					$incrementExpr;
 				}
 			);
+		}
+	}
+	";
+
+	var INTERESTING_USE_OF_CONDITIONALS = "
+	class Main {
+		public static function main() {
+			#if cs
+			pony.cs.Synchro.lock(isRead, function() {
+			#end
+				// some code
+			#if cs
+			});
+			#end
 		}
 	}
 	";

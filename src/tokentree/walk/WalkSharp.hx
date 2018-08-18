@@ -53,7 +53,7 @@ class WalkSharp {
 			try {
 				walker(stream, newParent);
 				switch (stream.token()) {
-					case BrClose, Comma:
+					case BrClose, PClose, Comma:
 						var newChild:TokenTree = stream.consumeToken();
 						newParent.addChild(newChild);
 					default:
