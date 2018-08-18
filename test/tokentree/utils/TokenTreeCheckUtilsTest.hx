@@ -1,5 +1,6 @@
 package tokentree.utils;
 
+import tokentree.utils.TokenTreeCheckUtils.POpenType;
 import tokentree.utils.TokenTreeCheckUtils.ColonType;
 import tokentree.utils.TokenTreeCheckUtils.BrOpenType;
 import tokentree.utils.TokenTreeCheckUtils.ArrowType;
@@ -190,6 +191,35 @@ class TokenTreeCheckUtilsTest {
 		Assert.areEqual(ColonType.TYPE_HINT, TokenTreeCheckUtils.getColonType(allBr[index++]));
 	}
 
+	@Test
+	public function testMixedPOpenTypes() {
+		var root:TokenTree = assertCodeParses(TokenTreeCheckUtilsTests.MIXED_POPEN_TYPES);
+		var allBr:Array<TokenTree> = root.filter([POpen], ALL);
+		Assert.areEqual(10, allBr.length);
+		var index:Int = 0;
+		// @:deprecated('UnlessshuffleArray(), you should use shuffle() quality.')
+		Assert.areEqual(POpenType.AT, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
+
+		// function main() {
+		Assert.areEqual(POpenType.PARAMETER, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
+		// var output = (result.stderr : Buffer).toString().trim();
+		Assert.areEqual(POpenType.EXPRESSION, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
+		// var output = (result.stderr : Buffer).toString().trim();
+		Assert.areEqual(POpenType.EXPRESSION, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
+		Assert.areEqual(POpenType.CALL, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
+		Assert.areEqual(POpenType.CALL, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
+
+		// if (output == null) for (i in items) {}
+		Assert.areEqual(POpenType.CONDITION, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
+		Assert.areEqual(POpenType.FORLOOP, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
+
+		// return e2 == null ? {t: HDyn} : bar(e2);
+		Assert.areEqual(POpenType.CALL, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
+
+		// static function main(?value:Int) {}
+		Assert.areEqual(POpenType.PARAMETER, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
+	}
+
 	public function assertCodeParses(code:String, ?pos:PosInfos):TokenTree {
 		var builder:TestTokenTreeBuilder = null;
 		try {
@@ -362,6 +392,20 @@ abstract TokenTreeCheckUtilsTests(String) to String {
 	typedef Middleware = {
 		?provideCompletionItem:(document:TextDocument, position:Position, context:CompletionContext, token:CancellationToken,
 			next:ProvideCompletionItemsSignature) -> ProviderResult<EitherType<Array<CompletionItem>, CompletionList>>,
+	}
+	";
+
+	var MIXED_POPEN_TYPES = "
+	@:deprecated('UnlessshuffleArray(), you should use shuffle() quality.')
+	class Main {
+		function main () {
+			var item = ({title: 'Edit settings '} : vscode.MessageItem);
+			var output = (result.stderr:Buffer).toString().trim();
+			if (output == null) for (i in items) {}
+			return e2 == null ? {t: HDyn} : bar(e2);
+		}
+
+        static function main(?value:Int) {}
 	}
 	";
 }
