@@ -353,6 +353,8 @@ class TokenTreeCheckUtils {
 			case POpen:
 				var pOpenType:POpenType = getPOpenType(token.parent);
 				switch (pOpenType) {
+					case AT:
+						return OBJECTDECL;
 					case PARAMETER:
 						return ANONTYPE;
 					case CALL:
@@ -426,6 +428,9 @@ class TokenTreeCheckUtils {
 		if ((parent == null) || (parent.tok == null)) {
 			return EXPRESSION;
 		}
+		if (hasAtParent(token)) {
+			return AT;
+		}
 		switch (parent.tok) {
 			case Binop(OpLt):
 				parent = parent.parent;
@@ -467,6 +472,23 @@ class TokenTreeCheckUtils {
 			return PARAMETER;
 		}
 		return EXPRESSION;
+	}
+
+	public static function hasAtParent(token:TokenTree):Bool {
+		var parent:TokenTree = token.parent;
+		while (parent.tok != null) {
+			switch (parent.tok) {
+				case Const(_):
+				case Dot:
+				case DblDot:
+				case At:
+					return true;
+				default:
+					return false;
+			}
+			parent = parent.parent;
+		}
+		return false;
 	}
 
 	public static function isInsideTypedef(token:TokenTree):Bool {
@@ -664,6 +686,8 @@ class TokenTreeCheckUtils {
 					}
 					var pType:POpenType = getPOpenType(parent);
 					switch (pType) {
+						case AT:
+							return OBJECT_LITERAL;
 						case PARAMETER:
 							return TYPE_HINT;
 						case CALL:
@@ -713,6 +737,7 @@ enum BrOpenType {
 }
 
 enum POpenType {
+	AT;
 	PARAMETER;
 	CALL;
 	CONDITION;
