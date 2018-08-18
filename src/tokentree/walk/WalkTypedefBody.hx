@@ -12,7 +12,7 @@ class WalkTypedefBody {
 		if (stream.is(Binop(OpAnd))) {
 			var and:TokenTree = stream.consumeTokenDef(Binop(OpAnd));
 			parent.getLastChild().addChild(and);
-			walkTypedefBody(stream, and);
+			walkTypedefBody(stream, parent);
 		}
 	}
 

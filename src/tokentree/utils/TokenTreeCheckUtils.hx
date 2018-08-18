@@ -305,8 +305,6 @@ class TokenTreeCheckUtils {
 			return UNKNOWN;
 		}
 		switch (token.parent.tok) {
-			case Binop(OpAnd):
-				return TYPEDEFDECL;
 			case Binop(OpAssign):
 				if (isInsideTypedef(token.parent)) {
 					return TYPEDEFDECL;
