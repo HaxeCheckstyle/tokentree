@@ -72,6 +72,7 @@ class TokenTreeBuilderParsingTest {
 		assertCodeParses(ANON_FUNTION_IN_OBJECT_LITERAL);
 		assertCodeParses(COMMENTS_IN_SWITCH_CASES);
 		assertCodeParses(TERNARY_WITH_MACRO);
+		assertCodeParses(STRUCTURE_EXTENSION_2);
 	}
 
 	public function assertCodeParses(code:String, ?pos:PosInfos) {
@@ -1009,6 +1010,35 @@ abstract TokenTreeBuilderParsingTests(String) to String {
 				}
 				return __ret;
 			}).getFunction().sure();
+	}
+	";
+
+	var STRUCTURE_EXTENSION_2 = "
+	typedef TextDocumentClientCapabilities = /* ColorClientCapabilities & */
+	{
+		var foo:Int;
+	}
+
+	typedef TextDocumentClientCapabilities =
+		ImplementationClientCapabilities &
+		TypeDefinitionClientCapabilities &
+		/* ColorClientCapabilities & */
+		FoldingRangeClientCapabilities & {
+		var foo:Int;
+	}
+
+	typedef TextDocumentClientCapabilities =
+		/* ColorClientCapabilities & */
+		FoldingRangeClientCapabilities & {
+		var foo:Int;
+		} &	ImplementationClientCapabilities &
+		TypeDefinitionClientCapabilities;
+
+	typedef TextDocumentClientCapabilities =
+	{
+		var foo:Int;
+	} &{
+		var foo:Int;
 	}
 	";
 }
