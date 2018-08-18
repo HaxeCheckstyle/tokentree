@@ -11,9 +11,9 @@
 - Fixed position of trailing comments in switch/cases [#98](https://github.com/HaxeCheckstyle/tokentree/issues/98)
 - Fixed position of type checks on object literals [#99](https://github.com/HaxeCheckstyle/tokentree/issues/99)
 - Fixed `getPOpenType` parameter detection [#100](https://github.com/HaxeCheckstyle/tokentree/issues/100) + [#101](https://github.com/HaxeCheckstyle/tokentree/issues/101) + [#104](https://github.com/HaxeCheckstyle/tokentree/issues/104)
-- Fixed ternary position [#102](https://github.com/HaxeCheckstyle/tokentree/issues/102)
+- Fixed ternary position [#102](https://github.com/HaxeCheckstyle/tokentree/issues/102) + [#105](https://github.com/HaxeCheckstyle/tokentree/issues/105)
 - Fixed structure extension position of `&` [#103](https://github.com/HaxeCheckstyle/tokentree/issues/103)
-- Fixed `do…while` handling
+- Fixed `do…while` handling [#105](https://github.com/HaxeCheckstyle/tokentree/issues/105)
 
 ## version 1.0.9 (2018-08-13)
 
