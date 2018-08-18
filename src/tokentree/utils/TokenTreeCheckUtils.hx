@@ -301,7 +301,7 @@ class TokenTreeCheckUtils {
 	}
 
 	public static function getBrOpenType(token:TokenTree):BrOpenType {
-		if (token == null) {
+		if (token == null || token.parent == null || token.parent.tok == null) {
 			return UNKNOWN;
 		}
 		switch (token.parent.tok) {
