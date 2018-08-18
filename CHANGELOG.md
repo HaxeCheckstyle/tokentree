@@ -12,7 +12,7 @@
 - Fixed position of type checks on object literals [#99](https://github.com/HaxeCheckstyle/tokentree/issues/99)
 - Fixed `getPOpenType` parameter detection [#100](https://github.com/HaxeCheckstyle/tokentree/issues/100) + [#101](https://github.com/HaxeCheckstyle/tokentree/issues/101)
 - Fixed ternary with macro [#102](https://github.com/HaxeCheckstyle/tokentree/issues/102)
-- Fixed structure extension position of `&`
+- Fixed structure extension position of `&` [#103](https://github.com/HaxeCheckstyle/tokentree/issues/103)
 
 ## version 1.0.9 (2018-08-13)
 
