@@ -11,6 +11,7 @@ class WalkQuestion {
 			return;
 		}
 		WalkStatement.walkStatement(stream, question);
+		WalkComment.walkComment(stream, question);
 		var dblDotTok:TokenTree = stream.consumeTokenDef(DblDot);
 		question.addChild(dblDotTok);
 		WalkStatement.walkStatement(stream, dblDotTok);
@@ -33,7 +34,8 @@ class WalkQuestion {
 				case Kwd(KwdCast): true;
 				case Kwd(KwdNew): true;
 				case Kwd(KwdTrue), Kwd(KwdFalse), Kwd(KwdNull): true;
-				case Kwd(KwdThis), Kwd(KwdMacro): true;
+				case Kwd(KwdThis), Kwd(KwdMacro), Kwd(KwdUntyped): true;
+				case Kwd(KwdFunction): true;
 				case POpen: true;
 				case PClose: true;
 				case DblDot: true;

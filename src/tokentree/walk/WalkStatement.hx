@@ -74,7 +74,16 @@ class WalkStatement {
 				WalkSharp.walkSharp(stream, parent, WalkStatement.walkStatement);
 				walkStatementContinueAfterSharp(stream, parent);
 				return;
-			case Dot, DblDot:
+			case Dot:
+				wantMore = true;
+			case DblDot:
+				if (parent.is(Dot)) {
+					return;
+				}
+				if (WalkQuestion.isTernary(parent)) {
+					walkStatementContinue(stream, parent);
+					return;
+				}
 				wantMore = true;
 			default:
 				wantMore = false;
@@ -82,6 +91,7 @@ class WalkStatement {
 		var newChild:TokenTree = stream.consumeToken();
 		parent.addChild(newChild);
 		stream.applyTempStore(newChild);
+		walkTrailingComment(stream, newChild);
 		if (wantMore) WalkStatement.walkStatement(stream, newChild);
 		WalkStatement.walkStatementContinue(stream, newChild);
 		walkTrailingComment(stream, newChild);
@@ -163,6 +173,9 @@ class WalkStatement {
 			case Kwd(KwdDo):
 				WalkDoWhile.walkDoWhile(stream, parent);
 			case Kwd(KwdWhile):
+				if (parent.parent.is(Kwd(KwdDo))) {
+					return false;
+				}
 				WalkWhile.walkWhile(stream, parent);
 			case Kwd(KwdNull), Kwd(KwdTrue), Kwd(KwdFalse):
 				var newChild:TokenTree = stream.consumeToken();

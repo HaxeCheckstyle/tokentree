@@ -111,7 +111,7 @@ class TokenTreeCheckUtilsTest {
 	public function testIsTernary() {
 		var root:TokenTree = assertCodeParses(TokenTreeCheckUtilsTests.TERNARY);
 		var allQuestion:Array<TokenTree> = root.filter([Question], ALL);
-		Assert.areEqual(6, allQuestion.length);
+		Assert.areEqual(10, allQuestion.length);
 		for (quest in allQuestion) {
 			Assert.isTrue(TokenTreeCheckUtils.isTernary(quest));
 		}
@@ -343,6 +343,14 @@ abstract TokenTreeCheckUtilsTests(String) to String {
                 doSomething(true) ? 0 : 1;
                 setNext(transform != null ? transform.alphaMultiplier : 1.0);
                 angle = ((y < 0) ? -angle : angle) * FlxAngle.TO_DEG;
+				_url = (l_loaderInfo != null) ? untyped l_loaderInfo.parameters.gameUrl : _GAME_URL;
+				var guarded = !AnyTypes.toBool(guard) ? function(t0, t1) return t0 == t1 : guard;
+				var angle = UI.get().isShiftDown ? 1. : 5.;
+				fragmentShader = tinted ?
+					'tex ft1,  v1, fs0 <???> \n' + // sample texture 0
+					'mul  oc, ft1,  v0       \n'   // multiply color with texel color
+					:
+					'tex  oc,  v1, fs0 <???> \n';  // sample texture 0
 				return e2 == null ? { t : HDyn } : bar(e2);
         }
 	}

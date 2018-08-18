@@ -73,6 +73,7 @@ class TokenTreeBuilderParsingTest {
 		assertCodeParses(COMMENTS_IN_SWITCH_CASES);
 		assertCodeParses(TERNARY_WITH_MACRO);
 		assertCodeParses(STRUCTURE_EXTENSION_2);
+		assertCodeParses(MACRO_DO_WHILE);
 	}
 
 	public function assertCodeParses(code:String, ?pos:PosInfos) {
@@ -1039,6 +1040,20 @@ abstract TokenTreeBuilderParsingTests(String) to String {
 		var foo:Int;
 	} &{
 		var foo:Int;
+	}
+	";
+
+	var MACRO_DO_WHILE = "
+	class ClassicFor {
+		private static function makeForLoop():Expr {
+			init.push(macro while($condition) {
+					var shouldBreak:Bool = true;
+					do $block while(shouldBreak = false);
+					if(shouldBreak) break;
+					$incrementExpr;
+				}
+			);
+		}
 	}
 	";
 }
