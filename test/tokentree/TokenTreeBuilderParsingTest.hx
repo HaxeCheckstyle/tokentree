@@ -79,6 +79,7 @@ class TokenTreeBuilderParsingTest {
 		assertCodeParses(STRUCTURE_EXTENSION_2);
 		assertCodeParses(MACRO_DO_WHILE);
 		assertCodeParses(INTERESTING_USE_OF_CONDITIONALS);
+		assertCodeParses(NESTED_LOOPS);
 	}
 
 	public function assertCodeParses(code:String, ?pos:PosInfos) {
@@ -1075,4 +1076,20 @@ abstract TokenTreeBuilderParsingTests(String) to String {
 		}
 	}
 	";
+
+	var NESTED_LOOPS = "
+	class Earcut {
+		function foo() {
+			do {
+				while (true) {}
+			} while (true);
+		}
+
+		function bar() {
+			do {
+				while (true) {}
+			} while (true);
+		}
+	}	
+	";	
 }

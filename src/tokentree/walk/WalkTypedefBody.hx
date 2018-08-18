@@ -14,6 +14,9 @@ class WalkTypedefBody {
 			parent.getLastChild().addChild(and);
 			walkTypedefBody(stream, parent);
 		}
+		if (stream.is(Arrow)) {
+			WalkStatement.walkStatement(stream, parent);
+		}
 	}
 
 	public static function walkTypedefCurlyBody(stream:TokenStream, openTok:TokenTree) {

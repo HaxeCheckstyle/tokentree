@@ -82,6 +82,7 @@ class TokenTreeCheckUtilsTest {
 		var root:TokenTree = assertCodeParses(TokenTreeCheckUtilsTests.ARROW_FUNCTIONS);
 
 		var allArrows:Array<TokenTree> = root.filter([Arrow], ALL);
+		Assert.areEqual(8, allArrows.length);
 		for (ar in allArrows) {
 			Assert.areEqual(ArrowType.ARROW_FUNCTION, TokenTreeCheckUtils.getArrowType(ar));
 		}
@@ -92,6 +93,7 @@ class TokenTreeCheckUtilsTest {
 		var root:TokenTree = assertCodeParses(TokenTreeCheckUtilsTests.FUNCTION_TYPE_HAXE_3);
 
 		var allArrows:Array<TokenTree> = root.filter([Arrow], ALL);
+		Assert.areEqual(13, allArrows.length);
 		for (ar in allArrows) {
 			Assert.areEqual(ArrowType.FUNCTION_TYPE_HAXE3, TokenTreeCheckUtils.getArrowType(ar));
 		}
@@ -102,6 +104,7 @@ class TokenTreeCheckUtilsTest {
 		var root:TokenTree = assertCodeParses(TokenTreeCheckUtilsTests.FUNCTION_TYPE_HAXE_4);
 
 		var allArrows:Array<TokenTree> = root.filter([Arrow], ALL);
+		Assert.areEqual(7, allArrows.length);
 		for (ar in allArrows) {
 			Assert.areEqual(ArrowType.FUNCTION_TYPE_HAXE4, TokenTreeCheckUtils.getArrowType(ar));
 		}
@@ -111,7 +114,7 @@ class TokenTreeCheckUtilsTest {
 	public function testIsTernary() {
 		var root:TokenTree = assertCodeParses(TokenTreeCheckUtilsTests.TERNARY);
 		var allQuestion:Array<TokenTree> = root.filter([Question], ALL);
-		Assert.areEqual(10, allQuestion.length);
+		Assert.areEqual(12, allQuestion.length);
 		for (quest in allQuestion) {
 			Assert.isTrue(TokenTreeCheckUtils.isTernary(quest));
 		}
@@ -317,8 +320,10 @@ abstract TokenTreeCheckUtilsTests(String) to String {
 			var f:Int->String->Void;
 			var f:(Int->Int) ->Int->Int;
 			var f:Int->?Int->Void;
+
 		}
 	}
+	typedef ValueXYListenerCallback = {x:Float, y:Float}->Void;
 	typedef ExtendedFieldsCB = Array<ObjectDeclField>->String->Position->DynamicAccess<Expr>->Void;
 	";
 
@@ -351,6 +356,10 @@ abstract TokenTreeCheckUtilsTests(String) to String {
 					'mul  oc, ft1,  v0       \n'   // multiply color with texel color
 					:
 					'tex  oc,  v1, fs0 <???> \n';  // sample texture 0
+				mMultiSelect[s] = toggle ? !mMultiSelect[s] : true;
+				macro {
+					if (id < (isRPC ? $v{firstRPCID} : $v{firstFID})) {}
+				}
 				return e2 == null ? { t : HDyn } : bar(e2);
         }
 	}
