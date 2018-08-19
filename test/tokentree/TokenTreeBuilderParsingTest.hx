@@ -80,6 +80,7 @@ class TokenTreeBuilderParsingTest {
 		assertCodeParses(MACRO_DO_WHILE);
 		assertCodeParses(INTERESTING_USE_OF_CONDITIONALS);
 		assertCodeParses(NESTED_LOOPS);
+		assertCodeParses(TYPED_PARAM_STRUCTURE_EXT);
 	}
 
 	public function assertCodeParses(code:String, ?pos:PosInfos) {
@@ -1090,6 +1091,13 @@ abstract TokenTreeBuilderParsingTests(String) to String {
 				while (true) {}
 			} while (true);
 		}
-	}	
-	";	
+	}
+	";
+
+	var TYPED_PARAM_STRUCTURE_EXT = "
+	typedef T_2<S,T> = { v0 : S, v1 : T };
+	typedef T_3<S,T,R> = {> T_2<S,T>, v2 : R };
+	typedef T_4<S,T,R,P> = {> T_3<S,T,R>, v3 : P };
+	typedef T_5<S,T,R,P,Q> = {> T_4<S,T,R,P>, v4 : Q };
+	";
 }

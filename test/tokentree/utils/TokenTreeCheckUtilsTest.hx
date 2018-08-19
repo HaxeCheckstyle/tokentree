@@ -114,7 +114,7 @@ class TokenTreeCheckUtilsTest {
 	public function testIsTernary() {
 		var root:TokenTree = assertCodeParses(TokenTreeCheckUtilsTests.TERNARY);
 		var allQuestion:Array<TokenTree> = root.filter([Question], ALL);
-		Assert.areEqual(12, allQuestion.length);
+		Assert.areEqual(13, allQuestion.length);
 		for (quest in allQuestion) {
 			Assert.isTrue(TokenTreeCheckUtils.isTernary(quest));
 		}
@@ -357,6 +357,7 @@ abstract TokenTreeCheckUtilsTests(String) to String {
 					:
 					'tex  oc,  v1, fs0 <???> \n';  // sample texture 0
 				mMultiSelect[s] = toggle ? !mMultiSelect[s] : true;
+				mMultiSelect[s] = toggle ? ~1 : true;
 				macro {
 					if (id < (isRPC ? $v{firstRPCID} : $v{firstFID})) {}
 				}
