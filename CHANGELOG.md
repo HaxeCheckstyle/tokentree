@@ -17,7 +17,7 @@
 - Fixed "interesting" use of conditionals [#106](https://github.com/HaxeCheckstyle/tokentree/issues/106)
 - Fixed arrow position in typedef to function type with structure argument [#108](https://github.com/HaxeCheckstyle/tokentree/issues/108)
 - Fixed nested while loop detection [#108](https://github.com/HaxeCheckstyle/tokentree/issues/108)
-
+- Fixed handling of typed parameters in structure extensions
 
 ## version 1.0.9 (2018-08-13)
 
