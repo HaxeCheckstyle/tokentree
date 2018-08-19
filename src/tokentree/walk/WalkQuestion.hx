@@ -31,7 +31,7 @@ class WalkQuestion {
 				case BkOpen: true;
 				case BrOpen: true;
 				case Binop(OpAdd), Binop(OpSub): true;
-				case Unop(OpNot): true;
+				case Unop(_): true;
 				case Kwd(KwdCast): true;
 				case Kwd(KwdNew): true;
 				case Kwd(KwdTrue), Kwd(KwdFalse), Kwd(KwdNull): true;

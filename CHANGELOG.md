@@ -11,13 +11,13 @@
 - Fixed position of trailing comments in switch/cases [#98](https://github.com/HaxeCheckstyle/tokentree/issues/98)
 - Fixed position of type checks on object literals [#99](https://github.com/HaxeCheckstyle/tokentree/issues/99)
 - Fixed `getPOpenType` parameter detection [#100](https://github.com/HaxeCheckstyle/tokentree/issues/100) + [#101](https://github.com/HaxeCheckstyle/tokentree/issues/101) + [#104](https://github.com/HaxeCheckstyle/tokentree/issues/104)
-- Fixed ternary position [#102](https://github.com/HaxeCheckstyle/tokentree/issues/102) + [#105](https://github.com/HaxeCheckstyle/tokentree/issues/105) + [#108](https://github.com/HaxeCheckstyle/tokentree/issues/108)
+- Fixed ternary position [#102](https://github.com/HaxeCheckstyle/tokentree/issues/102) + [#105](https://github.com/HaxeCheckstyle/tokentree/issues/105) + [#108](https://github.com/HaxeCheckstyle/tokentree/issues/108) +  [#109](https://github.com/HaxeCheckstyle/tokentree/issues/109)
 - Fixed structure extension position of `&` [#103](https://github.com/HaxeCheckstyle/tokentree/issues/103)
 - Fixed `do…while` handling [#105](https://github.com/HaxeCheckstyle/tokentree/issues/105)
 - Fixed "interesting" use of conditionals [#106](https://github.com/HaxeCheckstyle/tokentree/issues/106)
 - Fixed arrow position in typedef to function type with structure argument [#108](https://github.com/HaxeCheckstyle/tokentree/issues/108)
 - Fixed nested while loop detection [#108](https://github.com/HaxeCheckstyle/tokentree/issues/108)
-
+- Fixed handling of typed parameters in structure extensions [#109](https://github.com/HaxeCheckstyle/tokentree/issues/109)
 
 ## version 1.0.9 (2018-08-13)
 

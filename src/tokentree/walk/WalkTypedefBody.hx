@@ -79,19 +79,10 @@ class WalkTypedefBody {
 	static function walkStructureExtension(stream:TokenStream, parent:TokenTree) {
 		var gt:TokenTree = stream.consumeTokenDef(Binop(OpGt));
 		parent.addChild(gt);
-		var progress:TokenStreamProgress = new TokenStreamProgress(stream);
-		var name:TokenTree = stream.consumeToken();
+		var name:TokenTree = WalkTypeNameDef.walkTypeNameDef(stream, parent);
 		gt.addChild(name);
-		while (progress.streamHasChanged()) {
-			switch (stream.token()) {
-				case Comma:
-					break;
-				default:
-					var child:TokenTree = stream.consumeToken();
-					name.addChild(child);
-					name = child;
-			}
+		if (stream.is(Comma)) {
+			name.addChild(stream.consumeToken());
 		}
-		gt.addChild(stream.consumeToken());
 	}
 }
