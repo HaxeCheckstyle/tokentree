@@ -93,7 +93,7 @@ class TokenTreeCheckUtilsTest {
 		var root:TokenTree = assertCodeParses(TokenTreeCheckUtilsTests.FUNCTION_TYPE_HAXE_3);
 
 		var allArrows:Array<TokenTree> = root.filter([Arrow], ALL);
-		Assert.areEqual(13, allArrows.length);
+		Assert.areEqual(16, allArrows.length);
 		for (ar in allArrows) {
 			Assert.areEqual(ArrowType.FUNCTION_TYPE_HAXE3, TokenTreeCheckUtils.getArrowType(ar));
 		}
@@ -320,7 +320,7 @@ abstract TokenTreeCheckUtilsTests(String) to String {
 			var f:Int->String->Void;
 			var f:(Int->Int) ->Int->Int;
 			var f:Int->?Int->Void;
-
+			var copy:Uri->Uri->{overwrite:Bool}->EitherType<Void, Thenable<Void>>;
 		}
 	}
 	typedef ValueXYListenerCallback = {x:Float, y:Float}->Void;
