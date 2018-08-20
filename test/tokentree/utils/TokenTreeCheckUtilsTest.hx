@@ -93,7 +93,7 @@ class TokenTreeCheckUtilsTest {
 		var root:TokenTree = assertCodeParses(TokenTreeCheckUtilsTests.FUNCTION_TYPE_HAXE_3);
 
 		var allArrows:Array<TokenTree> = root.filter([Arrow], ALL);
-		Assert.areEqual(16, allArrows.length);
+		Assert.areEqual(22, allArrows.length);
 		for (ar in allArrows) {
 			Assert.areEqual(ArrowType.FUNCTION_TYPE_HAXE3, TokenTreeCheckUtils.getArrowType(ar));
 		}
@@ -325,6 +325,7 @@ abstract TokenTreeCheckUtilsTests(String) to String {
 	}
 	typedef ValueXYListenerCallback = {x:Float, y:Float}->Void;
 	typedef ExtendedFieldsCB = Array<ObjectDeclField>->String->Position->DynamicAccess<Expr>->Void;
+	typedef RequestHandler<P, R, E> = P->CancellationToken->(R->Void)->(ResponseError<E>->Void)->Void;
 	";
 
 	var FUNCTION_TYPE_HAXE_4 = "

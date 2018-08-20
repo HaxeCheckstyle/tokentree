@@ -611,8 +611,12 @@ class TokenTreeCheckUtils {
 		if (childArrows.length <= 0) {
 			return ARROW_FUNCTION;
 		}
-		return FUNCTION_TYPE_HAXE4;
-	}
+		var childArrows:Array<TokenTree> = token.filter([DblDot], ALL);
+		if (childArrows.length > 0) {
+			return FUNCTION_TYPE_HAXE4;
+		}
+		return FUNCTION_TYPE_HAXE3;
+	} 
 
 	static function checkArrowParent(parent:TokenTree):ArrowType {
 		if (parent == null) {
