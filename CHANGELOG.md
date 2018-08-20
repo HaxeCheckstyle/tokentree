@@ -1,5 +1,7 @@
 ## dev branch / next version (1.x.x)
 
+## version 1.0.10 (2018-08-20)
+
 - Added `TokenTreeCheckUtils.getColonType()` [#99](https://github.com/HaxeCheckstyle/tokentree/issues/99) + [#100](https://github.com/HaxeCheckstyle/tokentree/issues/100) + [#101](https://github.com/HaxeCheckstyle/tokentree/issues/101)
 - Fixed implements / extends handling [#94](https://github.com/HaxeCheckstyle/tokentree/issues/94)
 - Fixed endless loop with macro patterns [#94](https://github.com/HaxeCheckstyle/tokentree/issues/94)
