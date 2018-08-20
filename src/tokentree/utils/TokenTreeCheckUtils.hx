@@ -394,6 +394,12 @@ class TokenTreeCheckUtils {
 					return OBJECTDECL;
 			}
 		}
+		if (TokenTreeAccessHelper.access(token).firstOf(Arrow).exists()) {
+			return ANONTYPE;
+		}
+		if ((token.nextSibling != null) && (token.nextSibling.is(Arrow))) {
+			return ANONTYPE;
+		}
 		var onlyComment:Bool = true;
 		for (child in token.children) {
 			switch (child.tok) {
@@ -520,6 +526,20 @@ class TokenTreeCheckUtils {
 		while (child != null) {
 			switch (child.tok) {
 				case Arrow, Dot, Semicolon, Question:
+				case BrOpen:
+					var brClose:TokenTree = child.getFirstChild();
+					if (brClose.is(BrClose)) {
+						return ARROW_FUNCTION;
+					}
+					var brType:BrOpenType = getBrOpenType(child);
+					switch (brType) {
+						case BLOCK:
+							return ARROW_FUNCTION;
+						case ANONTYPE:
+						default:
+					}
+					child = child.nextSibling;
+					continue;
 				case Const(CIdent(_)), Kwd(KwdMacro):
 				case Binop(OpLt):
 					child = child.nextSibling;
@@ -556,6 +576,7 @@ class TokenTreeCheckUtils {
 				case Kwd(_):
 					return ARROW_FUNCTION;
 				case Dot, Semicolon:
+				case BrOpen, DblDot:
 				case Binop(OpLt):
 					child = child.nextSibling;
 					continue;
@@ -590,7 +611,7 @@ class TokenTreeCheckUtils {
 		if (childArrows.length <= 0) {
 			return ARROW_FUNCTION;
 		}
-		return FUNCTION_TYPE_HAXE3;
+		return FUNCTION_TYPE_HAXE4;
 	}
 
 	static function checkArrowParent(parent:TokenTree):ArrowType {
