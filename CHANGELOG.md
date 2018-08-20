@@ -7,7 +7,7 @@
 - Fixed conditionals in new [#95](https://github.com/HaxeCheckstyle/tokentree/issues/95)
 - Fixed object literal detection [#96](https://github.com/HaxeCheckstyle/tokentree/issues/96)
 - Fixed `getBrOpenType` detection of blocks [#96](https://github.com/HaxeCheckstyle/tokentree/issues/96) + [#99](https://github.com/HaxeCheckstyle/tokentree/issues/99) + [#107](https://github.com/HaxeCheckstyle/tokentree/issues/107) + [#110](https://github.com/HaxeCheckstyle/tokentree/issues/110)
-- Fixed `getArrowType` detection [#97](https://github.com/HaxeCheckstyle/tokentree/issues/97) + [#110](https://github.com/HaxeCheckstyle/tokentree/issues/110)
+- Fixed `getArrowType` detection [#97](https://github.com/HaxeCheckstyle/tokentree/issues/97) + [#110](https://github.com/HaxeCheckstyle/tokentree/issues/110) + [#111](https://github.com/HaxeCheckstyle/tokentree/issues/111)
 - Fixed position of trailing comments in switch/cases [#98](https://github.com/HaxeCheckstyle/tokentree/issues/98)
 - Fixed position of type checks on object literals [#99](https://github.com/HaxeCheckstyle/tokentree/issues/99)
 - Fixed `getPOpenType` parameter detection [#100](https://github.com/HaxeCheckstyle/tokentree/issues/100) + [#101](https://github.com/HaxeCheckstyle/tokentree/issues/101) + [#104](https://github.com/HaxeCheckstyle/tokentree/issues/104)
