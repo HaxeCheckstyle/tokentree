@@ -44,22 +44,22 @@ class VerifyTokenTreeTest extends VerifyTokenTreeBase {
 		// case 3
 		var cas:IVerifyTokenTree = block.childFirst().is(Kwd(KwdCase)).childCount(2);
 		cas.childFirst().is(Const(CInt("3"))).noChilds();
-		cas = cas.childLast().is(DblDot).childs().count(2);
-		cas.last().is(Semicolon).noChilds();
-		cas = cas.first().is(BrOpen).childCount(3).childs();
+		cas = cas.childLast().is(DblDot).childs().count(1);
+		cas = cas.first().is(BrOpen).childCount(4).childs();
 		cas.first().is(Const(CIdent("a"))).childs().count(2).first().is(DblDot).childs().count(1).is(Const(CInt("1"))).noChilds();
 		cas.first().is(Const(CIdent("a"))).childs().count(2).last().is(Comma).noChilds();
 		cas.at(1).is(Const(CIdent("b"))).childs().count(1).is(DblDot).childs().count(1).is(Const(CInt("2"))).noChilds();
-		cas.last().is(BrClose).noChilds();
+		cas.at(2).is(BrClose).noChilds();
+		cas.last().is(Semicolon).noChilds();
 
 		// default
-		cas = block.childAt(1).is(Kwd(KwdDefault)).childs().is(DblDot).childs().count(2);
-		cas.last().is(Semicolon).noChilds();
-		cas = cas.first().is(BrOpen).childCount(3).childs();
+		cas = block.childAt(1).is(Kwd(KwdDefault)).childs().is(DblDot).childs().count(1);
+		cas = cas.first().is(BrOpen).childCount(4).childs();
 		cas.first().is(Const(CIdent("a"))).childs().count(2).first().is(DblDot).childs().count(1).is(Const(CInt("0"))).noChilds();
 		cas.first().is(Const(CIdent("a"))).childs().count(2).last().is(Comma).noChilds();
 		cas.at(1).is(Const(CIdent("b"))).childs().count(1).is(DblDot).childs().count(1).is(Const(CInt("2"))).noChilds();
-		cas.last().is(BrClose).noChilds();
+		cas.at(2).is(BrClose).noChilds();
+		cas.last().is(Semicolon).noChilds();
 
 		block.childLast().is(BrClose).noChilds();
 	}

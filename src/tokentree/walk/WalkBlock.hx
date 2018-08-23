@@ -48,11 +48,6 @@ class WalkBlock {
 			}
 		}
 		parent.addChild(stream.consumeTokenDef(BrClose));
-		if (stream.is(DblDot)) {
-			WalkStatement.walkDblDot(stream, parent);
-		}
-		if (stream.is(Arrow)) {
-			WalkStatement.walkStatement(stream, parent);
-		}
+		WalkStatement.walkStatementContinue(stream, parent);
 	}
 }

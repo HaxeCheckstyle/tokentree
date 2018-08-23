@@ -550,7 +550,8 @@
         ],
         "CyclomaticComplexity": [
             "tokentree/walk/WalkStatement",
-			"tokentree/utils/TokenTreeCheckUtils:getBrOpenType"
+			"tokentree/utils/TokenTreeCheckUtils:getBrOpenType",
+			"tokentree/utils/TokenTreeCheckUtils:getPOpenType"
 		],
 		"MemberName": [
 			"tokentree/utils/TokenTreeCheckUtils:BrOpenType",

@@ -3,7 +3,7 @@
     "classPath": "src",
     "license": "MIT",
     "tags": [],
-    "description": "TokenTree library used by haxe-checkstyle",
+    "description": "TokenTree library used by haxe-checkstyle, haxe-formatter and haxe-languageserver",
     "contributors": [
         "AlexHaxe"
     ],

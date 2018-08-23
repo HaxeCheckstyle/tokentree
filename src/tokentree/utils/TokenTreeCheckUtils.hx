@@ -386,7 +386,15 @@ class TokenTreeCheckUtils {
 					return OBJECTDECL;
 			}
 		}
-		if ((token.children.length == 1)) {
+		if (token.children.length == 1) {
+			switch (token.parent.tok) {
+				case Kwd(_):
+					return BLOCK;
+				default:
+					return OBJECTDECL;
+			}
+		}
+		if ((token.children.length == 2) && token.getLastChild().is(Semicolon)) {
 			switch (token.parent.tok) {
 				case Kwd(_):
 					return BLOCK;
@@ -616,7 +624,7 @@ class TokenTreeCheckUtils {
 			return FUNCTION_TYPE_HAXE4;
 		}
 		return FUNCTION_TYPE_HAXE3;
-	} 
+	}
 
 	static function checkArrowParent(parent:TokenTree):ArrowType {
 		if (parent == null) {
