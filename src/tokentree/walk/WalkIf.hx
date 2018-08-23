@@ -25,18 +25,12 @@ class WalkIf {
 		if (stream.is(DblDot)) return;
 		// if-expr
 		WalkBlock.walkBlock(stream, ifTok);
-		if (stream.is(Semicolon)) {
-			WalkStatement.walkStatement(stream, ifTok.getLastChild());
-		}
 		WalkComment.tryWalkComment(stream, ifTok, Kwd(KwdElse));
 		if (stream.is(Kwd(KwdElse))) {
 			var elseTok:TokenTree = stream.consumeTokenDef(Kwd(KwdElse));
 			ifTok.addChild(elseTok);
 			// else-expr
 			WalkBlock.walkBlock(stream, elseTok);
-			if (stream.is(Semicolon)) {
-				WalkStatement.walkStatement(stream, elseTok.getLastChild());
-			}
 		}
 	}
 }
