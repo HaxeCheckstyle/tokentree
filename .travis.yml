@@ -5,7 +5,7 @@ language: haxe
 script:
   - haxe build.hxml
   - # cd checkstyle && haxe buildAll.hxml && rm -f coverage.json && cd ..
-  - neko checkstyle/run.n -s src -s test
+  - # neko checkstyle/run.n -s src -s test
 
 after_success:
   - bash <(curl -s https://codecov.io/bash) || echo "Codecov did not collect coverage reports"
