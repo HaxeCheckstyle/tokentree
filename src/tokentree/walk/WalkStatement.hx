@@ -28,7 +28,11 @@ class WalkStatement {
 			case Binop(_):
 				wantMore = true;
 			case Unop(_):
-				if (parent.tok.match(Const(_))) wantMore = false;
+				if (parent.isCIdentOrCString()) {
+					var newChild:TokenTree = stream.consumeToken();
+					parent.addChild(newChild);
+					return;
+				}
 			case IntInterval(_):
 				wantMore = true;
 			case Kwd(_):
@@ -69,6 +73,19 @@ class WalkStatement {
 			case PClose, BrClose, BkClose:
 				return;
 			case Comma:
+				return;
+			case Semicolon:
+				var newChild:TokenTree = stream.consumeToken();
+				var lastChild:TokenTree = parent.getLastChild();
+				if (lastChild == null) {
+					lastChild = parent;
+				}
+				switch (lastChild.tok) {
+					case BrClose, BkClose, PClose:
+						lastChild = parent;
+					default:
+				}
+				lastChild.addChild(newChild);
 				return;
 			case Sharp(_):
 				WalkSharp.walkSharp(stream, parent, WalkStatement.walkStatement);
@@ -121,14 +138,18 @@ class WalkStatement {
 				WalkStatement.walkStatement(stream, parent);
 			case DblDot:
 				walkDblDot(stream, parent);
-			case Arrow:
-				WalkStatement.walkStatement(stream, parent);
-			case Binop(_), Unop(_):
-				WalkStatement.walkStatement(stream, parent);
-			case Question:
-				WalkQuestion.walkQuestion(stream, parent);
 			case Semicolon:
 				WalkStatement.walkStatement(stream, parent);
+			case Arrow:
+				WalkStatement.walkStatement(stream, parent);
+			case Binop(_):
+				WalkStatement.walkStatement(stream, parent);
+			case Unop(_):
+				if (parent.isCIdentOrCString()) {
+					WalkStatement.walkStatement(stream, parent);
+				}
+			case Question:
+				WalkQuestion.walkQuestion(stream, parent);
 			case BkOpen:
 				WalkStatement.walkStatement(stream, parent);
 			case POpen:

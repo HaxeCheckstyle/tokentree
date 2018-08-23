@@ -81,6 +81,9 @@ class TokenTreeBuilderParsingTest {
 		assertCodeParses(INTERESTING_USE_OF_CONDITIONALS);
 		assertCodeParses(NESTED_LOOPS);
 		assertCodeParses(TYPED_PARAM_STRUCTURE_EXT);
+		assertCodeParses(OBJECT_LITERAL_IN_IF_ELSE_CHAIN);
+		assertCodeParses(UNOP_AFTER_OP_ASSIGN);
+		assertCodeParses(UNOP_IN_DO_WHILE);
 	}
 
 	public function assertCodeParses(code:String, ?pos:PosInfos) {
@@ -1099,5 +1102,36 @@ abstract TokenTreeBuilderParsingTests(String) to String {
 	typedef T_3<S,T,R> = {> T_2<S,T>, v2 : R };
 	typedef T_4<S,T,R,P> = {> T_3<S,T,R>, v3 : P };
 	typedef T_5<S,T,R,P,Q> = {> T_4<S,T,R,P>, v4 : Q };
+	";
+
+	var OBJECT_LITERAL_IN_IF_ELSE_CHAIN = "
+	class Main {
+		function loop(min, max) {
+			return if (mid == min)
+				{line: mid, pos: pos - start + 1};
+			else if (start > pos)
+				loop(min, mid);
+			else
+				loop(mid, max);
+		}
+	}
+	";
+
+	var UNOP_AFTER_OP_ASSIGN = "
+	class Main {
+		public static function main() {
+			ansIds[ansi] = cids[ci];
+			++ci;
+		}
+	}
+	";
+
+	var UNOP_IN_DO_WHILE = "
+	class Test {
+		function foo() {
+			do a++ while (true);
+			do ++a while (true);
+		}
+	}
 	";
 }

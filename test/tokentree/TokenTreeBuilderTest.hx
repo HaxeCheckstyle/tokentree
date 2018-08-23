@@ -9,7 +9,7 @@ import tokentree.walk.WalkPackageImport;
 
 class TokenTreeBuilderTest {
 	function assertTokenEquals(testCase:TokenTreeBuilderTests, actual:String, ?pos:PosInfos) {
-		Assert.areEqual((testCase:String), actual, pos);
+		Assert.areEqual((testCase : String), actual, pos);
 	}
 
 	@Test
@@ -211,6 +211,6 @@ abstract TokenTreeBuilderTests(String) to String {
 		"        Kwd(KwdReturn)\n" +
 		"          BkOpen\n" +
 		"            BkClose\n" +
-		"          Semicolon\n" +
+		"            Semicolon\n" +
 		"        BrClose\n";
 }

@@ -1,5 +1,8 @@
 ## dev branch / next version (1.x.x)
 
+- Fixed position of semicolon
+- Fixed handling of unary expressions
+
 ## version 1.0.10 (2018-08-20)
 
 - Added `TokenTreeCheckUtils.getColonType()` [#99](https://github.com/HaxeCheckstyle/tokentree/issues/99) + [#100](https://github.com/HaxeCheckstyle/tokentree/issues/100) + [#101](https://github.com/HaxeCheckstyle/tokentree/issues/101)
