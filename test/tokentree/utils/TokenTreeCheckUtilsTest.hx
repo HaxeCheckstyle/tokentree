@@ -134,7 +134,7 @@ class TokenTreeCheckUtilsTest {
 	public function testMixedColonTypes() {
 		var root:TokenTree = assertCodeParses(TokenTreeCheckUtilsTests.MIXED_COLON_TYPES);
 		var allBr:Array<TokenTree> = root.filter([DblDot], ALL);
-		Assert.areEqual(43, allBr.length);
+		Assert.areEqual(45, allBr.length);
 		var index:Int = 0;
 		Assert.areEqual(ColonType.OBJECT_LITERAL, TokenTreeCheckUtils.getColonType(allBr[index++]));
 		Assert.areEqual(ColonType.TYPE_CHECK, TokenTreeCheckUtils.getColonType(allBr[index++]));
@@ -160,6 +160,11 @@ class TokenTreeCheckUtilsTest {
 		Assert.areEqual(ColonType.SWITCH_CASE, TokenTreeCheckUtils.getColonType(allBr[index++]));
 		Assert.areEqual(ColonType.OBJECT_LITERAL, TokenTreeCheckUtils.getColonType(allBr[index++]));
 		Assert.areEqual(ColonType.OBJECT_LITERAL, TokenTreeCheckUtils.getColonType(allBr[index++]));
+
+		// var a = (10 : A);
+		Assert.areEqual(ColonType.TYPE_CHECK, TokenTreeCheckUtils.getColonType(allBr[index++]));
+		// var a = (10.0 : A);
+		Assert.areEqual(ColonType.TYPE_CHECK, TokenTreeCheckUtils.getColonType(allBr[index++]));
 
 		// return switch ((this : DiagnosticsKind<T>)) {}
 		Assert.areEqual(ColonType.TYPE_CHECK, TokenTreeCheckUtils.getColonType(allBr[index++]));
@@ -399,6 +404,8 @@ abstract TokenTreeCheckUtilsTests(String) to String {
 				default:
 					return {i: 0, s:''};
 			}
+			var a = (10 : A);
+			var a = (10.0 : A);
 			return switch ((this:DiagnosticsKind<T>)) {}
 		}
 		function new(anchor:Position, active:Position):Void;

@@ -2,6 +2,7 @@
 
 - Fixed position of semicolon [#113](https://github.com/HaxeCheckstyle/tokentree/issues/113)
 - Fixed handling of unary expressions [#113](https://github.com/HaxeCheckstyle/tokentree/issues/113)
+- Fixed detection of type check on numbers [#114](https://github.com/HaxeCheckstyle/tokentree/issues/114)
 
 ## version 1.0.10 (2018-08-20)
 
