@@ -677,7 +677,7 @@ class TokenTreeCheckUtils {
 				return findColonParent(token);
 			case Binop(OpLt):
 				return findColonParent(parent);
-			case Const(CIdent(_)), Const(CString(_)):
+			case Const(_):
 				return findColonParent(parent);
 			case Kwd(KwdNew):
 				return findColonParent(parent);
