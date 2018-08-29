@@ -48,6 +48,13 @@ class WalkBlock {
 			}
 		}
 		parent.addChild(stream.consumeTokenDef(BrClose));
-		WalkStatement.walkStatementContinue(stream, parent);
+		if (stream.hasMore()) {
+			switch (stream.token()) {
+				case Binop(OpGt):
+					return;
+				default:
+			}
+			WalkStatement.walkStatementContinue(stream, parent);
+		}
 	}
 }

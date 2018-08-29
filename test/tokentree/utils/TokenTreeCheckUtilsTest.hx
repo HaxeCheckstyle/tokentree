@@ -228,6 +228,16 @@ class TokenTreeCheckUtilsTest {
 		Assert.areEqual(POpenType.PARAMETER, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
 	}
 
+	@Test
+	public function testMixedTypeParameter() {
+		var root:TokenTree = assertCodeParses(TokenTreeCheckUtilsTests.MIXED_TYPE_PARAMETER);
+		var allBr:Array<TokenTree> = root.filter([Binop(OpLt)], ALL);
+		Assert.areEqual(1, allBr.length);
+		var index:Int = 0;
+		// abstract SymbolStack(Array<{level:SymbolLevel, symbol:DocumentSymbol}>) {}
+		Assert.isTrue(TokenTreeCheckUtils.isTypeParameter(allBr[index++]));
+	}
+
 	public function assertCodeParses(code:String, ?pos:PosInfos):TokenTree {
 		var builder:TestTokenTreeBuilder = null;
 		try {
@@ -433,5 +443,9 @@ abstract TokenTreeCheckUtilsTests(String) to String {
 
         static function main(?value:Int) {}
 	}
+	";
+
+	var MIXED_TYPE_PARAMETER = "
+	abstract SymbolStack(Array<{level:SymbolLevel, symbol:DocumentSymbol}>) {}
 	";
 }
