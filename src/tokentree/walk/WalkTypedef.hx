@@ -7,8 +7,11 @@ class WalkTypedef {
 		var name:TokenTree = WalkTypeNameDef.walkTypeNameDef(stream, typeTok);
 		// add all comments, annotations
 		stream.applyTempStore(name);
-		var assign:TokenTree = stream.consumeTokenDef(Binop(OpAssign));
-		name.addChild(assign);
-		WalkTypedefBody.walkTypedefBody(stream, assign);
+		if (stream.is(Binop(OpAssign))) {
+			var assign:TokenTree = stream.consumeTokenDef(Binop(OpAssign));
+			name.addChild(assign);
+			name = assign;
+		}
+		WalkTypedefBody.walkTypedefBody(stream, name);
 	}
 }
