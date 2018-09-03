@@ -106,24 +106,24 @@ class WalkSwitch {
 
 	static function relocateSharpTree(parent:TokenTree, dblDot:TokenTree) {
 		/*
-			* relocate sharp subtree from:
-			*  |- BrOpen
-			*      |- Kwd(KwdCase)
-			*      |   |- expression
-			*      |   |- DblDot
-			*      |       |- statement
-			*      |- Sharp(If)
-			*      |   |- condition
-			*      |   |- statement (if not a new case)
-			* to:
-			*      |- Kwd(KwdCase)
-			*      |   |- expression
-			*      |   |- DblDot
-			*      |       |- statement
-			*      |       |- Sharp(If)
-			*      |           |- condition
-			*      |           |- statement
-			*/
+		 * relocate sharp subtree from:
+		 *  |- BrOpen
+		 *      |- Kwd(KwdCase)
+		 *      |   |- expression
+		 *      |   |- DblDot
+		 *      |       |- statement
+		 *      |- Sharp(If)
+		 *      |   |- condition
+		 *      |   |- statement (if not a new case)
+		 * to:
+		 *      |- Kwd(KwdCase)
+		 *      |   |- expression
+		 *      |   |- DblDot
+		 *      |       |- statement
+		 *      |       |- Sharp(If)
+		 *      |           |- condition
+		 *      |           |- statement
+		 */
 		var sharp:TokenTree = parent.getLastChild();
 		if (sharp.children.length < 2) return;
 		var body:TokenTree = sharp.children[1];

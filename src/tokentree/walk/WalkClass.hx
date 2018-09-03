@@ -84,8 +84,13 @@ class WalkClass {
 	}
 
 	static function walkClassContinueAfterSharp(stream:TokenStream, parent:TokenTree) {
-		var brOpen:TokenTreeAccessHelper = TokenTreeAccessHelper.access(parent).lastChild().is(Sharp("if")).lastOf(Kwd(KwdFunction)).firstChild().lastChild().is(
-			BrOpen);
+		var brOpen:TokenTreeAccessHelper = TokenTreeAccessHelper.access(parent)
+			.lastChild()
+			.is(Sharp("if"))
+			.lastOf(Kwd(KwdFunction))
+			.firstChild()
+			.lastChild()
+			.is(BrOpen);
 		if (brOpen.token == null) return;
 		if (brOpen.lastChild().is(BrClose).token != null) return;
 		WalkBlock.walkBlockContinue(stream, parent);

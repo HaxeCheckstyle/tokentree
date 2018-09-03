@@ -1,5 +1,7 @@
 ## dev branch / next version (1.x.x)
 
+## version 1.0.11 (2018-09-03)
+
 - Fixed position of semicolon [#113](https://github.com/HaxeCheckstyle/tokentree/issues/113)
 - Fixed handling of unary expressions [#113](https://github.com/HaxeCheckstyle/tokentree/issues/113)
 - Fixed detection of type check on numbers [#114](https://github.com/HaxeCheckstyle/tokentree/issues/114)

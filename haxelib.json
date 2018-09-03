@@ -7,8 +7,8 @@
     "contributors": [
         "AlexHaxe"
     ],
-    "releasenote": "added Colon type detection, fixed arrow and bropen detection - see CHANGELOG for details",
-    "version": "1.0.10",
+    "releasenote": "bugfixes - see CHANGELOG for details",
+    "version": "1.0.11",
     "url": "https://github.com/HaxeCheckstyle/tokentree",
     "dependencies": {}
 }
