@@ -96,7 +96,8 @@
                     "afterClassStaticVars",
                     "afterClassVars",
                     "betweenClassMethods",
-                    "beginInterface"
+					"beginInterface",
+					"beforeMultiLineComment"
                 ],
                 "upto": [
                     "betweenImports",
@@ -105,7 +106,8 @@
                     "beginClass",
                     "betweenClassStaticVars",
                     "betweenClassVars",
-                    "betweenInterfaceFields"
+					"betweenInterfaceFields",
+					"beforeSingleLineComment"
                 ]
             },
             "type": "ExtendedEmptyLines"

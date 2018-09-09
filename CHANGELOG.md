@@ -1,4 +1,8 @@
+# Version History
+
 ## dev branch / next version (1.x.x)
+
+- Added support for final class / interface, fixes [#118](https://github.com/HaxeCheckstyle/tokentree/issues/118) ([#119](https://github.com/HaxeCheckstyle/tokentree/issues/119))
 
 ## version 1.0.11 (2018-09-03)
 
