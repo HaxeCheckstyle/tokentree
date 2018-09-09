@@ -23,8 +23,12 @@ class WalkFile {
 					WalkType.walkType(stream, parent);
 				case PClose, BrClose, BkClose, Semicolon, Comma:
 					parent.addChild(stream.consumeToken());
-				case Kwd(KwdExtern), Kwd(KwdPrivate), Kwd(KwdPublic):
+				case Kwd(KwdExtern), Kwd(KwdPrivate), Kwd(KwdPublic), Const(CString("final")):
 					stream.consumeToTempStore();
+				#if (haxe_ver >= 4.0)
+				case Kwd(KwdFinal):
+					stream.consumeToTempStore();
+				#end
 				default:
 					WalkBlock.walkBlock(stream, parent);
 			}

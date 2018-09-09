@@ -85,6 +85,7 @@ class TokenTreeBuilderParsingTest {
 		assertCodeParses(UNOP_AFTER_OP_ASSIGN);
 		assertCodeParses(UNOP_IN_DO_WHILE);
 		assertCodeParses(TYPEDEF_WITHOUT_ASSIGN);
+		assertCodeParses(FINAL_CLASS_AND_INTERFACE);
 	}
 
 	public function assertCodeParses(code:String, ?pos:PosInfos) {
@@ -1139,6 +1140,15 @@ abstract TokenTreeBuilderParsingTests(String) to String {
 	var TYPEDEF_WITHOUT_ASSIGN = "
 	typedef Testtype {  // <-   '=' assignment is forgotten!
 		something: String
+	}
+	";
+
+	var FINAL_CLASS_AND_INTERFACE = "
+	final interface IMain {
+		function main();
+	}
+	final class Main implements IMain {
+		function main() {}
 	}
 	";
 }

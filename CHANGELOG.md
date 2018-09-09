@@ -1,4 +1,8 @@
+# Version History
+
 ## dev branch / next version (1.x.x)
+
+- Added support for final class / interface
 
 ## version 1.0.11 (2018-09-03)
 
