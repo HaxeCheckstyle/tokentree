@@ -64,6 +64,12 @@ class WalkFor {
 				pOpen.addChild(identifier);
 		}
 		WalkComment.walkComment(stream, identifier);
+		if (stream.is(Binop(OpArrow))) {
+			var arrowTok:TokenTree = stream.consumeToken();
+			identifier.addChild(arrowTok);
+			var valueIdent:TokenTree = stream.consumeConstIdent();
+			arrowTok.addChild(valueIdent);
+		}
 		var inTok:TokenTree = null;
 		switch (stream.token()) {
 			case #if (haxe_ver < 4.0) Kwd(KwdIn) #else Binop(OpIn) #end:

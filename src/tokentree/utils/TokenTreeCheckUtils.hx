@@ -246,7 +246,7 @@ class TokenTreeCheckUtils {
 	**/
 	public static function isNameToken(token:TokenTree):Bool {
 		if (token == null) {
-			return false; 
+			return false;
 		}
 		return switch (token.tok) {
 			case Const(CIdent(_)), Kwd(KwdNew): true;
@@ -288,7 +288,8 @@ class TokenTreeCheckUtils {
 				case _:
 					return null;
 			}
-		} while (true);
+		}
+		while (true);
 		return null;
 	}
 

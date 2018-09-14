@@ -1,8 +1,6 @@
 package tokentree.utils;
 
 import tokentree.utils.FieldUtils.TokenFieldType;
-import tokentree.utils.FieldUtils.TokenFieldVisibility;
-import tokentree.utils.FieldUtils.TokenPropertyAccess;
 import haxe.PosInfos;
 import massive.munit.Assert;
 
