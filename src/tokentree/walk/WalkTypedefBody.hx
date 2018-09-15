@@ -8,7 +8,9 @@ class WalkTypedefBody {
 			walkTypedefCurlyBody(stream, openTok);
 			openTok.addChild(stream.consumeTokenDef(BrClose));
 		}
-		else walkTypedefAlias(stream, parent);
+		else {
+			walkTypedefAlias(stream, parent);
+		}
 		if (stream.is(Binop(OpAnd))) {
 			var and:TokenTree = stream.consumeTokenDef(Binop(OpAnd));
 			parent.getLastChild().addChild(and);

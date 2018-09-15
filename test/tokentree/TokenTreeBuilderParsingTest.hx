@@ -86,6 +86,7 @@ class TokenTreeBuilderParsingTest {
 		assertCodeParses(UNOP_IN_DO_WHILE);
 		assertCodeParses(TYPEDEF_WITHOUT_ASSIGN);
 		assertCodeParses(FINAL_CLASS_AND_INTERFACE);
+		assertCodeParses(KEY_VALUE_ITERATOR);
 	}
 
 	public function assertCodeParses(code:String, ?pos:PosInfos) {
@@ -1149,6 +1150,20 @@ abstract TokenTreeBuilderParsingTests(String) to String {
 	}
 	final class Main implements IMain {
 		function main() {}
+	}
+	";
+
+	var KEY_VALUE_ITERATOR = "
+	class Main {
+		public static function main() {
+			for (key => value in map) {
+				trace(key, value);
+			}
+
+			for (index => value in array) {
+				trace(key, value);
+			}
+		}
 	}
 	";
 }

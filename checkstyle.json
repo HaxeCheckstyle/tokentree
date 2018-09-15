@@ -73,7 +73,8 @@
             "props": {
                 "max": 1,
                 "requireEmptyLineAfterAbstract": false,
-                "requireEmptyLineAfterClass": false
+				"requireEmptyLineAfterClass": false,
+				"requireEmptyLineAfterInterface": false
             },
             "type": "EmptyLines"
         },
@@ -96,7 +97,6 @@
                     "afterClassStaticVars",
                     "afterClassVars",
                     "betweenClassMethods",
-					"beginInterface",
 					"beforeMultiLineComment"
                 ],
                 "upto": [
@@ -106,6 +106,7 @@
                     "beginClass",
                     "betweenClassStaticVars",
                     "betweenClassVars",
+					"beginInterface",
 					"betweenInterfaceFields",
 					"beforeSingleLineComment"
                 ]
@@ -299,7 +300,7 @@
                 "boolOpPolicy": "around",
                 "intervalOpPolicy": "none",
                 "arrowPolicy": "around",
-                "functionArgPolicy": "around"
+                "functionArgPolicy": "none"
             },
             "type": "OperatorWhitespace"
         },
@@ -561,6 +562,7 @@
 		],
         "MethodLength": [
 			"tokentree/walk/WalkStatement",
+			"tokentree/walk/WalkFinal",
 			"tokentree/utils/TokenTreeCheckUtils"
         ],
         "NestedForDepth": [

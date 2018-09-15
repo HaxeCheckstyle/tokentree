@@ -5,6 +5,7 @@
 		"ifElse": "next",
 		"forBody": "same",
 		"whileBody": "same",
+		"doWhile": "next",
 		"tryCatch": "next",
 		"tryBody": "next",
 		"catchBody": "next",
