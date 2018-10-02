@@ -15,7 +15,7 @@ class WalkComment {
 	}
 
 	public static function tryWalkComment(stream:TokenStream, parent:TokenTree, expect:TokenDef) {
-		var currentPos:Int = stream.getCurrentPos();
+		var currentPos:Int = stream.getStreamIndex();
 		var progress:TokenStreamProgress = new TokenStreamProgress(stream);
 		var comments:Array<TokenTree> = [];
 		while (stream.hasMore() && progress.streamHasChanged()) {

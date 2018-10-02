@@ -120,7 +120,7 @@ class WalkStatement {
 		}
 		switch (stream.token()) {
 			case CommentLine(_):
-				var currentPos:Int = stream.getCurrentPos();
+				var currentPos:Int = stream.getStreamIndex();
 				var commentTok:TokenTree = stream.consumeToken();
 				if (!stream.is(Kwd(KwdElse))) {
 					stream.rewindTo(currentPos);
