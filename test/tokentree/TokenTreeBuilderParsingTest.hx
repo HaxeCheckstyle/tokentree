@@ -87,6 +87,7 @@ class TokenTreeBuilderParsingTest {
 		assertCodeParses(TYPEDEF_WITHOUT_ASSIGN);
 		assertCodeParses(FINAL_CLASS_AND_INTERFACE);
 		assertCodeParses(KEY_VALUE_ITERATOR);
+		assertCodeParses(METADATA_PARAMETER);
 	}
 
 	public function assertCodeParses(code:String, ?pos:PosInfos) {
@@ -1163,6 +1164,15 @@ abstract TokenTreeBuilderParsingTests(String) to String {
 			for (index => value in array) {
 				trace(key, value);
 			}
+		}
+	}
+	";
+
+	var METADATA_PARAMETER = "
+	class PrivateAccess {
+		@:privateAccess('xxxx')
+		static function main() {
+			trace(@:privateAccess (X).object);
 		}
 	}
 	";
