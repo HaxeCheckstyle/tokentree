@@ -198,12 +198,19 @@ class TokenStream {
 		return null;
 	}
 
+	public function getTokenPos():Position {
+		if ((current < 0) || (current >= tokens.length)) {
+			return null;
+		}
+		return tokens[current].pos;
+	}
+
 	public function rewind() {
 		if (current <= 0) return;
 		current--;
 	}
 
-	public function currentPos():Int {
+	public function getStreamIndex():Int {
 		return current;
 	}
 
@@ -295,10 +302,6 @@ class TokenStream {
 			default:
 				throw NO_MORE_TOKENS;
 		}
-	}
-
-	public function getCurrentPos():Int {
-		return current;
 	}
 
 	public function pushSharpIf(token:TokenTree) {

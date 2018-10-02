@@ -10,7 +10,7 @@ class WalkBlock {
 	 */
 	public static function walkBlock(stream:TokenStream, parent:TokenTree) {
 		while (stream.is(At)) stream.addToTempStore(WalkAt.walkAt(stream));
-		var rewindPos:Int = stream.currentPos();
+		var rewindPos:Int = stream.getStreamIndex();
 		if (stream.is(BrOpen)) {
 			var openTok:TokenTree = stream.consumeTokenDef(BrOpen);
 			parent.addChild(openTok);

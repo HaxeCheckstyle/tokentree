@@ -52,11 +52,14 @@ class WalkAt {
 				ident.addChild(child);
 				walkIdent(stream, child);
 			case POpen:
-				var tempStore:Array<TokenTree> = stream.getTempStore();
-				stream.clearTempStore();
-				WalkPOpen.walkPOpen(stream, ident);
-				for (temp in tempStore) {
-					stream.addToTempStore(temp);
+				var pOpenPos:Position = stream.getTokenPos();
+				if (ident.pos.max == pOpenPos.min) {
+					var tempStore:Array<TokenTree> = stream.getTempStore();
+					stream.clearTempStore();
+					WalkPOpen.walkPOpen(stream, ident);
+					for (temp in tempStore) {
+						stream.addToTempStore(temp);
+					}
 				}
 			default:
 		}

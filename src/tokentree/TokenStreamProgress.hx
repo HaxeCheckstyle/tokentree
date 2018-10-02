@@ -11,11 +11,11 @@ class TokenStreamProgress {
 
 	public function streamHasChanged():Bool {
 		if (pos == -1) {
-			pos = stream.getCurrentPos();
+			pos = stream.getStreamIndex();
 			return true;
 		}
 		var oldPos:Int = pos;
-		pos = stream.getCurrentPos();
+		pos = stream.getStreamIndex();
 		return (pos != oldPos);
 	}
 }
