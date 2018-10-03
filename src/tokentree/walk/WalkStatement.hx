@@ -154,6 +154,17 @@ class WalkStatement {
 				WalkStatement.walkStatement(stream, parent);
 			case POpen:
 				WalkStatement.walkStatement(stream, parent);
+			case CommentLine(_):
+				var nextTokDef:TokenDef = stream.peekNonCommentToken();
+				if (nextTokDef == null) {
+					return;
+				}
+				switch (nextTokDef) {
+					case Dot, DblDot, Binop(_), Unop(_), Question:
+						WalkComment.walkComment(stream, parent);
+						walkStatementContinue(stream, parent);
+					default:
+				}
 			default:
 		}
 	}

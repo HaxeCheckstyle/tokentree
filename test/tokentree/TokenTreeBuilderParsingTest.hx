@@ -1176,4 +1176,15 @@ abstract TokenTreeBuilderParsingTests(String) to String {
 		}
 	}
 	";
+
+	var METHOD_CHAIN_COMMENT = "
+	class Main {
+		public function main(){
+			imgLink = new Tag (img)
+							.src (Url.parse ('${baseUrl}images/${elem.getImage ()}.png'))
+							.alt ('${Translator.dualTrans (image)} ${desc}') // .width (100)
+							.height (66);
+		}
+	}
+	";
 }
