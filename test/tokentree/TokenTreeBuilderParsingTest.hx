@@ -88,6 +88,7 @@ class TokenTreeBuilderParsingTest {
 		assertCodeParses(FINAL_CLASS_AND_INTERFACE);
 		assertCodeParses(KEY_VALUE_ITERATOR);
 		assertCodeParses(METADATA_PARAMETER);
+		assertCodeParses(COMMENT_AT_EOL);
 	}
 
 	public function assertCodeParses(code:String, ?pos:PosInfos) {
@@ -1186,5 +1187,9 @@ abstract TokenTreeBuilderParsingTests(String) to String {
 							.height (66);
 		}
 	}
+	";
+
+	var COMMENT_AT_EOL = "
+	public function put() {} // foo
 	";
 }
