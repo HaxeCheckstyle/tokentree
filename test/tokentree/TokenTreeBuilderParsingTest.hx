@@ -88,6 +88,7 @@ class TokenTreeBuilderParsingTest {
 		assertCodeParses(FINAL_CLASS_AND_INTERFACE);
 		assertCodeParses(KEY_VALUE_ITERATOR);
 		assertCodeParses(METADATA_PARAMETER);
+		assertCodeParses(COMMENT_AT_EOL);
 	}
 
 	public function assertCodeParses(code:String, ?pos:PosInfos) {
@@ -1175,5 +1176,20 @@ abstract TokenTreeBuilderParsingTests(String) to String {
 			trace(@:privateAccess (X).object);
 		}
 	}
+	";
+
+	var METHOD_CHAIN_COMMENT = "
+	class Main {
+		public function main(){
+			imgLink = new Tag (img)
+							.src (Url.parse ('${baseUrl}images/${elem.getImage ()}.png'))
+							.alt ('${Translator.dualTrans (image)} ${desc}') // .width (100)
+							.height (66);
+		}
+	}
+	";
+
+	var COMMENT_AT_EOL = "
+	public function put() {} // foo
 	";
 }
