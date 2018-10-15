@@ -2,6 +2,8 @@
 
 ## dev branch / next version (1.x.x)
 
+## version 1.0.12 (2018-10-15)
+
 - Added support for final class / interface, fixes [#118](https://github.com/HaxeCheckstyle/tokentree/issues/118) ([#119](https://github.com/HaxeCheckstyle/tokentree/issues/119))
 - Added support for key-value iterators [#120](https://github.com/HaxeCheckstyle/tokentree/issues/120)
 - Fixed handling of metadata with parameter [#121](https://github.com/HaxeCheckstyle/tokentree/issues/121)
