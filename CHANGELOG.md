@@ -2,8 +2,8 @@
 
 ## dev branch / next version (1.x.x)
 
-- Fixed handling of OpBool (`||` and `&&`) chains
-- Fixed handling of Comma after `#end`
+- Fixed handling of OpBool (`||` and `&&`) chains [#124](https://github.com/HaxeCheckstyle/tokentree/issues/124)
+- Fixed handling of Comma after `#end` [#124](https://github.com/HaxeCheckstyle/tokentree/issues/124)
 
 ## version 1.0.12 (2018-10-15)
 
