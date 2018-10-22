@@ -554,7 +554,8 @@
         "CyclomaticComplexity": [
             "tokentree/walk/WalkStatement",
 			"tokentree/utils/TokenTreeCheckUtils:getBrOpenType",
-			"tokentree/utils/TokenTreeCheckUtils:getPOpenType"
+			"tokentree/utils/TokenTreeCheckUtils:getPOpenType",
+			"tokentree/utils/TokenTreeCheckUtils:determinBrChildren"
 		],
 		"MemberName": [
 			"tokentree/utils/TokenTreeCheckUtils:BrOpenType",

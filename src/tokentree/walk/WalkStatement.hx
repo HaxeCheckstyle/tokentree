@@ -23,7 +23,7 @@ class WalkStatement {
 			case Binop(OpGt):
 				var gtTok:TokenTree = stream.consumeOpGt();
 				parent.addChild(gtTok);
-				WalkStatement.walkStatement(stream, gtTok);
+				walkStatement(stream, gtTok);
 				return;
 			case Binop(_):
 				wantMore = true;
@@ -36,7 +36,7 @@ class WalkStatement {
 			case IntInterval(_):
 				wantMore = true;
 			case Kwd(_):
-				if (WalkStatement.walkKeyword(stream, parent)) wantMore = true;
+				if (walkKeyword(stream, parent)) wantMore = true;
 				else return;
 			case Arrow:
 				wantMore = true;
@@ -45,7 +45,7 @@ class WalkStatement {
 				return;
 			case BkOpen:
 				WalkArrayAccess.walkArrayAccess(stream, parent);
-				WalkStatement.walkStatementContinue(stream, parent);
+				walkStatementContinue(stream, parent);
 				return;
 			case Dollar(name):
 				var dollarTok:TokenTree = stream.consumeToken();
@@ -58,13 +58,13 @@ class WalkStatement {
 			case POpen:
 				var pOpen:TokenTree = WalkPOpen.walkPOpen(stream, parent);
 				if (parent.isCIdent()) {
-					WalkStatement.walkStatementContinue(stream, parent);
+					walkStatementContinue(stream, parent);
 				}
 				else {
 					if (parent.is(Kwd(KwdIf)) && stream.is(Binop(OpSub))) {
 						return;
 					}
-					WalkStatement.walkStatementContinue(stream, pOpen);
+					walkStatementContinue(stream, pOpen);
 				}
 				return;
 			case Question:
@@ -88,7 +88,7 @@ class WalkStatement {
 				lastChild.addChild(newChild);
 				return;
 			case Sharp(_):
-				WalkSharp.walkSharp(stream, parent, WalkStatement.walkStatement);
+				WalkSharp.walkSharp(stream, parent, walkStatement);
 				walkStatementContinueAfterSharp(stream, parent);
 				return;
 			case Dot:
@@ -109,8 +109,8 @@ class WalkStatement {
 		parent.addChild(newChild);
 		stream.applyTempStore(newChild);
 		walkTrailingComment(stream, newChild);
-		if (wantMore) WalkStatement.walkStatement(stream, newChild);
-		WalkStatement.walkStatementContinue(stream, newChild);
+		if (wantMore) walkStatement(stream, newChild);
+		walkStatementContinue(stream, newChild);
 		walkTrailingComment(stream, newChild);
 	}
 
@@ -135,25 +135,27 @@ class WalkStatement {
 		if (!stream.hasMore()) return;
 		switch (stream.token()) {
 			case Dot:
-				WalkStatement.walkStatement(stream, parent);
+				walkStatement(stream, parent);
 			case DblDot:
 				walkDblDot(stream, parent);
 			case Semicolon:
-				WalkStatement.walkStatement(stream, parent);
+				walkStatement(stream, parent);
 			case Arrow:
-				WalkStatement.walkStatement(stream, parent);
+				walkStatement(stream, parent);
+			case Binop(OpBoolAnd), Binop(OpBoolOr):
+				walkOpBool(stream, parent);
 			case Binop(_):
-				WalkStatement.walkStatement(stream, parent);
+				walkStatement(stream, parent);
 			case Unop(_):
 				if (parent.isCIdentOrCString()) {
-					WalkStatement.walkStatement(stream, parent);
+					walkStatement(stream, parent);
 				}
 			case Question:
 				WalkQuestion.walkQuestion(stream, parent);
 			case BkOpen:
-				WalkStatement.walkStatement(stream, parent);
+				walkStatement(stream, parent);
 			case POpen:
-				WalkStatement.walkStatement(stream, parent);
+				walkStatement(stream, parent);
 			case CommentLine(_):
 				var nextTokDef:TokenDef = stream.peekNonCommentToken();
 				if (nextTokDef == null) {
@@ -177,7 +179,7 @@ class WalkStatement {
 				if (parent.is(Dot)) {
 					var newChild:TokenTree = stream.consumeToken();
 					parent.addChild(newChild);
-					WalkStatement.walkStatementContinue(stream, newChild);
+					walkStatementContinue(stream, newChild);
 				}
 				else {
 					WalkNew.walkNew(stream, parent);
@@ -228,7 +230,7 @@ class WalkStatement {
 			case Kwd(KwdThis):
 				var newChild:TokenTree = stream.consumeToken();
 				parent.addChild(newChild);
-				WalkStatement.walkStatementContinue(stream, newChild);
+				walkStatementContinue(stream, newChild);
 				return false;
 			default:
 				return true;
@@ -244,7 +246,7 @@ class WalkStatement {
 		var dblDotTok:TokenTree = stream.consumeToken();
 		parent.addChild(dblDotTok);
 		if (parent.isCIdentOrCString() && parent.parent.is(BrOpen)) {
-			WalkStatement.walkStatement(stream, dblDotTok);
+			walkStatement(stream, dblDotTok);
 			return;
 		}
 		if (stream.is(Kwd(KwdNew))) {
@@ -299,5 +301,28 @@ class WalkStatement {
 				WalkSwitch.walkSwitchCases(stream, lastChild);
 			default:
 		}
+	}
+
+	static function walkOpBool(stream:TokenStream, token:TokenTree) {
+		var parent = token.parent;
+		while (parent.tok != null) {
+			switch (parent.tok) {
+				case Binop(OpAssign), Binop(OpAssignOp(_)):
+					break;
+				case Binop(OpBoolAnd), Binop(OpBoolOr):
+					token = parent;
+					break;
+				case POpen:
+					break;
+				case Kwd(KwdReturn), Kwd(KwdUntyped), Kwd(KwdIf), Kwd(KwdWhile):
+					break;
+				case Kwd(KwdFunction), Arrow:
+					break;
+				default:
+					token = parent;
+					parent = parent.parent;
+			}
+		}
+		walkStatement(stream, token);
 	}
 }
