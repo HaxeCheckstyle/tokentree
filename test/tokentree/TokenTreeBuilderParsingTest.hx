@@ -89,6 +89,7 @@ class TokenTreeBuilderParsingTest {
 		assertCodeParses(KEY_VALUE_ITERATOR);
 		assertCodeParses(METADATA_PARAMETER);
 		assertCodeParses(COMMENT_AT_EOL);
+		assertCodeParses(OPBOOL_CHAINS);
 	}
 
 	public function assertCodeParses(code:String, ?pos:PosInfos) {
@@ -1191,5 +1192,43 @@ abstract TokenTreeBuilderParsingTests(String) to String {
 
 	var COMMENT_AT_EOL = "
 	public function put() {} // foo
+	";
+
+	var OPBOOL_CHAINS = "
+	class Main {
+		public static function main() {
+			return !(a.y + b.h <= c.y ||
+				d.y >= e.y + f.h ||
+				g.x + h.w <= i.x ||
+				j.x >= k.x + l.w);
+
+			dirty = dirty ||
+				(Tilemap.x != _prevTilemapX) ||
+				(Tilemap.y != _prevTilemapY) ||
+				(Tilemap.scale.x != _prevTilemapScaleX) ||
+				(Tilemap.scale.y != _prevTilemapScaleY) ||
+				(Tilemap.scrollFactor.x != _prevTilemapScrollX) ||
+				(Tilemap.scrollFactor.y != _prevTilemapScrollY) ||
+				(Camera.scroll.x != _prevCameraScrollX) ||
+				(Camera.scroll.y != _prevCameraScrollY) ||
+				(Camera.scaleX != _prevCameraScaleX) ||
+				(Camera.scaleY != _prevCameraScaleY) ||
+				(Camera.width != _prevCameraWidth) ||
+				(Camera.height != _prevCameraHeight);
+
+			dirty = dirty ||
+				(Tilemap.x != _prevTilemapX) ||
+				((Tilemap.y != _prevTilemapY) || (Tilemap.scale.x != _prevTilemapScaleX)) &&
+				(Tilemap.scale.x != _prevTilemapScaleX);
+
+			dirty = dirty ||
+				(Tilemap.x != _prevTilemapX) ||
+				((Tilemap.y != _prevTilemapY) ||
+					(Tilemap.scale.x != _prevTilemapScaleX) ||
+					(Tilemap.scale.x != _prevTilemapScaleX) ||
+					(Tilemap.scale.x != _prevTilemapScaleX)) &&
+				(Tilemap.scale.x != _prevTilemapScaleX);
+		}
+	}
 	";
 }

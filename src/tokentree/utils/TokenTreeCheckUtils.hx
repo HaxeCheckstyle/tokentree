@@ -437,6 +437,7 @@ class TokenTreeCheckUtils {
 						}
 					}
 					return OBJECTDECL;
+				case Sharp(_):
 				default:
 					return BLOCK;
 			}

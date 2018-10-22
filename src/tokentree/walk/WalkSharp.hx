@@ -65,13 +65,6 @@ class WalkSharp {
 			}
 			catch (e:SharpEndException) {
 				stream.popSharpIf();
-				if (!stream.hasMore()) return;
-				switch (stream.token()) {
-					case Comma:
-						var newChild:TokenTree = stream.consumeToken();
-						newParent.addChild(newChild);
-					default:
-				}
 				return;
 			}
 		}
