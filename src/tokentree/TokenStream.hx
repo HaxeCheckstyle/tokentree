@@ -53,8 +53,7 @@ class TokenStream {
 				return consumeToken();
 			default:
 				switch (MODE) {
-					case RELAXED:
-						return createDummyToken(Const(CIdent("autoInsert")));
+					case RELAXED: return createDummyToken(Const(CIdent("autoInsert")));
 					case STRICT:
 						error('bad token ${token()} != Const(CIdent(_))');
 						return null;
@@ -68,8 +67,7 @@ class TokenStream {
 				return consumeToken();
 			default:
 				switch (MODE) {
-					case RELAXED:
-						return createDummyToken(Const(CString("autoInsert")));
+					case RELAXED: return createDummyToken(Const(CString("autoInsert")));
 					case STRICT:
 						error('bad token ${token()} != Const(_)');
 						return null;

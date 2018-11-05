@@ -35,10 +35,8 @@ class WalkTypeNameDef {
 				WalkSharp.walkSharp(stream, parent, WalkStatement.walkStatement);
 				if (!stream.hasMore()) return parent.getFirstChild();
 				switch (stream.token()) {
-					case Const(_):
-						name = stream.consumeConst();
-					default:
-						return parent.getFirstChild();
+					case Const(_): name = stream.consumeConst();
+					default: return parent.getFirstChild();
 				}
 			default:
 				name = stream.consumeToken();

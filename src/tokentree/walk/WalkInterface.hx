@@ -8,15 +8,21 @@ class WalkInterface {
 		var name:TokenTree = WalkTypeNameDef.walkTypeNameDef(stream, typeTok);
 		// add all comments, annotations
 		stream.applyTempStore(name);
-		var progress:TokenStreamProgress = new TokenStreamProgress(stream);
-		while (progress.streamHasChanged()) {
-			WalkExtends.walkExtends(stream, name);
-			WalkImplements.walkImplements(stream, name);
-		}
+		WalkInterface.walkInterfaceExtends(stream, name);
 		var block:TokenTree = stream.consumeTokenDef(BrOpen);
 		name.addChild(block);
 		WalkInterface.walkInterfaceBody(stream, block);
 		block.addChild(stream.consumeTokenDef(BrClose));
+	}
+
+	public static function walkInterfaceExtends(stream:TokenStream, name:TokenTree) {
+		var progress:TokenStreamProgress = new TokenStreamProgress(stream);
+		while (progress.streamHasChanged()) {
+			WalkExtends.walkExtends(stream, name);
+			WalkImplements.walkImplements(stream, name);
+			if (stream.isSharp()) WalkSharp.walkSharp(stream, name, WalkClass.walkClassExtends);
+			WalkComment.walkComment(stream, name);
+		}
 	}
 
 	public static function walkInterfaceBody(stream:TokenStream, parent:TokenTree) {

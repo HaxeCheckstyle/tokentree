@@ -46,16 +46,7 @@ class TokenTreeCheckUtils {
 
 	public static function isOpGtTypedefExtension(token:TokenTree):Bool {
 		return switch (token.tok) {
-			case Binop(OpGt): (token.access()
-					.parent()
-					.is(BrOpen)
-					.parent()
-					.is(Binop(OpAssign))
-					.parent()
-					.isCIdent()
-					.parent()
-					.is(Kwd(KwdTypedef))
-					.token != null);
+			case Binop(OpGt): (token.access().parent().is(BrOpen).parent().is(Binop(OpAssign)).parent().isCIdent().parent().is(Kwd(KwdTypedef)).token != null);
 			default: false;
 		}
 	}
@@ -120,12 +111,9 @@ class TokenTreeCheckUtils {
 					return false;
 				}
 				switch (lastToken.tok) {
-					case Comma:
-						return false;
-					case Semicolon:
-						return false;
-					default:
-						return true;
+					case Comma: return false;
+					case Semicolon: return false;
+					default: return true;
 				}
 			case Comma:
 				return false;
@@ -338,43 +326,28 @@ class TokenTreeCheckUtils {
 				switch (parent.tok) {
 					case Const(CIdent(_)):
 					case Const(CString(_)):
-					case Kwd(KwdCase):
-						return OBJECTDECL;
-					case Kwd(KwdDefault):
-						return OBJECTDECL;
-					default:
-						return ANONTYPE;
+					case Kwd(KwdCase): return OBJECTDECL;
+					case Kwd(KwdDefault): return OBJECTDECL;
+					default: return ANONTYPE;
 				}
 				parent = parent.parent;
 				switch (parent.tok) {
-					case Question:
-						return ANONTYPE;
-					case Kwd(KwdVar):
-						return ANONTYPE;
-					case Kwd(KwdFunction):
-						return ANONTYPE;
-					case BrOpen:
-						return getBrOpenType(parent);
-					case POpen:
-						return ANONTYPE;
-					default:
-						return OBJECTDECL;
+					case Question: return ANONTYPE;
+					case Kwd(KwdVar): return ANONTYPE;
+					case Kwd(KwdFunction): return ANONTYPE;
+					case BrOpen: return getBrOpenType(parent);
+					case POpen: return ANONTYPE;
+					default: return OBJECTDECL;
 				}
 			case POpen:
 				var pOpenType:POpenType = getPOpenType(token.parent);
 				switch (pOpenType) {
-					case AT:
-						return OBJECTDECL;
-					case PARAMETER:
-						return ANONTYPE;
-					case CALL:
-						return OBJECTDECL;
-					case CONDITION:
-						return UNKNOWN;
-					case FORLOOP:
-						return UNKNOWN;
-					case EXPRESSION:
-						return OBJECTDECL;
+					case AT: return OBJECTDECL;
+					case PARAMETER: return ANONTYPE;
+					case CALL: return OBJECTDECL;
+					case CONDITION: return UNKNOWN;
+					case FORLOOP: return UNKNOWN;
+					case EXPRESSION: return OBJECTDECL;
 				}
 			case BkOpen:
 				return OBJECTDECL;
@@ -430,10 +403,8 @@ class TokenTreeCheckUtils {
 				case BrClose:
 					if (onlyComment) {
 						switch (token.parent.tok) {
-							case Kwd(_):
-								return BLOCK;
-							default:
-								return OBJECTDECL;
+							case Kwd(_): return BLOCK;
+							default: return OBJECTDECL;
 						}
 					}
 					return OBJECTDECL;
@@ -486,10 +457,8 @@ class TokenTreeCheckUtils {
 							return PARAMETER;
 						}
 						return CALL;
-					case Kwd(KwdAbstract):
-						return PARAMETER;
-					default:
-						return CALL;
+					case Kwd(KwdAbstract): return PARAMETER;
+					default: return CALL;
 				}
 			default:
 		}
@@ -552,8 +521,7 @@ class TokenTreeCheckUtils {
 					}
 					var brType:BrOpenType = getBrOpenType(child);
 					switch (brType) {
-						case BLOCK:
-							return ARROW_FUNCTION;
+						case BLOCK: return ARROW_FUNCTION;
 						case ANONTYPE:
 						default:
 					}
@@ -646,12 +614,9 @@ class TokenTreeCheckUtils {
 			case Const(CIdent(_)):
 				if (parent.parent.is(POpen)) {
 					switch (getPOpenType(parent.parent)) {
-						case PARAMETER:
-							return FUNCTION_TYPE_HAXE3;
-						case EXPRESSION:
-							return FUNCTION_TYPE_HAXE3;
-						default:
-							return ARROW_FUNCTION;
+						case PARAMETER: return FUNCTION_TYPE_HAXE3;
+						case EXPRESSION: return FUNCTION_TYPE_HAXE3;
+						default: return ARROW_FUNCTION;
 					}
 				}
 			default:
@@ -712,16 +677,11 @@ class TokenTreeCheckUtils {
 				case BrOpen:
 					var brType:BrOpenType = getBrOpenType(parent);
 					switch (brType) {
-						case BLOCK:
-							return UNKNOWN;
-						case TYPEDEFDECL:
-							return TYPE_HINT;
-						case OBJECTDECL:
-							return OBJECT_LITERAL;
-						case ANONTYPE:
-							return TYPE_HINT;
-						case UNKNOWN:
-							return UNKNOWN;
+						case BLOCK: return UNKNOWN;
+						case TYPEDEFDECL: return TYPE_HINT;
+						case OBJECTDECL: return OBJECT_LITERAL;
+						case ANONTYPE: return TYPE_HINT;
+						case UNKNOWN: return UNKNOWN;
 					}
 				case POpen:
 					var pClose:TokenTree = parent.access().firstOf(PClose).token;
@@ -730,18 +690,12 @@ class TokenTreeCheckUtils {
 					}
 					var pType:POpenType = getPOpenType(parent);
 					switch (pType) {
-						case AT:
-							return OBJECT_LITERAL;
-						case PARAMETER:
-							return TYPE_HINT;
-						case CALL:
-							return UNKNOWN;
-						case CONDITION:
-							return UNKNOWN;
-						case FORLOOP:
-							return UNKNOWN;
-						case EXPRESSION:
-							return TYPE_CHECK;
+						case AT: return OBJECT_LITERAL;
+						case PARAMETER: return TYPE_HINT;
+						case CALL: return UNKNOWN;
+						case CONDITION: return UNKNOWN;
+						case FORLOOP: return UNKNOWN;
+						case EXPRESSION: return TYPE_CHECK;
 					}
 				default:
 			}

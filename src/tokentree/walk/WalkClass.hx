@@ -18,7 +18,6 @@ class WalkClass {
 				stream.applyTempStore(name);
 			default:
 		}
-		if (stream.isSharp()) WalkSharp.walkSharp(stream, name, WalkClass.walkClassExtends);
 		WalkClass.walkClassExtends(stream, name);
 		var block:TokenTree = stream.consumeTokenDef(BrOpen);
 		name.addChild(block);
@@ -65,10 +64,8 @@ class WalkClass {
 					parent.addChild(stream.consumeToken());
 				default:
 					switch (TokenStream.MODE) {
-						case RELAXED:
-							WalkStatement.walkStatement(stream, parent);
-						case STRICT:
-							throw "invalid token tree structure - found:" + '${stream.token()}';
+						case RELAXED: WalkStatement.walkStatement(stream, parent);
+						case STRICT: throw "invalid token tree structure - found:" + '${stream.token()}';
 					}
 			}
 		}
@@ -84,12 +81,7 @@ class WalkClass {
 	}
 
 	static function walkClassContinueAfterSharp(stream:TokenStream, parent:TokenTree) {
-		var brOpen:TokenTreeAccessHelper = TokenTreeAccessHelper.access(parent)
-			.lastChild()
-			.is(Sharp("if"))
-			.lastOf(Kwd(KwdFunction))
-			.firstChild()
-			.lastChild()
+		var brOpen:TokenTreeAccessHelper = TokenTreeAccessHelper.access(parent).lastChild().is(Sharp("if")).lastOf(Kwd(KwdFunction)).firstChild().lastChild()
 			.is(BrOpen);
 		if (brOpen.token == null) return;
 		if (brOpen.lastChild().is(BrClose).token != null) return;
