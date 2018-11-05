@@ -81,8 +81,7 @@ class WalkStatement {
 					lastChild = parent;
 				}
 				switch (lastChild.tok) {
-					case BrClose, BkClose, PClose:
-						lastChild = parent;
+					case BrClose, BkClose, PClose: lastChild = parent;
 					default:
 				}
 				lastChild.addChild(newChild);
@@ -215,10 +214,8 @@ class WalkStatement {
 				var newChild:TokenTree = stream.consumeToken();
 				parent.addChild(newChild);
 				switch (stream.token()) {
-					case Semicolon:
-						newChild.addChild(stream.consumeToken());
-					case Binop(_):
-						walkStatement(stream, newChild);
+					case Semicolon: newChild.addChild(stream.consumeToken());
+					case Binop(_): walkStatement(stream, newChild);
 					default:
 				}
 				return false;

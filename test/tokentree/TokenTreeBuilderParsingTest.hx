@@ -90,6 +90,7 @@ class TokenTreeBuilderParsingTest {
 		assertCodeParses(METADATA_PARAMETER);
 		assertCodeParses(COMMENT_AT_EOL);
 		assertCodeParses(OPBOOL_CHAINS);
+		assertCodeParses(INTERFACE_CONDITIONALS);
 	}
 
 	public function assertCodeParses(code:String, ?pos:PosInfos) {
@@ -1229,6 +1230,18 @@ abstract TokenTreeBuilderParsingTests(String) to String {
 					(Tilemap.scale.x != _prevTilemapScaleX)) &&
 				(Tilemap.scale.x != _prevTilemapScaleX);
 		}
+	}
+	";
+
+	var INTERFACE_CONDITIONALS = "
+	interface IPerson {
+		function getName():String;
+	}
+	interface IPet #if (extends_iperson) extends IPerson #end {
+	#if (!extends_iperson)
+		function getName():String;
+	#end
+		function getPetType():String;
 	}
 	";
 }

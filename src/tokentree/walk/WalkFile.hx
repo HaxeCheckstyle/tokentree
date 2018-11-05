@@ -11,8 +11,7 @@ class WalkFile {
 					WalkSharp.walkSharp(stream, parent, WalkFile.walkFile);
 					if (!stream.hasMore()) return;
 					switch (stream.token()) {
-						case BrOpen:
-							WalkBlock.walkBlock(stream, parent.children[parent.children.length - 1]);
+						case BrOpen: WalkBlock.walkBlock(stream, parent.children[parent.children.length - 1]);
 						default:
 					}
 				case At:
@@ -38,10 +37,8 @@ class WalkFile {
 			switch (stored.tok) {
 				case Kwd(KwdExtern), Kwd(KwdPrivate), Kwd(KwdPublic), At:
 					switch (TokenStream.MODE) {
-						case RELAXED:
-							parent.addChild(stored);
-						case STRICT:
-							throw "invalid token tree structure - found:" + stored;
+						case RELAXED: parent.addChild(stored);
+						case STRICT: throw "invalid token tree structure - found:" + stored;
 					}
 				default:
 					parent.addChild(stored);

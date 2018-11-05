@@ -17,5 +17,11 @@
 		"enumAbstractEmptyLines":{
 			"betweenVars": 1
 		}
+	},
+	"wrapping": {
+		"methodChain": {
+			"defaultWrap": "fillLine",
+			"rules": []
+		}
 	}
 }

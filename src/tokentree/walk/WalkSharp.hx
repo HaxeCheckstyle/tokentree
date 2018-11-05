@@ -25,8 +25,7 @@ class WalkSharp {
 				var errorToken:TokenTree = stream.consumeToken();
 				parent.addChild(errorToken);
 				switch (stream.token()) {
-					case Const(CString(_)):
-						errorToken.addChild(stream.consumeToken());
+					case Const(CString(_)): errorToken.addChild(stream.consumeToken());
 					default:
 				}
 			case Sharp(ELSEIF):
