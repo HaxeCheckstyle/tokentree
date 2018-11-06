@@ -16,7 +16,8 @@ matrix:
   include:
     - haxe: 3.4.7
       install:
-        - haxelib install haxeparser 3.3.0
+        - haxelib git hxparse https://github.com/simn/hxparse
+        - haxelib git haxeparser https://github.com/simn/haxeparser
         - haxelib install compiletime 2.6.0
         - haxelib install hxargs 3.0.2
         - haxelib install mcover 2.1.1
