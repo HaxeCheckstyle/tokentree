@@ -25,6 +25,7 @@ matrix:
         - haxelib git hxnodejs https://github.com/HaxeFoundation/hxnodejs.git master
         - haxelib dev tokentree .
         - git clone -b dev https://github.com/HaxeCheckstyle/haxe-checkstyle.git --depth=1 checkstyle
+        - sed -i 's/:3.3.0//' checkstyle/buildGlobal.hxml
     - haxe: development
       install:
         - haxelib git hxparse https://github.com/simn/hxparse
