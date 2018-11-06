@@ -91,6 +91,7 @@ class TokenTreeBuilderParsingTest {
 		assertCodeParses(COMMENT_AT_EOL);
 		assertCodeParses(OPBOOL_CHAINS);
 		assertCodeParses(INTERFACE_CONDITIONALS);
+		assertCodeParses(MULTILINE_STRING_INTERPOLATION);
 	}
 
 	public function assertCodeParses(code:String, ?pos:PosInfos) {
@@ -1242,6 +1243,18 @@ abstract TokenTreeBuilderParsingTests(String) to String {
 		function getName():String;
 	#end
 		function getPetType():String;
+	}
+	";
+
+	var MULTILINE_STRING_INTERPOLATION = "
+	class Main {
+		public static function main() {
+			trace('
+				${
+					\"foo\"
+				}
+			');
+		}
 	}
 	";
 }
