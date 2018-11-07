@@ -4,6 +4,7 @@ git:
 language: haxe
 script:
   - haxe build.hxml
+  - haxelib set haxeparser 3.3.0
   - cd checkstyle && haxe buildAll.hxml && rm -f coverage.json && cd ..
   - neko checkstyle/run.n -s src -s test
 
@@ -16,7 +17,9 @@ matrix:
   include:
     - haxe: 3.4.7
       install:
-        - haxelib install haxeparser 3.3.0
+        - yes | haxelib install haxeparser 3.3.0
+        - haxelib git hxparse https://github.com/simn/hxparse
+        - yes | haxelib git haxeparser https://github.com/simn/haxeparser
         - haxelib install compiletime 2.6.0
         - haxelib install hxargs 3.0.2
         - haxelib install mcover 2.1.1
@@ -24,10 +27,12 @@ matrix:
         - haxelib git hxnodejs https://github.com/HaxeFoundation/hxnodejs.git master
         - haxelib dev tokentree .
         - git clone -b dev https://github.com/HaxeCheckstyle/haxe-checkstyle.git --depth=1 checkstyle
+        - sed -i 's/:3.3.0//' checkstyle/buildGlobal.hxml
     - haxe: development
       install:
+        - yes | haxelib install haxeparser 3.3.0
         - haxelib git hxparse https://github.com/simn/hxparse
-        - haxelib git haxeparser https://github.com/simn/haxeparser
+        - yes | haxelib git haxeparser https://github.com/simn/haxeparser
         - haxelib git mcover https://github.com/AlexHaxe/mcover.git master src
         - haxelib git munit https://github.com/AlexHaxe/MassiveUnit.git master src
         - haxelib git hxnodejs https://github.com/HaxeFoundation/hxnodejs.git master
