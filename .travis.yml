@@ -4,6 +4,7 @@ git:
 language: haxe
 script:
   - haxe build.hxml
+  - haxelib set haxeparser 3.3.0
   - cd checkstyle && haxe buildAll.hxml && rm -f coverage.json && cd ..
   - neko checkstyle/run.n -s src -s test
 
@@ -16,6 +17,7 @@ matrix:
   include:
     - haxe: 3.4.7
       install:
+        - haxelib install haxeparser 3.3.0
         - haxelib git hxparse https://github.com/simn/hxparse
         - haxelib git haxeparser https://github.com/simn/haxeparser
         - haxelib install compiletime 2.6.0
