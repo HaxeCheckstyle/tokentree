@@ -203,7 +203,7 @@ class TokenTreeCheckUtilsTest {
 	public function testMixedPOpenTypes() {
 		var root:TokenTree = assertCodeParses(TokenTreeCheckUtilsTests.MIXED_POPEN_TYPES);
 		var allBr:Array<TokenTree> = root.filter([POpen], ALL);
-		Assert.areEqual(10, allBr.length);
+		Assert.areEqual(13, allBr.length);
 		var index:Int = 0;
 		// @:deprecated('UnlessshuffleArray(), you should use shuffle() quality.')
 		Assert.areEqual(POpenType.AT, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
@@ -225,6 +225,12 @@ class TokenTreeCheckUtilsTest {
 		Assert.areEqual(POpenType.CALL, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
 
 		// static function main(?value:Int) {}
+		Assert.areEqual(POpenType.PARAMETER, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
+
+		// var f = (a:Int, b:Int) -> 0;
+		Assert.areEqual(POpenType.PARAMETER, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
+		// foo((a : Int, b : Int) -> 0);
+		Assert.areEqual(POpenType.CALL, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
 		Assert.areEqual(POpenType.PARAMETER, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
 	}
 
@@ -441,7 +447,10 @@ abstract TokenTreeCheckUtilsTests(String) to String {
 			return e2 == null ? {t: HDyn} : bar(e2);
 		}
 
-        static function main(?value:Int) {}
+        static function main(?value:Int) {
+			var f = (a:Int, b:Int) -> 0;
+			foo((a : Int, b : Int) -> 0);
+		}
 	}
 	";
 
