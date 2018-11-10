@@ -8,7 +8,7 @@
 - Fixed conditionals in interface definition [#125](https://github.com/HaxeCheckstyle/tokentree/issues/125)
 - Fixed handling of Arrow in arrow functions [#127](https://github.com/HaxeCheckstyle/tokentree/issues/127)
 - Fixed POpen detection in arrow functions [#127](https://github.com/HaxeCheckstyle/tokentree/issues/127)
-- Fixed OpBool chain handling
+- Fixed OpBool chain handling [#128](https://github.com/HaxeCheckstyle/tokentree/issues/128)
 
 ## version 1.0.12 (2018-10-15)
 
