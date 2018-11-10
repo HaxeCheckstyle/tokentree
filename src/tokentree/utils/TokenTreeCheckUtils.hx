@@ -427,6 +427,14 @@ class TokenTreeCheckUtils {
 		if (hasAtParent(token)) {
 			return AT;
 		}
+		var lastChild:TokenTree = token.getLastChild();
+		if (lastChild != null) {
+			switch (lastChild.tok) {
+				case Arrow:
+					return PARAMETER;
+				default:
+			}
+		}
 		switch (parent.tok) {
 			case Binop(OpLt):
 				parent = parent.parent;

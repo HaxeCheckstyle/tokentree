@@ -13,8 +13,6 @@ class WalkPOpen {
 		var progress:TokenStreamProgress = new TokenStreamProgress(stream);
 		while (progress.streamHasChanged()) {
 			switch (stream.token()) {
-				case POpen:
-					WalkPOpen.walkPOpen(stream, parent);
 				case BrOpen:
 					WalkBlock.walkBlock(stream, parent);
 				case BkOpen:
