@@ -302,6 +302,9 @@ class WalkStatement {
 
 	static function walkOpBool(stream:TokenStream, token:TokenTree) {
 		var parent = token.parent;
+		if (token.is(POpen)) {
+			token = parent;
+		}
 		while (parent.tok != null) {
 			switch (parent.tok) {
 				case Binop(OpAssign), Binop(OpAssignOp(_)):
