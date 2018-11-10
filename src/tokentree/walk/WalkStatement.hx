@@ -310,6 +310,9 @@ class WalkStatement {
 					token = parent;
 					break;
 				case POpen:
+					if (token.is(POpen)) {
+						token = parent;
+					}
 					break;
 				case Kwd(KwdReturn), Kwd(KwdUntyped), Kwd(KwdIf), Kwd(KwdWhile):
 					break;
