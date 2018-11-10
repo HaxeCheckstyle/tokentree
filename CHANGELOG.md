@@ -6,8 +6,8 @@
 - Fixed handling of OpBool (`||` and `&&`) chains [#124](https://github.com/HaxeCheckstyle/tokentree/issues/124)
 - Fixed handling of Comma after `#end` [#124](https://github.com/HaxeCheckstyle/tokentree/issues/124)
 - Fixed conditionals in interface definition [#125](https://github.com/HaxeCheckstyle/tokentree/issues/125)
-- Fixed handling of Arrow in arrow functions
-- Fixed POpen detection in arrow functions
+- Fixed handling of Arrow in arrow functions [#127](https://github.com/HaxeCheckstyle/tokentree/issues/127)
+- Fixed POpen detection in arrow functions [#127](https://github.com/HaxeCheckstyle/tokentree/issues/127)
 
 ## version 1.0.12 (2018-10-15)
 
