@@ -2,6 +2,8 @@
 
 ## dev branch / next version (1.x.x)
 
+## version 1.0.13 (2018-11-11)
+
 - Added testcase for multiline string interpolation [#126](https://github.com/HaxeCheckstyle/tokentree/issues/126)
 - Fixed handling of OpBool (`||` and `&&`) chains [#124](https://github.com/HaxeCheckstyle/tokentree/issues/124)
 - Fixed handling of Comma after `#end` [#124](https://github.com/HaxeCheckstyle/tokentree/issues/124)
