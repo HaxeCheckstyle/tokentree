@@ -37,6 +37,8 @@ class WalkTypedefBody {
 					WalkComment.walkComment(stream, openTok);
 				case Kwd(KwdFunction):
 					WalkFunction.walkFunction(stream, openTok);
+				case Kwd(KwdVar):
+					WalkVar.walkVar(stream, openTok);
 				case Kwd(KwdPublic), Kwd(KwdPrivate), Kwd(KwdStatic), Kwd(KwdInline), Kwd(KwdMacro), Kwd(KwdOverride), Kwd(KwdDynamic), Kwd(KwdExtern):
 					stream.consumeToTempStore();
 				case Const(CIdent("final")):
