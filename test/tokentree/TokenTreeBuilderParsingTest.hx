@@ -92,6 +92,7 @@ class TokenTreeBuilderParsingTest {
 		assertCodeParses(OPBOOL_CHAINS);
 		assertCodeParses(INTERFACE_CONDITIONALS);
 		assertCodeParses(MULTILINE_STRING_INTERPOLATION);
+		assertCodeParses(ANON_TYPE_PROPERTIES);
 	}
 
 	public function assertCodeParses(code:String, ?pos:PosInfos) {
@@ -1255,6 +1256,18 @@ abstract TokenTreeBuilderParsingTests(String) to String {
 				}
 			');
 		}
+	}
+	";
+
+	var ANON_TYPE_PROPERTIES = "
+	class Main
+	{
+		var storage:{
+			var language(default, never):State<String>;
+			var collapsed(default, never):State<Bool>;
+			var height(default, never):State<Float>;
+			var fontSize(default, never):State<Int>;
+		};
 	}
 	";
 }
