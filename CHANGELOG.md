@@ -3,7 +3,7 @@
 ## dev branch / next version (1.x.x)
 
 - Fixed properties in anon types [#130](https://github.com/HaxeCheckstyle/tokentree/issues/130)
-- Refactored coverage report generation
+- Refactored coverage report generation [#131](https://github.com/HaxeCheckstyle/tokentree/issues/131)
 
 ## version 1.0.13 (2018-11-11)
 
