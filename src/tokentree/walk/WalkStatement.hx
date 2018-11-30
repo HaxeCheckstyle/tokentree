@@ -277,6 +277,8 @@ class WalkStatement {
 					if (!TokenTreeAccessHelper.access(parent).firstOf(PClose).exists()) {
 						return null;
 					}
+				case Kwd(KwdReturn):
+					return parent;
 				case Kwd(KwdCase):
 					return parent;
 				case Kwd(KwdDefault):
