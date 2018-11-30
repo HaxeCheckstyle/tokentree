@@ -1,5 +1,7 @@
 package tokentree.walk;
 
+import tokentree.walk.WalkStatement.SemicolonException;
+
 class WalkBlock {
 	/**
 	 * BrOpen
@@ -54,7 +56,10 @@ class WalkBlock {
 					return;
 				default:
 			}
-			WalkStatement.walkStatementContinue(stream, parent);
+			try {
+				WalkStatement.walkStatementContinue(stream, parent);
+			}
+			catch (e:SemicolonException) {}
 		}
 	}
 }
