@@ -54,7 +54,10 @@ class WalkBlock {
 					return;
 				default:
 			}
-			WalkStatement.walkStatementContinue(stream, parent);
+			try {
+				WalkStatement.walkStatementContinue(stream, parent);
+			}
+			catch (e:String) {}
 		}
 	}
 }

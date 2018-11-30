@@ -2,6 +2,17 @@ package tokentree.walk;
 
 class WalkStatement {
 	public static function walkStatement(stream:TokenStream, parent:TokenTree) {
+		try {
+			walkStatementWithThrow(stream, parent);
+		}
+		catch (e:String) {
+			if (e == "semicolon") {
+				return;
+			}
+		}
+	}
+
+	static function walkStatementWithThrow(stream:TokenStream, parent:TokenTree) {
 		WalkComment.walkComment(stream, parent);
 
 		var wantMore:Bool = true;
@@ -15,7 +26,7 @@ class WalkStatement {
 				if (stream.isTypedParam()) {
 					WalkLtGt.walkLtGt(stream, parent);
 					if (stream.is(Arrow)) {
-						walkStatement(stream, parent);
+						walkStatementWithThrow(stream, parent);
 					}
 					return;
 				}
@@ -23,7 +34,7 @@ class WalkStatement {
 			case Binop(OpGt):
 				var gtTok:TokenTree = stream.consumeOpGt();
 				parent.addChild(gtTok);
-				walkStatement(stream, gtTok);
+				walkStatementWithThrow(stream, gtTok);
 				return;
 			case Binop(_):
 				wantMore = true;
@@ -85,6 +96,7 @@ class WalkStatement {
 					default:
 				}
 				lastChild.addChild(newChild);
+				throw "semicolon";
 				return;
 			case Sharp(_):
 				WalkSharp.walkSharp(stream, parent, walkStatement);
@@ -108,7 +120,7 @@ class WalkStatement {
 		parent.addChild(newChild);
 		stream.applyTempStore(newChild);
 		walkTrailingComment(stream, newChild);
-		if (wantMore) walkStatement(stream, newChild);
+		if (wantMore) walkStatementWithThrow(stream, newChild);
 		walkStatementContinue(stream, newChild);
 		walkTrailingComment(stream, newChild);
 	}
@@ -134,27 +146,27 @@ class WalkStatement {
 		if (!stream.hasMore()) return;
 		switch (stream.token()) {
 			case Dot:
-				walkStatement(stream, parent);
+				walkStatementWithThrow(stream, parent);
 			case DblDot:
 				walkDblDot(stream, parent);
 			case Semicolon:
-				walkStatement(stream, parent);
+				walkStatementWithThrow(stream, parent);
 			case Arrow:
-				walkStatement(stream, parent);
+				walkStatementWithThrow(stream, parent);
 			case Binop(OpBoolAnd), Binop(OpBoolOr):
 				walkOpBool(stream, parent);
 			case Binop(_):
-				walkStatement(stream, parent);
+				walkStatementWithThrow(stream, parent);
 			case Unop(_):
 				if (parent.isCIdentOrCString()) {
-					walkStatement(stream, parent);
+					walkStatementWithThrow(stream, parent);
 				}
 			case Question:
 				WalkQuestion.walkQuestion(stream, parent);
 			case BkOpen:
-				walkStatement(stream, parent);
+				walkStatementWithThrow(stream, parent);
 			case POpen:
-				walkStatement(stream, parent);
+				walkStatementWithThrow(stream, parent);
 			case CommentLine(_):
 				var nextTokDef:TokenDef = stream.peekNonCommentToken();
 				if (nextTokDef == null) {
@@ -215,20 +227,26 @@ class WalkStatement {
 				parent.addChild(newChild);
 				switch (stream.token()) {
 					case Semicolon: newChild.addChild(stream.consumeToken());
-					case Binop(_): walkStatement(stream, newChild);
+					case Binop(_): walkStatementWithThrow(stream, newChild);
 					default:
 				}
 				return false;
 			case Kwd(KwdCast):
 				var newChild:TokenTree = stream.consumeToken();
 				parent.addChild(newChild);
-				walkStatement(stream, newChild);
+				walkStatementWithThrow(stream, newChild);
 				return false;
 			case Kwd(KwdThis):
 				var newChild:TokenTree = stream.consumeToken();
 				parent.addChild(newChild);
 				walkStatementContinue(stream, newChild);
 				return false;
+			// case Kwd(KwdReturn):
+			// 	trace(stream.token());
+			// 	var newChild:TokenTree = stream.consumeToken();
+			// 	parent.addChild(newChild);
+			// 	// walkStatementContinue(stream, newChild);
+			// 	return true;
 			default:
 				return true;
 		}
@@ -243,7 +261,7 @@ class WalkStatement {
 		var dblDotTok:TokenTree = stream.consumeToken();
 		parent.addChild(dblDotTok);
 		if (parent.isCIdentOrCString() && parent.parent.is(BrOpen)) {
-			walkStatement(stream, dblDotTok);
+			walkStatementWithThrow(stream, dblDotTok);
 			return;
 		}
 		if (stream.is(Kwd(KwdNew))) {
@@ -253,10 +271,10 @@ class WalkStatement {
 		if (!walkKeyword(stream, dblDotTok)) return;
 		WalkTypeNameDef.walkTypeNameDef(stream, dblDotTok);
 		if (stream.is(Binop(OpAssign))) {
-			walkStatement(stream, parent);
+			walkStatementWithThrow(stream, parent);
 		}
 		if (stream.is(Arrow)) {
-			walkStatement(stream, parent);
+			walkStatementWithThrow(stream, parent);
 		}
 	}
 
@@ -325,6 +343,6 @@ class WalkStatement {
 					parent = parent.parent;
 			}
 		}
-		walkStatement(stream, token);
+		walkStatementWithThrow(stream, token);
 	}
 }
