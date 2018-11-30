@@ -93,6 +93,7 @@ class TokenTreeBuilderParsingTest {
 		assertCodeParses(INTERFACE_CONDITIONALS);
 		assertCodeParses(MULTILINE_STRING_INTERPOLATION);
 		assertCodeParses(ANON_TYPE_PROPERTIES);
+		assertCodeParses(TERNARY_WITH_RETURN);
 	}
 
 	public function assertCodeParses(code:String, ?pos:PosInfos) {
@@ -1268,6 +1269,22 @@ abstract TokenTreeBuilderParsingTests(String) to String {
 			var height(default, never):State<Float>;
 			var fontSize(default, never):State<Int>;
 		};
+	}
+	";
+
+	var TERNARY_WITH_RETURN = "
+	class FlxActionDigital extends FlxAction
+	{
+		private function get_x():Float
+		{
+			(_x != null) ?  _x :  0;
+			(_x != null) ? return _x : return 0;
+		}
+
+		private function get_y():Float
+		{
+			(_y != null) ? return -_y : return -0;
+		}
 	}
 	";
 }
