@@ -4,7 +4,7 @@
 
 - Fixed properties in anon types [#130](https://github.com/HaxeCheckstyle/tokentree/issues/130)
 - Fixed `return` in ternary [#132](https://github.com/HaxeCheckstyle/tokentree/issues/132)
-- Fixed handling of `;`
+- Fixed handling of `;` [#133](https://github.com/HaxeCheckstyle/tokentree/issues/133)
 - Refactored coverage report generation [#131](https://github.com/HaxeCheckstyle/tokentree/issues/131)
 
 ## version 1.0.13 (2018-11-11)
