@@ -5,11 +5,7 @@ class WalkStatement {
 		try {
 			walkStatementWithThrow(stream, parent);
 		}
-		catch (e:String) {
-			if (e == "semicolon") {
-				return;
-			}
-		}
+		catch (e:SemicolonException) {}
 	}
 
 	static function walkStatementWithThrow(stream:TokenStream, parent:TokenTree) {
@@ -96,8 +92,7 @@ class WalkStatement {
 					default:
 				}
 				lastChild.addChild(newChild);
-				throw "semicolon";
-				return;
+				throw new SemicolonException();
 			case Sharp(_):
 				WalkSharp.walkSharp(stream, parent, walkStatement);
 				walkStatementContinueAfterSharp(stream, parent);
@@ -345,4 +340,8 @@ class WalkStatement {
 		}
 		walkStatementWithThrow(stream, token);
 	}
+}
+
+class SemicolonException {
+	public function new() {}
 }
