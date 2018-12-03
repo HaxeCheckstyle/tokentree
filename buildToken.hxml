@@ -1,0 +1,14 @@
+-cp src
+-cp test
+-lib hxparse
+-lib haxeparser
+-lib compiletime
+-lib hxargs
+--each
+
+-D keep_whitespace
+-debug
+-D absolute-path
+-D checkstyle
+-D debugTokenTree
+-x TokenTestMain
