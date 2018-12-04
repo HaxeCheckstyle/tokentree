@@ -80,15 +80,15 @@ class WalkIfTest extends VerifyTokenTreeBase {
 		var ifTok:IVerifyTokenTree = root.oneChild().first().is(Kwd(KwdIf)).childCount(2);
 		ifTok.first().is(Const(CIdent("test"))).oneChild().first().is(Binop(OpBoolAnd)).oneChild().first().is(Const(CIdent("test2"))).noChilds();
 
-		var exprCall:IVerifyTokenTree = ifTok.last().is(Const(CIdent("doSomething"))).oneChild().first().is(POpen).childCount(2);
-		exprCall.first().is(PClose).noChilds();
+		var exprCall:IVerifyTokenTree = ifTok.last().is(Const(CIdent("doSomething"))).childCount(2);
+		exprCall.first().is(POpen).oneChild().first().is(PClose).noChilds();
 		exprCall.last().is(Semicolon).noChilds();
 	}
 
 	function testifBody(ifTok:IVerifyTokenTree) {
 		var ifBody:IVerifyTokenTree = ifTok.last().is(BrOpen).childCount(2);
-		var exprCall:IVerifyTokenTree = ifBody.first().is(Const(CIdent("doSomething"))).oneChild().first().is(POpen).childCount(2);
-		exprCall.first().is(PClose).noChilds();
+		var exprCall:IVerifyTokenTree = ifBody.first().is(Const(CIdent("doSomething"))).childCount(2);
+		exprCall.first().is(POpen).oneChild().first().is(PClose).noChilds();
 		exprCall.last().is(Semicolon).noChilds();
 		ifBody.last().is(BrClose).noChilds();
 	}

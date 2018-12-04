@@ -1,7 +1,5 @@
 package tokentree.walk;
 
-import tokentree.walk.WalkStatement.SemicolonException;
-
 class WalkBlock {
 	/**
 	 * BrOpen
@@ -49,6 +47,10 @@ class WalkBlock {
 					WalkStatement.walkStatement(stream, parent);
 			}
 		}
+		walkBlockEnd(stream, parent);
+	}
+
+	public static function walkBlockEnd(stream:TokenStream, parent:TokenTree) {
 		parent.addChild(stream.consumeTokenDef(BrClose));
 		if (stream.hasMore()) {
 			switch (stream.token()) {
@@ -56,10 +58,15 @@ class WalkBlock {
 					return;
 				default:
 			}
-			try {
-				WalkStatement.walkStatementContinue(stream, parent);
+			WalkStatement.walkStatementContinue(stream, parent);
+			if (stream.hasMore()) {
+				switch (stream.token()) {
+					case Semicolon:
+						var semicolon:TokenTree = stream.consumeToken();
+						parent.addChild(semicolon);
+					default:
+				}
 			}
-			catch (e:SemicolonException) {}
 		}
 	}
 }

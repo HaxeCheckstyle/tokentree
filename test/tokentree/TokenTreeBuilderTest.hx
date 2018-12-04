@@ -175,7 +175,7 @@ abstract TokenTreeBuilderTests(String) to String {
 		"    Kwd(KwdElse)\n" +
 		"      Kwd(KwdThrow)\n" +
 		"        Const(CString(error))\n" +
-		"          Semicolon\n" +
+		"        Semicolon\n" +
 		"  Kwd(KwdIf)\n" +
 		"    POpen\n" +
 		"      Const(CIdent(token))\n" +
@@ -189,7 +189,7 @@ abstract TokenTreeBuilderTests(String) to String {
 		"        Const(CIdent(token))\n" +
 		"          Dot\n" +
 		"            Const(CIdent(children))\n" +
-		"              Semicolon\n" +
+		"        Semicolon\n" +
 		"      BrClose\n" +
 		"  Kwd(KwdIf)\n" +
 		"    POpen\n" +
@@ -204,13 +204,13 @@ abstract TokenTreeBuilderTests(String) to String {
 		"        Const(CIdent(token))\n" +
 		"          Dot\n" +
 		"            Const(CIdent(children))\n" +
-		"              Semicolon\n" +
+		"        Semicolon\n" +
 		"      BrClose\n" +
 		"    Kwd(KwdElse)\n" +
 		"      BrOpen\n" +
 		"        Kwd(KwdReturn)\n" +
 		"          BkOpen\n" +
 		"            BkClose\n" +
-		"            Semicolon\n" +
+		"          Semicolon\n" +
 		"        BrClose\n";
 }
