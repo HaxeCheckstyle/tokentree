@@ -2,13 +2,23 @@ package tokentree.walk;
 
 class WalkStatement {
 	public static function walkStatement(stream:TokenStream, parent:TokenTree) {
-		try {
-			walkStatementWithThrow(stream, parent);
+		walkStatementWithoutSemicolon(stream, parent);
+		if (stream.is(Semicolon)) {
+			var semicolon:TokenTree = stream.consumeToken();
+			var lastChild:TokenTree = parent.getLastChild();
+			if (lastChild == null) {
+				lastChild = parent;
+			}
+			switch (lastChild.tok) {
+				case BrClose, BkClose, PClose:
+					lastChild = parent;
+				default:
+			}
+			lastChild.addChild(semicolon);
 		}
-		catch (e:SemicolonException) {}
 	}
 
-	static function walkStatementWithThrow(stream:TokenStream, parent:TokenTree) {
+	static function walkStatementWithoutSemicolon(stream:TokenStream, parent:TokenTree) {
 		WalkComment.walkComment(stream, parent);
 
 		var wantMore:Bool = true;
@@ -22,7 +32,7 @@ class WalkStatement {
 				if (stream.isTypedParam()) {
 					WalkLtGt.walkLtGt(stream, parent);
 					if (stream.is(Arrow)) {
-						walkStatementWithThrow(stream, parent);
+						walkStatementWithoutSemicolon(stream, parent);
 					}
 					return;
 				}
@@ -30,7 +40,7 @@ class WalkStatement {
 			case Binop(OpGt):
 				var gtTok:TokenTree = stream.consumeOpGt();
 				parent.addChild(gtTok);
-				walkStatementWithThrow(stream, gtTok);
+				walkStatementWithoutSemicolon(stream, gtTok);
 				return;
 			case Binop(_):
 				wantMore = true;
@@ -82,17 +92,7 @@ class WalkStatement {
 			case Comma:
 				return;
 			case Semicolon:
-				var newChild:TokenTree = stream.consumeToken();
-				var lastChild:TokenTree = parent.getLastChild();
-				if (lastChild == null) {
-					lastChild = parent;
-				}
-				switch (lastChild.tok) {
-					case BrClose, BkClose, PClose: lastChild = parent;
-					default:
-				}
-				lastChild.addChild(newChild);
-				throw new SemicolonException();
+				return;
 			case Sharp(_):
 				WalkSharp.walkSharp(stream, parent, walkStatement);
 				walkStatementContinueAfterSharp(stream, parent);
@@ -115,7 +115,7 @@ class WalkStatement {
 		parent.addChild(newChild);
 		stream.applyTempStore(newChild);
 		walkTrailingComment(stream, newChild);
-		if (wantMore) walkStatementWithThrow(stream, newChild);
+		if (wantMore) walkStatementWithoutSemicolon(stream, newChild);
 		walkStatementContinue(stream, newChild);
 		walkTrailingComment(stream, newChild);
 	}
@@ -141,27 +141,27 @@ class WalkStatement {
 		if (!stream.hasMore()) return;
 		switch (stream.token()) {
 			case Dot:
-				walkStatementWithThrow(stream, parent);
+				walkStatementWithoutSemicolon(stream, parent);
 			case DblDot:
 				walkDblDot(stream, parent);
 			case Semicolon:
-				walkStatementWithThrow(stream, parent);
+				return;
 			case Arrow:
-				walkStatementWithThrow(stream, parent);
+				walkStatementWithoutSemicolon(stream, parent);
 			case Binop(OpBoolAnd), Binop(OpBoolOr):
 				walkOpBool(stream, parent);
 			case Binop(_):
-				walkStatementWithThrow(stream, parent);
+				walkStatementWithoutSemicolon(stream, parent);
 			case Unop(_):
 				if (parent.isCIdentOrCString()) {
-					walkStatementWithThrow(stream, parent);
+					walkStatementWithoutSemicolon(stream, parent);
 				}
 			case Question:
 				WalkQuestion.walkQuestion(stream, parent);
 			case BkOpen:
-				walkStatementWithThrow(stream, parent);
+				walkStatementWithoutSemicolon(stream, parent);
 			case POpen:
-				walkStatementWithThrow(stream, parent);
+				walkStatementWithoutSemicolon(stream, parent);
 			case CommentLine(_):
 				var nextTokDef:TokenDef = stream.peekNonCommentToken();
 				if (nextTokDef == null) {
@@ -222,14 +222,14 @@ class WalkStatement {
 				parent.addChild(newChild);
 				switch (stream.token()) {
 					case Semicolon: newChild.addChild(stream.consumeToken());
-					case Binop(_): walkStatementWithThrow(stream, newChild);
+					case Binop(_): walkStatementWithoutSemicolon(stream, newChild);
 					default:
 				}
 				return false;
 			case Kwd(KwdCast):
 				var newChild:TokenTree = stream.consumeToken();
 				parent.addChild(newChild);
-				walkStatementWithThrow(stream, newChild);
+				walkStatementWithoutSemicolon(stream, newChild);
 				return false;
 			case Kwd(KwdThis):
 				var newChild:TokenTree = stream.consumeToken();
@@ -256,7 +256,7 @@ class WalkStatement {
 		var dblDotTok:TokenTree = stream.consumeToken();
 		parent.addChild(dblDotTok);
 		if (parent.isCIdentOrCString() && parent.parent.is(BrOpen)) {
-			walkStatementWithThrow(stream, dblDotTok);
+			walkStatementWithoutSemicolon(stream, dblDotTok);
 			return;
 		}
 		if (stream.is(Kwd(KwdNew))) {
@@ -266,10 +266,10 @@ class WalkStatement {
 		if (!walkKeyword(stream, dblDotTok)) return;
 		WalkTypeNameDef.walkTypeNameDef(stream, dblDotTok);
 		if (stream.is(Binop(OpAssign))) {
-			walkStatementWithThrow(stream, parent);
+			walkStatementWithoutSemicolon(stream, parent);
 		}
 		if (stream.is(Arrow)) {
-			walkStatementWithThrow(stream, parent);
+			walkStatementWithoutSemicolon(stream, parent);
 		}
 	}
 
@@ -338,10 +338,6 @@ class WalkStatement {
 					parent = parent.parent;
 			}
 		}
-		walkStatementWithThrow(stream, token);
+		walkStatementWithoutSemicolon(stream, token);
 	}
-}
-
-class SemicolonException {
-	public function new() {}
 }
