@@ -2,6 +2,8 @@
 
 ## dev branch / next version (1.x.x)
 
+## version 1.0.14 (2018-12-05)
+
 - Fixed properties in anon types [#130](https://github.com/HaxeCheckstyle/tokentree/issues/130)
 - Fixed `return` in ternary [#132](https://github.com/HaxeCheckstyle/tokentree/issues/132)
 - Fixed handling of `;` [#133](https://github.com/HaxeCheckstyle/tokentree/issues/133) +  [#134](https://github.com/HaxeCheckstyle/tokentree/issues/134)
