@@ -1,5 +1,5 @@
 import byte.ByteData;
-import sys.io.File;
+// import sys.io.File;
 import haxeparser.HaxeLexer;
 import haxeparser.Data.Token;
 import tokentree.TokenTree;
