@@ -2,6 +2,8 @@
 
 ## dev branch / next version (1.x.x)
 
+- Fixed `TokenTreeCheckUtils.getColonType` detection of type check in array comprehension
+
 ## version 1.0.14 (2018-12-05)
 
 - Fixed properties in anon types [#130](https://github.com/HaxeCheckstyle/tokentree/issues/130)
