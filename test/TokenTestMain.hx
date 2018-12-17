@@ -1,5 +1,5 @@
 import byte.ByteData;
-import sys.io.File;
+// import sys.io.File;
 import haxeparser.HaxeLexer;
 import haxeparser.Data.Token;
 import tokentree.TokenTree;
@@ -19,7 +19,6 @@ class TokenTestMain {
 
 	public static function main() {
 		// var code = File.getContent("../../haxe-languageserver/cases/foldingRange/Input.hx");
-
 		var code = TOKENTREE_BUILDER_TEST;
 		var tokens:Array<Token> = [];
 		var bytes:ByteData = ByteData.ofString(code);

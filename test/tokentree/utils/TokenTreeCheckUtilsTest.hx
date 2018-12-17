@@ -134,7 +134,7 @@ class TokenTreeCheckUtilsTest {
 	public function testMixedColonTypes() {
 		var root:TokenTree = assertCodeParses(TokenTreeCheckUtilsTests.MIXED_COLON_TYPES);
 		var allBr:Array<TokenTree> = root.filter([DblDot], ALL);
-		Assert.areEqual(45, allBr.length);
+		Assert.areEqual(46, allBr.length);
 		var index:Int = 0;
 		Assert.areEqual(ColonType.OBJECT_LITERAL, TokenTreeCheckUtils.getColonType(allBr[index++]));
 		Assert.areEqual(ColonType.TYPE_CHECK, TokenTreeCheckUtils.getColonType(allBr[index++]));
@@ -189,6 +189,9 @@ class TokenTreeCheckUtilsTest {
 		// function get<T>(key:String):Null<T>;
 		Assert.areEqual(ColonType.TYPE_HINT, TokenTreeCheckUtils.getColonType(allBr[index++]));
 		Assert.areEqual(ColonType.TYPE_HINT, TokenTreeCheckUtils.getColonType(allBr[index++]));
+
+		// [for (i in 0...1) ("" : String).length];
+		Assert.areEqual(ColonType.TYPE_CHECK, TokenTreeCheckUtils.getColonType(allBr[index++]));
 
 		// typedef Middleware = {
 		Assert.areEqual(ColonType.TYPE_HINT, TokenTreeCheckUtils.getColonType(allBr[index++]));
@@ -429,6 +432,10 @@ abstract TokenTreeCheckUtilsTests(String) to String {
 		@:overload(function<T>(key:String, defaultValue:T):T {})
 		@:overload(function<T>(key:String):T {})
 		function get<T>(key:String):Null<T>;
+
+		function test() {
+			[for (i in 0...1) ('' : String).length];
+		}
 	}
 
 	typedef Middleware = {

@@ -702,7 +702,7 @@ class TokenTreeCheckUtils {
 						case PARAMETER: return TYPE_HINT;
 						case CALL: return UNKNOWN;
 						case CONDITION: return UNKNOWN;
-						case FORLOOP: return UNKNOWN;
+						case FORLOOP: return TYPE_CHECK;
 						case EXPRESSION: return TYPE_CHECK;
 					}
 				default:
