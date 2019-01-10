@@ -8,7 +8,7 @@ class WalkImplements {
 		WalkComment.walkComment(stream, parent);
 		WalkTypeNameDef.walkTypeNameDef(stream, interfacePart);
 		WalkComment.walkComment(stream, parent);
-		WalkImplements.walkImplements(stream, interfacePart);
+		WalkImplements.walkImplements(stream, parent);
 		WalkComment.walkComment(stream, parent);
 	}
 }
