@@ -3,6 +3,7 @@
 ## dev branch / next version (1.x.x)
 
 - Fixed `TokenTreeCheckUtils.getColonType` detection of type check in array comprehension [#136](https://github.com/HaxeCheckstyle/tokentree/issues/136)
+- Fixed handling of multiple `implements` [#137](https://github.com/HaxeCheckstyle/tokentree/issues/137)
 
 ## version 1.0.14 (2018-12-05)
 

@@ -918,21 +918,17 @@ abstract TokenTreeBuilderParsingTests(String) to String {
 	";
 
 	var IMPLEMENTS_EXTENDS = "
-	class Server implements ISocket extends BaseHandler
-	{
-	}
+	class Server implements ISocket extends BaseHandler {}
 
-	class Server extends BaseHandler implements ISocket
-	{
-	}
+	class Server extends BaseHandler implements ISocket {}
 
-	interface Server implements ISocket extends IBaseHandler
-	{
-	}
+	interface Server implements ISocket extends IBaseHandler {}
 
-	interface Server extends IBaseHandler implements ISocket
-	{
-	}
+	interface Server extends IBaseHandler implements ISocket {}
+
+	class Main implements ITest implements ITest1 implements ITest2 implements ITest3 extends Base {}
+
+	interface Main implements Test implements Test implements Test implements Test {}
 	";
 
 	var MACRO_PATTERNS = "
