@@ -46,7 +46,8 @@ class TokenTreeCheckUtils {
 
 	public static function isOpGtTypedefExtension(token:TokenTree):Bool {
 		return switch (token.tok) {
-			case Binop(OpGt): (token.access().parent().is(BrOpen).parent().is(Binop(OpAssign)).parent().isCIdent().parent().is(Kwd(KwdTypedef)).token != null);
+			case Binop(OpGt): (token.access().parent().is(BrOpen).parent().is(Binop(OpAssign)).parent().isCIdent().parent().is(Kwd(KwdTypedef))
+					.token != null);
 			default: false;
 		}
 	}
@@ -595,7 +596,7 @@ class TokenTreeCheckUtils {
 		return FUNCTION_TYPE_HAXE4;
 	}
 
-	static function checkArrowPOpen(token:TokenTree):ArrowType {
+	static function checkArrowPOpen(token:TokenTree):Null<ArrowType> {
 		if ((token.children == null) || (token.children.length <= 1)) {
 			return null;
 		}
@@ -613,7 +614,7 @@ class TokenTreeCheckUtils {
 		return FUNCTION_TYPE_HAXE3;
 	}
 
-	static function checkArrowParent(parent:TokenTree):ArrowType {
+	static function checkArrowParent(parent:TokenTree):Null<ArrowType> {
 		if (parent == null) {
 			return ARROW_FUNCTION;
 		}
@@ -712,7 +713,7 @@ class TokenTreeCheckUtils {
 		return UNKNOWN;
 	}
 
-	public static function getLastToken(token:TokenTree):TokenTree {
+	public static function getLastToken(token:TokenTree):Null<TokenTree> {
 		if (token == null) {
 			return null;
 		}

@@ -10,7 +10,7 @@ class WalkTypeNameDef {
 			parent = questTok;
 			WalkComment.walkComment(stream, parent);
 		}
-		var name:TokenTree;
+		var name:Null<TokenTree>;
 		var bAdd:Bool = true;
 		switch (stream.token()) {
 			case BrOpen:
@@ -48,7 +48,7 @@ class WalkTypeNameDef {
 	}
 
 	static function walkTypeNameDefContinue(stream:TokenStream, parent:TokenTree) {
-		WalkComment.walkComment(stream, parent);
+		walkTypeNameDefComment(stream, parent);
 		if (stream.is(Dot)) {
 			var dot:TokenTree = stream.consumeTokenDef(Dot);
 			parent.addChild(dot);
@@ -63,6 +63,26 @@ class WalkTypeNameDef {
 			return;
 		}
 		if (stream.is(BkOpen)) WalkArrayAccess.walkArrayAccess(stream, parent);
-		WalkComment.walkComment(stream, parent);
+		walkTypeNameDefComment(stream, parent);
+	}
+
+	static function walkTypeNameDefComment(stream:TokenStream, parent:TokenTree) {
+		var currentPos:Int = stream.getStreamIndex();
+		var progress:TokenStreamProgress = new TokenStreamProgress(stream);
+		var comments:Array<TokenTree> = [];
+		while (stream.hasMore() && progress.streamHasChanged()) {
+			switch (stream.token()) {
+				case Comment(_), CommentLine(_):
+					comments.push(stream.consumeToken());
+				case DblDot, Comma, Semicolon, Dot, BrOpen, BkOpen, POpen, Binop(_):
+					for (comment in comments) {
+						parent.addChild(comment);
+					}
+					return;
+				default:
+					stream.rewindTo(currentPos);
+					return;
+			}
+		}
 	}
 }

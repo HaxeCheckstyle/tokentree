@@ -54,7 +54,7 @@ class WalkFor {
 		var pOpen:TokenTree = stream.consumeTokenDef(POpen);
 		parent.addChild(pOpen);
 		WalkComment.walkComment(stream, pOpen);
-		var identifier:TokenTree = null;
+		var identifier:Null<TokenTree> = null;
 		switch (stream.token()) {
 			case Dollar(_):
 				WalkStatement.walkStatement(stream, pOpen);
@@ -67,10 +67,10 @@ class WalkFor {
 		if (stream.is(Binop(OpArrow))) {
 			var arrowTok:TokenTree = stream.consumeToken();
 			identifier.addChild(arrowTok);
-			var valueIdent:TokenTree = stream.consumeConstIdent();
+			var valueIdent:Null<TokenTree> = stream.consumeConstIdent();
 			arrowTok.addChild(valueIdent);
 		}
-		var inTok:TokenTree = null;
+		var inTok:Null<TokenTree> = null;
 		switch (stream.token()) {
 			case #if (haxe_ver < 4.0) Kwd(KwdIn) #else Binop(OpIn) #end:
 				inTok = stream.consumeToken();

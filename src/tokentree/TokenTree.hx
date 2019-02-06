@@ -50,7 +50,8 @@ class TokenTree extends Token {
 		}
 	}
 
-	public function addChild(child:TokenTree) {
+	public function addChild(child:Null<TokenTree>) {
+		if (child == null) return;
 		if (children == null) children = [];
 		if (children.length > 0) {
 			child.previousSibling = children[children.length - 1];
@@ -65,12 +66,12 @@ class TokenTree extends Token {
 		return children.length > 0;
 	}
 
-	public function getFirstChild():TokenTree {
+	public function getFirstChild():Null<TokenTree> {
 		if (!hasChildren()) return null;
 		return children[0];
 	}
 
-	public function getLastChild():TokenTree {
+	public function getLastChild():Null<TokenTree> {
 		if (!hasChildren()) return null;
 		return children[children.length - 1];
 	}

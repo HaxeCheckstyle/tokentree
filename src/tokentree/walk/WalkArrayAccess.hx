@@ -30,11 +30,11 @@ class WalkArrayAccess {
 					WalkFunction.walkFunction(stream, bkOpen);
 				case Comma:
 					var comma:TokenTree = stream.consumeToken();
-					var child:TokenTree = bkOpen.getLastChild();
+					var child:Null<TokenTree> = bkOpen.getLastChild();
 					if (child == null) child = bkOpen;
 					child.addChild(comma);
 				case Binop(OpArrow):
-					var child:TokenTree = bkOpen.getLastChild();
+					var child:Null<TokenTree> = bkOpen.getLastChild();
 					if (child == null) child = bkOpen;
 					WalkStatement.walkStatement(stream, child);
 				default:

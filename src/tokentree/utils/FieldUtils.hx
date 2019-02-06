@@ -4,7 +4,7 @@ using tokentree.utils.TokenTreeCheckUtils;
 using Lambda;
 
 class FieldUtils {
-	public static function getFieldType(field:TokenTree, defaultVisibility:TokenFieldVisibility):TokenFieldType {
+	public static function getFieldType(field:Null<TokenTree>, defaultVisibility:TokenFieldVisibility):TokenFieldType {
 		if (field == null) {
 			return UNKNOWN;
 		}
