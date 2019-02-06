@@ -4,7 +4,7 @@
 
 - Fixed `TokenTreeCheckUtils.getColonType` detection of type check in array comprehension [#136](https://github.com/HaxeCheckstyle/tokentree/issues/136)
 - Fixed handling of multiple `implements` [#137](https://github.com/HaxeCheckstyle/tokentree/issues/137)
-- Fixed comments after typedefs without semicolon
+- Fixed comments after typedefs without semicolon [#138](https://github.com/HaxeCheckstyle/tokentree/issues/138)
 
 ## version 1.0.14 (2018-12-05)
 
