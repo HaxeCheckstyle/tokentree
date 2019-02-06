@@ -16,8 +16,7 @@ class WalkPackageImport {
 	 *
 	 */
 	public static function walkPackageImport(stream:TokenStream, parent:TokenTree) {
-		var newChild:TokenTree = null;
-		newChild = stream.consumeToken();
+		var newChild:TokenTree = stream.consumeToken();
 		parent.addChild(newChild);
 		if (Type.enumEq(Semicolon, newChild.tok)) return;
 		if (!stream.hasMore()) return;

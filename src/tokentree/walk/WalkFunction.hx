@@ -2,7 +2,7 @@ package tokentree.walk;
 
 class WalkFunction {
 	public static function walkFunction(stream:TokenStream, parent:TokenTree) {
-		var funcTok:TokenTree = stream.consumeTokenDef(Kwd(KwdFunction));
+		var funcTok:Null<TokenTree> = stream.consumeTokenDef(Kwd(KwdFunction));
 		parent.addChild(funcTok);
 		WalkComment.walkComment(stream, funcTok);
 
@@ -22,7 +22,7 @@ class WalkFunction {
 		WalkFunction.walkFunctionParameters(stream, name);
 		WalkComment.walkComment(stream, name);
 		if (stream.is(DblDot)) {
-			var dblDot:TokenTree = stream.consumeTokenDef(DblDot);
+			var dblDot:Null<TokenTree> = stream.consumeTokenDef(DblDot);
 			name.addChild(dblDot);
 			WalkTypeNameDef.walkTypeNameDef(stream, dblDot);
 		}

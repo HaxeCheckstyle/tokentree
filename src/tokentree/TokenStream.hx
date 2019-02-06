@@ -45,7 +45,7 @@ class TokenStream {
 		return new TokenTree(token.tok, space, token.pos, current - 1);
 	}
 
-	public function consumeConstIdent():TokenTree {
+	public function consumeConstIdent():Null<TokenTree> {
 		switch (token()) {
 			case Dollar(_):
 				return consumeToken();
@@ -68,9 +68,7 @@ class TokenStream {
 			default:
 				switch (MODE) {
 					case RELAXED: return createDummyToken(Const(CString("autoInsert")));
-					case STRICT:
-						error('bad token ${token()} != Const(_)');
-						return null;
+					case STRICT: error('bad token ${token()} != Const(_)');
 				}
 		}
 	}
@@ -82,7 +80,6 @@ class TokenStream {
 				return createDummyToken(tokenDef);
 			case STRICT:
 				error('bad token ${token()} != $tokenDef');
-				return null;
 		}
 	}
 
@@ -172,7 +169,7 @@ class TokenStream {
 		return tokens[current].tok;
 	}
 
-	public function peekNonCommentToken():TokenDef {
+	public function peekNonCommentToken():Null<TokenDef> {
 		if ((current < 0) || (current >= tokens.length)) {
 			switch (MODE) {
 				case RELAXED:
@@ -196,7 +193,7 @@ class TokenStream {
 		return null;
 	}
 
-	public function getTokenPos():Position {
+	public function getTokenPos():Null<Position> {
 		if ((current < 0) || (current >= tokens.length)) {
 			return null;
 		}
@@ -307,7 +304,8 @@ class TokenStream {
 	}
 
 	public function popSharpIf():TokenTree {
-		if (sharpIfStack.length <= 0) {
+		var token:Null<TokenTree> = sharpIfStack.pop();
+		if (token == null) {
 			switch (MODE) {
 				case RELAXED:
 					return createDummyToken(CommentLine("dummy token"));
@@ -315,7 +313,7 @@ class TokenStream {
 					throw NO_MORE_TOKENS;
 			}
 		}
-		return sharpIfStack.pop();
+		return token;
 	}
 
 	public function peekSharpIf():TokenTree {
@@ -331,7 +329,7 @@ class TokenStream {
 	}
 
 	function createDummyToken(tokDef:TokenDef):TokenTree {
-		var pos:Position = null;
+		var pos:Null<Position> = null;
 		if ((current < 0) || (current >= tokens.length)) {
 			pos = tokens[tokens.length - 1].pos;
 			pos.min = pos.max;

@@ -2,8 +2,8 @@ package tokentree.walk;
 
 class WalkVar {
 	public static function walkVar(stream:TokenStream, parent:TokenTree) {
-		var name:TokenTree = null;
-		var varTok:TokenTree = stream.consumeTokenDef(Kwd(KwdVar));
+		var name:Null<TokenTree> = null;
+		var varTok:Null<TokenTree> = stream.consumeTokenDef(Kwd(KwdVar));
 		parent.addChild(varTok);
 		WalkComment.walkComment(stream, parent);
 		var progress:TokenStreamProgress = new TokenStreamProgress(stream);
