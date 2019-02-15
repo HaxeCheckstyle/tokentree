@@ -453,6 +453,8 @@ class TokenTreeCheckUtils {
 				return FORLOOP;
 			case Kwd(KwdCatch):
 				return CONDITION;
+			case Sharp(_):
+				return CONDITION;
 			case POpen:
 				return EXPRESSION;
 			case Kwd(KwdFunction):

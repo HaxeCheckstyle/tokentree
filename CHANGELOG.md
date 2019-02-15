@@ -7,6 +7,8 @@
 - Fixed BrOpen detection for type parameter with structure type [#140](https://github.com/HaxeCheckstyle/tokentree/issues/140)
 - Fixed colon type detection when using conditionals [#140](https://github.com/HaxeCheckstyle/tokentree/issues/140)
 - Fixed colon type detection when using OpBool [#140](https://github.com/HaxeCheckstyle/tokentree/issues/140)
+- Fixed handling of condition bodies (if, while, for)
+- Fixed POpen type detection for conditionals
 
 ## version 1.0.15 (2019-02-07)
 

@@ -73,16 +73,7 @@ class WalkStatement {
 				WalkBlock.walkBlock(stream, dollarTok);
 				return;
 			case POpen:
-				var pOpen:TokenTree = WalkPOpen.walkPOpen(stream, parent);
-				if (parent.isCIdent()) {
-					walkStatementContinue(stream, parent);
-				}
-				else {
-					if (parent.is(Kwd(KwdIf)) && stream.is(Binop(OpSub))) {
-						return;
-					}
-					walkStatementContinue(stream, pOpen);
-				}
+				walkPOpen(stream, parent);
 				return;
 			case Question:
 				WalkQuestion.walkQuestion(stream, parent);
@@ -271,6 +262,28 @@ class WalkStatement {
 		}
 		if (stream.is(Arrow)) {
 			walkStatementWithoutSemicolon(stream, parent);
+		}
+	}
+
+	static function walkPOpen(stream:TokenStream, parent:TokenTree) {
+		var pOpen:TokenTree = WalkPOpen.walkPOpen(stream, parent);
+		if (parent.tok == null) {
+			return;
+		}
+		if (parent.isCIdent()) {
+			walkStatementContinue(stream, parent);
+		}
+		else {
+			switch (parent.tok) {
+				case Kwd(KwdIf), Kwd(KwdSwitch), Kwd(KwdFor), Kwd(KwdWhile):
+					switch (stream.token()) {
+						case Binop(OpSub): return;
+						case Binop(_):
+						default: return;
+					}
+				default:
+			}
+			walkStatementContinue(stream, pOpen);
 		}
 	}
 

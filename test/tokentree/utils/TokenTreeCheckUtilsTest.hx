@@ -213,7 +213,7 @@ class TokenTreeCheckUtilsTest {
 	public function testMixedPOpenTypes() {
 		var root:TokenTree = assertCodeParses(TokenTreeCheckUtilsTests.MIXED_POPEN_TYPES);
 		var allBr:Array<TokenTree> = root.filter([POpen], ALL);
-		Assert.areEqual(13, allBr.length);
+		Assert.areEqual(16, allBr.length);
 		var index:Int = 0;
 		// @:deprecated('UnlessshuffleArray(), you should use shuffle() quality.')
 		Assert.areEqual(POpenType.AT, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
@@ -242,6 +242,11 @@ class TokenTreeCheckUtilsTest {
 		// foo((a : Int, b : Int) -> 0);
 		Assert.areEqual(POpenType.CALL, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
 		Assert.areEqual(POpenType.PARAMETER, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
+
+		// add(#if (php || as3) (v ? 'true' : 'false') #else v #end);
+		Assert.areEqual(POpenType.CALL, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
+		Assert.areEqual(POpenType.CONDITION, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
+		Assert.areEqual(POpenType.CONDITION, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
 	}
 
 	@Test
@@ -467,6 +472,7 @@ abstract TokenTreeCheckUtilsTests(String) to String {
         static function main(?value:Int) {
 			var f = (a:Int, b:Int) -> 0;
 			foo((a : Int, b : Int) -> 0);
+			add(#if (php || as3) (v ? 'true' : 'false') #else v #end);
 		}
 	}
 	";
