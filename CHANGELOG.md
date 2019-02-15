@@ -2,6 +2,12 @@
 
 ## dev branch / next version (1.x.x)
 
+- Fixed handling of OpBool after `null` [#140](https://github.com/HaxeCheckstyle/tokentree/issues/140)
+- Fixed comments before `catch` [#140](https://github.com/HaxeCheckstyle/tokentree/issues/140)
+- Fixed BrOpen detection for type parameter with structure type [#140](https://github.com/HaxeCheckstyle/tokentree/issues/140)
+- Fixed colon type detection when using conditionals [#140](https://github.com/HaxeCheckstyle/tokentree/issues/140)
+- Fixed colon type detection when using OpBool [#140](https://github.com/HaxeCheckstyle/tokentree/issues/140)
+
 ## version 1.0.15 (2019-02-07)
 
 - Fixed `TokenTreeCheckUtils.getColonType` detection of type check in array comprehension [#136](https://github.com/HaxeCheckstyle/tokentree/issues/136)

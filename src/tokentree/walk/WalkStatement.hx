@@ -222,6 +222,7 @@ class WalkStatement {
 				parent.addChild(newChild);
 				switch (stream.token()) {
 					case Semicolon: newChild.addChild(stream.consumeToken());
+					case Binop(OpBoolAnd), Binop(OpBoolOr): walkOpBool(stream, newChild);
 					case Binop(_): walkStatementWithoutSemicolon(stream, newChild);
 					default:
 				}
@@ -296,6 +297,8 @@ class WalkStatement {
 					return parent;
 				case Kwd(KwdDefault):
 					return parent;
+				case Binop(_):
+					return parent;
 				default:
 			}
 			parent = parent.parent;
@@ -331,7 +334,7 @@ class WalkStatement {
 					break;
 				case Kwd(KwdReturn), Kwd(KwdUntyped), Kwd(KwdIf), Kwd(KwdWhile):
 					break;
-				case Kwd(KwdFunction), Arrow:
+				case Kwd(KwdFunction), Arrow, Question:
 					break;
 				default:
 					token = parent;

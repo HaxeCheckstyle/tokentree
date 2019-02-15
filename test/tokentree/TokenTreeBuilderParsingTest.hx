@@ -94,6 +94,8 @@ class TokenTreeBuilderParsingTest {
 		assertCodeParses(MULTILINE_STRING_INTERPOLATION);
 		assertCodeParses(ANON_TYPE_PROPERTIES);
 		assertCodeParses(TERNARY_WITH_RETURN);
+		assertCodeParses(TRY_CATCH_WITH_COMMENT);
+		assertCodeParses(TERNARY_WITH_OP_BOOL);
 	}
 
 	public function assertCodeParses(code:String, ?pos:PosInfos) {
@@ -1282,6 +1284,40 @@ abstract TokenTreeBuilderParsingTests(String) to String {
 		private function get_y():Float {
 			(_y != null) ? return _y : return 0.1;
 			(_y != null) ? return _y : return -0.1;
+		}
+	}
+	";
+
+	var TRY_CATCH_WITH_COMMENT = "
+	class Main {
+		public static function main() {
+			try {
+				foo;
+			}		// catch
+			catch (e:Any) {}
+			try {
+				foo;
+			}
+			// catch
+			catch (e:Any) {}
+			try {
+				foo;
+			}
+			// catch
+			catch (e:String) {}
+			// catch
+			catch (e:Int) {}
+			// catch
+			catch (e:Any) {}
+		}
+	}
+	";
+
+	var TERNARY_WITH_OP_BOOL = "
+	class Main {
+		public static function main() {
+			var event = new KeyboardEvent(type, true, true, charCode, keyCode, keyLocation,
+					__macKeyboard ? modifier.ctrlKey || modifier.metaKey:modifier.ctrlKey, modifier.altKey, modifier.shiftKey, modifier.ctrlKey, modifier.metaKey);
 		}
 	}
 	";
