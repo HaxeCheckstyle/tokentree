@@ -138,7 +138,7 @@ class TokenTreeCheckUtilsTest {
 	public function testMixedColonTypes() {
 		var root:TokenTree = assertCodeParses(TokenTreeCheckUtilsTests.MIXED_COLON_TYPES);
 		var allBr:Array<TokenTree> = root.filter([DblDot], ALL);
-		Assert.areEqual(46, allBr.length);
+		Assert.areEqual(47, allBr.length);
 		var index:Int = 0;
 		Assert.areEqual(ColonType.OBJECT_LITERAL, TokenTreeCheckUtils.getColonType(allBr[index++]));
 		Assert.areEqual(ColonType.TYPE_CHECK, TokenTreeCheckUtils.getColonType(allBr[index++]));
@@ -196,6 +196,9 @@ class TokenTreeCheckUtilsTest {
 
 		// [for (i in 0...1) ("" : String).length];
 		Assert.areEqual(ColonType.TYPE_CHECK, TokenTreeCheckUtils.getColonType(allBr[index++]));
+
+		// static function foo(#if openfl ?vector:openfl.Vector<Int> #end) {}
+		Assert.areEqual(ColonType.TYPE_HINT, TokenTreeCheckUtils.getColonType(allBr[index++]));
 
 		// typedef Middleware = {
 		Assert.areEqual(ColonType.TYPE_HINT, TokenTreeCheckUtils.getColonType(allBr[index++]));
@@ -441,6 +444,8 @@ abstract TokenTreeCheckUtilsTests(String) to String {
 		function test() {
 			[for (i in 0...1) ('' : String).length];
 		}
+
+		static function foo(#if openfl ?vector:openfl.Vector<Int> #end) {}
 	}
 
 	typedef Middleware = {

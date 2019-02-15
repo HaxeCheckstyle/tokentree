@@ -5,6 +5,8 @@
 - Fixed handling of OpBool after `null`
 - Fixed comments before `catch`
 - Fixed BrOpen detection for type parameter with structure type
+- Fixed colon type detection when using conditionals
+- Fixed colon type detection when using OpBool
 
 ## version 1.0.15 (2019-02-07)
 

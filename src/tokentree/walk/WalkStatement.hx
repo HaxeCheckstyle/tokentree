@@ -297,6 +297,8 @@ class WalkStatement {
 					return parent;
 				case Kwd(KwdDefault):
 					return parent;
+				case Binop(_):
+					return parent;
 				default:
 			}
 			parent = parent.parent;
@@ -332,7 +334,7 @@ class WalkStatement {
 					break;
 				case Kwd(KwdReturn), Kwd(KwdUntyped), Kwd(KwdIf), Kwd(KwdWhile):
 					break;
-				case Kwd(KwdFunction), Arrow:
+				case Kwd(KwdFunction), Arrow, Question:
 					break;
 				default:
 					token = parent;

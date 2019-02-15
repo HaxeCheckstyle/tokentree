@@ -128,6 +128,8 @@ class TokenTreeCheckUtils {
 			case Kwd(KwdFinal):
 				return false;
 			#end
+			case Sharp(_):
+				return false;
 			default:
 				return true;
 		}
@@ -668,6 +670,8 @@ class TokenTreeCheckUtils {
 			case Kwd(KwdNew):
 				return findColonParent(parent);
 			case Kwd(KwdThis):
+				return findColonParent(parent);
+			case Question:
 				return findColonParent(parent);
 			default:
 		}
