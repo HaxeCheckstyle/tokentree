@@ -338,6 +338,7 @@ class TokenTreeCheckUtils {
 					case Kwd(KwdFunction): return ANONTYPE;
 					case BrOpen: return getBrOpenType(parent);
 					case POpen: return ANONTYPE;
+					case Binop(OpLt): return ANONTYPE;
 					default: return OBJECTDECL;
 				}
 			case POpen:

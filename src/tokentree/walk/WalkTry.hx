@@ -23,8 +23,25 @@ class WalkTry {
 		var tryTok:TokenTree = stream.consumeTokenDef(Kwd(KwdTry));
 		parent.addChild(tryTok);
 		WalkBlock.walkBlock(stream, tryTok);
-		while (stream.is(Kwd(KwdCatch))) {
-			WalkTry.walkCatch(stream, tryTok);
+
+		var currentPos:Int = stream.getStreamIndex();
+		var progress:TokenStreamProgress = new TokenStreamProgress(stream);
+		var comments:Array<TokenTree> = [];
+		while (stream.hasMore() && progress.streamHasChanged()) {
+			switch (stream.token()) {
+				case Comment(_), CommentLine(_):
+					comments.push(stream.consumeToken());
+				case Kwd(KwdCatch):
+					for (comment in comments) {
+						tryTok.addChild(comment);
+					}
+					comments = [];
+					WalkTry.walkCatch(stream, tryTok);
+					currentPos = stream.getStreamIndex();
+				default:
+					stream.rewindTo(currentPos);
+					return;
+			}
 		}
 	}
 

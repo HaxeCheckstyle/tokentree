@@ -23,7 +23,7 @@ class TokenTreeCheckUtilsTest {
 	public function testMixedBrOpenTypes() {
 		var root:TokenTree = assertCodeParses(TokenTreeCheckUtilsTests.MIXED_BR_OPEN_TYPES);
 		var allBr:Array<TokenTree> = root.filter([BrOpen], ALL);
-		Assert.areEqual(27, allBr.length);
+		Assert.areEqual(29, allBr.length);
 		var index:Int = 0;
 		Assert.areEqual(BrOpenType.BLOCK, TokenTreeCheckUtils.getBrOpenType(allBr[index++]));
 		Assert.areEqual(BrOpenType.ANONTYPE, TokenTreeCheckUtils.getBrOpenType(allBr[index++]));
@@ -47,6 +47,10 @@ class TokenTreeCheckUtilsTest {
 		Assert.areEqual(BrOpenType.BLOCK, TokenTreeCheckUtils.getBrOpenType(allBr[index++]));
 		Assert.areEqual(BrOpenType.OBJECTDECL, TokenTreeCheckUtils.getBrOpenType(allBr[index++]));
 		Assert.areEqual(BrOpenType.OBJECTDECL, TokenTreeCheckUtils.getBrOpenType(allBr[index++]));
+		Assert.areEqual(BrOpenType.BLOCK, TokenTreeCheckUtils.getBrOpenType(allBr[index++]));
+
+		// function foo<T:{bar:T}>() {}
+		Assert.areEqual(BrOpenType.ANONTYPE, TokenTreeCheckUtils.getBrOpenType(allBr[index++]));
 		Assert.areEqual(BrOpenType.BLOCK, TokenTreeCheckUtils.getBrOpenType(allBr[index++]));
 
 		// abstracts
@@ -303,6 +307,7 @@ abstract TokenTreeCheckUtilsTests(String) to String {
 				}
 			}
 		}
+		function foo<T:{bar:T}>() {}
 	}
 	abstract Foo(Bar) from {a:String} {}
 	abstract Foo({i:Int}) {}
