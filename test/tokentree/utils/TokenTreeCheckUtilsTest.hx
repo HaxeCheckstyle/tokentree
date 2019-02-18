@@ -97,7 +97,7 @@ class TokenTreeCheckUtilsTest {
 		var root:TokenTree = assertCodeParses(TokenTreeCheckUtilsTests.FUNCTION_TYPE_HAXE_3);
 
 		var allArrows:Array<TokenTree> = root.filter([Arrow], ALL);
-		Assert.areEqual(22, allArrows.length);
+		Assert.areEqual(26, allArrows.length);
 		for (ar in allArrows) {
 			Assert.areEqual(ArrowType.FUNCTION_TYPE_HAXE3, TokenTreeCheckUtils.getArrowType(ar));
 		}
@@ -157,11 +157,17 @@ class TokenTreeCheckUtilsTest {
 		Assert.areEqual(ColonType.TYPE_HINT, TokenTreeCheckUtils.getColonType(allBr[index++]));
 		Assert.areEqual(ColonType.TYPE_HINT, TokenTreeCheckUtils.getColonType(allBr[index++]));
 		Assert.areEqual(ColonType.TYPE_HINT, TokenTreeCheckUtils.getColonType(allBr[index++]));
+
+		// case 0:
 		Assert.areEqual(ColonType.SWITCH_CASE, TokenTreeCheckUtils.getColonType(allBr[index++]));
+		// return {i: val.i + 1, s:val.s};
 		Assert.areEqual(ColonType.OBJECT_LITERAL, TokenTreeCheckUtils.getColonType(allBr[index++]));
 		Assert.areEqual(ColonType.OBJECT_LITERAL, TokenTreeCheckUtils.getColonType(allBr[index++]));
+		// case 1:
 		Assert.areEqual(ColonType.SWITCH_CASE, TokenTreeCheckUtils.getColonType(allBr[index++]));
+		// default:
 		Assert.areEqual(ColonType.SWITCH_CASE, TokenTreeCheckUtils.getColonType(allBr[index++]));
+		// return {i: 0, s:''};
 		Assert.areEqual(ColonType.OBJECT_LITERAL, TokenTreeCheckUtils.getColonType(allBr[index++]));
 		Assert.areEqual(ColonType.OBJECT_LITERAL, TokenTreeCheckUtils.getColonType(allBr[index++]));
 
@@ -363,6 +369,12 @@ abstract TokenTreeCheckUtilsTests(String) to String {
 	typedef ValueXYListenerCallback = {x:Float, y:Float}->Void;
 	typedef ExtendedFieldsCB = Array<ObjectDeclField>->String->Position->DynamicAccess<Expr>->Void;
 	typedef RequestHandler<P, R, E> = P->CancellationToken->(R->Void)->(ResponseError<E>->Void)->Void;
+
+	abstract PromiseHandler<T, TOut>(T->Dynamic) // T->Dynamic, so the compiler always knows the type of the argument and can infer it for then/catch callbacks
+		from T->TOut // order is important, because Promise<TOut> return must have priority
+		from T->Thenable<TOut> // although the checking order seems to be reversed at the moment, see https://github.com/HaxeFoundation/haxe/issues/7656
+		from T->Promise<TOut> // support Promise explicitly as it doesn't work transitively through Thenable at the moment
+	{}
 	";
 
 	var FUNCTION_TYPE_HAXE_4 = "

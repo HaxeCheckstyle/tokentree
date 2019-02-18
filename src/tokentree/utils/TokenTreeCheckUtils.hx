@@ -54,21 +54,45 @@ class TokenTreeCheckUtils {
 
 	public static function filterOpSub(token:TokenTree):Bool {
 		if (!token.tok.match(Binop(OpSub))) return false;
-		return switch (token.parent.tok) {
-			case Binop(_): true;
-			case IntInterval(_): true;
-			case BkOpen: true;
-			case BrOpen: true;
-			case POpen: if ((token.previousSibling != null) && (token.previousSibling.is(PClose))) false; else true;
-			case Question: true;
-			case DblDot: true;
-			case Kwd(KwdIf): true;
-			case Kwd(KwdElse): true;
-			case Kwd(KwdWhile): true;
-			case Kwd(KwdDo): true;
-			case Kwd(KwdFor): true;
-			case Kwd(KwdReturn): true;
-			default: false;
+		switch (token.parent.tok) {
+			case Binop(_):
+				return true;
+			case IntInterval(_):
+				return true;
+			case BkOpen:
+				return true;
+			case BrOpen:
+				return true;
+			case POpen:
+				if (token.previousSibling == null) {
+					return true;
+				}
+				var prev:TokenTree = getLastToken(token.previousSibling);
+				if (prev == null) {
+					return false;
+				}
+				switch (prev.tok) {
+					case Comma: return true;
+					default: return false;
+				}
+			case Question:
+				return true;
+			case DblDot:
+				return true;
+			case Kwd(KwdIf):
+				return true;
+			case Kwd(KwdElse):
+				return true;
+			case Kwd(KwdWhile):
+				return true;
+			case Kwd(KwdDo):
+				return true;
+			case Kwd(KwdFor):
+				return true;
+			case Kwd(KwdReturn):
+				return true;
+			default:
+				return false;
 		}
 	}
 
@@ -546,6 +570,7 @@ class TokenTreeCheckUtils {
 					child = child.nextSibling;
 					continue;
 				case POpen:
+				case Comment(_), CommentLine(_):
 				default:
 					return ARROW_FUNCTION;
 			}
@@ -590,6 +615,7 @@ class TokenTreeCheckUtils {
 					continue;
 				case PClose:
 				case Question:
+				case Comment(_), CommentLine(_):
 				default:
 					return FUNCTION_TYPE_HAXE4;
 			}

@@ -9,6 +9,10 @@
 - Fixed colon type detection when using OpBool [#140](https://github.com/HaxeCheckstyle/tokentree/issues/140)
 - Fixed handling of condition bodies (if, while, for) [#141](https://github.com/HaxeCheckstyle/tokentree/issues/141)
 - Fixed POpen type detection for conditionals [#141](https://github.com/HaxeCheckstyle/tokentree/issues/141)
+- Fixed comments in abstracts `from` and `to`
+- Fixed arrow type detection with comments
+- Fixed position of `OpAdd` / `OpSub`
+- Fixed detection of "unary" OpSub
 
 ## version 1.0.15 (2019-02-07)
 

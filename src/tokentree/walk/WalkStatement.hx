@@ -141,6 +141,8 @@ class WalkStatement {
 				walkStatementWithoutSemicolon(stream, parent);
 			case Binop(OpBoolAnd), Binop(OpBoolOr):
 				walkOpBool(stream, parent);
+			case Binop(OpAdd), Binop(OpSub):
+				walkOpAdd(stream, parent);
 			case Binop(_):
 				walkStatementWithoutSemicolon(stream, parent);
 			case Unop(_):
@@ -338,16 +340,48 @@ class WalkStatement {
 				case Binop(OpAssign), Binop(OpAssignOp(_)):
 					break;
 				case Binop(OpBoolAnd), Binop(OpBoolOr):
-					token = parent;
+					token = parent.parent;
 					break;
 				case POpen:
 					if (token.is(POpen)) {
 						token = parent;
 					}
 					break;
-				case Kwd(KwdReturn), Kwd(KwdUntyped), Kwd(KwdIf), Kwd(KwdWhile):
+				case Kwd(KwdReturn), Kwd(KwdUntyped), Kwd(KwdIf), Kwd(KwdWhile), Kwd(KwdThrow):
 					break;
 				case Kwd(KwdFunction), Arrow, Question:
+					break;
+				default:
+					token = parent;
+					parent = parent.parent;
+			}
+		}
+		walkStatementWithoutSemicolon(stream, token);
+	}
+
+	static function walkOpAdd(stream:TokenStream, token:TokenTree) {
+		var parent = token.parent;
+		while (parent.tok != null) {
+			switch (parent.tok) {
+				case Binop(OpAssign), Binop(OpAssignOp(_)):
+					break;
+				case IntInterval(_), BkOpen, BrOpen:
+					break;
+				case Binop(OpAdd), Binop(OpSub):
+					token = parent.parent;
+					break;
+				case Binop(_):
+					break;
+				case POpen:
+					if (token.is(POpen)) {
+						token = parent;
+					}
+					break;
+				case Kwd(KwdReturn), Kwd(KwdUntyped), Kwd(KwdIf), Kwd(KwdWhile), Kwd(KwdThrow):
+					break;
+				case Kwd(KwdFunction), Arrow, Question:
+					break;
+				case DblDot:
 					break;
 				default:
 					token = parent;
