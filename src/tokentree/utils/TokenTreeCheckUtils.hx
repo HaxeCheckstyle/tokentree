@@ -52,42 +52,60 @@ class TokenTreeCheckUtils {
 		}
 	}
 
-	public static function filterOpSub(token:TokenTree):Bool {
+	public static function filterOpSub(token:Null<TokenTree>):Bool {
+		if (token == null) {
+			return false;
+		}
 		if (!token.tok.match(Binop(OpSub))) return false;
-		switch (token.parent.tok) {
+		var prev:Null<TokenTree> = token.previousSibling;
+		if (token.previousSibling == null) {
+			prev = token.parent;
+		}
+		else {
+			prev = getLastToken(token.previousSibling);
+			if (prev == null) {
+				return false;
+			}
+		}
+		switch (prev.tok) {
 			case Binop(_):
 				return true;
 			case IntInterval(_):
 				return true;
 			case BkOpen:
 				return true;
+			case BkClose:
+				return true;
 			case BrOpen:
 				return true;
+			case BrClose:
+				return true;
 			case POpen:
-				if (token.previousSibling == null) {
-					return true;
+				return true;
+			case PClose:
+				var pOpen:TokenTree = prev.parent;
+				var type:POpenType = getPOpenType(pOpen);
+				switch (type) {
+					case AT: return true;
+					case PARAMETER: return true;
+					case CALL: return false;
+					case CONDITION: return true;
+					case FORLOOP: return true;
+					case EXPRESSION: return false;
 				}
-				var prev:TokenTree = getLastToken(token.previousSibling);
-				if (prev == null) {
-					return false;
-				}
-				switch (prev.tok) {
-					case Comma: return true;
-					default: return false;
-				}
+			case Comma:
+				return true;
+			case Arrow:
+				return true;
 			case Question:
 				return true;
 			case DblDot:
-				return true;
-			case Kwd(KwdIf):
 				return true;
 			case Kwd(KwdElse):
 				return true;
 			case Kwd(KwdWhile):
 				return true;
 			case Kwd(KwdDo):
-				return true;
-			case Kwd(KwdFor):
 				return true;
 			case Kwd(KwdReturn):
 				return true;
