@@ -97,7 +97,7 @@ class TokenTreeCheckUtilsTest {
 		var root:TokenTree = assertCodeParses(TokenTreeCheckUtilsTests.FUNCTION_TYPE_HAXE_3);
 
 		var allArrows:Array<TokenTree> = root.filter([Arrow], ALL);
-		Assert.areEqual(22, allArrows.length);
+		Assert.areEqual(26, allArrows.length);
 		for (ar in allArrows) {
 			Assert.areEqual(ArrowType.FUNCTION_TYPE_HAXE3, TokenTreeCheckUtils.getArrowType(ar));
 		}
@@ -157,11 +157,17 @@ class TokenTreeCheckUtilsTest {
 		Assert.areEqual(ColonType.TYPE_HINT, TokenTreeCheckUtils.getColonType(allBr[index++]));
 		Assert.areEqual(ColonType.TYPE_HINT, TokenTreeCheckUtils.getColonType(allBr[index++]));
 		Assert.areEqual(ColonType.TYPE_HINT, TokenTreeCheckUtils.getColonType(allBr[index++]));
+
+		// case 0:
 		Assert.areEqual(ColonType.SWITCH_CASE, TokenTreeCheckUtils.getColonType(allBr[index++]));
+		// return {i: val.i + 1, s:val.s};
 		Assert.areEqual(ColonType.OBJECT_LITERAL, TokenTreeCheckUtils.getColonType(allBr[index++]));
 		Assert.areEqual(ColonType.OBJECT_LITERAL, TokenTreeCheckUtils.getColonType(allBr[index++]));
+		// case 1:
 		Assert.areEqual(ColonType.SWITCH_CASE, TokenTreeCheckUtils.getColonType(allBr[index++]));
+		// default:
 		Assert.areEqual(ColonType.SWITCH_CASE, TokenTreeCheckUtils.getColonType(allBr[index++]));
+		// return {i: 0, s:''};
 		Assert.areEqual(ColonType.OBJECT_LITERAL, TokenTreeCheckUtils.getColonType(allBr[index++]));
 		Assert.areEqual(ColonType.OBJECT_LITERAL, TokenTreeCheckUtils.getColonType(allBr[index++]));
 
@@ -257,6 +263,87 @@ class TokenTreeCheckUtilsTest {
 		var index:Int = 0;
 		// abstract SymbolStack(Array<{level:SymbolLevel, symbol:DocumentSymbol}>) {}
 		Assert.isTrue(TokenTreeCheckUtils.isTypeParameter(allBr[index++]));
+	}
+
+	@Test
+	public function testFilterOpSub() {
+		var root:TokenTree = assertCodeParses(TokenTreeCheckUtilsTests.MIXED_OP_SUB);
+		var allSubs:Array<TokenTree> = root.filter([Binop(OpSub)], ALL);
+		Assert.areEqual(44, allSubs.length);
+		var index:Int = 0;
+
+		// true ? 0 : 1 - a;
+		Assert.isFalse(TokenTreeCheckUtils.filterOpSub(allSubs[index++]));
+		// true ? 0 : - a;
+		Assert.isTrue(TokenTreeCheckUtils.filterOpSub(allSubs[index++]));
+		// (true) ? 1 - a : 1;
+		Assert.isFalse(TokenTreeCheckUtils.filterOpSub(allSubs[index++]));
+		// (true) ? -a : 1;
+		Assert.isTrue(TokenTreeCheckUtils.filterOpSub(allSubs[index++]));
+		// doSomething(true) ? -a - 7 : -b - 2;
+		Assert.isTrue(TokenTreeCheckUtils.filterOpSub(allSubs[index++]));
+		Assert.isFalse(TokenTreeCheckUtils.filterOpSub(allSubs[index++]));
+		Assert.isTrue(TokenTreeCheckUtils.filterOpSub(allSubs[index++]));
+		Assert.isFalse(TokenTreeCheckUtils.filterOpSub(allSubs[index++]));
+		// setNext(transform != null ? transform.alphaMultiplier : -a);
+		Assert.isTrue(TokenTreeCheckUtils.filterOpSub(allSubs[index++]));
+		// angle = ((y < 0) ? -angle : angle) * FlxAngle.TO_DEG;
+		Assert.isTrue(TokenTreeCheckUtils.filterOpSub(allSubs[index++]));
+		// var guarded = !AnyTypes.toBool(guard) ? function(t0, t1) return t0 == -t1 : guard;
+		Assert.isTrue(TokenTreeCheckUtils.filterOpSub(allSubs[index++]));
+		// return -a;
+		Assert.isTrue(TokenTreeCheckUtils.filterOpSub(allSubs[index++]));
+		// return -(a - b);
+		Assert.isTrue(TokenTreeCheckUtils.filterOpSub(allSubs[index++]));
+		Assert.isFalse(TokenTreeCheckUtils.filterOpSub(allSubs[index++]));
+		// return -(a - b) - -(c - d);
+		Assert.isTrue(TokenTreeCheckUtils.filterOpSub(allSubs[index++]));
+		Assert.isFalse(TokenTreeCheckUtils.filterOpSub(allSubs[index++]));
+		Assert.isFalse(TokenTreeCheckUtils.filterOpSub(allSubs[index++]));
+		Assert.isTrue(TokenTreeCheckUtils.filterOpSub(allSubs[index++]));
+		Assert.isFalse(TokenTreeCheckUtils.filterOpSub(allSubs[index++]));
+		// directionIndex += if (instruction.turn == Left) -1 else 1;
+		Assert.isTrue(TokenTreeCheckUtils.filterOpSub(allSubs[index++]));
+		// return if (difference > 0) 1 else if (difference < 0) -1 else 0;
+		Assert.isTrue(TokenTreeCheckUtils.filterOpSub(allSubs[index++]));
+
+		// return if (difference > 0) -a else -b;
+		Assert.isTrue(TokenTreeCheckUtils.filterOpSub(allSubs[index++]));
+		Assert.isTrue(TokenTreeCheckUtils.filterOpSub(allSubs[index++]));
+		// call(-a, -b, -c);
+		Assert.isTrue(TokenTreeCheckUtils.filterOpSub(allSubs[index++]));
+		Assert.isTrue(TokenTreeCheckUtils.filterOpSub(allSubs[index++]));
+		Assert.isTrue(TokenTreeCheckUtils.filterOpSub(allSubs[index++]));
+
+		// call(-a) - b;
+		Assert.isTrue(TokenTreeCheckUtils.filterOpSub(allSubs[index++]));
+		Assert.isFalse(TokenTreeCheckUtils.filterOpSub(allSubs[index++]));
+		// [for (i in 1...10) -a];
+		Assert.isTrue(TokenTreeCheckUtils.filterOpSub(allSubs[index++]));
+		// [for (i in -a...-b) -c];
+		Assert.isTrue(TokenTreeCheckUtils.filterOpSub(allSubs[index++]));
+		Assert.isTrue(TokenTreeCheckUtils.filterOpSub(allSubs[index++]));
+		Assert.isTrue(TokenTreeCheckUtils.filterOpSub(allSubs[index++]));
+		// do -a - b while (-b - d > -c - e);
+		Assert.isTrue(TokenTreeCheckUtils.filterOpSub(allSubs[index++]));
+		Assert.isFalse(TokenTreeCheckUtils.filterOpSub(allSubs[index++]));
+		Assert.isTrue(TokenTreeCheckUtils.filterOpSub(allSubs[index++]));
+		Assert.isFalse(TokenTreeCheckUtils.filterOpSub(allSubs[index++]));
+		Assert.isTrue(TokenTreeCheckUtils.filterOpSub(allSubs[index++]));
+		Assert.isFalse(TokenTreeCheckUtils.filterOpSub(allSubs[index++]));
+
+		// this[15] - this[14];
+		Assert.isFalse(TokenTreeCheckUtils.filterOpSub(allSubs[index++]));
+		// this[15] - a;
+		Assert.isFalse(TokenTreeCheckUtils.filterOpSub(allSubs[index++]));
+		// this[15] - -a;
+		Assert.isFalse(TokenTreeCheckUtils.filterOpSub(allSubs[index++]));
+		Assert.isTrue(TokenTreeCheckUtils.filterOpSub(allSubs[index++]));
+
+		// function negative(a) -a;
+		Assert.isTrue(TokenTreeCheckUtils.filterOpSub(allSubs[index++]));
+		// var negative = (a) -> -a;
+		Assert.isTrue(TokenTreeCheckUtils.filterOpSub(allSubs[index++]));
 	}
 
 	public function assertCodeParses(code:String, ?pos:PosInfos):TokenTree {
@@ -363,6 +450,12 @@ abstract TokenTreeCheckUtilsTests(String) to String {
 	typedef ValueXYListenerCallback = {x:Float, y:Float}->Void;
 	typedef ExtendedFieldsCB = Array<ObjectDeclField>->String->Position->DynamicAccess<Expr>->Void;
 	typedef RequestHandler<P, R, E> = P->CancellationToken->(R->Void)->(ResponseError<E>->Void)->Void;
+
+	abstract PromiseHandler<T, TOut>(T->Dynamic) // T->Dynamic, so the compiler always knows the type of the argument and can infer it for then/catch callbacks
+		from T->TOut // order is important, because Promise<TOut> return must have priority
+		from T->Thenable<TOut> // although the checking order seems to be reversed at the moment, see https://github.com/HaxeFoundation/haxe/issues/7656
+		from T->Promise<TOut> // support Promise explicitly as it doesn't work transitively through Thenable at the moment
+	{}
 	";
 
 	var FUNCTION_TYPE_HAXE_4 = "
@@ -479,5 +572,37 @@ abstract TokenTreeCheckUtilsTests(String) to String {
 
 	var MIXED_TYPE_PARAMETER = "
 	abstract SymbolStack(Array<{level:SymbolLevel, symbol:DocumentSymbol}>) {}
+	";
+
+	var MIXED_OP_SUB = "
+	class Main {
+        static function main(value:Int) {
+			true ? 0 : 1 - a;
+			true ? 0 : - a;
+			(true) ? 1 - a : 1;
+			(true) ? -a : 1;
+			doSomething(true) ? -a - 7 : -b - 2;
+			setNext(transform != null ? transform.alphaMultiplier : -a);
+			angle = ((y < 0) ? -angle : angle) * FlxAngle.TO_DEG;
+			var guarded = !AnyTypes.toBool(guard) ? function(t0, t1) return t0 == -t1 : guard;
+			return -a;
+			return -(a - b);
+			return -(a - b) - -(c - d);
+    		directionIndex += if (instruction.turn == Left) -a else 1;
+			return if (difference > 0) 1 else if (difference < 0) -a else 0;
+
+			return if (difference > 0) -a else -b;
+			call(-a, -b, -c);
+			call(-a) - b;
+			[for (i in 1...10) -a];
+			[for (i in -a...-b) -c];
+			do -a - b while (-b - d > -c - e);
+			this[15] - this[14];
+			this[15] - a;
+			this[15] - -a;
+	    }
+		function negative(a) -a;
+		var negative = (a) -> -a;
+	}
 	";
 }

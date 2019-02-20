@@ -25,7 +25,7 @@ matrix:
         - git clone -b dev https://github.com/HaxeCheckstyle/haxe-checkstyle.git --depth=1 checkstyle
         - sed -i 's/:3.3.0//' checkstyle/buildGlobal.hxml
       script:
-        - haxe build.hxml -D codecov_json
+        - haxe test.hxml -D codecov_json
         - haxelib set haxeparser 3.3.0
         - cd checkstyle && haxe buildAll.hxml && rm -f coverage.json && cd ..
         - neko checkstyle/run.n -s src -s test
@@ -42,9 +42,9 @@ matrix:
         - haxelib install hxargs 3.0.2
         - haxelib dev tokentree .
         - git clone -b dev https://github.com/HaxeCheckstyle/haxe-checkstyle.git --depth=1 checkstyle
-        - sed -i 's/:3.3.0//' build.hxml
+        - sed -i 's/:3.3.0//' test.hxml
         - sed -i 's/:3.3.0//' checkstyle/buildGlobal.hxml
       script:
-        - haxe build.hxml -D codecov_json
+        - haxe test.hxml -D codecov_json
         - cd checkstyle && haxe buildAll.hxml && rm -f coverage.json && cd ..
         - neko checkstyle/run.n -s src -s test

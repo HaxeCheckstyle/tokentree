@@ -553,6 +553,7 @@
         ],
         "CyclomaticComplexity": [
             "tokentree/walk/WalkStatement",
+			"tokentree/utils/TokenTreeCheckUtils:filterOpSub",
 			"tokentree/utils/TokenTreeCheckUtils:getBrOpenType",
 			"tokentree/utils/TokenTreeCheckUtils:getPOpenType",
 			"tokentree/utils/TokenTreeCheckUtils:determinBrChildren"

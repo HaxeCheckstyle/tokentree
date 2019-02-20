@@ -15,6 +15,8 @@ class WalkAbstract {
 			switch (stream.token()) {
 				case BrOpen:
 					break;
+				case Comment(_), CommentLine(_):
+					name.addChild(stream.consumeToken());
 				case Const(CIdent("from")), Const(CIdent("to")):
 					var fromToken:TokenTree = stream.consumeToken();
 					name.addChild(fromToken);

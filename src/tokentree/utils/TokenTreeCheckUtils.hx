@@ -52,23 +52,65 @@ class TokenTreeCheckUtils {
 		}
 	}
 
-	public static function filterOpSub(token:TokenTree):Bool {
+	public static function filterOpSub(token:Null<TokenTree>):Bool {
+		if (token == null) {
+			return false;
+		}
 		if (!token.tok.match(Binop(OpSub))) return false;
-		return switch (token.parent.tok) {
-			case Binop(_): true;
-			case IntInterval(_): true;
-			case BkOpen: true;
-			case BrOpen: true;
-			case POpen: if ((token.previousSibling != null) && (token.previousSibling.is(PClose))) false; else true;
-			case Question: true;
-			case DblDot: true;
-			case Kwd(KwdIf): true;
-			case Kwd(KwdElse): true;
-			case Kwd(KwdWhile): true;
-			case Kwd(KwdDo): true;
-			case Kwd(KwdFor): true;
-			case Kwd(KwdReturn): true;
-			default: false;
+		var prev:Null<TokenTree> = token.previousSibling;
+		if (token.previousSibling == null) {
+			prev = token.parent;
+		}
+		else {
+			prev = getLastToken(token.previousSibling);
+			if (prev == null) {
+				return false;
+			}
+		}
+		switch (prev.tok) {
+			case #if (haxe_ver < 4.0) Kwd(KwdIn) #else Binop(OpIn) #end:
+				return true;
+			case Binop(_):
+				return true;
+			case BkOpen:
+				return true;
+			case BkClose:
+				return false;
+			case BrOpen:
+				return true;
+			case BrClose:
+				return true;
+			case POpen:
+				return true;
+			case PClose:
+				var pOpen:TokenTree = prev.parent;
+				var type:POpenType = getPOpenType(pOpen);
+				switch (type) {
+					case AT: return true;
+					case PARAMETER: return true;
+					case CALL: return false;
+					case CONDITION: return true;
+					case FORLOOP: return true;
+					case EXPRESSION: return false;
+				}
+			case Comma:
+				return true;
+			case Arrow:
+				return true;
+			case Question:
+				return true;
+			case DblDot:
+				return true;
+			case Kwd(KwdElse):
+				return true;
+			case Kwd(KwdWhile):
+				return true;
+			case Kwd(KwdDo):
+				return true;
+			case Kwd(KwdReturn):
+				return true;
+			default:
+				return false;
 		}
 	}
 
@@ -546,6 +588,7 @@ class TokenTreeCheckUtils {
 					child = child.nextSibling;
 					continue;
 				case POpen:
+				case Comment(_), CommentLine(_):
 				default:
 					return ARROW_FUNCTION;
 			}
@@ -590,6 +633,7 @@ class TokenTreeCheckUtils {
 					continue;
 				case PClose:
 				case Question:
+				case Comment(_), CommentLine(_):
 				default:
 					return FUNCTION_TYPE_HAXE4;
 			}
