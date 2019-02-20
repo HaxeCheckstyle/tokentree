@@ -367,16 +367,22 @@ class WalkStatement {
 					break;
 				case IntInterval(_), BkOpen, BrOpen:
 					break;
+				case Binop(OpMult), Binop(OpDiv):
+					token = parent;
+					parent = parent.parent;
 				case Binop(OpAdd), Binop(OpSub):
 					token = parent.parent;
 					break;
 				case Binop(_):
 					break;
 				case POpen:
-					if (token.is(POpen)) {
+					var pClose:Null<TokenTree> = parent.access().firstOf(PClose).token;
+					if (pClose == null) {
 						token = parent;
+						break;
 					}
-					break;
+					token = parent;
+					parent = parent.parent;
 				case Kwd(KwdReturn), Kwd(KwdUntyped), Kwd(KwdIf), Kwd(KwdWhile), Kwd(KwdThrow):
 					break;
 				case Kwd(KwdFunction), Arrow, Question:
