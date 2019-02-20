@@ -68,9 +68,9 @@ class TokenTreeCheckUtils {
 			}
 		}
 		switch (prev.tok) {
-			case Binop(_):
+			case #if (haxe_ver < 4.0) Kwd(KwdIn) #else Binop(OpIn) #end:
 				return true;
-			case IntInterval(_):
+			case Binop(_):
 				return true;
 			case BkOpen:
 				return true;
