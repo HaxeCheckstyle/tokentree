@@ -269,7 +269,7 @@ class TokenTreeCheckUtilsTest {
 	public function testFilterOpSub() {
 		var root:TokenTree = assertCodeParses(TokenTreeCheckUtilsTests.MIXED_OP_SUB);
 		var allSubs:Array<TokenTree> = root.filter([Binop(OpSub)], ALL);
-		Assert.areEqual(40, allSubs.length);
+		Assert.areEqual(44, allSubs.length);
 		var index:Int = 0;
 
 		// true ? 0 : 1 - a;
@@ -331,6 +331,14 @@ class TokenTreeCheckUtilsTest {
 		Assert.isFalse(TokenTreeCheckUtils.filterOpSub(allSubs[index++]));
 		Assert.isTrue(TokenTreeCheckUtils.filterOpSub(allSubs[index++]));
 		Assert.isFalse(TokenTreeCheckUtils.filterOpSub(allSubs[index++]));
+
+		// this[15] - this[14];
+		Assert.isFalse(TokenTreeCheckUtils.filterOpSub(allSubs[index++]));
+		// this[15] - a;
+		Assert.isFalse(TokenTreeCheckUtils.filterOpSub(allSubs[index++]));
+		// this[15] - -a;
+		Assert.isFalse(TokenTreeCheckUtils.filterOpSub(allSubs[index++]));
+		Assert.isTrue(TokenTreeCheckUtils.filterOpSub(allSubs[index++]));
 
 		// function negative(a) -a;
 		Assert.isTrue(TokenTreeCheckUtils.filterOpSub(allSubs[index++]));
@@ -589,6 +597,9 @@ abstract TokenTreeCheckUtilsTests(String) to String {
 			[for (i in 1...10) -a];
 			[for (i in -a...-b) -c];
 			do -a - b while (-b - d > -c - e);
+			this[15] - this[14];
+			this[15] - a;
+			this[15] - -a;
 	    }
 		function negative(a) -a;
 		var negative = (a) -> -a;

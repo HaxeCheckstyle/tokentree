@@ -75,7 +75,7 @@ class TokenTreeCheckUtils {
 			case BkOpen:
 				return true;
 			case BkClose:
-				return true;
+				return false;
 			case BrOpen:
 				return true;
 			case BrClose:
