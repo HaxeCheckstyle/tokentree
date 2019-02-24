@@ -346,6 +346,70 @@ class TokenTreeCheckUtilsTest {
 		Assert.isTrue(TokenTreeCheckUtils.filterOpSub(allSubs[index++]));
 	}
 
+	@Test
+	public function testIsMetadata() {
+		var root:TokenTree = assertCodeParses(TokenTreeCheckUtilsTests.MIXED_METADATA);
+
+		Assert.isFalse(TokenTreeCheckUtils.isMetadata(null));
+		Assert.isFalse(TokenTreeCheckUtils.isMetadata(root));
+
+		var tokens:Array<TokenTree> = root.filterCallback(function(token:TokenTree, index:Int) {
+			switch (token.tok) {
+				case Kwd(_):
+					return FOUND_GO_DEEPER;
+				case Const(CIdent(_)):
+					return FOUND_GO_DEEPER;
+				default:
+					return GO_DEEPER;
+			}
+		});
+
+		Assert.areEqual(23, tokens.length);
+		var index:Int = 0;
+
+		// package foo;
+		// import pack;
+		Assert.isFalse(TokenTreeCheckUtils.isMetadata(tokens[index++]));
+		Assert.isFalse(TokenTreeCheckUtils.isMetadata(tokens[index++]));
+		Assert.isFalse(TokenTreeCheckUtils.isMetadata(tokens[index++]));
+		Assert.isFalse(TokenTreeCheckUtils.isMetadata(tokens[index++]));
+
+		// class Foo {}
+		Assert.isFalse(TokenTreeCheckUtils.isMetadata(tokens[index++]));
+		Assert.isFalse(TokenTreeCheckUtils.isMetadata(tokens[index++]));
+		// @:using(Tools)
+		Assert.isTrue(TokenTreeCheckUtils.isMetadata(tokens[index++]));
+		Assert.isTrue(TokenTreeCheckUtils.isMetadata(tokens[index++]));
+
+		// class Foo {}
+		Assert.isFalse(TokenTreeCheckUtils.isMetadata(tokens[index++]));
+		Assert.isFalse(TokenTreeCheckUtils.isMetadata(tokens[index++]));
+		// @:using
+		Assert.isTrue(TokenTreeCheckUtils.isMetadata(tokens[index++]));
+
+		// class Foo {}
+		Assert.isFalse(TokenTreeCheckUtils.isMetadata(tokens[index++]));
+		Assert.isFalse(TokenTreeCheckUtils.isMetadata(tokens[index++]));
+		// @:package
+		Assert.isTrue(TokenTreeCheckUtils.isMetadata(tokens[index++]));
+
+		// class Foo {}
+		Assert.isFalse(TokenTreeCheckUtils.isMetadata(tokens[index++]));
+		Assert.isFalse(TokenTreeCheckUtils.isMetadata(tokens[index++]));
+		// @:import
+		Assert.isTrue(TokenTreeCheckUtils.isMetadata(tokens[index++]));
+
+		// class Foo {}
+		Assert.isFalse(TokenTreeCheckUtils.isMetadata(tokens[index++]));
+		Assert.isFalse(TokenTreeCheckUtils.isMetadata(tokens[index++]));
+		// @import
+		Assert.isTrue(TokenTreeCheckUtils.isMetadata(tokens[index++]));
+		// var foo:Int;
+		Assert.isFalse(TokenTreeCheckUtils.isMetadata(tokens[index++]));
+		Assert.isFalse(TokenTreeCheckUtils.isMetadata(tokens[index++]));
+		Assert.isFalse(TokenTreeCheckUtils.isMetadata(tokens[index++]));
+	}
+
 	public function assertCodeParses(code:String, ?pos:PosInfos):TokenTree {
 		var builder:TestTokenTreeBuilder = null;
 		try {
@@ -603,6 +667,28 @@ abstract TokenTreeCheckUtilsTests(String) to String {
 	    }
 		function negative(a) -a;
 		var negative = (a) -> -a;
+	}
+	";
+
+	var MIXED_METADATA = "
+	package foo;
+	import pack;
+
+	@:using(Tools)
+	class Foo {}
+
+	@:using
+	class Foo {}
+
+	@:package
+	class Foo {}
+
+	@:import
+	class Foo {}
+
+	@import
+	class Foo {
+		var foo:Int;
 	}
 	";
 }

@@ -2,6 +2,7 @@
 
 ## dev branch / next version (1.x.x)
 
+- Added `TokenTreeCheckUtils.isMetadata` [#143](https://github.com/HaxeCheckstyle/tokentree/issues/143)
 - Fixed handling of OpBool after `null` [#140](https://github.com/HaxeCheckstyle/tokentree/issues/140)
 - Fixed comments before `catch` [#140](https://github.com/HaxeCheckstyle/tokentree/issues/140)
 - Fixed BrOpen detection for type parameter with structure type [#140](https://github.com/HaxeCheckstyle/tokentree/issues/140)

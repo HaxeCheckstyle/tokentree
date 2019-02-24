@@ -784,6 +784,31 @@ class TokenTreeCheckUtils {
 		}
 		return null;
 	}
+
+	public static function isMetadata(token:Null<TokenTree>):Bool {
+		if ((token == null) || (token.tok == null)) {
+			return false;
+		}
+		var parent:Null<TokenTree> = token.parent;
+		while ((parent != null) && (parent.tok != null)) {
+			switch (parent.tok) {
+				case DblDot:
+					parent = parent.parent;
+					if ((parent == null) || (parent.tok == null)) {
+						return false;
+					}
+					switch (parent.tok) {
+						case At: return true;
+						default: return false;
+					}
+				case At:
+					return true;
+				default:
+					parent = parent.parent;
+			}
+		}
+		return false;
+	}
 }
 
 enum BrOpenType {
