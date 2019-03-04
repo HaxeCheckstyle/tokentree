@@ -2,8 +2,6 @@
 -cp test
 -lib hxparse
 -lib haxeparser
--lib compiletime
--lib hxargs
 --each
 
 -D keep_whitespace
@@ -12,3 +10,4 @@
 -D checkstyle
 -D debugTokenTree
 -x TokenTestMain
+# --macro nullSafety('tokentree')

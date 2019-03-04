@@ -4,8 +4,6 @@ module.exports = function(grunt) {
         shell: {
             libs: {
                 command: "haxelib install haxeparser 3.3.0 && " +
-                    "haxelib install hxargs && " +
-                    "haxelib install compiletime && " +
                     "haxelib install mcover && " +
                     "haxelib install munit"
             }
