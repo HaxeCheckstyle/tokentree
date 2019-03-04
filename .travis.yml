@@ -38,7 +38,7 @@ matrix:
         - haxelib git hxnodejs https://github.com/HaxeFoundation/hxnodejs.git master
         - haxelib install mlib
         - haxelib install mconsole
-        - haxelib install compiletime 2.7.0
+        - haxelib install compiletime 2.6.0
         - haxelib install hxargs 3.0.2
         - haxelib dev tokentree .
         - git clone -b dev https://github.com/HaxeCheckstyle/haxe-checkstyle.git --depth=1 checkstyle
