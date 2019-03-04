@@ -2,6 +2,8 @@
 
 ## dev branch / next version (1.x.x)
 
+## version 1.0.16 (2019-03-04)
+
 - Added `TokenTreeCheckUtils.isMetadata` [#143](https://github.com/HaxeCheckstyle/tokentree/issues/143)
 - Fixed handling of OpBool after `null` [#140](https://github.com/HaxeCheckstyle/tokentree/issues/140)
 - Fixed comments before `catch` [#140](https://github.com/HaxeCheckstyle/tokentree/issues/140)
