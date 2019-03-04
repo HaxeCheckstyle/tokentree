@@ -8,7 +8,7 @@
         "AlexHaxe"
     ],
     "releasenote": "bugfixes - see CHANGELOG for details",
-    "version": "1.0.15",
+    "version": "1.0.16",
     "url": "https://github.com/HaxeCheckstyle/tokentree",
     "dependencies": {}
 }

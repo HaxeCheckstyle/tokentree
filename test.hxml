@@ -2,8 +2,6 @@
 -cp test
 -cp resources
 -lib haxeparser
--lib compiletime
--lib hxargs
 -lib mcover
 -lib munit
 -D unittest

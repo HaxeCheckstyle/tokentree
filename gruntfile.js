@@ -4,9 +4,7 @@ module.exports = function(grunt) {
         shell: {
             libs: {
                 command: "haxelib install haxeparser 3.3.0 && " +
-                    "haxelib install hxargs 3.0.2 && " +
-                    "haxelib install compiletime 2.6.0 && " +
-                    "haxelib install mcover 2.1.1 && " +
+                    "haxelib install mcover && " +
                     "haxelib install munit"
             }
         },
@@ -31,7 +29,7 @@ module.exports = function(grunt) {
 function haxeOptions() {
     return {
         build: {
-            hxml: "build.hxml"
+            hxml: "test.hxml"
         }
     };
 }
