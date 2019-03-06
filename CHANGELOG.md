@@ -2,6 +2,8 @@
 
 ## dev branch / next version (1.x.x)
 
+## version 1.0.17 (2019-03-06)
+
 - Fixed wrong position of elements preceeding inserted dummy tokens in relax mode [#145](https://github.com/HaxeCheckstyle/tokentree/issues/145)
 
 ## version 1.0.16 (2019-03-04)
