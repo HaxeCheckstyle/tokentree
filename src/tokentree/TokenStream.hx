@@ -329,14 +329,22 @@ class TokenStream {
 	}
 
 	function createDummyToken(tokDef:TokenDef):TokenTree {
-		var pos:Null<Position> = null;
+		var pos:Position;
 		if ((current < 0) || (current >= tokens.length)) {
-			pos = tokens[tokens.length - 1].pos;
-			pos.min = pos.max;
+			var prevPos:Position = tokens[tokens.length - 1].pos;
+			pos = {
+				min: prevPos.max,
+				max: prevPos.max,
+				file: prevPos.file
+			}
 		}
 		else {
-			pos = tokens[current].pos;
-			pos.max = pos.min;
+			var prevPos:Position = tokens[current].pos;
+			pos = {
+				min: prevPos.min,
+				max: prevPos.min,
+				file: prevPos.file
+			}
 		}
 		return new TokenTree(tokDef, "", pos, -1, true);
 	}

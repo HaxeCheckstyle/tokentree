@@ -2,6 +2,8 @@
 
 ## dev branch / next version (1.x.x)
 
+- Fixed wrong position of elements preceeding inserted dummy tokens in relax mode
+
 ## version 1.0.16 (2019-03-04)
 
 - Added `TokenTreeCheckUtils.isMetadata` [#143](https://github.com/HaxeCheckstyle/tokentree/issues/143)
