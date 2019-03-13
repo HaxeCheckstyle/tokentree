@@ -2,7 +2,7 @@
 
 ## dev branch / next version (1.x.x)
 
-- Added `TokenTreeEntryPoint` to `TokenTreeBuilder`
+- Added `TokenTreeEntryPoint` to `TokenTreeBuilder` [#146](https://github.com/HaxeCheckstyle/tokentree/issues/146)
 
 ## version 1.0.17 (2019-03-06)
 
