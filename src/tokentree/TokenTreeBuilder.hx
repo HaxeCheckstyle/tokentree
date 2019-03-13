@@ -6,7 +6,7 @@ import tokentree.walk.WalkFile;
 import tokentree.walk.WalkStatement;
 
 class TokenTreeBuilder {
-	public static function buildTokenTree(tokens:Array<Token>, bytes:ByteData, entryPoint:Null<TokenTreeEntryPoint>):TokenTree {
+	public static function buildTokenTree(tokens:Array<Token>, bytes:ByteData, entryPoint:Null<TokenTreeEntryPoint> = null):TokenTree {
 		if (entryPoint == null) {
 			entryPoint = TYPE_LEVEL;
 		}
