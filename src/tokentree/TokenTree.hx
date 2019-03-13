@@ -3,17 +3,17 @@ package tokentree;
 class TokenTree extends Token {
 	static inline var MAX_LEVEL:Int = 9999;
 
-	public var parent:TokenTree;
-	public var previousSibling:TokenTree;
-	public var nextSibling:TokenTree;
-	public var children:Array<TokenTree>;
+	public var parent:Null<TokenTree>;
+	public var previousSibling:Null<TokenTree>;
+	public var nextSibling:Null<TokenTree>;
+	public var children:Null<Array<TokenTree>>;
 	public var index:Int;
 	public var inserted:Bool;
 	#if (!keep_whitespace)
 	public var space:String;
 	#end
 
-	public function new(tok:TokenDef, space:String, pos:Position, index:Int, inserted:Bool = false) {
+	public function new(tok:Null<TokenDef>, space:String, pos:Null<Position>, index:Int, inserted:Bool = false) {
 		super(tok, pos);
 		this.index = index;
 		this.inserted = inserted;
@@ -68,12 +68,12 @@ class TokenTree extends Token {
 
 	public function getFirstChild():Null<TokenTree> {
 		if (!hasChildren()) return null;
-		return children[0];
+		return @:nullSafety(Off) children[0];
 	}
 
 	public function getLastChild():Null<TokenTree> {
 		if (!hasChildren()) return null;
-		return children[children.length - 1];
+		return @:nullSafety(Off) children[children.length - 1];
 	}
 
 	public function getPos():Position {

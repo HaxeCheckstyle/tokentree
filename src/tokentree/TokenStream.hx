@@ -45,7 +45,7 @@ class TokenStream {
 		return new TokenTree(token.tok, space, token.pos, current - 1);
 	}
 
-	public function consumeConstIdent():Null<TokenTree> {
+	public function consumeConstIdent():TokenTree {
 		switch (token()) {
 			case Dollar(_):
 				return consumeToken();
@@ -54,9 +54,7 @@ class TokenStream {
 			default:
 				switch (MODE) {
 					case RELAXED: return createDummyToken(Const(CIdent("autoInsert")));
-					case STRICT:
-						error('bad token ${token()} != Const(CIdent(_))');
-						return null;
+					case STRICT: error('bad token ${token()} != Const(CIdent(_))');
 				}
 		}
 	}
@@ -313,7 +311,7 @@ class TokenStream {
 					throw NO_MORE_TOKENS;
 			}
 		}
-		return token;
+		return @:nullSafety(Off) token;
 	}
 
 	public function peekSharpIf():TokenTree {

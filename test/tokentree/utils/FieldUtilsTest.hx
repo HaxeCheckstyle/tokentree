@@ -6,8 +6,11 @@ import massive.munit.Assert;
 
 class FieldUtilsTest {
 	@Test
+	@:nullSafety(Off)
 	public function testProperties() {
-		var root:TokenTree = assertCodeParses(FieldUtilsTests.PROPERTIES);
+		var root:Null<TokenTree> = assertCodeParses(FieldUtilsTests.PROPERTIES);
+		Assert.isFalse(root.inserted);
+
 		var allBr:Array<TokenTree> = root.filter([BrOpen], ALL);
 		Assert.areEqual(1, allBr.length);
 		Assert.areEqual(7 + 1, allBr[0].children.length);
@@ -39,7 +42,7 @@ class FieldUtilsTest {
 	}
 
 	public function assertCodeParses(code:String, ?pos:PosInfos):TokenTree {
-		var builder:TestTokenTreeBuilder = null;
+		var builder:Null<TestTokenTreeBuilder> = null;
 		try {
 			builder = TestTokenTreeBuilder.parseCode(code);
 			Assert.isTrue(builder.isStreamEmpty(), pos);
@@ -48,7 +51,7 @@ class FieldUtilsTest {
 		catch (e:Any) {
 			Assert.fail("code should not throw execption " + e, pos);
 		}
-		return null;
+		return new TokenTree(null, "", null, 0, true);
 	}
 }
 

@@ -5,7 +5,7 @@ class WalkStatement {
 		walkStatementWithoutSemicolon(stream, parent);
 		if (stream.is(Semicolon)) {
 			var semicolon:TokenTree = stream.consumeToken();
-			var lastChild:TokenTree = parent.getLastChild();
+			var lastChild:Null<TokenTree> = parent.getLastChild();
 			if (lastChild == null) {
 				lastChild = parent;
 			}
@@ -156,7 +156,7 @@ class WalkStatement {
 			case POpen:
 				walkStatementWithoutSemicolon(stream, parent);
 			case CommentLine(_):
-				var nextTokDef:TokenDef = stream.peekNonCommentToken();
+				var nextTokDef:Null<TokenDef> = stream.peekNonCommentToken();
 				if (nextTokDef == null) {
 					return;
 				}
@@ -243,7 +243,7 @@ class WalkStatement {
 	}
 
 	public static function walkDblDot(stream:TokenStream, parent:TokenTree) {
-		var question:TokenTree = findQuestionParent(parent);
+		var question:Null<TokenTree> = findQuestionParent(parent);
 		if (question != null) {
 			return;
 		}
@@ -324,7 +324,7 @@ class WalkStatement {
 	static function walkStatementContinueAfterSharp(stream:TokenStream, parent:TokenTree) {
 		switch (stream.token()) {
 			case Kwd(KwdCase), Kwd(KwdDefault):
-				var lastChild:TokenTree = parent.getLastChild();
+				var lastChild:Null<TokenTree> = parent.getLastChild();
 				if (lastChild == null) {
 					lastChild = parent;
 				}

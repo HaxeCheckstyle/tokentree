@@ -6,6 +6,7 @@ import massive.munit.Assert;
 import tokentree.walk.WalkAt;
 import tokentree.walk.WalkIf;
 import tokentree.walk.WalkPackageImport;
+import tokentree.TokenTreeBuilder.TokenTreeEntryPoint;
 
 class TokenTreeBuilderTest {
 	function assertTokenEquals(testCase:TokenTreeBuilderTests, actual:String, ?pos:PosInfos) {
@@ -14,8 +15,8 @@ class TokenTreeBuilderTest {
 
 	@Test
 	public function testImports() {
-		var builder:TestTokenTreeBuilder = new TestTokenTreeBuilder(TokenTreeBuilderTests.IMPORT);
 		var root:TokenTree = new TokenTree(null, "", null, -1);
+		var builder:TestTokenTreeBuilder = new TestTokenTreeBuilder(TokenTreeBuilderTests.IMPORT, root);
 		var stream:TokenStream = builder.getTokenStream();
 		WalkPackageImport.walkPackageImport(stream, root);
 		WalkPackageImport.walkPackageImport(stream, root);
@@ -29,8 +30,8 @@ class TokenTreeBuilderTest {
 
 	@Test
 	public function testAt() {
-		var builder:TestTokenTreeBuilder = new TestTokenTreeBuilder(TokenTreeBuilderTests.AT_ANNOTATION);
 		var root:TokenTree = new TokenTree(null, "", null, -1);
+		var builder:TestTokenTreeBuilder = new TestTokenTreeBuilder(TokenTreeBuilderTests.AT_ANNOTATION, root);
 		var stream:TokenStream = builder.getTokenStream();
 		root.addChild(WalkAt.walkAt(stream));
 		root.addChild(WalkAt.walkAt(stream));
@@ -44,8 +45,8 @@ class TokenTreeBuilderTest {
 
 	@Test
 	public function testIf() {
-		var builder:TestTokenTreeBuilder = new TestTokenTreeBuilder(TokenTreeBuilderTests.IF);
 		var root:TokenTree = new TokenTree(null, "", null, -1);
+		var builder:TestTokenTreeBuilder = new TestTokenTreeBuilder(TokenTreeBuilderTests.IF, root);
 		var stream:TokenStream = builder.getTokenStream();
 		WalkIf.walkIf(stream, root);
 		WalkIf.walkIf(stream, root);
@@ -54,6 +55,38 @@ class TokenTreeBuilderTest {
 		checkStreamEmpty(builder);
 
 		assertTokenEquals(IF_GOLD, treeToString(root));
+	}
+
+	// public static function buildTokenTree(tokens:Array<Token>, bytes:ByteData, entryPoint:TokenTreeEntryPoint):TokenTree {
+
+	@Test
+	public function testEntryPoint() {
+		parseNoException(ENTRY_POINT_FILE, TYPE_LEVEL);
+		parseNoException(ENTRY_POINT_FUNCTION, FIELD_LEVEL);
+		parseNoException(ENTRY_POINT_FUNCTION_WITH_BODY, FIELD_LEVEL);
+		parseNoException(ENTRY_POINT_EXPRESSION, EXPRESSION_LEVEL);
+		parseNoException(ENTRY_POINT_EXPRESSION_SWITCH, EXPRESSION_LEVEL);
+
+		parseWithException(ENTRY_POINT_FILE, EXPRESSION_LEVEL);
+		parseWithException(ENTRY_POINT_EXPRESSION_SWITCH, FIELD_LEVEL);
+		parseWithException((ENTRY_POINT_FILE : String) + ENTRY_POINT_EXPRESSION_SWITCH, TYPE_LEVEL);
+	}
+
+	function parseWithException(code:String, level:TokenTreeEntryPoint) {
+		try {
+			parseNoException(code, level);
+			Assert.fail("should throw an exception!");
+		}
+		catch (e:Any) {
+			Assert.isTrue(true);
+		}
+	}
+
+	function parseNoException(code:String, level:TokenTreeEntryPoint) {
+		TokenStream.MODE = STRICT;
+		var root:TokenTree = new TokenTree(null, "", null, -1);
+		var testBuilder:TestTokenTreeBuilder = new TestTokenTreeBuilder(code, root);
+		testBuilder.buildTokenTree(level);
 	}
 
 	function checkStreamEmpty(builder:TestTokenTreeBuilder) {
@@ -65,6 +98,7 @@ class TokenTreeBuilderTest {
 		var tokDef:TokenDef = token.tok;
 		if (tokDef != null) buf.add('$prefix${tokDef}\n');
 		if (token.hasChildren()) {
+			@:nullSafety(Off)
 			for (child in token.children) {
 				buf.add(treeToString(child, prefix + "  "));
 			}
@@ -213,4 +247,47 @@ abstract TokenTreeBuilderTests(String) to String {
 		"            BkClose\n" +
 		"          Semicolon\n" +
 		"        BrClose\n";
+
+	var ENTRY_POINT_FILE = "
+		package checkstyle.checks;
+
+		import haxeparser.*;
+		import checkstyle.TokenTree;
+		import checkstyle.TokenStream;
+		import checkstyle.TokenTreeBuilder;
+
+		@:access(haxe.Json)
+		class Main<T> {
+			@:access(test.Main)
+			public function main() {
+			}
+		}
+	";
+
+	var ENTRY_POINT_FUNCTION = "
+		@:access(test.Main)
+		public static inline function main<T> (param:Int, param2:String):T;
+	";
+
+	var ENTRY_POINT_FUNCTION_WITH_BODY = "
+		@:access(test.Main)
+		public static inline function main<T> (param:Int, param2:String):T {
+			trace (param2);
+		}
+	";
+
+	var ENTRY_POINT_EXPRESSION = "
+		trace (param2);
+	";
+
+	var ENTRY_POINT_EXPRESSION_SWITCH = "
+		switch (entryPoint) {
+			case FileLevel:
+				WalkFile.walkFile(stream, root);
+			case FunctionLevel:
+				WalkClass.walkClassBody(stream, root);
+			case ExpressionLevel:
+				WalkStatement.walkStatement(stream, root);
+		}
+	";
 }

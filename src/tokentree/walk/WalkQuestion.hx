@@ -18,7 +18,7 @@ class WalkQuestion {
 	}
 
 	public static function isTernary(parent:TokenTree):Bool {
-		var lastChild:TokenTree = parent.getLastChild();
+		var lastChild:Null<TokenTree> = parent.getLastChild();
 		if (lastChild == null) {
 			return switch (parent.tok) {
 				case Const(_): true;

@@ -4,11 +4,11 @@ import byte.ByteData;
 import haxeparser.HaxeLexer;
 import haxeparser.Data.Token;
 import tokentree.walk.WalkFile;
+import tokentree.TokenTreeBuilder.TokenTreeEntryPoint;
 
 class TestTokenTreeBuilder extends TokenTreeBuilder {
 	public static function parseCode(code:String):TestTokenTreeBuilder {
-		var builder:TestTokenTreeBuilder = new TestTokenTreeBuilder(code);
-		builder.root = new TokenTree(null, "", null, -1);
+		var builder:TestTokenTreeBuilder = new TestTokenTreeBuilder(code, new TokenTree(null, "", null, -1));
 		WalkFile.walkFile(builder.stream, builder.root);
 		return builder;
 	}
@@ -28,8 +28,9 @@ class TestTokenTreeBuilder extends TokenTreeBuilder {
 
 	public var root:TokenTree;
 
-	public function new(code:String) {
+	public function new(code:String, root:TokenTree) {
 		stream = makeTokenStream(code);
+		this.root = root;
 	}
 
 	public function setTokenStream(newStream:TokenStream) {
@@ -42,5 +43,9 @@ class TestTokenTreeBuilder extends TokenTreeBuilder {
 
 	public function isStreamEmpty():Bool {
 		return !stream.hasMore();
+	}
+
+	public function buildTokenTree(level:TokenTreeEntryPoint) {
+		TokenTreeBuilder.buildTokenTreeFromStream(stream, level);
 	}
 }
