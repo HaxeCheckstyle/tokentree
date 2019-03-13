@@ -2,7 +2,7 @@ package tokentree.walk;
 
 class WalkFinal {
 	public static function walkFinal(stream:TokenStream, parent:TokenTree) {
-		var name:TokenTree = null;
+		var name:Null<TokenTree> = null;
 		var finalTok:TokenTree = stream.consumeToken();
 		stream.addToTempStore(finalTok);
 		WalkComment.walkComment(stream, parent);

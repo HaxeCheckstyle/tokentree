@@ -12,6 +12,8 @@ class TokenTreeCheckUtilsTest {
 	@Test
 	public function testBrOpenTypedef() {
 		var root:TokenTree = assertCodeParses(TokenTreeBuilderParsingTests.STRUCTURE_EXTENSION);
+		Assert.isFalse(root.inserted);
+
 		var allBr:Array<TokenTree> = root.filter([BrOpen], ALL);
 		Assert.areEqual(3, allBr.length);
 		for (br in allBr) {
@@ -22,6 +24,8 @@ class TokenTreeCheckUtilsTest {
 	@Test
 	public function testMixedBrOpenTypes() {
 		var root:TokenTree = assertCodeParses(TokenTreeCheckUtilsTests.MIXED_BR_OPEN_TYPES);
+		Assert.isFalse(root.inserted);
+
 		var allBr:Array<TokenTree> = root.filter([BrOpen], ALL);
 		Assert.areEqual(29, allBr.length);
 		var index:Int = 0;
@@ -63,12 +67,16 @@ class TokenTreeCheckUtilsTest {
 	@Test
 	public function testEnumAbstract() {
 		var root:TokenTree = assertCodeParses(TokenTreeBuilderParsingTests.ENUM_ABSTRACT);
+		Assert.isFalse(root.inserted);
+
 		var allAbstracts:Array<TokenTree> = root.filter([Kwd(KwdAbstract)], ALL);
 		for (ab in allAbstracts) {
 			Assert.isTrue(TokenTreeCheckUtils.isTypeEnumAbstract(ab));
 		}
 
 		root = assertCodeParses(TokenTreeBuilderParsingTests.CONST_TYPE_PARAMETER);
+		Assert.isFalse(root.inserted);
+
 		allAbstracts = root.filter([Kwd(KwdAbstract)], ALL);
 		for (ab in allAbstracts) {
 			Assert.isFalse(TokenTreeCheckUtils.isTypeEnumAbstract(ab));
@@ -76,6 +84,8 @@ class TokenTreeCheckUtilsTest {
 
 		root = assertCodeParses(TokenTreeCheckUtilsTests.ENUM_ABSTRACTS);
 		allAbstracts = root.filter([Kwd(KwdAbstract)], ALL);
+		Assert.isFalse(root.inserted);
+
 		for (ab in allAbstracts) {
 			Assert.isTrue(TokenTreeCheckUtils.isTypeEnumAbstract(ab));
 		}
@@ -84,6 +94,7 @@ class TokenTreeCheckUtilsTest {
 	@Test
 	public function testArrowFunctions() {
 		var root:TokenTree = assertCodeParses(TokenTreeCheckUtilsTests.ARROW_FUNCTIONS);
+		Assert.isFalse(root.inserted);
 
 		var allArrows:Array<TokenTree> = root.filter([Arrow], ALL);
 		Assert.areEqual(8, allArrows.length);
@@ -95,6 +106,7 @@ class TokenTreeCheckUtilsTest {
 	@Test
 	public function testFunctionTypeHaxe3() {
 		var root:TokenTree = assertCodeParses(TokenTreeCheckUtilsTests.FUNCTION_TYPE_HAXE_3);
+		Assert.isFalse(root.inserted);
 
 		var allArrows:Array<TokenTree> = root.filter([Arrow], ALL);
 		Assert.areEqual(26, allArrows.length);
@@ -106,6 +118,7 @@ class TokenTreeCheckUtilsTest {
 	@Test
 	public function testFunctionTypeHaxe4() {
 		var root:TokenTree = assertCodeParses(TokenTreeCheckUtilsTests.FUNCTION_TYPE_HAXE_4);
+		Assert.isFalse(root.inserted);
 
 		var allArrows:Array<TokenTree> = root.filter([Arrow], ALL);
 		Assert.areEqual(7, allArrows.length);
@@ -117,6 +130,8 @@ class TokenTreeCheckUtilsTest {
 	@Test
 	public function testIsTernary() {
 		var root:TokenTree = assertCodeParses(TokenTreeCheckUtilsTests.TERNARY);
+		Assert.isFalse(root.inserted);
+
 		var allQuestion:Array<TokenTree> = root.filter([Question], ALL);
 		Assert.areEqual(13, allQuestion.length);
 		for (quest in allQuestion) {
@@ -127,6 +142,8 @@ class TokenTreeCheckUtilsTest {
 	@Test
 	public function testNotIsTernary() {
 		var root:TokenTree = assertCodeParses(TokenTreeCheckUtilsTests.NOT_TERNARY);
+		Assert.isFalse(root.inserted);
+
 		var allQuestion:Array<TokenTree> = root.filter([Question], ALL);
 		Assert.areEqual(4, allQuestion.length);
 		for (quest in allQuestion) {
@@ -137,6 +154,8 @@ class TokenTreeCheckUtilsTest {
 	@Test
 	public function testMixedColonTypes() {
 		var root:TokenTree = assertCodeParses(TokenTreeCheckUtilsTests.MIXED_COLON_TYPES);
+		Assert.isFalse(root.inserted);
+
 		var allBr:Array<TokenTree> = root.filter([DblDot], ALL);
 		Assert.areEqual(47, allBr.length);
 		var index:Int = 0;
@@ -218,6 +237,8 @@ class TokenTreeCheckUtilsTest {
 	@Test
 	public function testMixedPOpenTypes() {
 		var root:TokenTree = assertCodeParses(TokenTreeCheckUtilsTests.MIXED_POPEN_TYPES);
+		Assert.isFalse(root.inserted);
+
 		var allBr:Array<TokenTree> = root.filter([POpen], ALL);
 		Assert.areEqual(16, allBr.length);
 		var index:Int = 0;
@@ -258,6 +279,8 @@ class TokenTreeCheckUtilsTest {
 	@Test
 	public function testMixedTypeParameter() {
 		var root:TokenTree = assertCodeParses(TokenTreeCheckUtilsTests.MIXED_TYPE_PARAMETER);
+		Assert.isFalse(root.inserted);
+
 		var allBr:Array<TokenTree> = root.filter([Binop(OpLt)], ALL);
 		Assert.areEqual(1, allBr.length);
 		var index:Int = 0;
@@ -268,6 +291,8 @@ class TokenTreeCheckUtilsTest {
 	@Test
 	public function testFilterOpSub() {
 		var root:TokenTree = assertCodeParses(TokenTreeCheckUtilsTests.MIXED_OP_SUB);
+		Assert.isFalse(root.inserted);
+
 		var allSubs:Array<TokenTree> = root.filter([Binop(OpSub)], ALL);
 		Assert.areEqual(44, allSubs.length);
 		var index:Int = 0;
@@ -349,6 +374,7 @@ class TokenTreeCheckUtilsTest {
 	@Test
 	public function testIsMetadata() {
 		var root:TokenTree = assertCodeParses(TokenTreeCheckUtilsTests.MIXED_METADATA);
+		Assert.isFalse(root.inserted);
 
 		Assert.isFalse(TokenTreeCheckUtils.isMetadata(null));
 		Assert.isFalse(TokenTreeCheckUtils.isMetadata(root));
@@ -411,7 +437,7 @@ class TokenTreeCheckUtilsTest {
 	}
 
 	public function assertCodeParses(code:String, ?pos:PosInfos):TokenTree {
-		var builder:TestTokenTreeBuilder = null;
+		var builder:Null<TestTokenTreeBuilder> = null;
 		try {
 			builder = TestTokenTreeBuilder.parseCode(code);
 			Assert.isTrue(builder.isStreamEmpty(), pos);
@@ -420,7 +446,7 @@ class TokenTreeCheckUtilsTest {
 		catch (e:Any) {
 			Assert.fail("code should not throw execption " + e, pos);
 		}
-		return null;
+		return new TokenTree(null, "", null, 0, true);
 	}
 }
 

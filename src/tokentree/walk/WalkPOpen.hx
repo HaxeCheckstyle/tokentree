@@ -23,7 +23,7 @@ class WalkPOpen {
 					WalkSharp.walkSharp(stream, parent, WalkPOpen.walkPOpenParts);
 				case Comma:
 					var comma:TokenTree = stream.consumeToken();
-					var child:TokenTree = parent.getLastChild();
+					var child:Null<TokenTree> = parent.getLastChild();
 					if (child == null) child = parent;
 					child.addChild(comma);
 				default:

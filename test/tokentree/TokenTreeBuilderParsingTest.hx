@@ -99,18 +99,18 @@ class TokenTreeBuilderParsingTest {
 	}
 
 	public function assertCodeParses(code:String, ?pos:PosInfos) {
-		var builder:TestTokenTreeBuilder = null;
+		var builder:Null<TestTokenTreeBuilder> = null;
 		try {
 			builder = TestTokenTreeBuilder.parseCode(code);
+			Assert.isTrue(builder.isStreamEmpty(), pos);
 		}
 		catch (e:Any) {
 			Assert.fail("code should not throw execption", pos);
 		}
-		Assert.isTrue(builder.isStreamEmpty(), pos);
 	}
 
 	public function assertCodeThrows(code:String, ?pos:PosInfos) {
-		var builder:TestTokenTreeBuilder = null;
+		var builder:Null<TestTokenTreeBuilder> = null;
 		try {
 			builder = TestTokenTreeBuilder.parseCode(code);
 		}

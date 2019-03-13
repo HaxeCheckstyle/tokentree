@@ -8,22 +8,26 @@ import tokentree.TokenTree;
 class VerifyTokenTree implements IVerifyTokenTree {
 	var token:TokenTree;
 
-	public function new(token:TokenTree) {
+	public function new(token:Null<TokenTree>) {
 		Assert.isNotNull(token);
-		this.token = token;
+		this.token = @:nullSafety(Off) token;
 	}
 
 	public function filter(tok:TokenDef, ?pos:PosInfos):IVerifyTokenTree {
 		var list:Array<IVerifyTokenTree> = [];
-		for (child in token.children) {
-			if (child.is(tok)) list.push(new VerifyTokenTree(child));
+		if (token.children != null) {
+			for (child in token.children) {
+				if (child.is(tok)) list.push(new VerifyTokenTree(child));
+			}
 		}
 		return new VerifyTokenTreeList(list);
 	}
 
 	public function childs(?pos:PosInfos):IVerifyTokenTree {
 		var list:Array<IVerifyTokenTree> = [];
-		for (child in token.children) list.push(new VerifyTokenTree(child));
+		if (token.children != null) {
+			for (child in token.children) list.push(new VerifyTokenTree(child));
+		}
 		return new VerifyTokenTreeList(list);
 	}
 
@@ -52,6 +56,7 @@ class VerifyTokenTree implements IVerifyTokenTree {
 
 	public function oneChild(?pos:PosInfos):IVerifyTokenTree {
 		if (token.children == null) Assert.fail("no childs", pos);
+		@:nullSafety(Off)
 		Assert.areEqual(1, token.children.length, pos);
 		return this;
 	}
@@ -68,7 +73,7 @@ class VerifyTokenTree implements IVerifyTokenTree {
 
 	public function childAt(index:Int, ?pos:PosInfos):IVerifyTokenTree {
 		childCountAtLeast(index + 1, pos);
-		return new VerifyTokenTree(token.children[index]);
+		return new VerifyTokenTree(@:nullSafety(Off) token.children[index]);
 	}
 
 	public function childCount(count:Int, ?pos:PosInfos):IVerifyTokenTree {
@@ -76,12 +81,14 @@ class VerifyTokenTree implements IVerifyTokenTree {
 			if (count != 0) Assert.fail('${token.tok} has no childs', pos);
 			else return this;
 		}
+		@:nullSafety(Off)
 		Assert.areEqual(count, token.children.length, '[${token.tok}] child count [${token.children.length}] was not equal to expected [$count]', pos);
 		return this;
 	}
 
 	public function childCountAtLeast(count:Int, ?pos:PosInfos):IVerifyTokenTree {
 		if ((token.children == null) && (count != 0)) Assert.fail('${token.tok} has no childs', pos);
+		@:nullSafety(Off)
 		Assert.isTrue(token.children.length >= count, pos);
 		return this;
 	}

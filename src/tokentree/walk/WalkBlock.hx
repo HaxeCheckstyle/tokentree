@@ -10,7 +10,6 @@ class WalkBlock {
 	 */
 	public static function walkBlock(stream:TokenStream, parent:TokenTree) {
 		while (stream.is(At)) stream.addToTempStore(WalkAt.walkAt(stream));
-		var rewindPos:Int = stream.getStreamIndex();
 		if (stream.is(BrOpen)) {
 			var openTok:TokenTree = stream.consumeTokenDef(BrOpen);
 			parent.addChild(openTok);
@@ -18,7 +17,6 @@ class WalkBlock {
 			walkBlockContinue(stream, openTok);
 		}
 		else {
-			stream.rewindTo(rewindPos);
 			WalkStatement.walkStatement(stream, parent);
 		}
 	}
@@ -31,7 +29,7 @@ class WalkBlock {
 					break;
 				case Comma:
 					var child:TokenTree = stream.consumeToken();
-					var lastChild:TokenTree = parent.getLastChild();
+					var lastChild:Null<TokenTree> = parent.getLastChild();
 					if (lastChild == null) {
 						parent.addChild(child);
 					}

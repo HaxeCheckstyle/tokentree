@@ -7,3 +7,5 @@
 -D unittest
 -x TestMain
 --macro mcover.MCover.coverage(['tokentree'], ['src'], [])
+
+# --macro nullSafety('tokentree')

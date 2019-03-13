@@ -37,7 +37,7 @@ class WalkClass {
 
 	public static function walkClassBody(stream:TokenStream, parent:TokenTree) {
 		var progress:TokenStreamProgress = new TokenStreamProgress(stream);
-		while (progress.streamHasChanged()) {
+		while (stream.hasMore() && progress.streamHasChanged()) {
 			switch (stream.token()) {
 				case Kwd(KwdVar):
 					WalkVar.walkVar(stream, parent);
@@ -81,10 +81,15 @@ class WalkClass {
 	}
 
 	static function walkClassContinueAfterSharp(stream:TokenStream, parent:TokenTree) {
+		@:nullSafety(Off)
 		var brOpen:TokenTreeAccessHelper = TokenTreeAccessHelper.access(parent).lastChild().is(Sharp("if")).lastOf(Kwd(KwdFunction)).firstChild().lastChild()
 			.is(BrOpen);
+
 		if (brOpen.token == null) return;
+
+		@:nullSafety(Off)
 		if (brOpen.lastChild().is(BrClose).token != null) return;
+
 		WalkBlock.walkBlockContinue(stream, parent);
 	}
 }
