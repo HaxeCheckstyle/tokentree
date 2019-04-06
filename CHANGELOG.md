@@ -2,6 +2,7 @@
 
 ## dev branch / next version (1.x.x)
 
+- Added `TokenTreeAccessHelper.findParent` [#150](https://github.com/HaxeCheckstyle/tokentree/issues/150)
 - Fixed `TokenTreeCheckUtils.getColonType` detection of type checks [#149](https://github.com/HaxeCheckstyle/tokentree/issues/149)
 
 ## version 1.0.18 (2019-03-22)

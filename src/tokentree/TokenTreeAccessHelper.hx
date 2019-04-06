@@ -15,6 +15,17 @@ abstract TokenTreeAccessHelper(TokenTree) from TokenTree {
 		return if (exists()) this.parent else null;
 	}
 
+	public function findParent(predicate:TokenTreeAccessHelper->Bool):TokenTreeAccessHelper {
+		var parent:TokenTreeAccessHelper = this.parent;
+		while (parent.exists() && parent.token.tok != null) {
+			if (predicate(parent)) {
+				return parent;
+			}
+			parent = parent.parent();
+		}
+		return null;
+	}
+
 	public function previousSibling():Null<TokenTreeAccessHelper> {
 		return if (exists()) this.previousSibling else null;
 	}
