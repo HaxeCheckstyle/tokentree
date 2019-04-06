@@ -273,7 +273,7 @@ class TokenTreeCheckUtilsTest {
 		// add(#if (php || as3) (v ? 'true' : 'false') #else v #end);
 		Assert.areEqual(POpenType.CALL, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
 		Assert.areEqual(POpenType.CONDITION, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
-		Assert.areEqual(POpenType.CONDITION, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
+		Assert.areEqual(POpenType.EXPRESSION, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
 	}
 
 	@Test

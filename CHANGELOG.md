@@ -2,6 +2,8 @@
 
 ## dev branch / next version (1.x.x)
 
+- Fixed `TokenTreeCheckUtils.getColonType` detection of type checks
+
 ## version 1.0.18 (2019-03-22)
 
 - Added `TokenTreeEntryPoint` to `TokenTreeBuilder` [#146](https://github.com/HaxeCheckstyle/tokentree/issues/146)

@@ -1,5 +1,7 @@
 package tokentree.utils;
 
+import tokentree.walk.WalkSharp.WalkSharpConsts;
+
 using Lambda;
 
 class TokenTreeCheckUtils {
@@ -494,8 +496,13 @@ class TokenTreeCheckUtils {
 				return FORLOOP;
 			case Kwd(KwdCatch):
 				return CONDITION;
+			case Sharp(WalkSharpConsts.IF), Sharp(WalkSharpConsts.ELSEIF):
+				if (parent.getFirstChild() == token) {
+					return CONDITION;
+				}
+				return EXPRESSION;
 			case Sharp(_):
-				return CONDITION;
+				return EXPRESSION;
 			case POpen:
 				return EXPRESSION;
 			case Kwd(KwdFunction):
@@ -745,7 +752,7 @@ class TokenTreeCheckUtils {
 				case POpen:
 					var pClose:TokenTree = parent.access().firstOf(PClose).token;
 					if ((pClose != null) && (pClose.pos.max <= token.pos.min)) {
-						return TYPE_HINT;
+						return TYPE_CHECK;
 					}
 					var pType:POpenType = getPOpenType(parent);
 					switch (pType) {
