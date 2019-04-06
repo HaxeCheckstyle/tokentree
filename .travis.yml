@@ -21,6 +21,7 @@ matrix:
         - haxelib install munit
         - haxelib install mconsole
         - haxelib git hxnodejs https://github.com/HaxeFoundation/hxnodejs.git master
+        - haxelib install test-adapter
         - haxelib dev tokentree .
         - git clone -b dev https://github.com/HaxeCheckstyle/haxe-checkstyle.git --depth=1 checkstyle
         - sed -i 's/:3.3.0//' checkstyle/buildGlobal.hxml
@@ -40,6 +41,7 @@ matrix:
         - haxelib install mconsole
         - haxelib install compiletime 2.6.0
         - haxelib install hxargs 3.0.2
+        - haxelib install test-adapter
         - haxelib dev tokentree .
         - git clone -b dev https://github.com/HaxeCheckstyle/haxe-checkstyle.git --depth=1 checkstyle
         - sed -i 's/:3.3.0//' test.hxml
