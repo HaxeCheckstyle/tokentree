@@ -27,7 +27,7 @@ class TokenTreeCheckUtilsTest {
 		Assert.isFalse(root.inserted);
 
 		var allBr:Array<TokenTree> = root.filter([BrOpen], ALL);
-		Assert.areEqual(30, allBr.length);
+		Assert.areEqual(37, allBr.length);
 		var index:Int = 0;
 		Assert.areEqual(BrOpenType.BLOCK, TokenTreeCheckUtils.getBrOpenType(allBr[index++]));
 		Assert.areEqual(BrOpenType.ANONTYPE, TokenTreeCheckUtils.getBrOpenType(allBr[index++]));
@@ -64,6 +64,21 @@ class TokenTreeCheckUtilsTest {
 		Assert.areEqual(BrOpenType.BLOCK, TokenTreeCheckUtils.getBrOpenType(allBr[index++]));
 
 		// {foo: bar}
+		Assert.areEqual(BrOpenType.OBJECTDECL, TokenTreeCheckUtils.getBrOpenType(allBr[index++]));
+		// {foo: bar};
+		Assert.areEqual(BrOpenType.OBJECTDECL, TokenTreeCheckUtils.getBrOpenType(allBr[index++]));
+		// {foo: bar, bar: foo}
+		Assert.areEqual(BrOpenType.OBJECTDECL, TokenTreeCheckUtils.getBrOpenType(allBr[index++]));
+		// {foo: bar, bar: foo};
+		Assert.areEqual(BrOpenType.OBJECTDECL, TokenTreeCheckUtils.getBrOpenType(allBr[index++]));
+
+		// {}
+		Assert.areEqual(BrOpenType.OBJECTDECL, TokenTreeCheckUtils.getBrOpenType(allBr[index++]));
+		// {};
+		Assert.areEqual(BrOpenType.OBJECTDECL, TokenTreeCheckUtils.getBrOpenType(allBr[index++]));
+		// { /*comment*/ }
+		Assert.areEqual(BrOpenType.OBJECTDECL, TokenTreeCheckUtils.getBrOpenType(allBr[index++]));
+		// { /*comment*/ };
 		Assert.areEqual(BrOpenType.OBJECTDECL, TokenTreeCheckUtils.getBrOpenType(allBr[index++]));
 	}
 
@@ -501,6 +516,14 @@ abstract TokenTreeCheckUtilsTests(String) to String {
 	abstract Foo({i:Int}) {}
 
 	{foo: bar}
+	{foo: bar};
+
+	{foo: bar, bar: foo}
+	{foo: bar, bar: foo};
+	{}
+	{};
+	{ /*comment*/ }
+	{ /*comment*/ };
 	";
 
 	var ENUM_ABSTRACTS = "
