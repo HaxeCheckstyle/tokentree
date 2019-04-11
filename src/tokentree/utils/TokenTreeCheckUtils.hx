@@ -420,11 +420,13 @@ class TokenTreeCheckUtils {
 			}
 		}
 		if (token.children.length == 1) {
-			switch (token.parent.tok) {
-				case Kwd(_):
-					return BLOCK;
-				default:
-					return OBJECTDECL;
+			if (token.parent != null && token.parent.tok != null) {
+				switch (token.parent.tok) {
+					case Kwd(_):
+						return BLOCK;
+					default:
+						return OBJECTDECL;
+				}
 			}
 		}
 		if ((token.children.length == 2) && token.getLastChild().is(Semicolon)) {
@@ -452,9 +454,11 @@ class TokenTreeCheckUtils {
 				case Comment(_), CommentLine(_):
 				case BrClose:
 					if (onlyComment) {
-						switch (token.parent.tok) {
-							case Kwd(_): return BLOCK;
-							default: return OBJECTDECL;
+						if (token.parent != null && token.parent.tok != null) {
+							switch (token.parent.tok) {
+								case Kwd(_): return BLOCK;
+								default: return OBJECTDECL;
+							}
 						}
 					}
 					return OBJECTDECL;
