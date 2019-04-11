@@ -27,7 +27,7 @@ class TokenTreeCheckUtilsTest {
 		Assert.isFalse(root.inserted);
 
 		var allBr:Array<TokenTree> = root.filter([BrOpen], ALL);
-		Assert.areEqual(29, allBr.length);
+		Assert.areEqual(30, allBr.length);
 		var index:Int = 0;
 		Assert.areEqual(BrOpenType.BLOCK, TokenTreeCheckUtils.getBrOpenType(allBr[index++]));
 		Assert.areEqual(BrOpenType.ANONTYPE, TokenTreeCheckUtils.getBrOpenType(allBr[index++]));
@@ -62,6 +62,9 @@ class TokenTreeCheckUtilsTest {
 		Assert.areEqual(BrOpenType.BLOCK, TokenTreeCheckUtils.getBrOpenType(allBr[index++]));
 		Assert.areEqual(BrOpenType.ANONTYPE, TokenTreeCheckUtils.getBrOpenType(allBr[index++]));
 		Assert.areEqual(BrOpenType.BLOCK, TokenTreeCheckUtils.getBrOpenType(allBr[index++]));
+
+		// {foo: bar}
+		Assert.areEqual(BrOpenType.OBJECTDECL, TokenTreeCheckUtils.getBrOpenType(allBr[index++]));
 	}
 
 	@Test
@@ -496,6 +499,8 @@ abstract TokenTreeCheckUtilsTests(String) to String {
 	}
 	abstract Foo(Bar) from {a:String} {}
 	abstract Foo({i:Int}) {}
+
+	{foo: bar}
 	";
 
 	var ENUM_ABSTRACTS = "
