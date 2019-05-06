@@ -281,6 +281,7 @@ class WalkStatement {
 					switch (stream.token()) {
 						case Binop(OpSub): return;
 						case Binop(_):
+						case Dot:
 						default: return;
 					}
 				default:

@@ -499,7 +499,14 @@ class TokenTreeCheckUtils {
 		}
 		switch (parent.tok) {
 			case Kwd(KwdIf):
-				return CONDITION;
+				var firstChild:Null<TokenTree> = parent.getFirstChild();
+				if (firstChild == null) {
+					return CONDITION;
+				}
+				if (firstChild.index == token.index) {
+					return CONDITION;
+				}
+				return EXPRESSION;
 			case Kwd(KwdWhile):
 				return CONDITION;
 			case Kwd(KwdFor):

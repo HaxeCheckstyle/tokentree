@@ -175,7 +175,7 @@ class TokenTreeCheckUtilsTest {
 		Assert.isFalse(root.inserted);
 
 		var allBr:Array<TokenTree> = root.filter([DblDot], ALL);
-		Assert.areEqual(47, allBr.length);
+		Assert.areEqual(49, allBr.length);
 		var index:Int = 0;
 		Assert.areEqual(ColonType.OBJECT_LITERAL, TokenTreeCheckUtils.getColonType(allBr[index++]));
 		Assert.areEqual(ColonType.TYPE_CHECK, TokenTreeCheckUtils.getColonType(allBr[index++]));
@@ -243,6 +243,11 @@ class TokenTreeCheckUtilsTest {
 		// static function foo(#if openfl ?vector:openfl.Vector<Int> #end) {}
 		Assert.areEqual(ColonType.TYPE_HINT, TokenTreeCheckUtils.getColonType(allBr[index++]));
 
+		// if (Type.get((cast null : T)) == Type.get(0))
+		// (bytes : Bytes).sortI32(0, length, cast f);
+		Assert.areEqual(ColonType.TYPE_CHECK, TokenTreeCheckUtils.getColonType(allBr[index++]));
+		Assert.areEqual(ColonType.TYPE_CHECK, TokenTreeCheckUtils.getColonType(allBr[index++]));
+
 		// typedef Middleware = {
 		Assert.areEqual(ColonType.TYPE_HINT, TokenTreeCheckUtils.getColonType(allBr[index++]));
 		Assert.areEqual(ColonType.TYPE_HINT, TokenTreeCheckUtils.getColonType(allBr[index++]));
@@ -258,7 +263,7 @@ class TokenTreeCheckUtilsTest {
 		Assert.isFalse(root.inserted);
 
 		var allBr:Array<TokenTree> = root.filter([POpen], ALL);
-		Assert.areEqual(16, allBr.length);
+		Assert.areEqual(22, allBr.length);
 		var index:Int = 0;
 		// @:deprecated('UnlessshuffleArray(), you should use shuffle() quality.')
 		Assert.areEqual(POpenType.AT, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
@@ -291,6 +296,14 @@ class TokenTreeCheckUtilsTest {
 		// add(#if (php || as3) (v ? 'true' : 'false') #else v #end);
 		Assert.areEqual(POpenType.CALL, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
 		Assert.areEqual(POpenType.CONDITION, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
+		Assert.areEqual(POpenType.EXPRESSION, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
+
+		// if (Type.get((cast null : T)) == Type.get(0))
+		// (bytes : Bytes).sortI32(0, length, cast f);
+		Assert.areEqual(POpenType.CONDITION, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
+		Assert.areEqual(POpenType.CALL, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
+		Assert.areEqual(POpenType.EXPRESSION, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
+		Assert.areEqual(POpenType.CALL, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
 		Assert.areEqual(POpenType.EXPRESSION, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
 	}
 
@@ -661,7 +674,10 @@ abstract TokenTreeCheckUtilsTests(String) to String {
 			[for (i in 0...1) ('' : String).length];
 		}
 
-		static function foo(#if openfl ?vector:openfl.Vector<Int> #end) {}
+		static function foo(#if openfl ?vector:openfl.Vector<Int> #end) {
+			if (Type.get((cast null : T)) == Type.get(0))
+				(bytes : Bytes).sortI32(0, length, cast f);
+		}
 	}
 
 	typedef Middleware = {
@@ -684,6 +700,8 @@ abstract TokenTreeCheckUtilsTests(String) to String {
 			var f = (a:Int, b:Int) -> 0;
 			foo((a : Int, b : Int) -> 0);
 			add(#if (php || as3) (v ? 'true' : 'false') #else v #end);
+			if (Type.get((cast null : T)) == Type.get(0))
+				(bytes : Bytes).sortI32(0, length, cast f);
 		}
 	}
 	";
