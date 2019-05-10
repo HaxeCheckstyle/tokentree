@@ -3,6 +3,7 @@
 ## dev branch / next version (1.x.x)
 
 - Added `TokenTreeAccessHelper.findParent` [#150](https://github.com/HaxeCheckstyle/tokentree/issues/150)
+- Added a cache for getArrowType, getBrOpenType, getColonType and getPOpenType results
 - Fixed `TokenTreeCheckUtils.getColonType` detection of type checks [#149](https://github.com/HaxeCheckstyle/tokentree/issues/149)
 - Fixed `OpBool` position in case body [#151](https://github.com/HaxeCheckstyle/tokentree/issues/151)
 - Fixed object literal detection when using expression entry point [#152](https://github.com/HaxeCheckstyle/tokentree/issues/152) + [#153](https://github.com/HaxeCheckstyle/tokentree/issues/153)

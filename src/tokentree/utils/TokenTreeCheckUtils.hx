@@ -348,6 +348,19 @@ class TokenTreeCheckUtils {
 		if (token == null) {
 			return UNKNOWN;
 		}
+		if (token.tokenTypeCache.brOpenType != null) {
+			return token.tokenTypeCache.brOpenType;
+		}
+
+		var type:BrOpenType = determineBrOpenType(token);
+		token.tokenTypeCache.brOpenType = type;
+		return type;
+	}
+
+	static function determineBrOpenType(token:TokenTree):BrOpenType {
+		if (token == null) {
+			return UNKNOWN;
+		}
 		if (token.parent == null || token.parent.tok == null) {
 			return determinBrChildren(token);
 		}
@@ -477,6 +490,19 @@ class TokenTreeCheckUtils {
 		if (token == null) {
 			return EXPRESSION;
 		}
+		if (token.tokenTypeCache.pOpenType != null) {
+			return token.tokenTypeCache.pOpenType;
+		}
+
+		var type:POpenType = determinePOpenType(token);
+		token.tokenTypeCache.pOpenType = type;
+		return type;
+	}
+
+	public static function determinePOpenType(token:TokenTree):POpenType {
+		if (token == null) {
+			return EXPRESSION;
+		}
 		var parent:TokenTree = token.parent;
 		if ((parent == null) || (parent.tok == null)) {
 			return EXPRESSION;
@@ -586,6 +612,19 @@ class TokenTreeCheckUtils {
 	}
 
 	public static function getArrowType(token:TokenTree):ArrowType {
+		if (token == null) {
+			return ARROW_FUNCTION;
+		}
+		if (token.tokenTypeCache.arrowType != null) {
+			return token.tokenTypeCache.arrowType;
+		}
+
+		var type:ArrowType = determineArrowType(token);
+		token.tokenTypeCache.arrowType = type;
+		return type;
+	}
+
+	public static function determineArrowType(token:TokenTree):ArrowType {
 		if (token == null) {
 			return ARROW_FUNCTION;
 		}
@@ -707,6 +746,19 @@ class TokenTreeCheckUtils {
 	}
 
 	public static function getColonType(token:TokenTree):ColonType {
+		if (token == null) {
+			return UNKNOWN;
+		}
+		if (token.tokenTypeCache.colonType != null) {
+			return token.tokenTypeCache.colonType;
+		}
+
+		var type:ColonType = determineColonType(token);
+		token.tokenTypeCache.colonType = type;
+		return type;
+	}
+
+	public static function determineColonType(token:TokenTree):ColonType {
 		if (token == null) {
 			return UNKNOWN;
 		}
