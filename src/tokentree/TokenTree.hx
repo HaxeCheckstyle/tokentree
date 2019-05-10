@@ -172,8 +172,8 @@ enum FilterResult {
 }
 
 typedef TokenTypeCache = {
-	var ?brOpenType:Null<BrOpenType>;
-	var ?pOpenType:Null<POpenType>;
-	var ?colonType:Null<ColonType>;
-	var ?arrowType:Null<ArrowType>;
+	@:optional var brOpenType:Null<BrOpenType>;
+	@:optional var pOpenType:Null<POpenType>;
+	@:optional var colonType:Null<ColonType>;
+	@:optional var arrowType:Null<ArrowType>;
 }
