@@ -1,5 +1,10 @@
 package tokentree;
 
+import tokentree.utils.TokenTreeCheckUtils.ArrowType;
+import tokentree.utils.TokenTreeCheckUtils.BrOpenType;
+import tokentree.utils.TokenTreeCheckUtils.ColonType;
+import tokentree.utils.TokenTreeCheckUtils.POpenType;
+
 class TokenTree extends Token {
 	static inline var MAX_LEVEL:Int = 9999;
 
@@ -13,11 +18,15 @@ class TokenTree extends Token {
 	public var space:String;
 	#end
 
+	@:allow(tokentree.utils.TokenTreeCheckUtils)
+	var tokenTypeCache:TokenTypeCache;
+
 	public function new(tok:Null<TokenDef>, space:String, pos:Null<Position>, index:Int, inserted:Bool = false) {
 		super(tok, pos);
 		this.index = index;
 		this.inserted = inserted;
 		this.space = space;
+		tokenTypeCache = {};
 	}
 
 	public function is(tokenDef:TokenDef):Bool {
@@ -160,4 +169,11 @@ enum FilterResult {
 	FOUND_GO_DEEPER;
 	SKIP_SUBTREE;
 	GO_DEEPER;
+}
+
+typedef TokenTypeCache = {
+	@:optional var brOpenType:Null<BrOpenType>;
+	@:optional var pOpenType:Null<POpenType>;
+	@:optional var colonType:Null<ColonType>;
+	@:optional var arrowType:Null<ArrowType>;
 }
