@@ -2,6 +2,8 @@
 
 ## dev branch / next version (1.x.x)
 
+## version 1.0.19 (2019-05-16)
+
 - Added `TokenTreeAccessHelper.findParent` [#150](https://github.com/HaxeCheckstyle/tokentree/issues/150)
 - Added a cache for getArrowType, getBrOpenType, getColonType and getPOpenType results [#155](https://github.com/HaxeCheckstyle/tokentree/issues/155)
 - Fixed `TokenTreeCheckUtils.getColonType` detection of type checks [#149](https://github.com/HaxeCheckstyle/tokentree/issues/149)

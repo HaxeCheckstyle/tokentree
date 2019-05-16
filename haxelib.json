@@ -7,8 +7,8 @@
     "contributors": [
         "AlexHaxe"
     ],
-    "releasenote": "added entrypoint to TokenTreeBuilder - see CHANGELOG for details",
-    "version": "1.0.18",
+    "releasenote": "Added cache for get*Type helper functions + bugfixes - see CHANGELOG for details",
+    "version": "1.0.19",
     "url": "https://github.com/HaxeCheckstyle/tokentree",
     "dependencies": {}
 }
