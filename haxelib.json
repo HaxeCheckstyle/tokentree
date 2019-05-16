@@ -7,8 +7,8 @@
     "contributors": [
         "AlexHaxe"
     ],
-    "releasenote": "Added cache for get*Type helper functions + bugfixes - see CHANGELOG for details",
-    "version": "1.0.19",
+    "releasenote": "fixed a potential null pointer in TokenTreeAccessHelper.findParent - see CHANGELOG for details",
+    "version": "1.0.20",
     "url": "https://github.com/HaxeCheckstyle/tokentree",
     "dependencies": {}
 }
