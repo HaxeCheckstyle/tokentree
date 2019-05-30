@@ -2,7 +2,7 @@
 
 ## dev branch / next version (1.x.x)
 
-- Fixed conditionals using dot idents without parens
+- Fixed conditionals using dot idents without parens [#159](https://github.com/HaxeCheckstyle/tokentree/issues/159)
 
 ## version 1.0.20 (2019-05-17)
 

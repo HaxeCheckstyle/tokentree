@@ -17,8 +17,8 @@ matrix:
         - yes | haxelib git haxeparser https://github.com/simn/haxeparser
         - haxelib install compiletime 2.6.0
         - haxelib install hxargs 3.0.2
-        - haxelib git mcover https://github.com/AlexHaxe/mcover haxe_4_thread src
         - haxelib install munit
+        - haxelib install mcover
         - haxelib install mconsole
         - haxelib git hxnodejs https://github.com/HaxeFoundation/hxnodejs.git master
         - haxelib install test-adapter
@@ -34,9 +34,9 @@ matrix:
       install:
         - haxelib git hxparse https://github.com/simn/hxparse
         - yes | haxelib git haxeparser https://github.com/simn/haxeparser
-        - haxelib git mcover https://github.com/AlexHaxe/mcover haxe_4_thread src
-        - haxelib git munit https://github.com/AlexHaxe/MassiveUnit.git haxe_4_thread src
         - haxelib git hxnodejs https://github.com/HaxeFoundation/hxnodejs.git master
+        - haxelib install munit
+        - haxelib install mcover
         - haxelib install mlib
         - haxelib install mconsole
         - haxelib install compiletime 2.6.0
