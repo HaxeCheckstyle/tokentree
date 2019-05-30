@@ -96,6 +96,7 @@ class TokenTreeBuilderParsingTest {
 		assertCodeParses(TERNARY_WITH_RETURN);
 		assertCodeParses(TRY_CATCH_WITH_COMMENT);
 		assertCodeParses(TERNARY_WITH_OP_BOOL);
+		assertCodeParses(DOT_IDENT_CONDITIONAL);
 	}
 
 	public function assertCodeParses(code:String, ?pos:PosInfos) {
@@ -1340,6 +1341,16 @@ abstract TokenTreeBuilderParsingTests(String) to String {
 		public static function main() {
 			var event = new KeyboardEvent(type, true, true, charCode, keyCode, keyLocation,
 					__macKeyboard ? modifier.ctrlKey || modifier.metaKey:modifier.ctrlKey, modifier.altKey, modifier.shiftKey, modifier.ctrlKey, modifier.metaKey);
+		}
+	}
+	";
+
+	var DOT_IDENT_CONDITIONAL = "
+	class Main {
+		static function main() {
+			#if target.sys
+			trace('Test');
+			#end
 		}
 	}
 	";

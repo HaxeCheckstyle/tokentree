@@ -2,6 +2,8 @@
 
 ## dev branch / next version (1.x.x)
 
+- Fixed conditionals using dot idents without parens
+
 ## version 1.0.20 (2019-05-17)
 
 - Fixed potential null pointer in `TokenTreeAccessHelper.findParent` [#157](https://github.com/HaxeCheckstyle/tokentree/issues/157)
