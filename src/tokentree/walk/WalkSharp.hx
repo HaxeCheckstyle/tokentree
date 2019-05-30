@@ -110,6 +110,18 @@ class WalkSharp {
 				case Kwd(_), Const(CIdent(_)):
 					childToken = stream.consumeToken();
 					parent.addChild(childToken);
+					if (!stream.hasMore()) return;
+					switch (stream.token()) {
+						case Dot:
+						default: return;
+					}
+					var pos:Null<Position> = stream.getTokenPos();
+					if (pos == null) return;
+					if (pos.min == childToken.pos.max + 1) continue;
+
+					var dot:TokenTree = stream.consumeToken();
+					childToken.addChild(dot);
+					WalkSharp.walkSharpIfExpr(stream, dot);
 					return;
 				default:
 					return;
