@@ -7,8 +7,8 @@
     "contributors": [
         "AlexHaxe"
     ],
-    "releasenote": "fixed a potential null pointer in TokenTreeAccessHelper.findParent - see CHANGELOG for details",
-    "version": "1.0.20",
+    "releasenote": "fixed conditionals using dot idents without parens - see CHANGELOG for details",
+    "version": "1.0.21",
     "url": "https://github.com/HaxeCheckstyle/tokentree",
     "dependencies": {}
 }
