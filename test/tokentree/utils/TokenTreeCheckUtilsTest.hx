@@ -175,7 +175,7 @@ class TokenTreeCheckUtilsTest {
 		Assert.isFalse(root.inserted);
 
 		var allBr:Array<TokenTree> = root.filter([DblDot], ALL);
-		Assert.areEqual(49, allBr.length);
+		Assert.areEqual(55, allBr.length);
 		var index:Int = 0;
 		Assert.areEqual(ColonType.OBJECT_LITERAL, TokenTreeCheckUtils.getColonType(allBr[index++]));
 		Assert.areEqual(ColonType.TYPE_CHECK, TokenTreeCheckUtils.getColonType(allBr[index++]));
@@ -253,6 +253,17 @@ class TokenTreeCheckUtilsTest {
 		Assert.areEqual(ColonType.TYPE_HINT, TokenTreeCheckUtils.getColonType(allBr[index++]));
 		Assert.areEqual(ColonType.TYPE_HINT, TokenTreeCheckUtils.getColonType(allBr[index++]));
 		Assert.areEqual(ColonType.TYPE_HINT, TokenTreeCheckUtils.getColonType(allBr[index++]));
+		Assert.areEqual(ColonType.TYPE_HINT, TokenTreeCheckUtils.getColonType(allBr[index++]));
+		Assert.areEqual(ColonType.TYPE_HINT, TokenTreeCheckUtils.getColonType(allBr[index++]));
+
+		// 	Loading(progress:Float);
+		Assert.areEqual(ColonType.TYPE_HINT, TokenTreeCheckUtils.getColonType(allBr[index++]));
+
+		// 	@:overload(function(element:js.html.Element):AngularElement {})
+		Assert.areEqual(ColonType.AT, TokenTreeCheckUtils.getColonType(allBr[index++]));
+		Assert.areEqual(ColonType.TYPE_HINT, TokenTreeCheckUtils.getColonType(allBr[index++]));
+		Assert.areEqual(ColonType.TYPE_HINT, TokenTreeCheckUtils.getColonType(allBr[index++]));
+		// 	public static function element(name:String):AngularElement;
 		Assert.areEqual(ColonType.TYPE_HINT, TokenTreeCheckUtils.getColonType(allBr[index++]));
 		Assert.areEqual(ColonType.TYPE_HINT, TokenTreeCheckUtils.getColonType(allBr[index++]));
 	}
@@ -683,6 +694,19 @@ abstract TokenTreeCheckUtilsTests(String) to String {
 	typedef Middleware = {
 		?provideCompletionItem:(document:TextDocument, position:Position, context:CompletionContext, token:CancellationToken,
 			next:ProvideCompletionItemsSignature) -> ProviderResult<EitherType<Array<CompletionItem>, CompletionList>>,
+	}
+
+	enum LoadState
+	{
+		NotLoaded;
+		Loaded;
+		Loading(progress:Float);
+	}
+
+	extern class Angular
+	{
+		@:overload(function(element:js.html.Element):AngularElement {})
+		public static function element(name:String):AngularElement;
 	}
 	";
 

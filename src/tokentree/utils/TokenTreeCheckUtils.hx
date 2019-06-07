@@ -563,6 +563,11 @@ class TokenTreeCheckUtils {
 						}
 						return CALL;
 					case Kwd(KwdAbstract): return PARAMETER;
+					case BrOpen:
+						if (parent.parent.access().parent().parent().is(Kwd(KwdEnum)).exists()) {
+							return PARAMETER;
+						}
+						return CALL;
 					default: return CALL;
 				}
 			default:
@@ -794,6 +799,8 @@ class TokenTreeCheckUtils {
 				return findColonParent(parent);
 			case Question:
 				return findColonParent(parent);
+			case Kwd(KwdFunction):
+				return TYPE_HINT;
 			default:
 		}
 		return UNKNOWN;
