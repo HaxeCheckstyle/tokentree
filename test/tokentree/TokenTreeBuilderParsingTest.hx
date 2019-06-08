@@ -97,6 +97,7 @@ class TokenTreeBuilderParsingTest {
 		assertCodeParses(TRY_CATCH_WITH_COMMENT);
 		assertCodeParses(TERNARY_WITH_OP_BOOL);
 		assertCodeParses(DOT_IDENT_CONDITIONAL);
+		assertCodeParses(COMMENT_OPADD_CHAIN);
 	}
 
 	public function assertCodeParses(code:String, ?pos:PosInfos) {
@@ -1351,6 +1352,21 @@ abstract TokenTreeBuilderParsingTests(String) to String {
 			#if target.sys
 			trace('Test');
 			#end
+		}
+	}
+	";
+
+	var COMMENT_OPADD_CHAIN = "
+	class WordWrapTest1
+	{
+		public override function start():Void
+		{
+			content = new Sprite();
+
+			textField.htmlText = 'Here is some UTF-8: ' /*+ word1 + ' ' +
+				word2 + ' ' + word3 + ' ' + word4 */
+				+ 'angelo <i>Ephesi ecclesiae</i> scribe haec dicit qui tenet septem '
+				+ '<b>stellas</b> in dextera sua qui ambulat in medio septem ';
 		}
 	}
 	";

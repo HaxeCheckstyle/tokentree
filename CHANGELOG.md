@@ -3,6 +3,7 @@
 ## dev branch / next version (1.x.x)
 
 - Fixed type hint detection in enums and overload metas [#161](https://github.com/HaxeCheckstyle/tokentree/issues/161)
+- Fixed comments in OpAdd chains
 
 ## version 1.0.21 (2019-06-01)
 
