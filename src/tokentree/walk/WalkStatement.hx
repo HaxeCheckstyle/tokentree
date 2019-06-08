@@ -155,7 +155,7 @@ class WalkStatement {
 				walkStatementWithoutSemicolon(stream, parent);
 			case POpen:
 				walkStatementWithoutSemicolon(stream, parent);
-			case CommentLine(_):
+			case CommentLine(_), Comment(_):
 				var nextTokDef:Null<TokenDef> = stream.peekNonCommentToken();
 				if (nextTokDef == null) {
 					return;
