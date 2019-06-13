@@ -2,6 +2,8 @@
 
 ## dev branch / next version (1.x.x)
 
+## version 1.0.22 (2019-06-13)
+
 - Fixed type hint detection in enums and overload metas [#161](https://github.com/HaxeCheckstyle/tokentree/issues/161)
 - Fixed comments in OpAdd chains [#162](https://github.com/HaxeCheckstyle/tokentree/issues/162)
 - Fixed imports with conditionals [#163](https://github.com/HaxeCheckstyle/tokentree/issues/163)
