@@ -17,7 +17,7 @@ class WalkPackageImport {
 	 */
 	public static function walkPackageImport(stream:TokenStream, parent:TokenTree) {
 		var progress:TokenStreamProgress = new TokenStreamProgress(stream);
-		while (progress.streamHasChanged()) {
+		while (stream.hasMore() && progress.streamHasChanged()) {
 			switch (stream.token()) {
 				case Sharp(_):
 					WalkSharp.walkSharp(stream, parent, walkPackageImport);
