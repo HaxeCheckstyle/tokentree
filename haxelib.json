@@ -7,8 +7,8 @@
     "contributors": [
         "AlexHaxe"
     ],
-    "releasenote": "fixed conditionals using dot idents without parens - see CHANGELOG for details",
-    "version": "1.0.21",
+    "releasenote": "fixed type hints in enums, comments in OPAdd chains and imports with conditionals - see CHANGELOG for details",
+    "version": "1.0.22",
     "url": "https://github.com/HaxeCheckstyle/tokentree",
     "dependencies": {}
 }
