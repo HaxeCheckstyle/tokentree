@@ -4,6 +4,7 @@
 
 - Fixed type hint detection in enums and overload metas [#161](https://github.com/HaxeCheckstyle/tokentree/issues/161)
 - Fixed comments in OpAdd chains [#162](https://github.com/HaxeCheckstyle/tokentree/issues/162)
+- Fixed imports with conditionals
 
 ## version 1.0.21 (2019-06-01)
 

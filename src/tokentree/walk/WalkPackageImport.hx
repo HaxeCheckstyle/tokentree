@@ -16,10 +16,20 @@ class WalkPackageImport {
 	 *
 	 */
 	public static function walkPackageImport(stream:TokenStream, parent:TokenTree) {
-		var newChild:TokenTree = stream.consumeToken();
-		parent.addChild(newChild);
-		if (Type.enumEq(Semicolon, newChild.tok)) return;
-		if (!stream.hasMore()) return;
-		WalkPackageImport.walkPackageImport(stream, newChild);
+		var progress:TokenStreamProgress = new TokenStreamProgress(stream);
+		while (progress.streamHasChanged()) {
+			switch (stream.token()) {
+				case Sharp(_):
+					WalkSharp.walkSharp(stream, parent, walkPackageImport);
+				case Semicolon:
+					var newChild:TokenTree = stream.consumeToken();
+					parent.addChild(newChild);
+					return;
+				default:
+					var newChild:TokenTree = stream.consumeToken();
+					parent.addChild(newChild);
+					parent = newChild;
+			}
+		}
 	}
 }

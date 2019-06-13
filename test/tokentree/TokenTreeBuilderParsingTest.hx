@@ -98,6 +98,7 @@ class TokenTreeBuilderParsingTest {
 		assertCodeParses(TERNARY_WITH_OP_BOOL);
 		assertCodeParses(DOT_IDENT_CONDITIONAL);
 		assertCodeParses(COMMENT_OPADD_CHAIN);
+		assertCodeParses(IMPORT_CONDITIONAL);
 	}
 
 	public function assertCodeParses(code:String, ?pos:PosInfos) {
@@ -1369,5 +1370,12 @@ abstract TokenTreeBuilderParsingTests(String) to String {
 				+ '<b>stellas</b> in dextera sua qui ambulat in medio septem ';
 		}
 	}
+	";
+
+	var IMPORT_CONDITIONAL = "
+#if js
+import #if haxe4 js.lib.Error #else js.Error #end as JsError;
+import #if haxe4 js.lib.Promise #else js.Promise #end as JsPromise;
+#end
 	";
 }
