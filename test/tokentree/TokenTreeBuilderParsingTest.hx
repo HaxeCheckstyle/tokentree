@@ -91,7 +91,9 @@ class TokenTreeBuilderParsingTest {
 		assertCodeParses(COMMENT_AT_EOL);
 		assertCodeParses(OPBOOL_CHAINS);
 		assertCodeParses(INTERFACE_CONDITIONALS);
+		#if haxe4
 		assertCodeParses(MULTILINE_STRING_INTERPOLATION);
+		#end
 		assertCodeParses(ANON_TYPE_PROPERTIES);
 		assertCodeParses(TERNARY_WITH_RETURN);
 		assertCodeParses(TRY_CATCH_WITH_COMMENT);
