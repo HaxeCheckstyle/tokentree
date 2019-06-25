@@ -99,6 +99,7 @@ class TokenTreeBuilderParsingTest {
 		assertCodeParses(DOT_IDENT_CONDITIONAL);
 		assertCodeParses(COMMENT_OPADD_CHAIN);
 		assertCodeParses(IMPORT_CONDITIONAL);
+		assertCodeParses(POSTFIX_EXCLAMATION);
 	}
 
 	public function assertCodeParses(code:String, ?pos:PosInfos) {
@@ -1377,5 +1378,16 @@ abstract TokenTreeBuilderParsingTests(String) to String {
 import #if haxe4 js.lib.Error #else js.Error #end as JsError;
 import #if haxe4 js.lib.Promise #else js.Promise #end as JsPromise;
 #end
+	";
+
+	var POSTFIX_EXCLAMATION = "
+	class Main {
+		static function main() {
+			var object = {
+				a: b.x,
+				c: d!.e
+			};
+		}
+	}
 	";
 }

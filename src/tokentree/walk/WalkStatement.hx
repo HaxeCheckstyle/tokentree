@@ -48,6 +48,11 @@ class WalkStatement {
 				if (parent.isCIdentOrCString()) {
 					var newChild:TokenTree = stream.consumeToken();
 					parent.addChild(newChild);
+					if (!stream.hasMore()) return;
+					switch (stream.token()) {
+						case Dot: walkStatementWithoutSemicolon(stream, newChild);
+						default:
+					}
 					return;
 				}
 			case IntInterval(_):
