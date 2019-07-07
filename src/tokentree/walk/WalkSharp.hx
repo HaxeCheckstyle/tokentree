@@ -50,7 +50,11 @@ class WalkSharp {
 		var progress:TokenStreamProgress = new TokenStreamProgress(stream);
 		while (progress.streamHasChanged()) {
 			try {
+				#if cs
+				csharpWalkerGuard(stream, newParent, walker);
+				#else
 				walker(stream, newParent);
+				#end
 				switch (stream.token()) {
 					case BrClose, PClose, Comma:
 						var newChild:TokenTree = stream.consumeToken();
@@ -68,6 +72,24 @@ class WalkSharp {
 			}
 		}
 	}
+
+	#if cs
+	static function csharpWalkerGuard(stream:TokenStream, parent:TokenTree, walker:WalkCB) {
+		try {
+			walker(stream, parent);
+		}
+		catch (e:SharpElseException) {
+			throw e;
+		}
+		catch (e:SharpEndException) {
+			throw e;
+		}
+		catch (e:Any) {
+			var exception:cs.system.Exception = cast(e, cs.system.Exception);
+			throw exception.InnerException;
+		}
+	}
+	#end
 
 	static function walkSharpElse(stream:TokenStream, parent:TokenTree) {
 		var sharpIfParent:TokenTree = stream.peekSharpIf();
