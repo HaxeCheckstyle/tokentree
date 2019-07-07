@@ -3,6 +3,7 @@
 ## dev branch / next version (1.x.x)
 
 - Fixed postfix exclamation mark [#165](https://github.com/HaxeCheckstyle/tokentree/issues/165)
+- Fixed C# exception handling [#166](https://github.com/HaxeCheckstyle/tokentree/issues/166)
 
 ## version 1.0.22 (2019-06-13)
 
