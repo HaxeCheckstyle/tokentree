@@ -624,7 +624,10 @@ class TokenTreeCheckUtils {
 			return token.tokenTypeCache.arrowType;
 		}
 
-		var type:ArrowType = determineArrowType(token);
+		var type:Null<ArrowType> = determineArrowType(token);
+		if (type == null) {
+			type = ARROW_FUNCTION;
+		}
 		token.tokenTypeCache.arrowType = type;
 		return type;
 	}
@@ -642,7 +645,10 @@ class TokenTreeCheckUtils {
 					if (brClose.is(BrClose)) {
 						return ARROW_FUNCTION;
 					}
-					var brType:BrOpenType = getBrOpenType(child);
+					var brType:Null<BrOpenType> = getBrOpenType(child);
+					if (brType == null) {
+						brType = UNKNOWN;
+					}
 					switch (brType) {
 						case BLOCK: return ARROW_FUNCTION;
 						case ANONTYPE:
@@ -665,7 +671,7 @@ class TokenTreeCheckUtils {
 		if (parent == null) {
 			return ARROW_FUNCTION;
 		}
-		var resultType:ArrowType = checkArrowParent(parent);
+		var resultType:Null<ArrowType> = checkArrowParent(parent);
 		if (resultType != null) {
 			return resultType;
 		}
@@ -692,7 +698,7 @@ class TokenTreeCheckUtils {
 					child = child.nextSibling;
 					continue;
 				case POpen:
-					var result:ArrowType = checkArrowPOpen(child);
+					var result:Null<ArrowType> = checkArrowPOpen(child);
 					if (result != null) {
 						return result;
 					}
@@ -738,7 +744,11 @@ class TokenTreeCheckUtils {
 			case POpen:
 			case Const(CIdent(_)):
 				if (parent.parent.is(POpen)) {
-					switch (getPOpenType(parent.parent)) {
+					var type:POpenType = getPOpenType(parent.parent);
+					if (type == null) {
+						type = EXPRESSION;
+					}
+					switch (type) {
 						case PARAMETER: return FUNCTION_TYPE_HAXE3;
 						case EXPRESSION: return FUNCTION_TYPE_HAXE3;
 						default: return ARROW_FUNCTION;
