@@ -102,6 +102,7 @@ class TokenTreeBuilderParsingTest {
 		assertCodeParses(COMMENT_OPADD_CHAIN);
 		assertCodeParses(IMPORT_CONDITIONAL);
 		assertCodeParses(POSTFIX_EXCLAMATION);
+		assertCodeParses(MACRO_KEY_VALUE_ITERATOR);
 	}
 
 	public function assertCodeParses(code:String, ?pos:PosInfos) {
@@ -1389,6 +1390,23 @@ import #if haxe4 js.lib.Promise #else js.Promise #end as JsPromise;
 				a: b.x,
 				c: d!.e
 			};
+		}
+	}
+	";
+
+	var MACRO_KEY_VALUE_ITERATOR = "
+	class Main {
+		static function main() {
+			switch (type) { // haxe.macro.Type
+				case TInst(t, params):
+					switch ('test') { // <- important
+						case 'test':
+							var test = function(exprs, o_ref)
+								return macro [for (key => $i{exprs[0].name} in $i{o_ref}) key => ${exprs[0].expr}];
+					}
+				case TMono(t): // <- important
+				default:
+			}
 		}
 	}
 	";

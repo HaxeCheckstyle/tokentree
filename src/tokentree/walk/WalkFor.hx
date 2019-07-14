@@ -67,8 +67,12 @@ class WalkFor {
 		if (stream.is(Binop(OpArrow))) {
 			var arrowTok:TokenTree = stream.consumeToken();
 			identifier.addChild(arrowTok);
-			var valueIdent:Null<TokenTree> = stream.consumeConstIdent();
-			arrowTok.addChild(valueIdent);
+			switch (stream.token()) {
+				case Dollar(_):
+					WalkStatement.walkStatement(stream, arrowTok);
+				default:
+					arrowTok.addChild(stream.consumeConstIdent());
+			}
 		}
 		var inTok:Null<TokenTree> = null;
 		switch (stream.token()) {
