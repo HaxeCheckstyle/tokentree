@@ -5,7 +5,7 @@
 - Fixed postfix exclamation mark [#165](https://github.com/HaxeCheckstyle/tokentree/issues/165)
 - Fixed C# exception handling [#166](https://github.com/HaxeCheckstyle/tokentree/issues/166)
 - Fixed null pointer issues in TokenTreeCheckUtils [#167](https://github.com/HaxeCheckstyle/tokentree/issues/167)
-- Fixed endless loop in for loops with macro reification, fixes [#168](https://github.com/HaxeCheckstyle/tokentree/issues/168)
+- Fixed endless loop in for loops with macro reification, fixes [#168](https://github.com/HaxeCheckstyle/tokentree/issues/168) ([#169](https://github.com/HaxeCheckstyle/tokentree/issues/169))
 
 ## version 1.0.22 (2019-06-13)
 
