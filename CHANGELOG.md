@@ -5,6 +5,7 @@
 - Fixed postfix exclamation mark [#165](https://github.com/HaxeCheckstyle/tokentree/issues/165)
 - Fixed C# exception handling [#166](https://github.com/HaxeCheckstyle/tokentree/issues/166)
 - Fixed null pointer issues in TokenTreeCheckUtils [#167](https://github.com/HaxeCheckstyle/tokentree/issues/167)
+- Fixed endless loop in for loops with macro reification, fixes [#168](https://github.com/HaxeCheckstyle/tokentree/issues/168) ([#169](https://github.com/HaxeCheckstyle/tokentree/issues/169))
 
 ## version 1.0.22 (2019-06-13)
 
@@ -63,7 +64,7 @@
 
 - Fixed properties in anon types [#130](https://github.com/HaxeCheckstyle/tokentree/issues/130)
 - Fixed `return` in ternary [#132](https://github.com/HaxeCheckstyle/tokentree/issues/132)
-- Fixed handling of `;` [#133](https://github.com/HaxeCheckstyle/tokentree/issues/133) +  [#134](https://github.com/HaxeCheckstyle/tokentree/issues/134)
+- Fixed handling of `;` [#133](https://github.com/HaxeCheckstyle/tokentree/issues/133) + [#134](https://github.com/HaxeCheckstyle/tokentree/issues/134)
 - Refactored coverage report generation [#131](https://github.com/HaxeCheckstyle/tokentree/issues/131)
 
 ## version 1.0.13 (2018-11-11)
