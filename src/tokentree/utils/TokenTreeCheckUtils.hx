@@ -12,8 +12,8 @@ class TokenTreeCheckUtils {
 		}
 	}
 
-	public static function isImport(token:TokenTree):Bool {
-		var parent:TokenTree = token;
+	public static function isImport(token:Null<TokenTree>):Bool {
+		var parent:Null<TokenTree> = token;
 		while (parent != null) {
 			if (parent.tok == null) return false;
 			switch (parent.tok) {

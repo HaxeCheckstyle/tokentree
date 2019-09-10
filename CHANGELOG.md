@@ -2,6 +2,8 @@
 
 ## dev branch / next version (1.x.x)
 
+## version 1.0.23 (2019-09-10)
+
 - Fixed postfix exclamation mark [#165](https://github.com/HaxeCheckstyle/tokentree/issues/165)
 - Fixed C# exception handling [#166](https://github.com/HaxeCheckstyle/tokentree/issues/166)
 - Fixed null pointer issues in TokenTreeCheckUtils [#167](https://github.com/HaxeCheckstyle/tokentree/issues/167)
