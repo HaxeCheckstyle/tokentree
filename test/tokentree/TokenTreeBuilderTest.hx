@@ -54,7 +54,11 @@ class TokenTreeBuilderTest {
 		WalkIf.walkIf(stream, root);
 		checkStreamEmpty(builder);
 
+		#if (haxe_ver < 4.0)
+		assertTokenEquals(IF_GOLD.replace(",null", ""), treeToString(root));
+		#else
 		assertTokenEquals(IF_GOLD, treeToString(root));
+		#end
 	}
 
 	// public static function buildTokenTree(tokens:Array<Token>, bytes:ByteData, entryPoint:TokenTreeEntryPoint):TokenTree {
