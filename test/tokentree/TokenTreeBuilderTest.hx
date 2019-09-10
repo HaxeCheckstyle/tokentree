@@ -41,8 +41,7 @@ class TokenTreeBuilderTest {
 		checkStreamEmpty(builder);
 
 		#if (haxe_ver < 4.0)
-		var expected:String = AT_ANNOTATION_GOLD;
-		assertTokenEquals(expected.replace(",null", ""), treeToString(root));
+		assertTokenEquals(StringTools.replace(AT_ANNOTATION_GOLD, ",null", ""), treeToString(root));
 		#else
 		assertTokenEquals(AT_ANNOTATION_GOLD, treeToString(root));
 		#end
@@ -60,8 +59,7 @@ class TokenTreeBuilderTest {
 		checkStreamEmpty(builder);
 
 		#if (haxe_ver < 4.0)
-		var expected:String = IF_GOLD;
-		assertTokenEquals(expected.replace(",null", ""), treeToString(root));
+		assertTokenEquals(StringTools.replace(IF_GOLD, ",null", ""), treeToString(root));
 		#else
 		assertTokenEquals(IF_GOLD, treeToString(root));
 		#end
