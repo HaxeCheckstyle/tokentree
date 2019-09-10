@@ -156,15 +156,15 @@ abstract TokenTreeBuilderTests(String) to String {
 		"  At\n" +
 		"    Const(CIdent(SuppressWarnings))\n" +
 		"      POpen\n" +
-		"        Const(CString(checkstyle:MagicNumber))\n" +
+		"        Const(CString(checkstyle:MagicNumber,null))\n" +
 		"        PClose\n" +
 		"  At\n" +
 		"    Const(CIdent(SuppressWarnings))\n" +
 		"      POpen\n" +
 		"        BkOpen\n" +
-		"          Const(CString(checkstyle:MagicNumber))\n" +
+		"          Const(CString(checkstyle:MagicNumber,null))\n" +
 		"            Comma\n" +
-		"          Const(CString(checkstyle:AvoidStarImport))\n" +
+		"          Const(CString(checkstyle:AvoidStarImport,null))\n" +
 		"          BkClose\n" +
 		"        PClose\n" +
 		"  At\n" +
@@ -208,7 +208,7 @@ abstract TokenTreeBuilderTests(String) to String {
 		"      Semicolon\n" +
 		"    Kwd(KwdElse)\n" +
 		"      Kwd(KwdThrow)\n" +
-		"        Const(CString(error))\n" +
+		"        Const(CString(error,null))\n" +
 		"        Semicolon\n" +
 		"  Kwd(KwdIf)\n" +
 		"    POpen\n" +
