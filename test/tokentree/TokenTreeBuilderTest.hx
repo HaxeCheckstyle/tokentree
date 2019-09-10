@@ -40,7 +40,11 @@ class TokenTreeBuilderTest {
 		builder.getTokenStream().consumeToken(); // remove comment line
 		checkStreamEmpty(builder);
 
+		#if (haxe_ver < 4.0)
+		assertTokenEquals(cast StringTools.replace(AT_ANNOTATION_GOLD, ",null", ""), treeToString(root));
+		#else
 		assertTokenEquals(AT_ANNOTATION_GOLD, treeToString(root));
+		#end
 	}
 
 	@Test
@@ -54,7 +58,11 @@ class TokenTreeBuilderTest {
 		WalkIf.walkIf(stream, root);
 		checkStreamEmpty(builder);
 
+		#if (haxe_ver < 4.0)
+		assertTokenEquals(cast StringTools.replace(IF_GOLD, ",null", ""), treeToString(root));
+		#else
 		assertTokenEquals(IF_GOLD, treeToString(root));
+		#end
 	}
 
 	// public static function buildTokenTree(tokens:Array<Token>, bytes:ByteData, entryPoint:TokenTreeEntryPoint):TokenTree {
@@ -156,15 +164,15 @@ abstract TokenTreeBuilderTests(String) to String {
 		"  At\n" +
 		"    Const(CIdent(SuppressWarnings))\n" +
 		"      POpen\n" +
-		"        Const(CString(checkstyle:MagicNumber))\n" +
+		"        Const(CString(checkstyle:MagicNumber,null))\n" +
 		"        PClose\n" +
 		"  At\n" +
 		"    Const(CIdent(SuppressWarnings))\n" +
 		"      POpen\n" +
 		"        BkOpen\n" +
-		"          Const(CString(checkstyle:MagicNumber))\n" +
+		"          Const(CString(checkstyle:MagicNumber,null))\n" +
 		"            Comma\n" +
-		"          Const(CString(checkstyle:AvoidStarImport))\n" +
+		"          Const(CString(checkstyle:AvoidStarImport,null))\n" +
 		"          BkClose\n" +
 		"        PClose\n" +
 		"  At\n" +
@@ -208,7 +216,7 @@ abstract TokenTreeBuilderTests(String) to String {
 		"      Semicolon\n" +
 		"    Kwd(KwdElse)\n" +
 		"      Kwd(KwdThrow)\n" +
-		"        Const(CString(error))\n" +
+		"        Const(CString(error,null))\n" +
 		"        Semicolon\n" +
 		"  Kwd(KwdIf)\n" +
 		"    POpen\n" +
