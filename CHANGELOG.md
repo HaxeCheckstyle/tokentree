@@ -2,7 +2,7 @@
 
 ## dev branch / next version (1.x.x)
 
-- Fixed semicolon handling after null, true or false
+- Fixed semicolon handling after null, true or false [#171](https://github.com/HaxeCheckstyle/tokentree/issues/171)
 
 ## version 1.0.23 (2019-09-10)
 
