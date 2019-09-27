@@ -611,7 +611,7 @@ class TokenTreeCheckUtils {
 
 	/**
 		Whether a given type or field has `@:deprecated` metadata.
-	**/
+	 */
 	public static function isDeprecated(declToken:TokenTree):Bool {
 		return getMetadata(declToken).exists(function(meta) return meta.tok.match(Const(CIdent("deprecated"))));
 	}

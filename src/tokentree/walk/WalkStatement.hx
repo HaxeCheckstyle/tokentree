@@ -219,7 +219,6 @@ class WalkStatement {
 				var newChild:TokenTree = stream.consumeToken();
 				parent.addChild(newChild);
 				switch (stream.token()) {
-					case Semicolon: newChild.addChild(stream.consumeToken());
 					case Binop(OpBoolAnd), Binop(OpBoolOr): walkOpBool(stream, newChild);
 					case Binop(_): walkStatementWithoutSemicolon(stream, newChild);
 					default:

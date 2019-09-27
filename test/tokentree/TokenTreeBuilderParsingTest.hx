@@ -103,6 +103,7 @@ class TokenTreeBuilderParsingTest {
 		assertCodeParses(IMPORT_CONDITIONAL);
 		assertCodeParses(POSTFIX_EXCLAMATION);
 		assertCodeParses(MACRO_KEY_VALUE_ITERATOR);
+		assertCodeParses(PARENS_AFTER_EQUALS_WITH_KWD);
 	}
 
 	public function assertCodeParses(code:String, ?pos:PosInfos) {
@@ -1407,6 +1408,23 @@ import #if haxe4 js.lib.Promise #else js.Promise #end as JsPromise;
 				case TMono(t): // <- important
 				default:
 			}
+		}
+	}
+	";
+
+	var PARENS_AFTER_EQUALS_WITH_KWD = "
+	class Main {
+		static function main() {
+			var a = true;
+			(a);
+		}
+		static function main() {
+			var a = true || !false;
+			(a);
+		}
+		static function main() {
+			var a = true | !false;
+			(a);
 		}
 	}
 	";
