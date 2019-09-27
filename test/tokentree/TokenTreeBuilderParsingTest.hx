@@ -1422,6 +1422,10 @@ import #if haxe4 js.lib.Promise #else js.Promise #end as JsPromise;
 			var a = true || !false;
 			(a);
 		}
+		static function main() {
+			var a = true | !false;
+			(a);
+		}
 	}
 	";
 }
