@@ -70,48 +70,7 @@
             "type": "EmptyBlock"
         },
         {
-            "props": {
-                "max": 1,
-                "requireEmptyLineAfterAbstract": false,
-				"requireEmptyLineAfterClass": false,
-				"requireEmptyLineAfterInterface": false
-            },
-            "type": "EmptyLines"
-        },
-        {
             "type": "EmptyPackage"
-        },
-        {
-            "props": {
-                "max": 1,
-                "skipSingleLineTypes": true,
-                "defaultPolicy": "none",
-                "exact": [
-                    "inFunction",
-                    "afterPackage",
-                    "afterImports",
-                    "beforeUsing",
-                    "betweenTypes",
-                    "afterAbstractVars",
-                    "betweenAbstractMethods",
-                    "afterClassStaticVars",
-                    "afterClassVars",
-                    "betweenClassMethods",
-					"beforeMultiLineComment"
-                ],
-                "upto": [
-                    "betweenImports",
-                    "anywhereInFile",
-                    "betweenAbstractVars",
-                    "beginClass",
-                    "betweenClassStaticVars",
-                    "betweenClassVars",
-					"beginInterface",
-					"betweenInterfaceFields",
-					"beforeSingleLineComment"
-                ]
-            },
-            "type": "ExtendedEmptyLines"
         },
         {
             "props": {
@@ -132,9 +91,6 @@
                 "ignoreConstructorParameter": true
             },
             "type": "HiddenField"
-        },
-        {
-            "type": "Indentation"
         },
         {
             "props": {
