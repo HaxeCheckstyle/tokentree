@@ -2,7 +2,7 @@
 
 ## dev branch / next version (1.x.x)
 
-- Added comment handling after PClose
+- Added comment handling after PClose [#172](https://github.com/HaxeCheckstyle/tokentree/issues/172)
 - Fixed semicolon handling after null, true or false [#171](https://github.com/HaxeCheckstyle/tokentree/issues/171)
 
 ## version 1.0.23 (2019-09-10)
