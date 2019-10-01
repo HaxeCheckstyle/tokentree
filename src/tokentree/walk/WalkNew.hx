@@ -6,15 +6,7 @@ class WalkNew {
 		parent.addChild(newTok);
 		var name:TokenTree = WalkTypeNameDef.walkTypeNameDef(stream, newTok);
 
-		var progress:TokenStreamProgress = new TokenStreamProgress(stream);
-		while (progress.streamHasChanged()) {
-			switch (stream.token()) {
-				case Binop(OpGt):
-					var gt:TokenTree = stream.consumeTokenDef(Binop(OpGt));
-					name.addChild(gt);
-				default:
-			}
-		}
+		WalkComment.walkComment(stream, name);
 		switch (stream.token()) {
 			case POpen:
 				WalkPOpen.walkPOpen(stream, name);
@@ -22,6 +14,7 @@ class WalkNew {
 				WalkSharp.walkSharp(stream, parent, WalkStatement.walkStatement);
 			default:
 		}
+		WalkComment.walkComment(stream, name);
 		if (stream.is(Dot)) {
 			WalkStatement.walkStatement(stream, name);
 		}

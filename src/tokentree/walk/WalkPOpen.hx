@@ -6,6 +6,7 @@ class WalkPOpen {
 		parent.addChild(pOpen);
 		WalkPOpen.walkPOpenParts(stream, pOpen);
 		pOpen.addChild(stream.consumeTokenDef(PClose));
+		WalkComment.walkComment(stream, parent);
 		return pOpen;
 	}
 
