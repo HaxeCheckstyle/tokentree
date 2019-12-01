@@ -28,6 +28,7 @@ install:
   - if [[ "$HAXE_VERSION" == "haxe4" ]]; then (cd checkstyle && npx lix download haxe 4.0.3 && npx lix use haxe 4.0.3); fi
   - if [[ "$HAXE_VERSION" == "nightly" ]]; then (cd checkstyle && npx lix download haxe nightly && npx lix use haxe nightly); fi
   - (cd checkstyle; npx lix download)
+  - (cd checkstyle/haxe_libraries; echo "-cp ../src" > tokentree.hxml)
 
 script:
   - npx haxe test.hxml -D codecov_json
