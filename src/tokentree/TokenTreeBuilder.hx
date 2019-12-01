@@ -1,5 +1,6 @@
 package tokentree;
 
+import tokentree.walk.WalkTypeNameDef;
 import byte.ByteData;
 import tokentree.walk.WalkClass;
 import tokentree.walk.WalkFile;
@@ -22,6 +23,8 @@ class TokenTreeBuilder {
 				WalkClass.walkClassBody(stream, root);
 			case EXPRESSION_LEVEL:
 				WalkStatement.walkStatement(stream, root);
+			case TYPE_HINT_LEVEL:
+				WalkTypeNameDef.walkTypeNameDef(stream, root);
 		}
 		if (stream.hasMore()) {
 			// stream is not empty!
@@ -57,4 +60,5 @@ enum TokenTreeEntryPoint {
 	TYPE_LEVEL;
 	FIELD_LEVEL;
 	EXPRESSION_LEVEL;
+	TYPE_HINT_LEVEL;
 }

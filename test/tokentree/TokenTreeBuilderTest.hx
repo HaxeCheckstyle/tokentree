@@ -77,17 +77,21 @@ class TokenTreeBuilderTest {
 
 		parseWithException(ENTRY_POINT_FILE, EXPRESSION_LEVEL);
 		parseWithException(ENTRY_POINT_EXPRESSION_SWITCH, FIELD_LEVEL);
-		parseWithException((ENTRY_POINT_FILE : String) + ENTRY_POINT_EXPRESSION_SWITCH, TYPE_LEVEL);
+
+		parseNoException(ENTRY_POINT_TYPEDEF, TYPE_HINT_LEVEL);
+		parseNoException(ENTRY_POINT_MAP, TYPE_HINT_LEVEL);
+		parseWithException(ENTRY_POINT_FILE, TYPE_HINT_LEVEL);
 	}
 
-	function parseWithException(code:String, level:TokenTreeEntryPoint) {
+	function parseWithException(code:String, level:TokenTreeEntryPoint, ?pos:PosInfos) {
 		try {
 			parseNoException(code, level);
-			Assert.fail("should throw an exception!");
 		}
 		catch (e:Any) {
-			Assert.isTrue(true);
+			Assert.isTrue(true, pos);
+			return;
 		}
+		Assert.fail("should throw an exception!", pos);
 	}
 
 	function parseNoException(code:String, level:TokenTreeEntryPoint) {
@@ -297,5 +301,18 @@ abstract TokenTreeBuilderTests(String) to String {
 			case ExpressionLevel:
 				WalkStatement.walkStatement(stream, root);
 		}
+	";
+
+	var ENTRY_POINT_TYPEDEF = "
+	{
+		var conditions:Array<WrapCondition>;
+		var type:WrappingType;
+		var location:WrappingLocation;
+		var additionalIndent:Int;
+	}
+	";
+
+var ENTRY_POINT_MAP = "
+	Map<String, WrapCondition>
 	";
 }

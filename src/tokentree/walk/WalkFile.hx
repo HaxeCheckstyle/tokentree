@@ -2,7 +2,8 @@ package tokentree.walk;
 
 class WalkFile {
 	public static function walkFile(stream:TokenStream, parent:TokenTree) {
-		while (stream.hasMore()) {
+		var progress:TokenStreamProgress = new TokenStreamProgress(stream);
+		while (stream.hasMore() && progress.streamHasChanged()) {
 			switch (stream.token()) {
 				case Kwd(KwdPackage), Kwd(KwdImport), Kwd(KwdUsing):
 					stream.applyTempStore(parent);

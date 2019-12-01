@@ -12,12 +12,18 @@
         {
             "type": "AvoidStarImport"
         },
-        {
+		{
+			"type": "BlockBreakingConditional"
+		},
+		{
             "props": {
                 "format": "^(e)$"
             },
             "type": "CatchParameterName"
-        },
+		},
+		{
+			"type": "CodeSimilarity"
+		},
         {
             "props": {
                 "ignoreExtern": true,
@@ -74,7 +80,8 @@
         },
         {
             "props": {
-                "max": 2000
+				"max": 2000,
+				"ignoreEmptyLines": true
             },
             "type": "FileLength"
         },
@@ -188,7 +195,8 @@
         },
         {
             "props": {
-                "max": 50
+				"max": 50,
+				"ignoreEmptyLines": true
             },
             "type": "MethodLength"
         },
@@ -328,7 +336,7 @@
                 "enforceReturnType": false
             },
             "type": "Return"
-        },
+		},
         {
             "props": {
                 "tokens": [
