@@ -1,0 +1,70 @@
+name: Haxe-Tokentree Linux
+
+on:
+  push:
+    branches:
+    - master
+  pull_request:
+    branches:
+    - master
+  schedule:
+    - cron: '15 23 * * *'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        haxe-version: ['3.4.7', '4.0.3', 'nightly']
+    steps:
+    - uses: actions/checkout@v1
+    - name: Use Node.js 10
+      uses: actions/setup-node@v1
+      with:
+        node-version: 10
+    - name: Run npm install
+      run: npm ci
+    - name: Install Haxe version ${{ matrix.haxe-version }}
+      run: |
+        npx lix download haxe ${{ matrix.haxe-version }}
+        npx lix use haxe ${{ matrix.haxe-version }}
+    - name: Prepare Haxe 3 dependencies
+      if: matrix.haxe-version == '3.4.7'
+      run: |
+        mv haxe_libraries haxe4_libraries
+        mv haxe3_libraries haxe_libraries
+    - name: Run lix download
+      run: npx lix download
+    - name: Print versions
+      run: |
+        npx haxe -version
+        npx neko -version
+        npx haxelib list
+    - name: Clone checkstyle
+      run: git clone -b dev https://github.com/HaxeCheckstyle/haxe-checkstyle.git --depth=1 checkstyle
+    - name: Prepare Haxe 3 dependencies for checkstyle
+      if: matrix.haxe-version == '3.4.7'
+      run: (cd checkstyle; mv haxe_libraries haxe4_libraries; mv haxe3_libraries haxe_libraries)
+    - name: Run npm install for checkstyle
+      run: |
+        (cd checkstyle; npm install)
+    - name: Install Haxe version ${{ matrix.haxe-version }} for checkstyle
+      run: |
+        (cd checkstyle; npx lix download haxe ${{ matrix.haxe-version }})
+        (cd checkstyle; npx lix use haxe ${{ matrix.haxe-version }})
+    - name: Setup tokentree dev for checkstyle
+      run: |
+        (cd checkstyle/haxe_libraries; echo "-cp ../src" > tokentree.hxml)
+    - name: Run Neko tests
+      if: matrix.haxe-version == '3.4.7'
+      run: npx haxe test.hxml -D codecov_json
+    - name: Run eval tests
+      if: matrix.haxe-version != '3.4.7'
+      run: npx haxe test.hxml -D codecov_json
+    - name: Build and test checkstyle
+      run: (cd checkstyle && npx haxe buildAll.hxml && rm -f coverage.json)
+    - name: Run Node version with --check
+      run: npx neko checkstyle/run.n -s src -s test
+    - name: Upload results to codecov
+      if: success() && matrix.haxe-version == '4.0.3'
+      run: bash <(curl -s https://codecov.io/bash) || echo "Codecov did not collect coverage reports"
