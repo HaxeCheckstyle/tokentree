@@ -52,6 +52,8 @@ jobs:
       run: |
         (cd checkstyle; npx lix download haxe ${{ matrix.haxe-version }})
         (cd checkstyle; npx lix use haxe ${{ matrix.haxe-version }})
+    - name: Run lix download for checkstyle
+      run: (cd checkstyle; npx lix download)
     - name: Setup tokentree dev for checkstyle
       run: |
         (cd checkstyle/haxe_libraries; echo "-cp ../src" > tokentree.hxml)
