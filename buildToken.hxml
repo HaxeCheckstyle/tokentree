@@ -2,12 +2,14 @@
 -cp test
 -lib hxparse
 -lib haxeparser
---each
+-lib safety
+
+-debug
 
 -D keep_whitespace
--debug
 -D absolute-path
 -D checkstyle
 -D debugTokenTree
--x TokenTestMain
-# --macro nullSafety('tokentree')
+
+--run TokenTestMain
+--macro nullSafety('tokentree')

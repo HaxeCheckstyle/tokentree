@@ -2,8 +2,12 @@
 
 ## dev branch / next version (1.x.x)
 
+## version 1.0.24 (2019-12-01)
+
 - Added comment handling after PClose [#172](https://github.com/HaxeCheckstyle/tokentree/issues/172)
+- Added entry point TYPE_HINT_LEVEL, fixes [#147](https://github.com/HaxeCheckstyle/tokentree/issues/147)
 - Fixed semicolon handling after null, true or false [#171](https://github.com/HaxeCheckstyle/tokentree/issues/171)
+- Refactored build system to use lix
 
 ## version 1.0.23 (2019-09-10)
 
