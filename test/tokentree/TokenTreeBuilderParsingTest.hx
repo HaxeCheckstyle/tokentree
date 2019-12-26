@@ -104,6 +104,7 @@ class TokenTreeBuilderParsingTest {
 		assertCodeParses(POSTFIX_EXCLAMATION);
 		assertCodeParses(MACRO_KEY_VALUE_ITERATOR);
 		assertCodeParses(PARENS_AFTER_EQUALS_WITH_KWD);
+		assertCodeParses(UNARY_MINUS);
 	}
 
 	public function assertCodeParses(code:String, ?pos:PosInfos) {
@@ -1425,6 +1426,17 @@ import #if haxe4 js.lib.Promise #else js.Promise #end as JsPromise;
 		static function main() {
 			var a = true | !false;
 			(a);
+		}
+	}
+	";
+
+	var UNARY_MINUS = "
+	class Main {
+		public static function main():Void {
+		-a == b;
+			- 1 != fairlyLongExpressionHereLoremIpsumFooBar;
+			- 1 != fairlyLongExpressionHereLoremIpsumFooBar;
+			- 1 != fairlyLongExpressionHereLoremIpsumFooBar;
 		}
 	}
 	";
