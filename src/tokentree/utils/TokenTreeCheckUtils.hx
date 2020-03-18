@@ -743,16 +743,32 @@ class TokenTreeCheckUtils {
 		switch (parent.tok) {
 			case POpen:
 			case Const(CIdent(_)):
-				if (parent.parent.is(POpen)) {
-					var type:POpenType = getPOpenType(parent.parent);
-					if (type == null) {
-						type = EXPRESSION;
-					}
-					switch (type) {
-						case PARAMETER: return FUNCTION_TYPE_HAXE3;
-						case EXPRESSION: return FUNCTION_TYPE_HAXE3;
-						default: return ARROW_FUNCTION;
-					}
+				if ((parent.parent == null) || (parent.parent.tok == null)) return ARROW_FUNCTION;
+				switch (parent.parent.tok) {
+					case POpen:
+						var type:POpenType = getPOpenType(parent.parent);
+						if (type == null) {
+							type = EXPRESSION;
+						}
+						switch (type) {
+							case PARAMETER: return FUNCTION_TYPE_HAXE3;
+							case EXPRESSION: return FUNCTION_TYPE_HAXE3;
+							default: return ARROW_FUNCTION;
+						}
+					case Binop(OpAssign):
+						if (isInsideTypedef(parent.parent)) {
+							return FUNCTION_TYPE_HAXE3;
+						}
+						return ARROW_FUNCTION;
+					case Arrow: return FUNCTION_TYPE_HAXE3;
+					case DblDot:
+						var type:ColonType = getColonType(parent.parent);
+						switch (type) {
+							case TYPE_HINT: return FUNCTION_TYPE_HAXE3;
+							case TYPE_CHECK: return FUNCTION_TYPE_HAXE3;
+							case SWITCH_CASE | TERNARY | OBJECT_LITERAL | AT | UNKNOWN: return ARROW_FUNCTION;
+						}
+					default:
 				}
 			default:
 				return FUNCTION_TYPE_HAXE3;

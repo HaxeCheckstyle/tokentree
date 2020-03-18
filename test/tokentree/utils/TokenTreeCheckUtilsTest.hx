@@ -115,7 +115,7 @@ class TokenTreeCheckUtilsTest {
 		Assert.isFalse(root.inserted);
 
 		var allArrows:Array<TokenTree> = root.filter([Arrow], ALL);
-		Assert.areEqual(8, allArrows.length);
+		Assert.areEqual(10, allArrows.length);
 		for (ar in allArrows) {
 			Assert.areEqual(ArrowType.ARROW_FUNCTION, TokenTreeCheckUtils.getArrowType(ar));
 		}
@@ -175,7 +175,7 @@ class TokenTreeCheckUtilsTest {
 		Assert.isFalse(root.inserted);
 
 		var allBr:Array<TokenTree> = root.filter([DblDot], ALL);
-		Assert.areEqual(55, allBr.length);
+		Assert.areEqual(56, allBr.length);
 		var index:Int = 0;
 		Assert.areEqual(ColonType.OBJECT_LITERAL, TokenTreeCheckUtils.getColonType(allBr[index++]));
 		Assert.areEqual(ColonType.TYPE_CHECK, TokenTreeCheckUtils.getColonType(allBr[index++]));
@@ -183,6 +183,10 @@ class TokenTreeCheckUtilsTest {
 		Assert.areEqual(ColonType.OBJECT_LITERAL, TokenTreeCheckUtils.getColonType(allBr[index++]));
 		Assert.areEqual(ColonType.TERNARY, TokenTreeCheckUtils.getColonType(allBr[index++]));
 		Assert.areEqual(ColonType.TYPE_HINT, TokenTreeCheckUtils.getColonType(allBr[index++]));
+
+		// var f:Void->Void;
+		Assert.areEqual(ColonType.TYPE_HINT, TokenTreeCheckUtils.getColonType(allBr[index++]));
+
 		Assert.areEqual(ColonType.TYPE_HINT, TokenTreeCheckUtils.getColonType(allBr[index++]));
 		Assert.areEqual(ColonType.TYPE_HINT, TokenTreeCheckUtils.getColonType(allBr[index++]));
 		Assert.areEqual(ColonType.TYPE_HINT, TokenTreeCheckUtils.getColonType(allBr[index++]));
@@ -574,6 +578,10 @@ abstract TokenTreeCheckUtilsTests(String) to String {
 			fields.map(field -> field.type);
 			protocol.logError = message -> protocol.sendNotification(Methods.LogMessage, {type: Warning, message: message});
 			protocol.logError = message -> protocol.sendNotification();
+			var f = a -> a;
+			return {
+				x: a -> a;
+			}
 		}
 	}
 	";
@@ -657,6 +665,7 @@ abstract TokenTreeCheckUtilsTests(String) to String {
 			var output = (result.stderr:Buffer).toString().trim();
 			return e2 == null ? {t: HDyn} : bar(e2);
 		}
+		var f:Void->Void;
 
         static function main(?value:Int) {}
 
