@@ -49,7 +49,7 @@ jobs:
       run: (cd checkstyle; mv haxe_libraries haxe4_libraries; mv haxe3_libraries haxe_libraries)
     - name: Run npm install for checkstyle
       run: |
-        (cd checkstyle; npm install)
+        (cd checkstyle; npm install; ./fixHaxeshim.sh)
     - name: Install Haxe version ${{ matrix.haxe-version }} for checkstyle
       run: |
         (cd checkstyle; npx lix download haxe ${{ matrix.haxe-version }})

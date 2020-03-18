@@ -23,7 +23,7 @@ install:
   - npx neko -version
   - npx haxelib list
   - git clone -b dev https://github.com/HaxeCheckstyle/haxe-checkstyle.git --depth=1 checkstyle
-  - (cd checkstyle; npm install)
+  - (cd checkstyle; npm install; ./fixHaxeshim.sh)
   - if [[ "$HAXE_VERSION" == "haxe347" ]]; then (cd checkstyle && mv haxe_libraries haxe4_libraries && mv haxe3_libraries haxe_libraries;); fi
   - if [[ "$HAXE_VERSION" == "haxe347" ]]; then (cd checkstyle && npx lix download haxe 3.4.7 && npx lix use haxe 3.4.7); fi
   - if [[ "$HAXE_VERSION" == "haxe4" ]]; then (cd checkstyle && npx lix download haxe 4.0.5 && npx lix use haxe 4.0.5); fi
