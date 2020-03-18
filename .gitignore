@@ -15,7 +15,7 @@ node_modules
 log/
 target/
 .unittest/
-
+dump/
 check-style-report.json
 check-style-report.xml
 coverage.json
