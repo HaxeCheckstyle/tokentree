@@ -2,9 +2,9 @@
 
 ## dev branch / next version (1.x.x)
 
-- Added support for module level statics
+- Added support for module level statics [#175](https://github.com/HaxeCheckstyle/tokentree/issues/175)
 - Fixed unary OpSub handling [#174](https://github.com/HaxeCheckstyle/tokentree/issues/174)
-- Fixed arrow function detection
+- Fixed arrow function detection [#175](https://github.com/HaxeCheckstyle/tokentree/issues/175)
 
 ## version 1.0.24 (2019-12-01)
 
