@@ -16,7 +16,7 @@
         "email": "Alexander.Blum@gmail.com"
     },
     "devDependencies": {
-        "lix": "^15.8.5"
+        "lix": "^15.8.9"
     },
     "bugs": "https://github.com/HaxeCheckstyle/tokentree/issues",
     "license": "MIT"
