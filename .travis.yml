@@ -20,7 +20,6 @@ install:
   - npx lix download
   - npx haxe -version
   - npx neko -version
-  - npx haxelib list
   - git clone -b dev https://github.com/HaxeCheckstyle/haxe-checkstyle.git --depth=1 checkstyle
   - (cd checkstyle; npm install)
   - if [[ "$HAXE_VERSION" == "haxe347" ]]; then (cd checkstyle && mv haxe_libraries haxe4_libraries && mv haxe3_libraries haxe_libraries;); fi
