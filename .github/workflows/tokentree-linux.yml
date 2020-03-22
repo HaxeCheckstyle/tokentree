@@ -35,8 +35,6 @@ jobs:
         mv haxe3_libraries haxe_libraries
     - name: Run lix download
       run: npx lix download
-    - name: Fix haxeshim for "-x"
-      run: ./fixHaxeshim.sh
     - name: Print versions
       run: |
         npx haxe -version
@@ -49,7 +47,7 @@ jobs:
       run: (cd checkstyle; mv haxe_libraries haxe4_libraries; mv haxe3_libraries haxe_libraries)
     - name: Run npm install for checkstyle
       run: |
-        (cd checkstyle; npm install; ./fixHaxeshim.sh)
+        (cd checkstyle; npm install)
     - name: Install Haxe version ${{ matrix.haxe-version }} for checkstyle
       run: |
         (cd checkstyle; npx lix download haxe ${{ matrix.haxe-version }})
