@@ -490,6 +490,13 @@ class TokenTreeCheckUtils {
 		if (token == null) {
 			return EXPRESSION;
 		}
+		switch (token.tok) {
+			case POpen:
+			case PClose:
+				return getPOpenType(token.parent);
+			default:
+				return EXPRESSION;
+		}
 		if (token.tokenTypeCache.pOpenType != null) {
 			return token.tokenTypeCache.pOpenType;
 		}
@@ -518,10 +525,21 @@ class TokenTreeCheckUtils {
 				default:
 			}
 		}
-		switch (parent.tok) {
-			case Binop(OpLt):
-				parent = parent.parent;
-			default:
+		while ((parent != null) && (parent.tok != null)) {
+			switch (parent.tok) {
+				case Binop(OpLt):
+					parent = parent.parent;
+				case Sharp(WalkSharpConsts.IF), Sharp(WalkSharpConsts.ELSEIF):
+					if (parent.getFirstChild() == token) {
+						return CONDITION;
+					}
+					parent = parent.parent;
+				default:
+					break;
+			}
+		}
+		if ((parent == null) || (parent.tok == null)) {
+			return EXPRESSION;
 		}
 		switch (parent.tok) {
 			case Kwd(KwdIf):
@@ -540,9 +558,6 @@ class TokenTreeCheckUtils {
 			case Kwd(KwdCatch):
 				return CONDITION;
 			case Sharp(WalkSharpConsts.IF), Sharp(WalkSharpConsts.ELSEIF):
-				if (parent.getFirstChild() == token) {
-					return CONDITION;
-				}
 				return EXPRESSION;
 			case Sharp(_):
 				return EXPRESSION;
