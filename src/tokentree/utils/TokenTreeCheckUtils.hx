@@ -760,6 +760,7 @@ class TokenTreeCheckUtils {
 							return FUNCTION_TYPE_HAXE3;
 						}
 						return ARROW_FUNCTION;
+					case Binop(OpArrow): return ARROW_FUNCTION;
 					case Arrow: return FUNCTION_TYPE_HAXE3;
 					case DblDot:
 						var type:ColonType = getColonType(parent.parent);
