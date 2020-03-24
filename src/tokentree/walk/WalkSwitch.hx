@@ -136,7 +136,7 @@ class WalkSwitch {
 		while (progress.streamHasChanged()) {
 			switch (stream.token()) {
 				case Comma:
-					var comma:TokenTree = stream.consumeTokenDef(Comma);
+					var comma:TokenTree = stream.consumeToken();
 					var child:TokenTree = parent.getLastChild();
 					if (child == null) child = parent;
 					child.addChild(comma);

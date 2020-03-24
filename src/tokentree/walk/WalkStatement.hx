@@ -42,6 +42,10 @@ class WalkStatement {
 				parent.addChild(gtTok);
 				walkStatementWithoutSemicolon(stream, gtTok);
 				return;
+			case Binop(OpOr):
+				var orTok:TokenTree = stream.consumeToken();
+				parent.addChild(orTok);
+				parent = parent.parent;
 			case Binop(_):
 				wantMore = true;
 			case Unop(_):
