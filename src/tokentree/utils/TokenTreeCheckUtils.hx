@@ -418,6 +418,8 @@ class TokenTreeCheckUtils {
 				return ANONTYPE;
 			case Const(_):
 				return BLOCK;
+			case Dollar(_):
+				return BLOCK;
 			default:
 		}
 		return determinBrChildren(token);

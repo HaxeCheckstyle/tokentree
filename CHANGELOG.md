@@ -6,7 +6,9 @@
 - Added final handling for interfaces [#176](https://github.com/HaxeCheckstyle/tokentree/issues/176)
 - Fixed unary OpSub handling [#174](https://github.com/HaxeCheckstyle/tokentree/issues/174)
 - Fixed arrow function detection [#175](https://github.com/HaxeCheckstyle/tokentree/issues/175) + [#177](https://github.com/HaxeCheckstyle/tokentree/issues/177)
-- Fixed POpen type detection [#177](https://github.com/HaxeCheckstyle/tokentree/issues/177)
+- Fixed `POpen` type detection [#177](https://github.com/HaxeCheckstyle/tokentree/issues/177)
+- Fixed `BrOpen` type detection [#178](https://github.com/HaxeCheckstyle/tokentree/issues/178)
+- Fixed `Binop(OpOr)` position [#178](https://github.com/HaxeCheckstyle/tokentree/issues/178)
 
 ## version 1.0.24 (2019-12-01)
 
