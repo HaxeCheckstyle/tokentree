@@ -105,6 +105,7 @@ class TokenTreeBuilderParsingTest {
 		assertCodeParses(MACRO_KEY_VALUE_ITERATOR);
 		assertCodeParses(PARENS_AFTER_EQUALS_WITH_KWD);
 		assertCodeParses(UNARY_MINUS);
+		assertCodeParses(METADATA_POSITIONS);
 	}
 
 	@Test
@@ -1507,5 +1508,19 @@ import #if haxe4 js.lib.Promise #else js.Promise #end as JsPromise;
 	@:isVar var prop(get,set):String = 'prop';
 	function get_prop() return prop + '-get';
 	function set_prop(value) return prop = value + '-set';
+	";
+
+	var METADATA_POSITIONS = "
+	class Main {
+		function main() {
+			@:nullSafety(Off) if (foo) {
+				return;
+			}
+			@:nullSafety(Off) for (foo in foos) {
+				foo.run();
+			}
+			var @:nullSafety(Off) foo:Int = 0;
+		}
+	}
 	";
 }
