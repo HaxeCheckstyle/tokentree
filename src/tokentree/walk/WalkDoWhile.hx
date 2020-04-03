@@ -17,6 +17,7 @@ class WalkDoWhile {
 	public static function walkDoWhile(stream:TokenStream, parent:TokenTree) {
 		var doTok:TokenTree = stream.consumeTokenDef(Kwd(KwdDo));
 		parent.addChild(doTok);
+		stream.applyTempStore(doTok);
 		WalkComment.walkComment(stream, doTok);
 		WalkBlock.walkBlock(stream, doTok);
 		var whileTok:TokenTree = stream.consumeTokenDef(Kwd(KwdWhile));

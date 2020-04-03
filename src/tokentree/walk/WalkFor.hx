@@ -29,6 +29,7 @@ class WalkFor {
 	public static function walkFor(stream:TokenStream, parent:TokenTree) {
 		var forTok:TokenTree = stream.consumeTokenDef(Kwd(KwdFor));
 		parent.addChild(forTok);
+		stream.applyTempStore(forTok);
 		WalkComment.walkComment(stream, forTok);
 		WalkFor.walkForPOpen(stream, forTok);
 		WalkComment.walkComment(stream, forTok);
@@ -76,7 +77,7 @@ class WalkFor {
 		}
 		var inTok:Null<TokenTree> = null;
 		switch (stream.token()) {
-			case #if (haxe_ver < 4.0) Kwd(KwdIn) #else Binop(OpIn) #end:
+			case #if (haxe_ver < 4.0) Kwd(KwdIn) #else Binop(OpIn) #end :
 				inTok = stream.consumeToken();
 				identifier.addChild(inTok);
 				WalkComment.walkComment(stream, inTok);

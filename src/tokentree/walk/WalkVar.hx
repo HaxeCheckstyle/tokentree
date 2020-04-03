@@ -12,6 +12,12 @@ class WalkVar {
 				return;
 			}
 			WalkComment.walkComment(stream, parent);
+			switch (stream.token()) {
+				case At:
+					WalkAt.walkAts(stream);
+				default:
+			}
+			WalkComment.walkComment(stream, parent);
 			var nameParent:TokenTree = varTok;
 			if (stream.is(Question)) {
 				nameParent = stream.consumeToken();

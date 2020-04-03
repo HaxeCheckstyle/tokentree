@@ -9,6 +9,7 @@
 - Fixed `POpen` type detection [#177](https://github.com/HaxeCheckstyle/tokentree/issues/177)
 - Fixed `BrOpen` type detection [#178](https://github.com/HaxeCheckstyle/tokentree/issues/178)
 - Fixed `Binop(OpOr)` position [#178](https://github.com/HaxeCheckstyle/tokentree/issues/178)
+- Fixed expression metadata position [#179](https://github.com/HaxeCheckstyle/tokentree/issues/179)
 
 ## version 1.0.24 (2019-12-01)
 

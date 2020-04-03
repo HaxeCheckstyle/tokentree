@@ -25,6 +25,7 @@ class WalkSwitch {
 	public static function walkSwitch(stream:TokenStream, parent:TokenTree) {
 		var switchTok:TokenTree = stream.consumeTokenDef(Kwd(KwdSwitch));
 		parent.addChild(switchTok);
+		stream.applyTempStore(switchTok);
 		WalkComment.walkComment(stream, switchTok);
 		WalkStatement.walkStatement(stream, switchTok);
 		WalkComment.walkComment(stream, switchTok);

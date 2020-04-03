@@ -22,6 +22,7 @@ class WalkTry {
 	public static function walkTry(stream:TokenStream, parent:TokenTree) {
 		var tryTok:TokenTree = stream.consumeTokenDef(Kwd(KwdTry));
 		parent.addChild(tryTok);
+		stream.applyTempStore(tryTok);
 		WalkBlock.walkBlock(stream, tryTok);
 
 		var currentPos:Int = stream.getStreamIndex();
