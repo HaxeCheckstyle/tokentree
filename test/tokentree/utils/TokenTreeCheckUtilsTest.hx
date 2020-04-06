@@ -278,7 +278,7 @@ class TokenTreeCheckUtilsTest {
 		Assert.isFalse(root.inserted);
 
 		var allBr:Array<TokenTree> = root.filter([POpen], ALL);
-		Assert.areEqual(22, allBr.length);
+		Assert.areEqual(24, allBr.length);
 		var index:Int = 0;
 		// @:deprecated('UnlessshuffleArray(), you should use shuffle() quality.')
 		Assert.areEqual(POpenType.AT, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
@@ -320,6 +320,12 @@ class TokenTreeCheckUtilsTest {
 		Assert.areEqual(POpenType.EXPRESSION, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
 		Assert.areEqual(POpenType.CALL, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
 		Assert.areEqual(POpenType.EXPRESSION, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
+		Assert.areEqual(POpenType.CALL, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
+
+		// @:default(false) @:optional var disableFormatting:Bool;
+		Assert.areEqual(POpenType.AT, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
+		// @:default(auto) @:optional var emptyLines:EmptyLinesConfig;
+		Assert.areEqual(POpenType.AT, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
 	}
 
 	@Test
@@ -736,6 +742,14 @@ abstract TokenTreeCheckUtilsTests(String) to String {
 			if (Type.get((cast null : T)) == Type.get(0))
 				(bytes : Bytes).sortI32(0, length, cast f);
 		}
+	}
+	typedef FormatterConfig = {
+		/**
+			turns off formatting for all files in current folder and subfolders
+			unless subfolder contains a `hxformat.json`
+		**/
+		@:default(false) @:optional var disableFormatting:Bool;
+		@:default(auto) @:optional var emptyLines:EmptyLinesConfig;
 	}
 	";
 
