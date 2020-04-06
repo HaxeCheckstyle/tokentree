@@ -604,6 +604,7 @@ class TokenTreeCheckUtils {
 				case DblDot:
 				case At:
 					return true;
+				case Kwd(KwdDefault):
 				default:
 					return false;
 			}
