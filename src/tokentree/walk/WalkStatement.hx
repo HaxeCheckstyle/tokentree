@@ -362,6 +362,9 @@ class WalkStatement {
 					break;
 				case Kwd(KwdSwitch), Kwd(KwdCase), Kwd(KwdDefault):
 					break;
+				case DblDot:
+					token = parent;
+					break;
 				default:
 					token = parent;
 					parent = parent.parent;
