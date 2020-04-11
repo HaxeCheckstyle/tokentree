@@ -7,8 +7,8 @@
     "contributors": [
         "AlexHaxe"
     ],
-    "releasenote": "added entry point type hint, using lix for dependencies and some bugfixes - see CHANGELOG for details",
-    "version": "1.0.24",
+    "releasenote": "added final handling for interfaces, fixed detection helper functions for Arrow, POpen and BrOpen, fixed positions of metadata and OpBool tokens - see CHANGELOG for details",
+    "version": "1.0.25",
     "url": "https://github.com/HaxeCheckstyle/tokentree",
     "dependencies": {}
 }
