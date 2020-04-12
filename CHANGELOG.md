@@ -2,7 +2,8 @@
 
 ## dev branch / next version (1.x.x)
 
-- Fixed `Binop(OpOr)` position
+- Fixed `Binop(OpOr)` position for non `case` places
+- Fixed doc comments and metadata
 
 ## version 1.0.25 (2020-04-11)
 
