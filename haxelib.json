@@ -7,8 +7,8 @@
     "contributors": [
         "AlexHaxe"
     ],
-    "releasenote": "added final handling for interfaces, fixed detection helper functions for Arrow, POpen and BrOpen, fixed positions of metadata and OpBool tokens - see CHANGELOG for details",
-    "version": "1.0.25",
+    "releasenote": "fixed position Binop(OpOr) tokens and metadata with doc comments - see CHANGELOG for details",
+    "version": "1.0.26",
     "url": "https://github.com/HaxeCheckstyle/tokentree",
     "dependencies": {}
 }
