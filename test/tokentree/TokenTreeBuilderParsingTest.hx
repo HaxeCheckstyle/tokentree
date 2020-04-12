@@ -111,6 +111,8 @@ class TokenTreeBuilderParsingTest {
 	@Test
 	public function testIssues4() {
 		assertCodeParses(MODULE_LEVEL_STATIC);
+		assertCodeParses(SWITCH_INDENTATION);
+		assertCodeParses(METADATA_DOC_COMMENT);
 	}
 
 	public function assertCodeParses(code:String, ?pos:PosInfos) {
@@ -1522,5 +1524,35 @@ import #if haxe4 js.lib.Promise #else js.Promise #end as JsPromise;
 			var @:nullSafety(Off) foo:Int = 0;
 		}
 	}
+	";
+
+	var SWITCH_INDENTATION = "
+	class InitProject {
+		function initProject() {
+			switch workspace.workspaceFolders {
+				case null | []:
+					window.showOpenDialog({
+						canSelectFolders: true,
+						canSelectFiles: false
+					}).then(folders -> {
+						if (folders != null && folders.length > 0) {
+							setupFolder(folders[0].fsPath);
+							commands.executeCommand('vscode.openFolder', folders[0]);
+						}
+					});
+				case [folder]:
+					setupFolder(folder.uri.fsPath);
+			}
+		}
+
+		function setupFolder(fsPath:String) {}
+	}
+	";
+
+	var METADATA_DOC_COMMENT = "
+	@:jsRequire('openfl/display/Bitmap', 'default') /**
+	 * The Bitmap class represents display objects that represent bitmap images.
+	 */
+	extern class Bitmap extends DisplayObject {}
 	";
 }
