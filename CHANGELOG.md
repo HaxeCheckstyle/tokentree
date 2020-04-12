@@ -2,6 +2,8 @@
 
 ## dev branch / next version (1.x.x)
 
+- Fixed `Binop(OpOr)` position
+
 ## version 1.0.25 (2020-04-11)
 
 - Added support for module level statics [#175](https://github.com/HaxeCheckstyle/tokentree/issues/175)
