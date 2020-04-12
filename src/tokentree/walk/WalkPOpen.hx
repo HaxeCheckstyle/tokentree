@@ -1,12 +1,14 @@
 package tokentree.walk;
 
 class WalkPOpen {
-	public static function walkPOpen(stream:TokenStream, parent:TokenTree):TokenTree {
+	public static function walkPOpen(stream:TokenStream, parent:TokenTree, walkTrailingComments:Bool = true):TokenTree {
 		var pOpen:TokenTree = stream.consumeTokenDef(POpen);
 		parent.addChild(pOpen);
 		WalkPOpen.walkPOpenParts(stream, pOpen);
 		pOpen.addChild(stream.consumeTokenDef(PClose));
-		WalkComment.walkComment(stream, parent);
+		if (walkTrailingComments) {
+			WalkComment.walkComment(stream, parent);
+		}
 		return pOpen;
 	}
 

@@ -56,7 +56,7 @@ class WalkAt {
 				if (ident.pos.max == pOpenPos.min) {
 					var tempStore:Array<TokenTree> = stream.getTempStore();
 					stream.clearTempStore();
-					WalkPOpen.walkPOpen(stream, ident);
+					WalkPOpen.walkPOpen(stream, ident, false);
 					for (temp in tempStore) {
 						stream.addToTempStore(temp);
 					}
