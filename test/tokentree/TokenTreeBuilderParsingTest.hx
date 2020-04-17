@@ -113,6 +113,7 @@ class TokenTreeBuilderParsingTest {
 		assertCodeParses(MODULE_LEVEL_STATIC);
 		assertCodeParses(SWITCH_INDENTATION);
 		assertCodeParses(METADATA_DOC_COMMENT);
+		assertCodeParses(PRIVATE_FINAL_CLASS);
 	}
 
 	public function assertCodeParses(code:String, ?pos:PosInfos) {
@@ -1554,5 +1555,11 @@ import #if haxe4 js.lib.Promise #else js.Promise #end as JsPromise;
 	 * The Bitmap class represents display objects that represent bitmap images.
 	 */
 	extern class Bitmap extends DisplayObject {}
+	";
+
+	var PRIVATE_FINAL_CLASS = "
+	private final class Test {
+		public function new() {}
+	}
 	";
 }
