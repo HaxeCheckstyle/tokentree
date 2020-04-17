@@ -24,6 +24,8 @@ class WalkFinal {
 					stream.consumeToTempStore();
 				case Kwd(KwdFunction):
 					return;
+				case Kwd(KwdClass):
+					return;
 				default:
 			}
 		}

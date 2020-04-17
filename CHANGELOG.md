@@ -2,10 +2,14 @@
 
 ## dev branch / next version (1.x.x)
 
+## version 1.0.27 (2020-04-18)
+
+- Fixed null pointer exception when pasrsing `private final class`, fixes [#183](https://github.com/HaxeCheckstyle/tokentree/issues/183) ([#184](https://github.com/HaxeCheckstyle/tokentree/issues/184))
+
 ## version 1.0.26 (2020-04-12)
 
-- Fixed `Binop(OpOr)` position for non `case` places
-- Fixed doc comments and metadata
+- Fixed `Binop(OpOr)` position for non `case` places ([#182](https://github.com/HaxeCheckstyle/tokentree/issues/182))
+- Fixed doc comments and metadata ([#182](https://github.com/HaxeCheckstyle/tokentree/issues/182))
 
 ## version 1.0.25 (2020-04-11)
 
