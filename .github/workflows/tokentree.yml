@@ -1,4 +1,4 @@
-name: Haxe-Tokentree Linux
+name: Haxe-Tokentree
 
 on:
   push:

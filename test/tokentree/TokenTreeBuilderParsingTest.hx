@@ -720,8 +720,8 @@ abstract TokenTreeBuilderParsingTests(String) to String {
 	var FINAL_VARS = "
 	class Main {
 		public final foo:Int = 1;
-        final static function main():{final x:Int, y:Int} {
-        }
+        final static function main():{final x:Int, y:Int} {}
+        final /* inline */ static function main():{final x:Int, y:Int} {}
 	}
 	";
 
@@ -1511,6 +1511,12 @@ import #if haxe4 js.lib.Promise #else js.Promise #end as JsPromise;
 	@:isVar var prop(get,set):String = 'prop';
 	function get_prop() return prop + '-get';
 	function set_prop(value) return prop = value + '-set';
+
+	final version;
+
+	final /* foo */ finalHintInit:String = 'finalHintInit';
+	/* foo */ final /* foo */ inline /* foo */ inlineFinalInit = 'inlineFinalInit';
+
 	";
 
 	var METADATA_POSITIONS = "

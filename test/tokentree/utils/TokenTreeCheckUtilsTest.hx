@@ -278,8 +278,11 @@ class TokenTreeCheckUtilsTest {
 		Assert.isFalse(root.inserted);
 
 		var allBr:Array<TokenTree> = root.filter([POpen], ALL);
-		Assert.areEqual(24, allBr.length);
+		Assert.areEqual(28, allBr.length);
 		var index:Int = 0;
+
+		Assert.areEqual(POpenType.EXPRESSION, TokenTreeCheckUtils.getPOpenType(null));
+
 		// @:deprecated('UnlessshuffleArray(), you should use shuffle() quality.')
 		Assert.areEqual(POpenType.AT, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
 
@@ -293,7 +296,7 @@ class TokenTreeCheckUtilsTest {
 		Assert.areEqual(POpenType.CALL, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
 
 		// if (output == null) for (i in items) {}
-		Assert.areEqual(POpenType.CONDITION, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
+		Assert.areEqual(POpenType.IF_CONDITION, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
 		Assert.areEqual(POpenType.FORLOOP, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
 
 		// return e2 == null ? {t: HDyn} : bar(e2);
@@ -310,17 +313,26 @@ class TokenTreeCheckUtilsTest {
 
 		// add(#if (php || as3) (v ? 'true' : 'false') #else v #end);
 		Assert.areEqual(POpenType.CALL, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
-		Assert.areEqual(POpenType.CONDITION, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
+		Assert.areEqual(POpenType.SHARP_CONDITION, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
 		Assert.areEqual(POpenType.EXPRESSION, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
 
 		// if (Type.get((cast null : T)) == Type.get(0))
 		// (bytes : Bytes).sortI32(0, length, cast f);
-		Assert.areEqual(POpenType.CONDITION, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
+		Assert.areEqual(POpenType.IF_CONDITION, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
 		Assert.areEqual(POpenType.CALL, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
 		Assert.areEqual(POpenType.EXPRESSION, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
 		Assert.areEqual(POpenType.CALL, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
 		Assert.areEqual(POpenType.EXPRESSION, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
 		Assert.areEqual(POpenType.CALL, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
+
+		// while (true) {
+		Assert.areEqual(POpenType.WHILE_CONDITION, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
+		// 	doSomething();
+		Assert.areEqual(POpenType.CALL, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
+		// switch (condition) {
+		Assert.areEqual(POpenType.SWITCH_CONDITION, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
+		// } catch (e)
+		Assert.areEqual(POpenType.CATCH, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
 
 		// @:default(false) @:optional var disableFormatting:Bool;
 		Assert.areEqual(POpenType.AT, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
@@ -741,6 +753,15 @@ abstract TokenTreeCheckUtilsTests(String) to String {
 			add(#if (php || as3) (v ? 'true' : 'false') #else v #end);
 			if (Type.get((cast null : T)) == Type.get(0))
 				(bytes : Bytes).sortI32(0, length, cast f);
+			try {
+				while (true) {
+					doSomething();
+				}
+				switch (condition) {
+					case Value1:
+					case Value2:
+				}
+			} catch (e)
 		}
 	}
 	typedef FormatterConfig = {
