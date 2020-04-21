@@ -2,11 +2,11 @@
 
 ## dev branch / next version (1.x.x)
 
-- Expanded `POpen` types in getPOpenType to distinguish between different condition expressions
+- Expanded `POpen` types in getPOpenType to distinguish between different condition expressions ([#182](https://github.com/HaxeCheckstyle/tokentree/issues/182))
 
 ## version 1.0.27 (2020-04-18)
 
-- Fixed null pointer exception when pasrsing `private final class`, fixes [#183](https://github.com/HaxeCheckstyle/tokentree/issues/183) ([#184](https://github.com/HaxeCheckstyle/tokentree/issues/184)) ([#185](https://github.com/HaxeCheckstyle/tokentree/issues/185))
+- Fixed null pointer exception when pasrsing `private final class`, fixes [#183](https://github.com/HaxeCheckstyle/tokentree/issues/183) ([#184](https://github.com/HaxeCheckstyle/tokentree/issues/184))
 
 ## version 1.0.26 (2020-04-12)
 
