@@ -90,7 +90,11 @@ class TokenTreeCheckUtils {
 					case AT: return true;
 					case PARAMETER: return true;
 					case CALL: return false;
-					case CONDITION: return true;
+					case SWITCH_CONDITION: return true;
+					case WHILE_CONDITION: return true;
+					case IF_CONDITION: return true;
+					case SHARP_CONDITION: return true;
+					case CATCH: return false;
 					case FORLOOP: return true;
 					case EXPRESSION: return false;
 				}
@@ -408,7 +412,11 @@ class TokenTreeCheckUtils {
 					case AT: return OBJECTDECL;
 					case PARAMETER: return ANONTYPE;
 					case CALL: return OBJECTDECL;
-					case CONDITION: return UNKNOWN;
+					case SWITCH_CONDITION: return UNKNOWN;
+					case WHILE_CONDITION: return UNKNOWN;
+					case IF_CONDITION: return UNKNOWN;
+					case SHARP_CONDITION: return UNKNOWN;
+					case CATCH: return UNKNOWN;
 					case FORLOOP: return UNKNOWN;
 					case EXPRESSION: return OBJECTDECL;
 				}
@@ -509,9 +517,6 @@ class TokenTreeCheckUtils {
 	}
 
 	public static function determinePOpenType(token:TokenTree):POpenType {
-		if (token == null) {
-			return EXPRESSION;
-		}
 		var parent:TokenTree = token.parent;
 		if ((parent == null) || (parent.tok == null)) {
 			return EXPRESSION;
@@ -533,7 +538,7 @@ class TokenTreeCheckUtils {
 					parent = parent.parent;
 				case Sharp(WalkSharpConsts.IF), Sharp(WalkSharpConsts.ELSEIF):
 					if (parent.getFirstChild() == token) {
-						return CONDITION;
+						return SHARP_CONDITION;
 					}
 					parent = parent.parent;
 				default:
@@ -547,22 +552,20 @@ class TokenTreeCheckUtils {
 			case Kwd(KwdIf):
 				var firstChild:Null<TokenTree> = parent.getFirstChild();
 				if (firstChild == null) {
-					return CONDITION;
+					return IF_CONDITION;
 				}
 				if (firstChild.index == token.index) {
-					return CONDITION;
+					return IF_CONDITION;
 				}
 				return EXPRESSION;
 			case Kwd(KwdWhile):
-				return CONDITION;
+				return WHILE_CONDITION;
+			case Kwd(KwdSwitch):
+				return SWITCH_CONDITION;
 			case Kwd(KwdFor):
 				return FORLOOP;
 			case Kwd(KwdCatch):
-				return CONDITION;
-			case Sharp(WalkSharpConsts.IF), Sharp(WalkSharpConsts.ELSEIF):
-				return EXPRESSION;
-			case Sharp(_):
-				return EXPRESSION;
+				return CATCH;
 			case POpen:
 				return EXPRESSION;
 			case Kwd(KwdFunction):
@@ -880,7 +883,11 @@ class TokenTreeCheckUtils {
 						case AT: return OBJECT_LITERAL;
 						case PARAMETER: return TYPE_HINT;
 						case CALL: return UNKNOWN;
-						case CONDITION: return UNKNOWN;
+						case SWITCH_CONDITION: return TYPE_CHECK;
+						case WHILE_CONDITION: return UNKNOWN;
+						case IF_CONDITION: return UNKNOWN;
+						case SHARP_CONDITION: return UNKNOWN;
+						case CATCH: return UNKNOWN;
 						case FORLOOP: return TYPE_CHECK;
 						case EXPRESSION: return TYPE_CHECK;
 					}
@@ -950,7 +957,11 @@ enum POpenType {
 	AT;
 	PARAMETER;
 	CALL;
-	CONDITION;
+	SWITCH_CONDITION;
+	WHILE_CONDITION;
+	IF_CONDITION;
+	SHARP_CONDITION;
+	CATCH;
 	FORLOOP;
 	EXPRESSION;
 }
