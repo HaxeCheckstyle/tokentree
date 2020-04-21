@@ -6,7 +6,7 @@
 
 ## version 1.0.27 (2020-04-18)
 
-- Fixed null pointer exception when pasrsing `private final class`, fixes [#183](https://github.com/HaxeCheckstyle/tokentree/issues/183) ([#184](https://github.com/HaxeCheckstyle/tokentree/issues/184))
+- Fixed null pointer exception when pasrsing `private final class`, fixes [#183](https://github.com/HaxeCheckstyle/tokentree/issues/183) ([#184](https://github.com/HaxeCheckstyle/tokentree/issues/184)) ([#185](https://github.com/HaxeCheckstyle/tokentree/issues/185))
 
 ## version 1.0.26 (2020-04-12)
 
