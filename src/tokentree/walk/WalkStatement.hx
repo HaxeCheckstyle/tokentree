@@ -69,7 +69,7 @@ class WalkStatement {
 				}
 			case IntInterval(_):
 				wantMore = true;
-			case Kwd(_):
+			case Const(CIdent("final")) | Kwd(_):
 				if (walkKeyword(stream, parent)) wantMore = true;
 				else return;
 			case Arrow:
