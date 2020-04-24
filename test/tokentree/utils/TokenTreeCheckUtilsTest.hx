@@ -27,7 +27,7 @@ class TokenTreeCheckUtilsTest {
 		Assert.isFalse(root.inserted);
 
 		var allBr:Array<TokenTree> = root.filter([BrOpen], ALL);
-		Assert.areEqual(37, allBr.length);
+		Assert.areEqual(43, allBr.length);
 		var index:Int = 0;
 		Assert.areEqual(BrOpenType.BLOCK, TokenTreeCheckUtils.getBrOpenType(allBr[index++]));
 		Assert.areEqual(BrOpenType.ANONTYPE, TokenTreeCheckUtils.getBrOpenType(allBr[index++]));
@@ -79,6 +79,15 @@ class TokenTreeCheckUtilsTest {
 		// { /*comment*/ }
 		Assert.areEqual(BrOpenType.OBJECTDECL, TokenTreeCheckUtils.getBrOpenType(allBr[index++]));
 		// { /*comment*/ };
+		Assert.areEqual(BrOpenType.OBJECTDECL, TokenTreeCheckUtils.getBrOpenType(allBr[index++]));
+
+		// final obj:{f: Int} = {f: 1};
+		Assert.areEqual(BrOpenType.ANONTYPE, TokenTreeCheckUtils.getBrOpenType(allBr[index++]));
+		Assert.areEqual(BrOpenType.OBJECTDECL, TokenTreeCheckUtils.getBrOpenType(allBr[index++]));
+		// final obj:{f: {f: Int}} = {f: {f: 1}};
+		Assert.areEqual(BrOpenType.ANONTYPE, TokenTreeCheckUtils.getBrOpenType(allBr[index++]));
+		Assert.areEqual(BrOpenType.ANONTYPE, TokenTreeCheckUtils.getBrOpenType(allBr[index++]));
+		Assert.areEqual(BrOpenType.OBJECTDECL, TokenTreeCheckUtils.getBrOpenType(allBr[index++]));
 		Assert.areEqual(BrOpenType.OBJECTDECL, TokenTreeCheckUtils.getBrOpenType(allBr[index++]));
 	}
 
@@ -175,7 +184,7 @@ class TokenTreeCheckUtilsTest {
 		Assert.isFalse(root.inserted);
 
 		var allBr:Array<TokenTree> = root.filter([DblDot], ALL);
-		Assert.areEqual(56, allBr.length);
+		Assert.areEqual(64, allBr.length);
 		var index:Int = 0;
 		Assert.areEqual(ColonType.OBJECT_LITERAL, TokenTreeCheckUtils.getColonType(allBr[index++]));
 		Assert.areEqual(ColonType.TYPE_CHECK, TokenTreeCheckUtils.getColonType(allBr[index++]));
@@ -251,6 +260,18 @@ class TokenTreeCheckUtilsTest {
 		// (bytes : Bytes).sortI32(0, length, cast f);
 		Assert.areEqual(ColonType.TYPE_CHECK, TokenTreeCheckUtils.getColonType(allBr[index++]));
 		Assert.areEqual(ColonType.TYPE_CHECK, TokenTreeCheckUtils.getColonType(allBr[index++]));
+
+		// final obj:{f: Int} = {f: 1};
+		Assert.areEqual(ColonType.TYPE_HINT, TokenTreeCheckUtils.getColonType(allBr[index++]));
+		Assert.areEqual(ColonType.TYPE_HINT, TokenTreeCheckUtils.getColonType(allBr[index++]));
+		Assert.areEqual(ColonType.OBJECT_LITERAL, TokenTreeCheckUtils.getColonType(allBr[index++]));
+
+		// final obj:{f: {f: Int}} = {f: {f: 1}};
+		Assert.areEqual(ColonType.TYPE_HINT, TokenTreeCheckUtils.getColonType(allBr[index++]));
+		Assert.areEqual(ColonType.TYPE_HINT, TokenTreeCheckUtils.getColonType(allBr[index++]));
+		Assert.areEqual(ColonType.TYPE_HINT, TokenTreeCheckUtils.getColonType(allBr[index++]));
+		Assert.areEqual(ColonType.OBJECT_LITERAL, TokenTreeCheckUtils.getColonType(allBr[index++]));
+		Assert.areEqual(ColonType.OBJECT_LITERAL, TokenTreeCheckUtils.getColonType(allBr[index++]));
 
 		// typedef Middleware = {
 		Assert.areEqual(ColonType.TYPE_HINT, TokenTreeCheckUtils.getColonType(allBr[index++]));
@@ -570,6 +591,9 @@ abstract TokenTreeCheckUtilsTests(String) to String {
 	{};
 	{ /*comment*/ }
 	{ /*comment*/ };
+
+	final obj:{f: Int} = {f: 1};
+	final obj:{f: {f: Int}} = {f: {f: 1}};
 	";
 
 	var ENUM_ABSTRACTS = "
@@ -716,6 +740,8 @@ abstract TokenTreeCheckUtilsTests(String) to String {
 			if (Type.get((cast null : T)) == Type.get(0))
 				(bytes : Bytes).sortI32(0, length, cast f);
 		}
+		final obj:{f: Int} = {f: 1};
+		final obj:{f: {f: Int}} = {f: {f: 1}};
 	}
 
 	typedef Middleware = {

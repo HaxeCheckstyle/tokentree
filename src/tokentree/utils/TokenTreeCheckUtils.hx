@@ -401,6 +401,10 @@ class TokenTreeCheckUtils {
 					case Question: return ANONTYPE;
 					case Kwd(KwdVar): return ANONTYPE;
 					case Kwd(KwdFunction): return ANONTYPE;
+					case Const(CIdent("final")): return ANONTYPE;
+					#if haxe4
+					case Kwd(KwdFinal): return ANONTYPE;
+					#end
 					case BrOpen: return getBrOpenType(parent);
 					case POpen: return ANONTYPE;
 					case Binop(OpLt): return ANONTYPE;
@@ -822,6 +826,15 @@ class TokenTreeCheckUtils {
 		if (parent == null) {
 			return UNKNOWN;
 		}
+		switch (parent.tok) {
+			case Sharp(_):
+				parent = parent.parent;
+				if ((parent == null) || (parent.tok == null)) {
+					return UNKNOWN;
+				}
+			default:
+		}
+
 		switch (parent.tok) {
 			case Kwd(KwdCase), Kwd(KwdDefault):
 				return SWITCH_CASE;

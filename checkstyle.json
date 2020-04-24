@@ -523,7 +523,8 @@
 			"tokentree/utils/TokenTreeCheckUtils:filterOpSub",
 			"tokentree/utils/TokenTreeCheckUtils:determineBrOpenType",
 			"tokentree/utils/TokenTreeCheckUtils:determinePOpenType",
-			"tokentree/utils/TokenTreeCheckUtils:determinBrChildren"
+			"tokentree/utils/TokenTreeCheckUtils:determinBrChildren",
+			"tokentree/utils/TokenTreeCheckUtils:findColonParent"
 		],
 		"MemberName": [
 			"tokentree/utils/TokenTreeCheckUtils:BrOpenType",
