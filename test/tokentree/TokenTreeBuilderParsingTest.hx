@@ -114,6 +114,7 @@ class TokenTreeBuilderParsingTest {
 		assertCodeParses(SWITCH_INDENTATION);
 		assertCodeParses(METADATA_DOC_COMMENT);
 		assertCodeParses(PRIVATE_FINAL_CLASS);
+		assertCodeParses(METADATA_IN);
 	}
 
 	public function assertCodeParses(code:String, ?pos:PosInfos) {
@@ -1566,6 +1567,12 @@ import #if haxe4 js.lib.Promise #else js.Promise #end as JsPromise;
 	var PRIVATE_FINAL_CLASS = "
 	private final class Test {
 		public function new() {}
+	}
+	";
+
+	var METADATA_IN = "
+	class Main {
+		@in var someVar = 123;
 	}
 	";
 }

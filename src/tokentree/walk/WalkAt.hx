@@ -42,6 +42,10 @@ class WalkAt {
 				ident = stream.consumeConstIdent();
 			case Kwd(_):
 				ident = stream.consumeToken();
+			#if haxe4
+			case Binop(OpIn):
+				ident = stream.consumeToken();
+			#end
 			default:
 				return;
 		}
