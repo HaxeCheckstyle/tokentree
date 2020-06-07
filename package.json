@@ -1,6 +1,6 @@
 {
     "name": "tokentree",
-    "version": "1.0.27",
+    "version": "1.0.28",
     "description": "TokenTree library used by haxe-checkstyle, haxe-formatter and haxe-languageserver",
     "repository": {
         "type": "git",
@@ -16,7 +16,7 @@
         "email": "Alexander.Blum@gmail.com"
     },
     "devDependencies": {
-        "lix": "^15.8.11"
+        "lix": "^15.9.0"
     },
     "bugs": "https://github.com/HaxeCheckstyle/tokentree/issues",
     "license": "MIT"

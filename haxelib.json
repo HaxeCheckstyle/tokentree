@@ -7,8 +7,8 @@
     "contributors": [
         "AlexHaxe"
     ],
-    "releasenote": "fixed null pointer for `private final class` - see CHANGELOG for details",
-    "version": "1.0.27",
+    "releasenote": "fixed @in handling, detects more POpen types - see CHANGELOG for details",
+    "version": "1.0.28",
     "url": "https://github.com/HaxeCheckstyle/tokentree",
     "dependencies": {}
 }

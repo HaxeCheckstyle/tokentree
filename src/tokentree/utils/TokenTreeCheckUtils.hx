@@ -611,7 +611,10 @@ class TokenTreeCheckUtils {
 				case DblDot:
 				case At:
 					return true;
-				case Kwd(KwdDefault):
+				case Kwd(_):
+				#if haxe4
+				case Binop(OpIn):
+				#end
 				default:
 					return false;
 			}

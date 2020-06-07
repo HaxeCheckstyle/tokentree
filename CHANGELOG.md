@@ -2,6 +2,8 @@
 
 ## dev branch / next version (1.x.x)
 
+## version 1.0.28 (2020-06-07)
+
 - Expanded `POpen` types in getPOpenType to distinguish between different condition expressions ([#185](https://github.com/HaxeCheckstyle/tokentree/issues/185))
 - Fixed type hint detection for anon types ([#186](https://github.com/HaxeCheckstyle/tokentree/issues/186))
 - Fixed final position for Haxe 3 ([#186](https://github.com/HaxeCheckstyle/tokentree/issues/186))
