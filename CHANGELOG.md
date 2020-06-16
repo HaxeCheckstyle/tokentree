@@ -2,7 +2,7 @@
 
 ## dev branch / next version (1.x.x)
 
-- Fixed negative const / Binop(OpSub) detection
+- Fixed negative const / Binop(OpSub) detection ([#189](https://github.com/HaxeCheckstyle/tokentree/issues/189))
 
 ## version 1.0.28 (2020-06-07)
 
