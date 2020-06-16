@@ -25,7 +25,7 @@ class WalkIfTest extends VerifyTokenTreeBase {
 		var ifExpr:IVerifyTokenTree = ifTok.first().is(POpen).childCount(2);
 		ifExpr.first().is(Const(CIdent("test"))).noChilds();
 		ifExpr.last().is(PClose).noChilds();
-		ifTok.last().is(Binop(OpSub)).oneChild().first().is(Const(CInt("1"))).oneChild().first().is(Semicolon).noChilds();
+		ifTok.last().is(Const(CInt("-1"))).oneChild().first().is(Semicolon).noChilds();
 	}
 
 	@Test

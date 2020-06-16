@@ -830,6 +830,8 @@ abstract TokenTreeCheckUtilsTests(String) to String {
 			this[15] - this[14];
 			this[15] - a;
 			this[15] - -a;
+			var exitCode:Int = try Sys.command(cmd, args) catch (e:Dynamic) -1;
+			var exitCode:Int = if (true) -1 else -2;
 	    }
 		function negative(a) -a;
 		var negative = (a) -> -a;

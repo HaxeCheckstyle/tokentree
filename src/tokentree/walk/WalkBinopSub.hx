@@ -2,7 +2,7 @@ package tokentree.walk;
 
 class WalkBinopSub {
 	public static function walkBinopSub(stream:TokenStream, parent:TokenTree) {
-		var sub:TokenTree = stream.consumeOpSub();
+		var sub:TokenTree = stream.consumeOpSub(parent);
 		parent.addChild(sub);
 		switch (sub.tok) {
 			case Const(_):
