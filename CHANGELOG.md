@@ -2,6 +2,8 @@
 
 ## dev branch / next version (1.x.x)
 
+- Fixed negative const / Binop(OpSub) detection ([#189](https://github.com/HaxeCheckstyle/tokentree/issues/189))
+
 ## version 1.0.28 (2020-06-07)
 
 - Expanded `POpen` types in getPOpenType to distinguish between different condition expressions ([#185](https://github.com/HaxeCheckstyle/tokentree/issues/185))

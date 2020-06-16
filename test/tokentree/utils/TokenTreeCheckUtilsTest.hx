@@ -379,7 +379,7 @@ class TokenTreeCheckUtilsTest {
 		Assert.isFalse(root.inserted);
 
 		var allSubs:Array<TokenTree> = root.filter([Binop(OpSub)], ALL);
-		Assert.areEqual(44, allSubs.length);
+		Assert.areEqual(45, allSubs.length);
 		var index:Int = 0;
 
 		// true ? 0 : 1 - a;
@@ -449,6 +449,9 @@ class TokenTreeCheckUtilsTest {
 		// this[15] - -a;
 		Assert.isFalse(TokenTreeCheckUtils.filterOpSub(allSubs[index++]));
 		Assert.isTrue(TokenTreeCheckUtils.filterOpSub(allSubs[index++]));
+
+		// var exitCode:Int = (-1) - 1;
+		Assert.isFalse(TokenTreeCheckUtils.filterOpSub(allSubs[index++]));
 
 		// function negative(a) -a;
 		Assert.isTrue(TokenTreeCheckUtils.filterOpSub(allSubs[index++]));
@@ -830,6 +833,9 @@ abstract TokenTreeCheckUtilsTests(String) to String {
 			this[15] - this[14];
 			this[15] - a;
 			this[15] - -a;
+			var exitCode:Int = try Sys.command(cmd, args) catch (e:Dynamic) -1;
+			var exitCode:Int = if (true) -1 else -2;
+			var exitCode:Int = (-1) -1;
 	    }
 		function negative(a) -a;
 		var negative = (a) -> -a;

@@ -269,10 +269,10 @@ class TokenStream {
 	 * Binop(OpSub) to see if the token stream should contain a negative const
 	 * value and returns a proper Const(CInt(-x)) or Const(CFloat(-x)) token
 	 */
-	public function consumeOpSub():TokenTree {
+	public function consumeOpSub(parent:TokenTree):TokenTree {
 		var tok:TokenTree = consumeTokenDef(Binop(OpSub));
 		switch (token()) {
-			case Const(CInt(_)), Const(CFloat(_)):
+			case Const(CInt(_)) | Const(CFloat(_)):
 			default:
 				return new TokenTree(tok.tok, tok.space, tok.pos, tok.index);
 		}
@@ -280,8 +280,16 @@ class TokenStream {
 		if (previous < 0) throw NO_MORE_TOKENS;
 		var prevTok:Token = tokens[previous];
 		switch (prevTok.tok) {
-			case Binop(_), Unop(_), BrOpen, BkOpen, POpen, Comma, DblDot, IntInterval(_), Question, Semicolon:
-			case Kwd(KwdReturn), Kwd(KwdIf), Kwd(KwdElse), Kwd(KwdWhile), Kwd(KwdDo), Kwd(KwdFor), Kwd(KwdCase), Kwd(KwdCast):
+			case Binop(_) | Unop(_) | BrOpen | BkOpen | POpen | Comma | DblDot | IntInterval(_) | Question | Semicolon:
+			case Kwd(KwdReturn) | Kwd(KwdIf) | Kwd(KwdElse) | Kwd(KwdWhile) | Kwd(KwdDo) | Kwd(KwdFor) | Kwd(KwdCase) | Kwd(KwdCast):
+			case PClose:
+				if ((parent == null) || (parent.tok == null)) {
+					return new TokenTree(tok.tok, tok.space, tok.pos, tok.index);
+				}
+				switch (parent.tok) {
+					case Kwd(KwdIf) | Kwd(KwdElse) | Kwd(KwdWhile) | Kwd(KwdDo) | Kwd(KwdFor) | Kwd(KwdCatch):
+					default: return new TokenTree(tok.tok, tok.space, tok.pos, tok.index);
+				}
 			default:
 				return new TokenTree(tok.tok, tok.space, tok.pos, tok.index);
 		}
