@@ -1,6 +1,6 @@
 package tokentree;
 
-abstract TokenTreeAccessHelper(TokenTree) from TokenTree {
+abstract TokenTreeAccessHelper(Null<TokenTree>) from TokenTree {
 	public var token(get, never):TokenTree;
 
 	inline function get_token():TokenTree {
