@@ -191,6 +191,12 @@ class WalkStatement {
 		switch (stream.token()) {
 			case Kwd(KwdVar):
 				WalkVar.walkVar(stream, parent);
+			#if haxe4
+			case Kwd(KwdFinal):
+				WalkFinal.walkFinal(stream, parent);
+			#end
+			case Const(CIdent("final")):
+				WalkFinal.walkFinal(stream, parent);
 			case Kwd(KwdNew):
 				if (parent.is(Dot)) {
 					var newChild:TokenTree = stream.consumeToken();

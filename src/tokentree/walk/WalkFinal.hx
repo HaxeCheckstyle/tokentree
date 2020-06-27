@@ -10,48 +10,68 @@ class WalkFinal {
 		while (progress.streamHasChanged()) {
 			switch (stream.token()) {
 				case Const(CIdent(_)):
-					name = stream.consumeToken();
 					break;
-				case Question:
-					var nameParent:TokenTree = stream.consumeToken();
-					name = stream.consumeConstIdent();
-					nameParent.addChild(name);
-					name = nameParent;
-					break;
-				case Kwd(KwdPublic), Kwd(KwdPrivate), Kwd(KwdStatic), Kwd(KwdInline), Kwd(KwdMacro), Kwd(KwdOverride), Kwd(KwdDynamic), Kwd(KwdExtern):
+				case Kwd(KwdPublic) | Kwd(KwdPrivate) | Kwd(KwdStatic) | Kwd(KwdInline) | Kwd(KwdMacro) | Kwd(KwdOverride) | Kwd(KwdDynamic) | Kwd(KwdExtern):
 					stream.consumeToTempStore();
-				case Comment(_), CommentLine(_):
+				case Comment(_) | CommentLine(_):
 					stream.consumeToTempStore();
 				case Kwd(KwdFunction):
 					return;
-				case Kwd(KwdClass):
+				case Kwd(KwdClass) | Kwd(KwdInterface):
 					return;
 				default:
 			}
 		}
 		parent.addChild(finalTok);
-		var tempStore:Array<TokenTree> = stream.getTempStore();
-		for (stored in tempStore) {
-			switch (stored.tok) {
-				case Const(CIdent("final")):
-				#if (haxe_ver >= 4.0)
-				case Kwd(KwdFinal):
-				#end
+
+		var progress:TokenStreamProgress = new TokenStreamProgress(stream);
+		while (progress.streamHasChanged()) {
+			WalkComment.walkComment(stream, parent);
+			switch (stream.token()) {
+				case At:
+					WalkAt.walkAts(stream);
 				default:
-					name.addChild(stored);
 			}
+			WalkComment.walkComment(stream, parent);
+			var nameParent:TokenTree = finalTok;
+			if (stream.is(Question)) {
+				nameParent = stream.consumeToken();
+				finalTok.addChild(nameParent);
+			}
+			name = stream.consumeConstIdent();
+			nameParent.addChild(name);
+			var tempStore:Array<TokenTree> = stream.getTempStore();
+			for (stored in tempStore) {
+				switch (stored.tok) {
+					case Const(CIdent("final")):
+					#if (haxe_ver >= 4.0)
+					case Kwd(KwdFinal):
+					#end
+					default:
+						name.addChild(stored);
+				}
+			}
+			stream.clearTempStore();
+			WalkComment.walkComment(stream, name);
+			if (stream.is(POpen)) {
+				WalkPOpen.walkPOpen(stream, name);
+			}
+			if (stream.is(DblDot)) {
+				var dblDot:TokenTree = stream.consumeTokenDef(DblDot);
+				name.addChild(dblDot);
+				WalkTypedefBody.walkTypedefAlias(stream, dblDot);
+			}
+			if (stream.is(Binop(OpAssign))) {
+				WalkStatement.walkStatement(stream, name);
+			}
+			if (stream.is(Comma)) {
+				var comma:TokenTree = stream.consumeTokenDef(Comma);
+				name.addChild(comma);
+				continue;
+			}
+			break;
 		}
-		stream.clearTempStore();
-		finalTok.addChild(name);
-		WalkComment.walkComment(stream, name);
-		if (stream.is(DblDot)) {
-			var dblDot:TokenTree = stream.consumeTokenDef(DblDot);
-			name.addChild(dblDot);
-			WalkTypedefBody.walkTypedefAlias(stream, dblDot);
-		}
-		if (stream.is(Binop(OpAssign))) {
-			WalkStatement.walkStatement(stream, name);
-		}
+
 		if (stream.is(Semicolon)) {
 			name.addChild(stream.consumeTokenDef(Semicolon));
 		}
