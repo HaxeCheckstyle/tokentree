@@ -8,7 +8,7 @@ class FieldUtilsTest {
 	@Test
 	@:nullSafety(Off)
 	public function testProperties() {
-		var root:Null<TokenTree> = assertCodeParses(FieldUtilsTests.PropERTIES);
+		var root:Null<TokenTree> = assertCodeParses(FieldUtilsTests.PROPERTIES);
 		Assert.isFalse(root.inserted);
 
 		var allBr:Array<TokenTree> = root.filter([BrOpen], All);
@@ -57,7 +57,7 @@ class FieldUtilsTest {
 
 @:enum
 abstract FieldUtilsTests(String) to String {
-	var PropERTIES = "
+	var PROPERTIES = "
 	class Main {
 		static var _haxelibRepo:Null<String>;
 		static var haxelibRepo(get, never):Null<String>;
