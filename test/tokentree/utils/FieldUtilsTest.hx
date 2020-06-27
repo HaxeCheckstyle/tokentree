@@ -8,33 +8,33 @@ class FieldUtilsTest {
 	@Test
 	@:nullSafety(Off)
 	public function testProperties() {
-		var root:Null<TokenTree> = assertCodeParses(FieldUtilsTests.PROPERTIES);
+		var root:Null<TokenTree> = assertCodeParses(FieldUtilsTests.PropERTIES);
 		Assert.isFalse(root.inserted);
 
-		var allBr:Array<TokenTree> = root.filter([BrOpen], ALL);
+		var allBr:Array<TokenTree> = root.filter([BrOpen], All);
 		Assert.areEqual(1, allBr.length);
 		Assert.areEqual(7 + 1, allBr[0].children.length);
 
-		checkFieldType(VAR("_haxelibRepo", PRIVATE, true, false, false, false), FieldUtils.getFieldType(allBr[0].children[0], PRIVATE));
-		checkFieldType(VAR("_haxelibRepo", PUBLIC, true, false, false, false), FieldUtils.getFieldType(allBr[0].children[0], PUBLIC));
+		checkFieldType(Var("_haxelibRepo", Private, true, false, false, false), FieldUtils.getFieldType(allBr[0].children[0], Private));
+		checkFieldType(Var("_haxelibRepo", Public, true, false, false, false), FieldUtils.getFieldType(allBr[0].children[0], Public));
 
-		checkFieldType(PROP("haxelibRepo", PRIVATE, true, GET, NEVER), FieldUtils.getFieldType(allBr[0].children[1], PRIVATE));
-		checkFieldType(PROP("haxelibRepo", PUBLIC, true, GET, NEVER), FieldUtils.getFieldType(allBr[0].children[1], PUBLIC));
+		checkFieldType(Prop("haxelibRepo", Private, true, Get, Never), FieldUtils.getFieldType(allBr[0].children[1], Private));
+		checkFieldType(Prop("haxelibRepo", Public, true, Get, Never), FieldUtils.getFieldType(allBr[0].children[1], Public));
 
-		checkFieldType(VAR("_haxelibRepo", PUBLIC, false, false, false, false), FieldUtils.getFieldType(allBr[0].children[2], PRIVATE));
-		checkFieldType(VAR("_haxelibRepo", PUBLIC, false, false, false, false), FieldUtils.getFieldType(allBr[0].children[2], PUBLIC));
+		checkFieldType(Var("_haxelibRepo", Public, false, false, false, false), FieldUtils.getFieldType(allBr[0].children[2], Private));
+		checkFieldType(Var("_haxelibRepo", Public, false, false, false, false), FieldUtils.getFieldType(allBr[0].children[2], Public));
 
-		checkFieldType(PROP("haxelibRepo", PUBLIC, false, GET, NEVER), FieldUtils.getFieldType(allBr[0].children[3], PRIVATE));
-		checkFieldType(PROP("haxelibRepo", PUBLIC, false, GET, NEVER), FieldUtils.getFieldType(allBr[0].children[3], PUBLIC));
+		checkFieldType(Prop("haxelibRepo", Public, false, Get, Never), FieldUtils.getFieldType(allBr[0].children[3], Private));
+		checkFieldType(Prop("haxelibRepo", Public, false, Get, Never), FieldUtils.getFieldType(allBr[0].children[3], Public));
 
-		checkFieldType(VAR("_haxelibRepo", PUBLIC, true, true, false, false), FieldUtils.getFieldType(allBr[0].children[4], PRIVATE));
-		checkFieldType(VAR("_haxelibRepo", PUBLIC, true, true, false, false), FieldUtils.getFieldType(allBr[0].children[4], PUBLIC));
+		checkFieldType(Var("_haxelibRepo", Public, true, true, false, false), FieldUtils.getFieldType(allBr[0].children[4], Private));
+		checkFieldType(Var("_haxelibRepo", Public, true, true, false, false), FieldUtils.getFieldType(allBr[0].children[4], Public));
 
-		checkFieldType(FUNCTION("main", PUBLIC, true, false, false, false, false), FieldUtils.getFieldType(allBr[0].children[5], PRIVATE));
-		checkFieldType(FUNCTION("main", PUBLIC, true, false, false, false, false), FieldUtils.getFieldType(allBr[0].children[5], PUBLIC));
+		checkFieldType(Function("main", Public, true, false, false, false, false), FieldUtils.getFieldType(allBr[0].children[5], Private));
+		checkFieldType(Function("main", Public, true, false, false, false, false), FieldUtils.getFieldType(allBr[0].children[5], Public));
 
-		checkFieldType(FUNCTION("main", PRIVATE, false, false, true, false, false), FieldUtils.getFieldType(allBr[0].children[6], PRIVATE));
-		checkFieldType(FUNCTION("main", PUBLIC, false, false, true, false, false), FieldUtils.getFieldType(allBr[0].children[6], PUBLIC));
+		checkFieldType(Function("main", Private, false, false, true, false, false), FieldUtils.getFieldType(allBr[0].children[6], Private));
+		checkFieldType(Function("main", Public, false, false, true, false, false), FieldUtils.getFieldType(allBr[0].children[6], Public));
 	}
 
 	function checkFieldType(expected:TokenFieldType, actual:TokenFieldType, ?pos:PosInfos) {
@@ -57,7 +57,7 @@ class FieldUtilsTest {
 
 @:enum
 abstract FieldUtilsTests(String) to String {
-	var PROPERTIES = "
+	var PropERTIES = "
 	class Main {
 		static var _haxelibRepo:Null<String>;
 		static var haxelibRepo(get, never):Null<String>;

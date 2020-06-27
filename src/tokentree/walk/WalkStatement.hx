@@ -43,7 +43,7 @@ class WalkStatement {
 				walkStatementWithoutSemicolon(stream, gtTok);
 				return;
 			case Binop(OpOr):
-				if ((parent.parent != null) && (parent.parent.tok != null)) {
+				if ((parent.parent != null) && (parent.parent.tok != Root)) {
 					switch (parent.parent.tok) {
 						case Kwd(KwdCase):
 							var orTok:TokenTree = stream.consumeToken();
@@ -173,7 +173,7 @@ class WalkStatement {
 			case POpen:
 				walkStatementWithoutSemicolon(stream, parent);
 			case CommentLine(_), Comment(_):
-				var nextTokDef:Null<TokenDef> = stream.peekNonCommentToken();
+				var nextTokDef:Null<TokenTreeDef> = stream.peekNonCommentToken();
 				if (nextTokDef == null) {
 					return;
 				}
@@ -291,7 +291,7 @@ class WalkStatement {
 
 	static function walkPOpen(stream:TokenStream, parent:TokenTree) {
 		var pOpen:TokenTree = WalkPOpen.walkPOpen(stream, parent);
-		if (parent.tok == null) {
+		if (parent.tok == Root) {
 			return;
 		}
 		if (parent.isCIdent()) {
@@ -314,7 +314,7 @@ class WalkStatement {
 
 	static function findQuestionParent(token:TokenTree):Null<TokenTree> {
 		var parent:Null<TokenTree> = token;
-		while (parent != null && parent.tok != null) {
+		while (parent != null && parent.tok != Root) {
 			switch (parent.tok) {
 				case Question:
 					if (WalkQuestion.isTernary(parent)) return parent;
@@ -358,7 +358,7 @@ class WalkStatement {
 
 	static function walkOpBool(stream:TokenStream, token:TokenTree) {
 		var parent = token.parent;
-		while (parent.tok != null) {
+		while (parent.tok != Root) {
 			switch (parent.tok) {
 				case Binop(OpAssign), Binop(OpAssignOp(_)):
 					break;
@@ -389,7 +389,7 @@ class WalkStatement {
 
 	static function walkOpAdd(stream:TokenStream, token:TokenTree) {
 		var parent = token.parent;
-		while (parent.tok != null) {
+		while (parent.tok != Root) {
 			switch (parent.tok) {
 				case Binop(OpAssign), Binop(OpAssignOp(_)):
 					break;

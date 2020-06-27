@@ -5,37 +5,36 @@ import tokentree.utils.TokenTreeCheckUtils.BrOpenType;
 import tokentree.utils.TokenTreeCheckUtils.ColonType;
 import tokentree.utils.TokenTreeCheckUtils.POpenType;
 
-class TokenTree extends Token {
+class TokenTree {
 	static inline var MAX_LEVEL:Int = 9999;
 
+	public var tok:TokenTreeDef;
+	public var pos:Position;
 	public var parent:Null<TokenTree>;
 	public var previousSibling:Null<TokenTree>;
 	public var nextSibling:Null<TokenTree>;
 	public var children:Null<Array<TokenTree>>;
 	public var index:Int;
 	public var inserted:Bool;
-	#if (!keep_whitespace)
 	public var space:String;
-	#end
 
 	@:allow(tokentree.utils.TokenTreeCheckUtils)
 	var tokenTypeCache:TokenTypeCache;
 
-	public function new(tok:Null<TokenDef>, space:String, pos:Null<Position>, index:Int, inserted:Bool = false) {
-		super(tok, pos);
+	public function new(tok:TokenTreeDef, space:String, pos:Null<Position>, index:Int, inserted:Bool = false) {
+		this.tok = tok;
+		this.pos = pos;
 		this.index = index;
 		this.inserted = inserted;
 		this.space = space;
 		tokenTypeCache = {};
 	}
 
-	public function is(tokenDef:TokenDef):Bool {
-		if (tok == null) return false;
+	public function is(tokenDef:TokenTreeDef):Bool {
 		return Type.enumEq(tokenDef, tok);
 	}
 
 	public function isComment():Bool {
-		if (tok == null) return false;
 		return switch (tok) {
 			case Comment(_), CommentLine(_): true;
 			default: false;
@@ -43,7 +42,6 @@ class TokenTree extends Token {
 	}
 
 	public function isCIdent():Bool {
-		if (tok == null) return false;
 		return switch (tok) {
 			case Const(CIdent(_)): true;
 			default: false;
@@ -51,7 +49,6 @@ class TokenTree extends Token {
 	}
 
 	public function isCIdentOrCString():Bool {
-		if (tok == null) return false;
 		return switch (tok) {
 			case Const(CIdent(_)): true;
 			case Const(CString(_)): true;
@@ -97,14 +94,14 @@ class TokenTree extends Token {
 		return fullPos;
 	}
 
-	public function filter(searchFor:Array<TokenDef>, mode:TokenFilterMode, maxLevel:Int = MAX_LEVEL):Array<TokenTree> {
+	public function filter(searchFor:Array<TokenTreeDef>, mode:TokenFilterMode, maxLevel:Int = MAX_LEVEL):Array<TokenTree> {
 		return filterCallback(function(token:TokenTree, depth:Int):FilterResult {
-			if (depth > maxLevel) return SKIP_SUBTREE;
+			if (depth > maxLevel) return SkipSubtree;
 			if (token.matchesAny(searchFor)) {
-				if (mode == ALL) return FOUND_GO_DEEPER;
-				return FOUND_SKIP_SUBTREE;
+				if (mode == All) return FoundGoDeeper;
+				return FoundSkipSubtree;
 			}
-			else return GO_DEEPER;
+			else return GoDeeper;
 		});
 	}
 
@@ -115,17 +112,17 @@ class TokenTree extends Token {
 	}
 
 	function internalFilterCallback(callback:FilterCallback, results:Array<TokenTree>, depth:Int = 0) {
-		if (tok != null) {
-			switch (callback(this, depth)) {
-				case FOUND_GO_DEEPER:
-					results.push(this);
-				case FOUND_SKIP_SUBTREE:
-					results.push(this);
-					return;
-				case GO_DEEPER:
-				case SKIP_SUBTREE:
-					return;
-			}
+		switch (tok) {
+			case Root:
+			default:
+				switch (callback(this, depth)) {
+					case FoundGoDeeper: results.push(this);
+					case FoundSkipSubtree:
+						results.push(this);
+						return;
+					case GoDeeper:
+					case SkipSubtree: return;
+				}
 		}
 		if (children == null) return;
 		for (child in children) {
@@ -138,8 +135,8 @@ class TokenTree extends Token {
 		}
 	}
 
-	function matchesAny(searchFor:Array<TokenDef>):Bool {
-		if (searchFor == null || tok == null) return false;
+	function matchesAny(searchFor:Array<TokenTreeDef>):Bool {
+		if (searchFor == null || tok == Root) return false;
 		for (search in searchFor) {
 			if (Type.enumEq(tok, search)) return true;
 		}
@@ -150,25 +147,29 @@ class TokenTree extends Token {
 		var buf:StringBuf = new StringBuf();
 		var tokString:String = '$tok';
 		if (inserted) tokString = '*** $tokString ***';
-		if (tok != null) buf.add('$prefix$tokString\t\t\t\t${getPos()}');
+		if (tok != Root) buf.add('$prefix$tokString\t\t\t\t${getPos()}');
 		if (children == null) return buf.toString();
 		for (child in children) buf.add('\n$prefix${child.printTokenTree(prefix + "  ")}');
 		return buf.toString();
 	}
+
+	public function toString():String {
+		return TokenTreeDefPrinter.toString(tok);
+	}
 }
 
 enum TokenFilterMode {
-	ALL;
-	FIRST;
+	All;
+	First;
 }
 
 typedef FilterCallback = TokenTree->Int->FilterResult;
 
 enum FilterResult {
-	FOUND_SKIP_SUBTREE;
-	FOUND_GO_DEEPER;
-	SKIP_SUBTREE;
-	GO_DEEPER;
+	FoundSkipSubtree;
+	FoundGoDeeper;
+	SkipSubtree;
+	GoDeeper;
 }
 
 typedef TokenTypeCache = {

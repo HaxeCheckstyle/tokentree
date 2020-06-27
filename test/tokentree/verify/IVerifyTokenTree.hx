@@ -4,7 +4,7 @@ import haxe.PosInfos;
 import haxeparser.Data;
 
 interface IVerifyTokenTree {
-	function filter(tok:TokenDef, ?pos:PosInfos):IVerifyTokenTree;
+	function filter(tok:TokenTreeDef, ?pos:PosInfos):IVerifyTokenTree;
 	function childs(?pos:PosInfos):IVerifyTokenTree;
 	function first(?pos:PosInfos):IVerifyTokenTree;
 	function last(?pos:PosInfos):IVerifyTokenTree;
@@ -17,7 +17,7 @@ interface IVerifyTokenTree {
 	function childAt(index:Int, ?pos:PosInfos):IVerifyTokenTree;
 	function childCount(num:Int, ?pos:PosInfos):IVerifyTokenTree;
 	function childCountAtLeast(count:Int, ?pos:PosInfos):IVerifyTokenTree;
-	function is(tok:TokenDef, ?pos:PosInfos):IVerifyTokenTree;
+	function is(tok:TokenTreeDef, ?pos:PosInfos):IVerifyTokenTree;
 	function isComment(?pos:PosInfos):IVerifyTokenTree;
 	function isEmpty(?pos:PosInfos):Bool;
 }

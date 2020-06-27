@@ -17,7 +17,7 @@ abstract TokenTreeAccessHelper(Null<TokenTree>) from TokenTree {
 
 	public function findParent(predicate:TokenTreeAccessHelper->Bool):Null<TokenTreeAccessHelper> {
 		var parent:Null<TokenTreeAccessHelper> = parent();
-		while (parent.exists() && parent.token.tok != null) {
+		while (parent.exists() && parent.token.tok != Root) {
 			if (predicate(parent)) {
 				return parent;
 			}
@@ -42,7 +42,7 @@ abstract TokenTreeAccessHelper(Null<TokenTree>) from TokenTree {
 		return if (exists()) this.getLastChild() else null;
 	}
 
-	public function firstOf(tokenDef:TokenDef):Null<TokenTreeAccessHelper> {
+	public function firstOf(tokenDef:TokenTreeDef):Null<TokenTreeAccessHelper> {
 		if (!exists() || this.children == null) return null;
 		for (tok in this.children) {
 			if (tok.is(tokenDef)) return tok;
@@ -50,7 +50,7 @@ abstract TokenTreeAccessHelper(Null<TokenTree>) from TokenTree {
 		return null;
 	}
 
-	public function lastOf(tokenDef:TokenDef):Null<TokenTreeAccessHelper> {
+	public function lastOf(tokenDef:TokenTreeDef):Null<TokenTreeAccessHelper> {
 		if (!exists() || this.children == null) return null;
 		var found:Null<TokenTree> = null;
 		for (tok in this.children) {
@@ -63,7 +63,7 @@ abstract TokenTreeAccessHelper(Null<TokenTree>) from TokenTree {
 		return if (exists() && this.children != null) this.children[index] else null;
 	}
 
-	public function is(tokenDef:TokenDef):Null<TokenTreeAccessHelper> {
+	public function is(tokenDef:TokenTreeDef):Null<TokenTreeAccessHelper> {
 		return if (exists() && this.is(tokenDef)) this else null;
 	}
 

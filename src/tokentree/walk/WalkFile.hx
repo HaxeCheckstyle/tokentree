@@ -44,8 +44,8 @@ class WalkFile {
 			switch (stored.tok) {
 				case Kwd(KwdExtern), Kwd(KwdPrivate), Kwd(KwdPublic), At:
 					switch (TokenStream.MODE) {
-						case RELAXED: parent.addChild(stored);
-						case STRICT: throw "invalid token tree structure - found:" + stored;
+						case Relaxed: parent.addChild(stored);
+						case Strict: throw "invalid token tree structure - found:" + stored;
 					}
 				default:
 					parent.addChild(stored);

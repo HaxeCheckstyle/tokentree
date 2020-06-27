@@ -14,10 +14,10 @@ class TokenTreeCheckUtilsTest {
 		var root:TokenTree = assertCodeParses(TokenTreeBuilderParsingTests.STRUCTURE_EXTENSION);
 		Assert.isFalse(root.inserted);
 
-		var allBr:Array<TokenTree> = root.filter([BrOpen], ALL);
+		var allBr:Array<TokenTree> = root.filter([BrOpen], All);
 		Assert.areEqual(3, allBr.length);
 		for (br in allBr) {
-			Assert.areEqual(BrOpenType.TYPEDEFDECL, TokenTreeCheckUtils.getBrOpenType(br));
+			Assert.areEqual(BrOpenType.TypedefDecl, TokenTreeCheckUtils.getBrOpenType(br));
 		}
 	}
 
@@ -26,69 +26,69 @@ class TokenTreeCheckUtilsTest {
 		var root:TokenTree = assertCodeParses(TokenTreeCheckUtilsTests.MIXED_BR_OPEN_TYPES);
 		Assert.isFalse(root.inserted);
 
-		var allBr:Array<TokenTree> = root.filter([BrOpen], ALL);
+		var allBr:Array<TokenTree> = root.filter([BrOpen], All);
 		Assert.areEqual(43, allBr.length);
 		var index:Int = 0;
-		Assert.areEqual(BrOpenType.BLOCK, TokenTreeCheckUtils.getBrOpenType(allBr[index++]));
-		Assert.areEqual(BrOpenType.ANONTYPE, TokenTreeCheckUtils.getBrOpenType(allBr[index++]));
-		Assert.areEqual(BrOpenType.ANONTYPE, TokenTreeCheckUtils.getBrOpenType(allBr[index++]));
-		Assert.areEqual(BrOpenType.BLOCK, TokenTreeCheckUtils.getBrOpenType(allBr[index++]));
-		Assert.areEqual(BrOpenType.OBJECTDECL, TokenTreeCheckUtils.getBrOpenType(allBr[index++]));
-		Assert.areEqual(BrOpenType.OBJECTDECL, TokenTreeCheckUtils.getBrOpenType(allBr[index++]));
-		Assert.areEqual(BrOpenType.BLOCK, TokenTreeCheckUtils.getBrOpenType(allBr[index++]));
-		Assert.areEqual(BrOpenType.BLOCK, TokenTreeCheckUtils.getBrOpenType(allBr[index++]));
-		Assert.areEqual(BrOpenType.BLOCK, TokenTreeCheckUtils.getBrOpenType(allBr[index++]));
-		Assert.areEqual(BrOpenType.OBJECTDECL, TokenTreeCheckUtils.getBrOpenType(allBr[index++]));
-		Assert.areEqual(BrOpenType.OBJECTDECL, TokenTreeCheckUtils.getBrOpenType(allBr[index++]));
-		Assert.areEqual(BrOpenType.OBJECTDECL, TokenTreeCheckUtils.getBrOpenType(allBr[index++]));
-		Assert.areEqual(BrOpenType.OBJECTDECL, TokenTreeCheckUtils.getBrOpenType(allBr[index++]));
-		Assert.areEqual(BrOpenType.OBJECTDECL, TokenTreeCheckUtils.getBrOpenType(allBr[index++]));
-		Assert.areEqual(BrOpenType.OBJECTDECL, TokenTreeCheckUtils.getBrOpenType(allBr[index++]));
-		Assert.areEqual(BrOpenType.BLOCK, TokenTreeCheckUtils.getBrOpenType(allBr[index++]));
-		Assert.areEqual(BrOpenType.BLOCK, TokenTreeCheckUtils.getBrOpenType(allBr[index++]));
-		Assert.areEqual(BrOpenType.OBJECTDECL, TokenTreeCheckUtils.getBrOpenType(allBr[index++]));
-		Assert.areEqual(BrOpenType.ANONTYPE, TokenTreeCheckUtils.getBrOpenType(allBr[index++]));
-		Assert.areEqual(BrOpenType.BLOCK, TokenTreeCheckUtils.getBrOpenType(allBr[index++]));
-		Assert.areEqual(BrOpenType.OBJECTDECL, TokenTreeCheckUtils.getBrOpenType(allBr[index++]));
-		Assert.areEqual(BrOpenType.OBJECTDECL, TokenTreeCheckUtils.getBrOpenType(allBr[index++]));
-		Assert.areEqual(BrOpenType.BLOCK, TokenTreeCheckUtils.getBrOpenType(allBr[index++]));
+		Assert.areEqual(BrOpenType.Block, TokenTreeCheckUtils.getBrOpenType(allBr[index++]));
+		Assert.areEqual(BrOpenType.AnonType, TokenTreeCheckUtils.getBrOpenType(allBr[index++]));
+		Assert.areEqual(BrOpenType.AnonType, TokenTreeCheckUtils.getBrOpenType(allBr[index++]));
+		Assert.areEqual(BrOpenType.Block, TokenTreeCheckUtils.getBrOpenType(allBr[index++]));
+		Assert.areEqual(BrOpenType.ObjectDecl, TokenTreeCheckUtils.getBrOpenType(allBr[index++]));
+		Assert.areEqual(BrOpenType.ObjectDecl, TokenTreeCheckUtils.getBrOpenType(allBr[index++]));
+		Assert.areEqual(BrOpenType.Block, TokenTreeCheckUtils.getBrOpenType(allBr[index++]));
+		Assert.areEqual(BrOpenType.Block, TokenTreeCheckUtils.getBrOpenType(allBr[index++]));
+		Assert.areEqual(BrOpenType.Block, TokenTreeCheckUtils.getBrOpenType(allBr[index++]));
+		Assert.areEqual(BrOpenType.ObjectDecl, TokenTreeCheckUtils.getBrOpenType(allBr[index++]));
+		Assert.areEqual(BrOpenType.ObjectDecl, TokenTreeCheckUtils.getBrOpenType(allBr[index++]));
+		Assert.areEqual(BrOpenType.ObjectDecl, TokenTreeCheckUtils.getBrOpenType(allBr[index++]));
+		Assert.areEqual(BrOpenType.ObjectDecl, TokenTreeCheckUtils.getBrOpenType(allBr[index++]));
+		Assert.areEqual(BrOpenType.ObjectDecl, TokenTreeCheckUtils.getBrOpenType(allBr[index++]));
+		Assert.areEqual(BrOpenType.ObjectDecl, TokenTreeCheckUtils.getBrOpenType(allBr[index++]));
+		Assert.areEqual(BrOpenType.Block, TokenTreeCheckUtils.getBrOpenType(allBr[index++]));
+		Assert.areEqual(BrOpenType.Block, TokenTreeCheckUtils.getBrOpenType(allBr[index++]));
+		Assert.areEqual(BrOpenType.ObjectDecl, TokenTreeCheckUtils.getBrOpenType(allBr[index++]));
+		Assert.areEqual(BrOpenType.AnonType, TokenTreeCheckUtils.getBrOpenType(allBr[index++]));
+		Assert.areEqual(BrOpenType.Block, TokenTreeCheckUtils.getBrOpenType(allBr[index++]));
+		Assert.areEqual(BrOpenType.ObjectDecl, TokenTreeCheckUtils.getBrOpenType(allBr[index++]));
+		Assert.areEqual(BrOpenType.ObjectDecl, TokenTreeCheckUtils.getBrOpenType(allBr[index++]));
+		Assert.areEqual(BrOpenType.Block, TokenTreeCheckUtils.getBrOpenType(allBr[index++]));
 
 		// function foo<T:{bar:T}>() {}
-		Assert.areEqual(BrOpenType.ANONTYPE, TokenTreeCheckUtils.getBrOpenType(allBr[index++]));
-		Assert.areEqual(BrOpenType.BLOCK, TokenTreeCheckUtils.getBrOpenType(allBr[index++]));
+		Assert.areEqual(BrOpenType.AnonType, TokenTreeCheckUtils.getBrOpenType(allBr[index++]));
+		Assert.areEqual(BrOpenType.Block, TokenTreeCheckUtils.getBrOpenType(allBr[index++]));
 
 		// abstracts
-		Assert.areEqual(BrOpenType.ANONTYPE, TokenTreeCheckUtils.getBrOpenType(allBr[index++]));
-		Assert.areEqual(BrOpenType.BLOCK, TokenTreeCheckUtils.getBrOpenType(allBr[index++]));
-		Assert.areEqual(BrOpenType.ANONTYPE, TokenTreeCheckUtils.getBrOpenType(allBr[index++]));
-		Assert.areEqual(BrOpenType.BLOCK, TokenTreeCheckUtils.getBrOpenType(allBr[index++]));
+		Assert.areEqual(BrOpenType.AnonType, TokenTreeCheckUtils.getBrOpenType(allBr[index++]));
+		Assert.areEqual(BrOpenType.Block, TokenTreeCheckUtils.getBrOpenType(allBr[index++]));
+		Assert.areEqual(BrOpenType.AnonType, TokenTreeCheckUtils.getBrOpenType(allBr[index++]));
+		Assert.areEqual(BrOpenType.Block, TokenTreeCheckUtils.getBrOpenType(allBr[index++]));
 
 		// {foo: bar}
-		Assert.areEqual(BrOpenType.OBJECTDECL, TokenTreeCheckUtils.getBrOpenType(allBr[index++]));
+		Assert.areEqual(BrOpenType.ObjectDecl, TokenTreeCheckUtils.getBrOpenType(allBr[index++]));
 		// {foo: bar};
-		Assert.areEqual(BrOpenType.OBJECTDECL, TokenTreeCheckUtils.getBrOpenType(allBr[index++]));
+		Assert.areEqual(BrOpenType.ObjectDecl, TokenTreeCheckUtils.getBrOpenType(allBr[index++]));
 		// {foo: bar, bar: foo}
-		Assert.areEqual(BrOpenType.OBJECTDECL, TokenTreeCheckUtils.getBrOpenType(allBr[index++]));
+		Assert.areEqual(BrOpenType.ObjectDecl, TokenTreeCheckUtils.getBrOpenType(allBr[index++]));
 		// {foo: bar, bar: foo};
-		Assert.areEqual(BrOpenType.OBJECTDECL, TokenTreeCheckUtils.getBrOpenType(allBr[index++]));
+		Assert.areEqual(BrOpenType.ObjectDecl, TokenTreeCheckUtils.getBrOpenType(allBr[index++]));
 
 		// {}
-		Assert.areEqual(BrOpenType.OBJECTDECL, TokenTreeCheckUtils.getBrOpenType(allBr[index++]));
+		Assert.areEqual(BrOpenType.ObjectDecl, TokenTreeCheckUtils.getBrOpenType(allBr[index++]));
 		// {};
-		Assert.areEqual(BrOpenType.OBJECTDECL, TokenTreeCheckUtils.getBrOpenType(allBr[index++]));
+		Assert.areEqual(BrOpenType.ObjectDecl, TokenTreeCheckUtils.getBrOpenType(allBr[index++]));
 		// { /*comment*/ }
-		Assert.areEqual(BrOpenType.OBJECTDECL, TokenTreeCheckUtils.getBrOpenType(allBr[index++]));
+		Assert.areEqual(BrOpenType.ObjectDecl, TokenTreeCheckUtils.getBrOpenType(allBr[index++]));
 		// { /*comment*/ };
-		Assert.areEqual(BrOpenType.OBJECTDECL, TokenTreeCheckUtils.getBrOpenType(allBr[index++]));
+		Assert.areEqual(BrOpenType.ObjectDecl, TokenTreeCheckUtils.getBrOpenType(allBr[index++]));
 
 		// final obj:{f: Int} = {f: 1};
-		Assert.areEqual(BrOpenType.ANONTYPE, TokenTreeCheckUtils.getBrOpenType(allBr[index++]));
-		Assert.areEqual(BrOpenType.OBJECTDECL, TokenTreeCheckUtils.getBrOpenType(allBr[index++]));
+		Assert.areEqual(BrOpenType.AnonType, TokenTreeCheckUtils.getBrOpenType(allBr[index++]));
+		Assert.areEqual(BrOpenType.ObjectDecl, TokenTreeCheckUtils.getBrOpenType(allBr[index++]));
 		// final obj:{f: {f: Int}} = {f: {f: 1}};
-		Assert.areEqual(BrOpenType.ANONTYPE, TokenTreeCheckUtils.getBrOpenType(allBr[index++]));
-		Assert.areEqual(BrOpenType.ANONTYPE, TokenTreeCheckUtils.getBrOpenType(allBr[index++]));
-		Assert.areEqual(BrOpenType.OBJECTDECL, TokenTreeCheckUtils.getBrOpenType(allBr[index++]));
-		Assert.areEqual(BrOpenType.OBJECTDECL, TokenTreeCheckUtils.getBrOpenType(allBr[index++]));
+		Assert.areEqual(BrOpenType.AnonType, TokenTreeCheckUtils.getBrOpenType(allBr[index++]));
+		Assert.areEqual(BrOpenType.AnonType, TokenTreeCheckUtils.getBrOpenType(allBr[index++]));
+		Assert.areEqual(BrOpenType.ObjectDecl, TokenTreeCheckUtils.getBrOpenType(allBr[index++]));
+		Assert.areEqual(BrOpenType.ObjectDecl, TokenTreeCheckUtils.getBrOpenType(allBr[index++]));
 	}
 
 	@Test
@@ -96,7 +96,7 @@ class TokenTreeCheckUtilsTest {
 		var root:TokenTree = assertCodeParses(TokenTreeBuilderParsingTests.ENUM_ABSTRACT);
 		Assert.isFalse(root.inserted);
 
-		var allAbstracts:Array<TokenTree> = root.filter([Kwd(KwdAbstract)], ALL);
+		var allAbstracts:Array<TokenTree> = root.filter([Kwd(KwdAbstract)], All);
 		for (ab in allAbstracts) {
 			Assert.isTrue(TokenTreeCheckUtils.isTypeEnumAbstract(ab));
 		}
@@ -104,13 +104,13 @@ class TokenTreeCheckUtilsTest {
 		root = assertCodeParses(TokenTreeBuilderParsingTests.CONST_TYPE_PARAMETER);
 		Assert.isFalse(root.inserted);
 
-		allAbstracts = root.filter([Kwd(KwdAbstract)], ALL);
+		allAbstracts = root.filter([Kwd(KwdAbstract)], All);
 		for (ab in allAbstracts) {
 			Assert.isFalse(TokenTreeCheckUtils.isTypeEnumAbstract(ab));
 		}
 
 		root = assertCodeParses(TokenTreeCheckUtilsTests.ENUM_ABSTRACTS);
-		allAbstracts = root.filter([Kwd(KwdAbstract)], ALL);
+		allAbstracts = root.filter([Kwd(KwdAbstract)], All);
 		Assert.isFalse(root.inserted);
 
 		for (ab in allAbstracts) {
@@ -123,34 +123,34 @@ class TokenTreeCheckUtilsTest {
 		var root:TokenTree = assertCodeParses(TokenTreeCheckUtilsTests.ARROW_FUNCTIONS);
 		Assert.isFalse(root.inserted);
 
-		var allArrows:Array<TokenTree> = root.filter([Arrow], ALL);
+		var allArrows:Array<TokenTree> = root.filter([Arrow], All);
 		Assert.areEqual(10, allArrows.length);
 		for (ar in allArrows) {
-			Assert.areEqual(ArrowType.ARROW_FUNCTION, TokenTreeCheckUtils.getArrowType(ar));
+			Assert.areEqual(ArrowType.ArrowFunction, TokenTreeCheckUtils.getArrowType(ar));
 		}
 	}
 
 	@Test
 	public function testFunctionTypeHaxe3() {
-		var root:TokenTree = assertCodeParses(TokenTreeCheckUtilsTests.FUNCTION_TYPE_HAXE_3);
+		var root:TokenTree = assertCodeParses(TokenTreeCheckUtilsTests.OLD_FUNCTION_TYPE);
 		Assert.isFalse(root.inserted);
 
-		var allArrows:Array<TokenTree> = root.filter([Arrow], ALL);
+		var allArrows:Array<TokenTree> = root.filter([Arrow], All);
 		Assert.areEqual(26, allArrows.length);
 		for (ar in allArrows) {
-			Assert.areEqual(ArrowType.FUNCTION_TYPE_HAXE3, TokenTreeCheckUtils.getArrowType(ar));
+			Assert.areEqual(ArrowType.OldFunctionType, TokenTreeCheckUtils.getArrowType(ar));
 		}
 	}
 
 	@Test
 	public function testFunctionTypeHaxe4() {
-		var root:TokenTree = assertCodeParses(TokenTreeCheckUtilsTests.FUNCTION_TYPE_HAXE_4);
+		var root:TokenTree = assertCodeParses(TokenTreeCheckUtilsTests.NEW_FUNCTION_TYPE);
 		Assert.isFalse(root.inserted);
 
-		var allArrows:Array<TokenTree> = root.filter([Arrow], ALL);
+		var allArrows:Array<TokenTree> = root.filter([Arrow], All);
 		Assert.areEqual(7, allArrows.length);
 		for (ar in allArrows) {
-			Assert.areEqual(ArrowType.FUNCTION_TYPE_HAXE4, TokenTreeCheckUtils.getArrowType(ar));
+			Assert.areEqual(ArrowType.NewFunctionType, TokenTreeCheckUtils.getArrowType(ar));
 		}
 	}
 
@@ -159,7 +159,7 @@ class TokenTreeCheckUtilsTest {
 		var root:TokenTree = assertCodeParses(TokenTreeCheckUtilsTests.TERNARY);
 		Assert.isFalse(root.inserted);
 
-		var allQuestion:Array<TokenTree> = root.filter([Question], ALL);
+		var allQuestion:Array<TokenTree> = root.filter([Question], All);
 		Assert.areEqual(13, allQuestion.length);
 		for (quest in allQuestion) {
 			Assert.isTrue(TokenTreeCheckUtils.isTernary(quest));
@@ -171,7 +171,7 @@ class TokenTreeCheckUtilsTest {
 		var root:TokenTree = assertCodeParses(TokenTreeCheckUtilsTests.NOT_TERNARY);
 		Assert.isFalse(root.inserted);
 
-		var allQuestion:Array<TokenTree> = root.filter([Question], ALL);
+		var allQuestion:Array<TokenTree> = root.filter([Question], All);
 		Assert.areEqual(4, allQuestion.length);
 		for (quest in allQuestion) {
 			Assert.isFalse(TokenTreeCheckUtils.isTernary(quest));
@@ -183,114 +183,114 @@ class TokenTreeCheckUtilsTest {
 		var root:TokenTree = assertCodeParses(TokenTreeCheckUtilsTests.MIXED_COLON_TYPES);
 		Assert.isFalse(root.inserted);
 
-		var allBr:Array<TokenTree> = root.filter([DblDot], ALL);
+		var allBr:Array<TokenTree> = root.filter([DblDot], All);
 		Assert.areEqual(64, allBr.length);
 		var index:Int = 0;
-		Assert.areEqual(ColonType.OBJECT_LITERAL, TokenTreeCheckUtils.getColonType(allBr[index++]));
-		Assert.areEqual(ColonType.TYPE_CHECK, TokenTreeCheckUtils.getColonType(allBr[index++]));
-		Assert.areEqual(ColonType.TYPE_CHECK, TokenTreeCheckUtils.getColonType(allBr[index++]));
-		Assert.areEqual(ColonType.OBJECT_LITERAL, TokenTreeCheckUtils.getColonType(allBr[index++]));
-		Assert.areEqual(ColonType.TERNARY, TokenTreeCheckUtils.getColonType(allBr[index++]));
-		Assert.areEqual(ColonType.TYPE_HINT, TokenTreeCheckUtils.getColonType(allBr[index++]));
+		Assert.areEqual(ColonType.ObjectLiteral, TokenTreeCheckUtils.getColonType(allBr[index++]));
+		Assert.areEqual(ColonType.TypeCheck, TokenTreeCheckUtils.getColonType(allBr[index++]));
+		Assert.areEqual(ColonType.TypeCheck, TokenTreeCheckUtils.getColonType(allBr[index++]));
+		Assert.areEqual(ColonType.ObjectLiteral, TokenTreeCheckUtils.getColonType(allBr[index++]));
+		Assert.areEqual(ColonType.Ternary, TokenTreeCheckUtils.getColonType(allBr[index++]));
+		Assert.areEqual(ColonType.TypeHint, TokenTreeCheckUtils.getColonType(allBr[index++]));
 
 		// var f:Void->Void;
-		Assert.areEqual(ColonType.TYPE_HINT, TokenTreeCheckUtils.getColonType(allBr[index++]));
+		Assert.areEqual(ColonType.TypeHint, TokenTreeCheckUtils.getColonType(allBr[index++]));
 
-		Assert.areEqual(ColonType.TYPE_HINT, TokenTreeCheckUtils.getColonType(allBr[index++]));
-		Assert.areEqual(ColonType.TYPE_HINT, TokenTreeCheckUtils.getColonType(allBr[index++]));
-		Assert.areEqual(ColonType.TYPE_HINT, TokenTreeCheckUtils.getColonType(allBr[index++]));
-		Assert.areEqual(ColonType.TYPE_HINT, TokenTreeCheckUtils.getColonType(allBr[index++]));
-		Assert.areEqual(ColonType.TYPE_HINT, TokenTreeCheckUtils.getColonType(allBr[index++]));
+		Assert.areEqual(ColonType.TypeHint, TokenTreeCheckUtils.getColonType(allBr[index++]));
+		Assert.areEqual(ColonType.TypeHint, TokenTreeCheckUtils.getColonType(allBr[index++]));
+		Assert.areEqual(ColonType.TypeHint, TokenTreeCheckUtils.getColonType(allBr[index++]));
+		Assert.areEqual(ColonType.TypeHint, TokenTreeCheckUtils.getColonType(allBr[index++]));
+		Assert.areEqual(ColonType.TypeHint, TokenTreeCheckUtils.getColonType(allBr[index++]));
 
-		Assert.areEqual(ColonType.AT, TokenTreeCheckUtils.getColonType(allBr[index++]));
-		Assert.areEqual(ColonType.TYPE_HINT, TokenTreeCheckUtils.getColonType(allBr[index++]));
-		Assert.areEqual(ColonType.TYPE_HINT, TokenTreeCheckUtils.getColonType(allBr[index++]));
-		Assert.areEqual(ColonType.TYPE_HINT, TokenTreeCheckUtils.getColonType(allBr[index++]));
-		Assert.areEqual(ColonType.TYPE_HINT, TokenTreeCheckUtils.getColonType(allBr[index++]));
+		Assert.areEqual(ColonType.At, TokenTreeCheckUtils.getColonType(allBr[index++]));
+		Assert.areEqual(ColonType.TypeHint, TokenTreeCheckUtils.getColonType(allBr[index++]));
+		Assert.areEqual(ColonType.TypeHint, TokenTreeCheckUtils.getColonType(allBr[index++]));
+		Assert.areEqual(ColonType.TypeHint, TokenTreeCheckUtils.getColonType(allBr[index++]));
+		Assert.areEqual(ColonType.TypeHint, TokenTreeCheckUtils.getColonType(allBr[index++]));
 
 		// case 0:
-		Assert.areEqual(ColonType.SWITCH_CASE, TokenTreeCheckUtils.getColonType(allBr[index++]));
+		Assert.areEqual(ColonType.SwitchCase, TokenTreeCheckUtils.getColonType(allBr[index++]));
 		// return {i: val.i + 1, s:val.s};
-		Assert.areEqual(ColonType.OBJECT_LITERAL, TokenTreeCheckUtils.getColonType(allBr[index++]));
-		Assert.areEqual(ColonType.OBJECT_LITERAL, TokenTreeCheckUtils.getColonType(allBr[index++]));
+		Assert.areEqual(ColonType.ObjectLiteral, TokenTreeCheckUtils.getColonType(allBr[index++]));
+		Assert.areEqual(ColonType.ObjectLiteral, TokenTreeCheckUtils.getColonType(allBr[index++]));
 		// case 1:
-		Assert.areEqual(ColonType.SWITCH_CASE, TokenTreeCheckUtils.getColonType(allBr[index++]));
+		Assert.areEqual(ColonType.SwitchCase, TokenTreeCheckUtils.getColonType(allBr[index++]));
 		// default:
-		Assert.areEqual(ColonType.SWITCH_CASE, TokenTreeCheckUtils.getColonType(allBr[index++]));
+		Assert.areEqual(ColonType.SwitchCase, TokenTreeCheckUtils.getColonType(allBr[index++]));
 		// return {i: 0, s:''};
-		Assert.areEqual(ColonType.OBJECT_LITERAL, TokenTreeCheckUtils.getColonType(allBr[index++]));
-		Assert.areEqual(ColonType.OBJECT_LITERAL, TokenTreeCheckUtils.getColonType(allBr[index++]));
+		Assert.areEqual(ColonType.ObjectLiteral, TokenTreeCheckUtils.getColonType(allBr[index++]));
+		Assert.areEqual(ColonType.ObjectLiteral, TokenTreeCheckUtils.getColonType(allBr[index++]));
 
 		// var a = (10 : A);
-		Assert.areEqual(ColonType.TYPE_CHECK, TokenTreeCheckUtils.getColonType(allBr[index++]));
+		Assert.areEqual(ColonType.TypeCheck, TokenTreeCheckUtils.getColonType(allBr[index++]));
 		// var a = (10.0 : A);
-		Assert.areEqual(ColonType.TYPE_CHECK, TokenTreeCheckUtils.getColonType(allBr[index++]));
+		Assert.areEqual(ColonType.TypeCheck, TokenTreeCheckUtils.getColonType(allBr[index++]));
 
 		// return switch ((this : DiagnosticsKind<T>)) {}
-		Assert.areEqual(ColonType.TYPE_CHECK, TokenTreeCheckUtils.getColonType(allBr[index++]));
+		Assert.areEqual(ColonType.TypeCheck, TokenTreeCheckUtils.getColonType(allBr[index++]));
 
 		// function new(anchor:Position, active:Position):Void;
-		Assert.areEqual(ColonType.TYPE_HINT, TokenTreeCheckUtils.getColonType(allBr[index++]));
-		Assert.areEqual(ColonType.TYPE_HINT, TokenTreeCheckUtils.getColonType(allBr[index++]));
-		Assert.areEqual(ColonType.TYPE_HINT, TokenTreeCheckUtils.getColonType(allBr[index++]));
+		Assert.areEqual(ColonType.TypeHint, TokenTreeCheckUtils.getColonType(allBr[index++]));
+		Assert.areEqual(ColonType.TypeHint, TokenTreeCheckUtils.getColonType(allBr[index++]));
+		Assert.areEqual(ColonType.TypeHint, TokenTreeCheckUtils.getColonType(allBr[index++]));
 
 		// var tokens(default, null):Array<IToken>;
-		Assert.areEqual(ColonType.TYPE_HINT, TokenTreeCheckUtils.getColonType(allBr[index++]));
+		Assert.areEqual(ColonType.TypeHint, TokenTreeCheckUtils.getColonType(allBr[index++]));
 
 		// @:overload(function<T>(key:String, defaultValue:T):T {})
-		Assert.areEqual(ColonType.AT, TokenTreeCheckUtils.getColonType(allBr[index++]));
-		Assert.areEqual(ColonType.TYPE_HINT, TokenTreeCheckUtils.getColonType(allBr[index++]));
-		Assert.areEqual(ColonType.TYPE_HINT, TokenTreeCheckUtils.getColonType(allBr[index++]));
-		Assert.areEqual(ColonType.TYPE_HINT, TokenTreeCheckUtils.getColonType(allBr[index++]));
+		Assert.areEqual(ColonType.At, TokenTreeCheckUtils.getColonType(allBr[index++]));
+		Assert.areEqual(ColonType.TypeHint, TokenTreeCheckUtils.getColonType(allBr[index++]));
+		Assert.areEqual(ColonType.TypeHint, TokenTreeCheckUtils.getColonType(allBr[index++]));
+		Assert.areEqual(ColonType.TypeHint, TokenTreeCheckUtils.getColonType(allBr[index++]));
 		// @:overload(function<T>(key:String):T {})
-		Assert.areEqual(ColonType.AT, TokenTreeCheckUtils.getColonType(allBr[index++]));
-		Assert.areEqual(ColonType.TYPE_HINT, TokenTreeCheckUtils.getColonType(allBr[index++]));
-		Assert.areEqual(ColonType.TYPE_HINT, TokenTreeCheckUtils.getColonType(allBr[index++]));
+		Assert.areEqual(ColonType.At, TokenTreeCheckUtils.getColonType(allBr[index++]));
+		Assert.areEqual(ColonType.TypeHint, TokenTreeCheckUtils.getColonType(allBr[index++]));
+		Assert.areEqual(ColonType.TypeHint, TokenTreeCheckUtils.getColonType(allBr[index++]));
 		// function get<T>(key:String):Null<T>;
-		Assert.areEqual(ColonType.TYPE_HINT, TokenTreeCheckUtils.getColonType(allBr[index++]));
-		Assert.areEqual(ColonType.TYPE_HINT, TokenTreeCheckUtils.getColonType(allBr[index++]));
+		Assert.areEqual(ColonType.TypeHint, TokenTreeCheckUtils.getColonType(allBr[index++]));
+		Assert.areEqual(ColonType.TypeHint, TokenTreeCheckUtils.getColonType(allBr[index++]));
 
 		// [for (i in 0...1) ("" : String).length];
-		Assert.areEqual(ColonType.TYPE_CHECK, TokenTreeCheckUtils.getColonType(allBr[index++]));
+		Assert.areEqual(ColonType.TypeCheck, TokenTreeCheckUtils.getColonType(allBr[index++]));
 
 		// static function foo(#if openfl ?vector:openfl.Vector<Int> #end) {}
-		Assert.areEqual(ColonType.TYPE_HINT, TokenTreeCheckUtils.getColonType(allBr[index++]));
+		Assert.areEqual(ColonType.TypeHint, TokenTreeCheckUtils.getColonType(allBr[index++]));
 
 		// if (Type.get((cast null : T)) == Type.get(0))
 		// (bytes : Bytes).sortI32(0, length, cast f);
-		Assert.areEqual(ColonType.TYPE_CHECK, TokenTreeCheckUtils.getColonType(allBr[index++]));
-		Assert.areEqual(ColonType.TYPE_CHECK, TokenTreeCheckUtils.getColonType(allBr[index++]));
+		Assert.areEqual(ColonType.TypeCheck, TokenTreeCheckUtils.getColonType(allBr[index++]));
+		Assert.areEqual(ColonType.TypeCheck, TokenTreeCheckUtils.getColonType(allBr[index++]));
 
 		// final obj:{f: Int} = {f: 1};
-		Assert.areEqual(ColonType.TYPE_HINT, TokenTreeCheckUtils.getColonType(allBr[index++]));
-		Assert.areEqual(ColonType.TYPE_HINT, TokenTreeCheckUtils.getColonType(allBr[index++]));
-		Assert.areEqual(ColonType.OBJECT_LITERAL, TokenTreeCheckUtils.getColonType(allBr[index++]));
+		Assert.areEqual(ColonType.TypeHint, TokenTreeCheckUtils.getColonType(allBr[index++]));
+		Assert.areEqual(ColonType.TypeHint, TokenTreeCheckUtils.getColonType(allBr[index++]));
+		Assert.areEqual(ColonType.ObjectLiteral, TokenTreeCheckUtils.getColonType(allBr[index++]));
 
 		// final obj:{f: {f: Int}} = {f: {f: 1}};
-		Assert.areEqual(ColonType.TYPE_HINT, TokenTreeCheckUtils.getColonType(allBr[index++]));
-		Assert.areEqual(ColonType.TYPE_HINT, TokenTreeCheckUtils.getColonType(allBr[index++]));
-		Assert.areEqual(ColonType.TYPE_HINT, TokenTreeCheckUtils.getColonType(allBr[index++]));
-		Assert.areEqual(ColonType.OBJECT_LITERAL, TokenTreeCheckUtils.getColonType(allBr[index++]));
-		Assert.areEqual(ColonType.OBJECT_LITERAL, TokenTreeCheckUtils.getColonType(allBr[index++]));
+		Assert.areEqual(ColonType.TypeHint, TokenTreeCheckUtils.getColonType(allBr[index++]));
+		Assert.areEqual(ColonType.TypeHint, TokenTreeCheckUtils.getColonType(allBr[index++]));
+		Assert.areEqual(ColonType.TypeHint, TokenTreeCheckUtils.getColonType(allBr[index++]));
+		Assert.areEqual(ColonType.ObjectLiteral, TokenTreeCheckUtils.getColonType(allBr[index++]));
+		Assert.areEqual(ColonType.ObjectLiteral, TokenTreeCheckUtils.getColonType(allBr[index++]));
 
 		// typedef Middleware = {
-		Assert.areEqual(ColonType.TYPE_HINT, TokenTreeCheckUtils.getColonType(allBr[index++]));
-		Assert.areEqual(ColonType.TYPE_HINT, TokenTreeCheckUtils.getColonType(allBr[index++]));
-		Assert.areEqual(ColonType.TYPE_HINT, TokenTreeCheckUtils.getColonType(allBr[index++]));
-		Assert.areEqual(ColonType.TYPE_HINT, TokenTreeCheckUtils.getColonType(allBr[index++]));
-		Assert.areEqual(ColonType.TYPE_HINT, TokenTreeCheckUtils.getColonType(allBr[index++]));
-		Assert.areEqual(ColonType.TYPE_HINT, TokenTreeCheckUtils.getColonType(allBr[index++]));
+		Assert.areEqual(ColonType.TypeHint, TokenTreeCheckUtils.getColonType(allBr[index++]));
+		Assert.areEqual(ColonType.TypeHint, TokenTreeCheckUtils.getColonType(allBr[index++]));
+		Assert.areEqual(ColonType.TypeHint, TokenTreeCheckUtils.getColonType(allBr[index++]));
+		Assert.areEqual(ColonType.TypeHint, TokenTreeCheckUtils.getColonType(allBr[index++]));
+		Assert.areEqual(ColonType.TypeHint, TokenTreeCheckUtils.getColonType(allBr[index++]));
+		Assert.areEqual(ColonType.TypeHint, TokenTreeCheckUtils.getColonType(allBr[index++]));
 
 		// 	Loading(progress:Float);
-		Assert.areEqual(ColonType.TYPE_HINT, TokenTreeCheckUtils.getColonType(allBr[index++]));
+		Assert.areEqual(ColonType.TypeHint, TokenTreeCheckUtils.getColonType(allBr[index++]));
 
 		// 	@:overload(function(element:js.html.Element):AngularElement {})
-		Assert.areEqual(ColonType.AT, TokenTreeCheckUtils.getColonType(allBr[index++]));
-		Assert.areEqual(ColonType.TYPE_HINT, TokenTreeCheckUtils.getColonType(allBr[index++]));
-		Assert.areEqual(ColonType.TYPE_HINT, TokenTreeCheckUtils.getColonType(allBr[index++]));
+		Assert.areEqual(ColonType.At, TokenTreeCheckUtils.getColonType(allBr[index++]));
+		Assert.areEqual(ColonType.TypeHint, TokenTreeCheckUtils.getColonType(allBr[index++]));
+		Assert.areEqual(ColonType.TypeHint, TokenTreeCheckUtils.getColonType(allBr[index++]));
 		// 	public static function element(name:String):AngularElement;
-		Assert.areEqual(ColonType.TYPE_HINT, TokenTreeCheckUtils.getColonType(allBr[index++]));
-		Assert.areEqual(ColonType.TYPE_HINT, TokenTreeCheckUtils.getColonType(allBr[index++]));
+		Assert.areEqual(ColonType.TypeHint, TokenTreeCheckUtils.getColonType(allBr[index++]));
+		Assert.areEqual(ColonType.TypeHint, TokenTreeCheckUtils.getColonType(allBr[index++]));
 	}
 
 	@Test
@@ -298,67 +298,67 @@ class TokenTreeCheckUtilsTest {
 		var root:TokenTree = assertCodeParses(TokenTreeCheckUtilsTests.MIXED_POPEN_TYPES);
 		Assert.isFalse(root.inserted);
 
-		var allBr:Array<TokenTree> = root.filter([POpen], ALL);
+		var allBr:Array<TokenTree> = root.filter([POpen], All);
 		Assert.areEqual(28, allBr.length);
 		var index:Int = 0;
 
-		Assert.areEqual(POpenType.EXPRESSION, TokenTreeCheckUtils.getPOpenType(null));
+		Assert.areEqual(POpenType.Expression, TokenTreeCheckUtils.getPOpenType(null));
 
 		// @:deprecated('UnlessshuffleArray(), you should use shuffle() quality.')
-		Assert.areEqual(POpenType.AT, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
+		Assert.areEqual(POpenType.At, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
 
 		// function main() {
-		Assert.areEqual(POpenType.PARAMETER, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
+		Assert.areEqual(POpenType.Parameter, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
 		// var output = (result.stderr : Buffer).toString().trim();
-		Assert.areEqual(POpenType.EXPRESSION, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
+		Assert.areEqual(POpenType.Expression, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
 		// var output = (result.stderr : Buffer).toString().trim();
-		Assert.areEqual(POpenType.EXPRESSION, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
-		Assert.areEqual(POpenType.CALL, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
-		Assert.areEqual(POpenType.CALL, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
+		Assert.areEqual(POpenType.Expression, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
+		Assert.areEqual(POpenType.Call, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
+		Assert.areEqual(POpenType.Call, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
 
 		// if (output == null) for (i in items) {}
-		Assert.areEqual(POpenType.IF_CONDITION, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
-		Assert.areEqual(POpenType.FORLOOP, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
+		Assert.areEqual(POpenType.IfCondition, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
+		Assert.areEqual(POpenType.ForLoop, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
 
 		// return e2 == null ? {t: HDyn} : bar(e2);
-		Assert.areEqual(POpenType.CALL, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
+		Assert.areEqual(POpenType.Call, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
 
 		// static function main(?value:Int) {}
-		Assert.areEqual(POpenType.PARAMETER, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
+		Assert.areEqual(POpenType.Parameter, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
 
 		// var f = (a:Int, b:Int) -> 0;
-		Assert.areEqual(POpenType.PARAMETER, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
+		Assert.areEqual(POpenType.Parameter, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
 		// foo((a : Int, b : Int) -> 0);
-		Assert.areEqual(POpenType.CALL, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
-		Assert.areEqual(POpenType.PARAMETER, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
+		Assert.areEqual(POpenType.Call, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
+		Assert.areEqual(POpenType.Parameter, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
 
 		// add(#if (php || as3) (v ? 'true' : 'false') #else v #end);
-		Assert.areEqual(POpenType.CALL, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
-		Assert.areEqual(POpenType.SHARP_CONDITION, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
-		Assert.areEqual(POpenType.EXPRESSION, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
+		Assert.areEqual(POpenType.Call, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
+		Assert.areEqual(POpenType.SharpCondition, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
+		Assert.areEqual(POpenType.Expression, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
 
 		// if (Type.get((cast null : T)) == Type.get(0))
 		// (bytes : Bytes).sortI32(0, length, cast f);
-		Assert.areEqual(POpenType.IF_CONDITION, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
-		Assert.areEqual(POpenType.CALL, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
-		Assert.areEqual(POpenType.EXPRESSION, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
-		Assert.areEqual(POpenType.CALL, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
-		Assert.areEqual(POpenType.EXPRESSION, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
-		Assert.areEqual(POpenType.CALL, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
+		Assert.areEqual(POpenType.IfCondition, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
+		Assert.areEqual(POpenType.Call, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
+		Assert.areEqual(POpenType.Expression, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
+		Assert.areEqual(POpenType.Call, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
+		Assert.areEqual(POpenType.Expression, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
+		Assert.areEqual(POpenType.Call, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
 
 		// while (true) {
-		Assert.areEqual(POpenType.WHILE_CONDITION, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
+		Assert.areEqual(POpenType.WhileCondition, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
 		// 	doSomething();
-		Assert.areEqual(POpenType.CALL, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
+		Assert.areEqual(POpenType.Call, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
 		// switch (condition) {
-		Assert.areEqual(POpenType.SWITCH_CONDITION, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
+		Assert.areEqual(POpenType.SwitchCondition, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
 		// } catch (e)
-		Assert.areEqual(POpenType.CATCH, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
+		Assert.areEqual(POpenType.Catch, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
 
 		// @:default(false) @:optional var disableFormatting:Bool;
-		Assert.areEqual(POpenType.AT, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
+		Assert.areEqual(POpenType.At, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
 		// @:default(auto) @:optional var emptyLines:EmptyLinesConfig;
-		Assert.areEqual(POpenType.AT, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
+		Assert.areEqual(POpenType.At, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
 	}
 
 	@Test
@@ -366,7 +366,7 @@ class TokenTreeCheckUtilsTest {
 		var root:TokenTree = assertCodeParses(TokenTreeCheckUtilsTests.MIXED_TYPE_PARAMETER);
 		Assert.isFalse(root.inserted);
 
-		var allBr:Array<TokenTree> = root.filter([Binop(OpLt)], ALL);
+		var allBr:Array<TokenTree> = root.filter([Binop(OpLt)], All);
 		Assert.areEqual(1, allBr.length);
 		var index:Int = 0;
 		// abstract SymbolStack(Array<{level:SymbolLevel, symbol:DocumentSymbol}>) {}
@@ -378,7 +378,7 @@ class TokenTreeCheckUtilsTest {
 		var root:TokenTree = assertCodeParses(TokenTreeCheckUtilsTests.MIXED_OP_SUB);
 		Assert.isFalse(root.inserted);
 
-		var allSubs:Array<TokenTree> = root.filter([Binop(OpSub)], ALL);
+		var allSubs:Array<TokenTree> = root.filter([Binop(OpSub)], All);
 		Assert.areEqual(45, allSubs.length);
 		var index:Int = 0;
 
@@ -470,11 +470,11 @@ class TokenTreeCheckUtilsTest {
 		var tokens:Array<TokenTree> = root.filterCallback(function(token:TokenTree, index:Int) {
 			switch (token.tok) {
 				case Kwd(_):
-					return FOUND_GO_DEEPER;
+					return FoundGoDeeper;
 				case Const(CIdent(_)):
-					return FOUND_GO_DEEPER;
+					return FoundGoDeeper;
 				default:
-					return GO_DEEPER;
+					return GoDeeper;
 			}
 		});
 
@@ -631,7 +631,7 @@ abstract TokenTreeCheckUtilsTests(String) to String {
 	}
 	";
 
-	var FUNCTION_TYPE_HAXE_3 = "
+	var OLD_FUNCTION_TYPE = "
 	class Main {
 		static public function main() {
 			// old function type syntax
@@ -653,7 +653,7 @@ abstract TokenTreeCheckUtilsTests(String) to String {
 	{}
 	";
 
-	var FUNCTION_TYPE_HAXE_4 = "
+	var NEW_FUNCTION_TYPE = "
 	class Main {
 		static public function main() {
 			// new function type syntax
