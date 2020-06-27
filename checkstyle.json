@@ -178,7 +178,7 @@
         {
             "props": {
                 "ignoreExtern": true,
-                "format": "^[A-Z0-9_]*$",
+                "format": "^[A-Z0-9_][a-zA-Z0-9]*$",
                 "tokens": [
                     "ENUM"
                 ]
@@ -524,11 +524,9 @@
 			"tokentree/utils/TokenTreeCheckUtils:determineBrOpenType",
 			"tokentree/utils/TokenTreeCheckUtils:determinePOpenType",
 			"tokentree/utils/TokenTreeCheckUtils:determinBrChildren",
-			"tokentree/utils/TokenTreeCheckUtils:findColonParent"
-		],
-		"MemberName": [
-			"tokentree/utils/TokenTreeCheckUtils:BrOpenType",
-			"tokentree/utils/TokenTreeCheckUtils:POpenType"
+			"tokentree/utils/TokenTreeCheckUtils:findColonParent",
+			"tokentree/ToTokenTreeDef",
+			"tokentree/TokenTreeDefPrinter"
 		],
         "MethodLength": [
 			"tokentree/walk/WalkStatement",

@@ -30,7 +30,7 @@ class TokenTestMain {
 			t = lexer.token(haxeparser.HaxeLexer.tok);
 		}
 
-		TokenStream.MODE = RELAXED;
+		TokenStream.MODE = Relaxed;
 
 		for (tok in tokens) Sys.println('${tok.tok} ${tok.pos}');
 		var root:TokenTree = TokenTreeBuilder.buildTokenTree(tokens, bytes);

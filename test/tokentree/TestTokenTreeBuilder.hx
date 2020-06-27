@@ -8,7 +8,7 @@ import tokentree.TokenTreeBuilder.TokenTreeEntryPoint;
 
 class TestTokenTreeBuilder extends TokenTreeBuilder {
 	public static function parseCode(code:String):TestTokenTreeBuilder {
-		var builder:TestTokenTreeBuilder = new TestTokenTreeBuilder(code, new TokenTree(null, "", null, -1));
+		var builder:TestTokenTreeBuilder = new TestTokenTreeBuilder(code, new TokenTree(Root, "", null, -1));
 		WalkFile.walkFile(builder.stream, builder.root);
 		return builder;
 	}

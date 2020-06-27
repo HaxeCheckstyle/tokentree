@@ -13,7 +13,7 @@ class VerifyTokenTree implements IVerifyTokenTree {
 		this.token = @:nullSafety(Off) token;
 	}
 
-	public function filter(tok:TokenDef, ?pos:PosInfos):IVerifyTokenTree {
+	public function filter(tok:TokenTreeDef, ?pos:PosInfos):IVerifyTokenTree {
 		var list:Array<IVerifyTokenTree> = [];
 		if (token.children != null) {
 			for (child in token.children) {
@@ -93,7 +93,7 @@ class VerifyTokenTree implements IVerifyTokenTree {
 		return this;
 	}
 
-	public function is(tok:TokenDef, ?pos:PosInfos):IVerifyTokenTree {
+	public function is(tok:TokenTreeDef, ?pos:PosInfos):IVerifyTokenTree {
 		Assert.isTrue(token.is(tok), '$tok != ${token.tok}', pos);
 		return this;
 	}

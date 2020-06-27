@@ -12,7 +12,7 @@ class VerifyTokenTreeList implements IVerifyTokenTree {
 		this.tokens = tokens;
 	}
 
-	public function filter(tok:TokenDef, ?pos:PosInfos):IVerifyTokenTree {
+	public function filter(tok:TokenTreeDef, ?pos:PosInfos):IVerifyTokenTree {
 		var list:Array<IVerifyTokenTree> = [];
 		for (token in tokens) {
 			var child:IVerifyTokenTree = token.filter(tok, pos);
@@ -94,7 +94,7 @@ class VerifyTokenTreeList implements IVerifyTokenTree {
 		return new VerifyTokenTreeList(list);
 	}
 
-	public function is(tok:TokenDef, ?pos:PosInfos):IVerifyTokenTree {
+	public function is(tok:TokenTreeDef, ?pos:PosInfos):IVerifyTokenTree {
 		var list:Array<IVerifyTokenTree> = [];
 		for (token in tokens) list.push(token.is(tok, pos));
 		return new VerifyTokenTreeList(list);

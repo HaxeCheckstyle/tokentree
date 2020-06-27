@@ -54,9 +54,9 @@ class WalkTypedefBody {
 		var tempStore:Array<TokenTree> = stream.getTempStore();
 		if (tempStore.length > 0) {
 			switch (TokenStream.MODE) {
-				case RELAXED:
+				case Relaxed:
 					stream.applyTempStore(openTok);
-				case STRICT:
+				case Strict:
 					throw "invalid token tree structure - found:" + '$tempStore';
 			}
 		}

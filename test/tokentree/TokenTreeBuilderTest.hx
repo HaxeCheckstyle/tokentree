@@ -69,18 +69,18 @@ class TokenTreeBuilderTest {
 
 	@Test
 	public function testEntryPoint() {
-		parseNoException(ENTRY_POINT_FILE, TYPE_LEVEL);
-		parseNoException(ENTRY_POINT_FUNCTION, FIELD_LEVEL);
-		parseNoException(ENTRY_POINT_FUNCTION_WITH_BODY, FIELD_LEVEL);
-		parseNoException(ENTRY_POINT_EXPRESSION, EXPRESSION_LEVEL);
-		parseNoException(ENTRY_POINT_EXPRESSION_SWITCH, EXPRESSION_LEVEL);
+		parseNoException(ENTRY_POINT_FILE, TypeLevel);
+		parseNoException(ENTRY_POINT_FUNCTION, FieldLevel);
+		parseNoException(ENTRY_POINT_FUNCTION_WITH_BODY, FieldLevel);
+		parseNoException(ENTRY_POINT_EXPRESSION, ExpressionLevel);
+		parseNoException(ENTRY_POINT_EXPRESSION_SWITCH, ExpressionLevel);
 
-		parseWithException(ENTRY_POINT_FILE, EXPRESSION_LEVEL);
-		parseWithException(ENTRY_POINT_EXPRESSION_SWITCH, FIELD_LEVEL);
+		parseWithException(ENTRY_POINT_FILE, ExpressionLevel);
+		parseWithException(ENTRY_POINT_EXPRESSION_SWITCH, FieldLevel);
 
-		parseNoException(ENTRY_POINT_TYPEDEF, TYPE_HINT_LEVEL);
-		parseNoException(ENTRY_POINT_MAP, TYPE_HINT_LEVEL);
-		parseWithException(ENTRY_POINT_FILE, TYPE_HINT_LEVEL);
+		parseNoException(ENTRY_POINT_TYPEDEF, TypeHintLevel);
+		parseNoException(ENTRY_POINT_MAP, TypeHintLevel);
+		parseWithException(ENTRY_POINT_FILE, TypeHintLevel);
 	}
 
 	function parseWithException(code:String, level:TokenTreeEntryPoint, ?pos:PosInfos) {
@@ -95,8 +95,8 @@ class TokenTreeBuilderTest {
 	}
 
 	function parseNoException(code:String, level:TokenTreeEntryPoint) {
-		TokenStream.MODE = STRICT;
-		var root:TokenTree = new TokenTree(null, "", null, -1);
+		TokenStream.MODE = Strict;
+		var root:TokenTree = new TokenTree(Root, "", null, -1);
 		var testBuilder:TestTokenTreeBuilder = new TestTokenTreeBuilder(code, root);
 		testBuilder.buildTokenTree(level);
 	}
@@ -107,7 +107,7 @@ class TokenTreeBuilderTest {
 
 	function treeToString(token:TokenTree, prefix:String = ""):String {
 		var buf:StringBuf = new StringBuf();
-		var tokDef:TokenDef = token.tok;
+		var tokDef:TokenTreeDef = token.tok;
 		if (tokDef != null) buf.add('$prefix${tokDef}\n');
 		if (token.hasChildren()) {
 			@:nullSafety(Off)

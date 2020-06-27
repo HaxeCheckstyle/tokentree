@@ -15,7 +15,7 @@ class TokenTreeCheckUtils {
 	public static function isImport(token:Null<TokenTree>):Bool {
 		var parent:Null<TokenTree> = token;
 		while (parent != null) {
-			if (parent.tok == null) return false;
+			if (parent.tok == Root) return false;
 			switch (parent.tok) {
 				case Kwd(KwdMacro):
 				case Kwd(KwdExtern):
@@ -87,16 +87,16 @@ class TokenTreeCheckUtils {
 				var pOpen:TokenTree = prev.parent;
 				var type:POpenType = getPOpenType(pOpen);
 				switch (type) {
-					case AT: return true;
-					case PARAMETER: return true;
-					case CALL: return false;
-					case SWITCH_CONDITION: return true;
-					case WHILE_CONDITION: return true;
-					case IF_CONDITION: return true;
-					case SHARP_CONDITION: return true;
-					case CATCH: return false;
-					case FORLOOP: return true;
-					case EXPRESSION: return false;
+					case At: return true;
+					case Parameter: return true;
+					case Call: return false;
+					case SwitchCondition: return true;
+					case WhileCondition: return true;
+					case IfCondition: return true;
+					case SharpCondition: return true;
+					case Catch: return false;
+					case ForLoop: return true;
+					case Expression: return false;
 				}
 			case Comma:
 				return true;
@@ -234,15 +234,15 @@ class TokenTreeCheckUtils {
 
 	public static function isBrOpenAnonTypeOrTypedef(token:TokenTree):Bool {
 		switch (getBrOpenType(token)) {
-			case BLOCK:
+			case Block:
 				return false;
-			case TYPEDEFDECL:
+			case TypedefDecl:
 				return true;
-			case OBJECTDECL:
+			case ObjectDecl:
 				return false;
-			case ANONTYPE:
+			case AnonType:
 				return true;
-			case UNKNOWN:
+			case Unknown:
 				return false;
 		}
 	}
@@ -350,7 +350,7 @@ class TokenTreeCheckUtils {
 
 	public static function getBrOpenType(token:TokenTree):BrOpenType {
 		if (token == null) {
-			return UNKNOWN;
+			return Unknown;
 		}
 		if (token.tokenTypeCache.brOpenType != null) {
 			return token.tokenTypeCache.brOpenType;
@@ -363,75 +363,75 @@ class TokenTreeCheckUtils {
 
 	static function determineBrOpenType(token:TokenTree):BrOpenType {
 		if (token == null) {
-			return UNKNOWN;
+			return Unknown;
 		}
-		if (token.parent == null || token.parent.tok == null) {
+		if (token.parent == null || token.parent.tok == Root) {
 			return determinBrChildren(token);
 		}
 		switch (token.parent.tok) {
 			case Binop(OpAssign):
 				if (isInsideTypedef(token.parent)) {
-					return TYPEDEFDECL;
+					return TypedefDecl;
 				}
 				return determinBrChildren(token);
 			case Binop(OpLt):
-				return ANONTYPE;
+				return AnonType;
 			case Binop(_):
-				return OBJECTDECL;
+				return ObjectDecl;
 			case Kwd(KwdReturn):
 				return determinBrChildren(token);
 			case Question:
 				if (isTernary(token.parent)) {
-					return OBJECTDECL;
+					return ObjectDecl;
 				}
 			case DblDot:
 				if (isTernary(token.parent)) {
-					return OBJECTDECL;
+					return ObjectDecl;
 				}
 				var parent:TokenTree = token.parent.parent;
 				switch (parent.tok) {
 					case Const(CIdent(_)):
 					case Const(CString(_)):
-					case Kwd(KwdCase): return OBJECTDECL;
-					case Kwd(KwdDefault): return OBJECTDECL;
-					default: return ANONTYPE;
+					case Kwd(KwdCase): return ObjectDecl;
+					case Kwd(KwdDefault): return ObjectDecl;
+					default: return AnonType;
 				}
 				parent = parent.parent;
 				switch (parent.tok) {
-					case Question: return ANONTYPE;
-					case Kwd(KwdVar): return ANONTYPE;
-					case Kwd(KwdFunction): return ANONTYPE;
-					case Const(CIdent("final")): return ANONTYPE;
+					case Question: return AnonType;
+					case Kwd(KwdVar): return AnonType;
+					case Kwd(KwdFunction): return AnonType;
+					case Const(CIdent("final")): return AnonType;
 					#if haxe4
-					case Kwd(KwdFinal): return ANONTYPE;
+					case Kwd(KwdFinal): return AnonType;
 					#end
 					case BrOpen: return getBrOpenType(parent);
-					case POpen: return ANONTYPE;
-					case Binop(OpLt): return ANONTYPE;
-					default: return OBJECTDECL;
+					case POpen: return AnonType;
+					case Binop(OpLt): return AnonType;
+					default: return ObjectDecl;
 				}
 			case POpen:
 				var pOpenType:POpenType = getPOpenType(token.parent);
 				switch (pOpenType) {
-					case AT: return OBJECTDECL;
-					case PARAMETER: return ANONTYPE;
-					case CALL: return OBJECTDECL;
-					case SWITCH_CONDITION: return UNKNOWN;
-					case WHILE_CONDITION: return UNKNOWN;
-					case IF_CONDITION: return UNKNOWN;
-					case SHARP_CONDITION: return UNKNOWN;
-					case CATCH: return UNKNOWN;
-					case FORLOOP: return UNKNOWN;
-					case EXPRESSION: return OBJECTDECL;
+					case At: return ObjectDecl;
+					case Parameter: return AnonType;
+					case Call: return ObjectDecl;
+					case SwitchCondition: return Unknown;
+					case WhileCondition: return Unknown;
+					case IfCondition: return Unknown;
+					case SharpCondition: return Unknown;
+					case Catch: return Unknown;
+					case ForLoop: return Unknown;
+					case Expression: return ObjectDecl;
 				}
 			case BkOpen:
-				return OBJECTDECL;
+				return ObjectDecl;
 			case Const(CIdent("from")), Const(CIdent("to")):
-				return ANONTYPE;
+				return AnonType;
 			case Const(_):
-				return BLOCK;
+				return Block;
 			case Dollar(_):
-				return BLOCK;
+				return Block;
 			default:
 		}
 		return determinBrChildren(token);
@@ -441,75 +441,75 @@ class TokenTreeCheckUtils {
 		if ((token.children == null) || (token.children.length <= 0)) {
 			switch (token.parent.tok) {
 				case Kwd(_):
-					return BLOCK;
+					return Block;
 				default:
-					return OBJECTDECL;
+					return ObjectDecl;
 			}
 		}
-		if (token.parent != null && token.parent.tok != null) {
+		if (token.parent != null && token.parent.tok != Root) {
 			if (token.children.length == 1) {
 				switch (token.parent.tok) {
 					case Kwd(_):
-						return BLOCK;
+						return Block;
 					default:
-						return OBJECTDECL;
+						return ObjectDecl;
 				}
 			}
 			if ((token.children.length == 2) && token.getLastChild().is(Semicolon)) {
 				switch (token.parent.tok) {
 					case Kwd(_):
-						return BLOCK;
+						return Block;
 					default:
-						return OBJECTDECL;
+						return ObjectDecl;
 				}
 			}
 		}
 		if (TokenTreeAccessHelper.access(token).firstOf(Arrow).exists()) {
-			return ANONTYPE;
+			return AnonType;
 		}
 		if ((token.nextSibling != null) && (token.nextSibling.is(Arrow))) {
-			return ANONTYPE;
+			return AnonType;
 		}
 		var onlyComment:Bool = true;
 		for (child in token.children) {
 			switch (child.tok) {
 				case Const(CIdent(_)), Const(CString(_)):
 					if (!child.access().firstChild().is(DblDot).exists()) {
-						return BLOCK;
+						return Block;
 					}
 					onlyComment = false;
 				case Comment(_), CommentLine(_):
 				case BrClose:
 					if (onlyComment) {
-						if (token.parent != null && token.parent.tok != null) {
+						if (token.parent != null && token.parent.tok != Root) {
 							switch (token.parent.tok) {
-								case Kwd(_): return BLOCK;
-								default: return OBJECTDECL;
+								case Kwd(_): return Block;
+								default: return ObjectDecl;
 							}
 						}
 						else {
-							return OBJECTDECL;
+							return ObjectDecl;
 						}
 					}
-					return OBJECTDECL;
+					return ObjectDecl;
 				case Sharp(_):
 				default:
-					return BLOCK;
+					return Block;
 			}
 		}
-		return OBJECTDECL;
+		return ObjectDecl;
 	}
 
 	public static function getPOpenType(token:TokenTree):POpenType {
 		if (token == null) {
-			return EXPRESSION;
+			return Expression;
 		}
 		switch (token.tok) {
 			case POpen:
 			case PClose:
 				return getPOpenType(token.parent);
 			default:
-				return EXPRESSION;
+				return Expression;
 		}
 		if (token.tokenTypeCache.pOpenType != null) {
 			return token.tokenTypeCache.pOpenType;
@@ -522,89 +522,89 @@ class TokenTreeCheckUtils {
 
 	public static function determinePOpenType(token:TokenTree):POpenType {
 		var parent:TokenTree = token.parent;
-		if ((parent == null) || (parent.tok == null)) {
-			return EXPRESSION;
+		if ((parent == null) || (parent.tok == Root)) {
+			return Expression;
 		}
 		if (hasAtParent(token)) {
-			return AT;
+			return At;
 		}
 		var lastChild:TokenTree = token.getLastChild();
 		if (lastChild != null) {
 			switch (lastChild.tok) {
 				case Arrow:
-					return PARAMETER;
+					return Parameter;
 				default:
 			}
 		}
-		while ((parent != null) && (parent.tok != null)) {
+		while ((parent != null) && (parent.tok != Root)) {
 			switch (parent.tok) {
 				case Binop(OpLt):
 					parent = parent.parent;
 				case Sharp(WalkSharpConsts.IF), Sharp(WalkSharpConsts.ELSEIF):
 					if (parent.getFirstChild() == token) {
-						return SHARP_CONDITION;
+						return SharpCondition;
 					}
 					parent = parent.parent;
 				default:
 					break;
 			}
 		}
-		if ((parent == null) || (parent.tok == null)) {
-			return EXPRESSION;
+		if ((parent == null) || (parent.tok == Root)) {
+			return Expression;
 		}
 		switch (parent.tok) {
 			case Kwd(KwdIf):
 				var firstChild:Null<TokenTree> = parent.getFirstChild();
 				if (firstChild == null) {
-					return IF_CONDITION;
+					return IfCondition;
 				}
 				if (firstChild.index == token.index) {
-					return IF_CONDITION;
+					return IfCondition;
 				}
-				return EXPRESSION;
+				return Expression;
 			case Kwd(KwdWhile):
-				return WHILE_CONDITION;
+				return WhileCondition;
 			case Kwd(KwdSwitch):
-				return SWITCH_CONDITION;
+				return SwitchCondition;
 			case Kwd(KwdFor):
-				return FORLOOP;
+				return ForLoop;
 			case Kwd(KwdCatch):
-				return CATCH;
+				return Catch;
 			case POpen:
-				return EXPRESSION;
+				return Expression;
 			case Kwd(KwdFunction):
-				return PARAMETER;
+				return Parameter;
 			case Kwd(KwdNew):
-				return PARAMETER;
+				return Parameter;
 			case Const(CIdent(_)):
-				if ((parent.parent == null) || (parent.parent.tok == null)) {
-					return CALL;
+				if ((parent.parent == null) || (parent.parent.tok == Root)) {
+					return Call;
 				}
 				switch (parent.parent.tok) {
 					case Kwd(KwdFunction):
 						if (parent.previousSibling == null) {
-							return PARAMETER;
+							return Parameter;
 						}
-						return CALL;
-					case Kwd(KwdAbstract): return PARAMETER;
+						return Call;
+					case Kwd(KwdAbstract): return Parameter;
 					case BrOpen:
 						if (parent.parent.access().parent().parent().is(Kwd(KwdEnum)).exists()) {
-							return PARAMETER;
+							return Parameter;
 						}
-						return CALL;
-					default: return CALL;
+						return Call;
+					default: return Call;
 				}
 			default:
 		}
 		if (TokenTreeAccessHelper.access(token).firstOf(Arrow).exists()) {
-			return PARAMETER;
+			return Parameter;
 		}
-		return EXPRESSION;
+		return Expression;
 	}
 
 	public static function hasAtParent(token:TokenTree):Bool {
 		var parent:TokenTree = token.parent;
-		while (parent.tok != null) {
+		while (parent.tok != Root) {
 			switch (parent.tok) {
 				case Const(_):
 				case Dot:
@@ -646,7 +646,7 @@ class TokenTreeCheckUtils {
 
 	public static function getArrowType(token:TokenTree):ArrowType {
 		if (token == null) {
-			return ARROW_FUNCTION;
+			return ArrowFunction;
 		}
 		if (token.tokenTypeCache.arrowType != null) {
 			return token.tokenTypeCache.arrowType;
@@ -654,7 +654,7 @@ class TokenTreeCheckUtils {
 
 		var type:Null<ArrowType> = determineArrowType(token);
 		if (type == null) {
-			type = ARROW_FUNCTION;
+			type = ArrowFunction;
 		}
 		token.tokenTypeCache.arrowType = type;
 		return type;
@@ -662,7 +662,7 @@ class TokenTreeCheckUtils {
 
 	public static function determineArrowType(token:TokenTree):ArrowType {
 		if (token == null) {
-			return ARROW_FUNCTION;
+			return ArrowFunction;
 		}
 		var child:TokenTree = token.getFirstChild();
 		while (child != null) {
@@ -671,15 +671,15 @@ class TokenTreeCheckUtils {
 				case BrOpen:
 					var brClose:TokenTree = child.getFirstChild();
 					if (brClose.is(BrClose)) {
-						return ARROW_FUNCTION;
+						return ArrowFunction;
 					}
 					var brType:Null<BrOpenType> = getBrOpenType(child);
 					if (brType == null) {
-						brType = UNKNOWN;
+						brType = Unknown;
 					}
 					switch (brType) {
-						case BLOCK: return ARROW_FUNCTION;
-						case ANONTYPE:
+						case Block: return ArrowFunction;
+						case AnonType:
 						default:
 					}
 					child = child.nextSibling;
@@ -691,13 +691,13 @@ class TokenTreeCheckUtils {
 				case POpen:
 				case Comment(_), CommentLine(_):
 				default:
-					return ARROW_FUNCTION;
+					return ArrowFunction;
 			}
 			child = child.getFirstChild();
 		}
 		var parent:TokenTree = token.parent;
 		if (parent == null) {
-			return ARROW_FUNCTION;
+			return ArrowFunction;
 		}
 		var resultType:Null<ArrowType> = checkArrowParent(parent);
 		if (resultType != null) {
@@ -710,7 +710,7 @@ class TokenTreeCheckUtils {
 		var child:TokenTree = parent.getFirstChild();
 
 		if (child == null) {
-			return ARROW_FUNCTION;
+			return ArrowFunction;
 		}
 		var seenArrow:Bool = false;
 		while (child != null) {
@@ -719,7 +719,7 @@ class TokenTreeCheckUtils {
 					seenArrow = true;
 				case Const(CIdent(_)):
 				case Kwd(_):
-					return ARROW_FUNCTION;
+					return ArrowFunction;
 				case Dot, Semicolon:
 				case BrOpen, DblDot:
 				case Binop(OpLt):
@@ -736,14 +736,14 @@ class TokenTreeCheckUtils {
 				case Question:
 				case Comment(_), CommentLine(_):
 				default:
-					return FUNCTION_TYPE_HAXE4;
+					return NewFunctionType;
 			}
 			child = child.getFirstChild();
 		}
 		if (seenArrow) {
-			return FUNCTION_TYPE_HAXE3;
+			return OldFunctionType;
 		}
-		return FUNCTION_TYPE_HAXE4;
+		return NewFunctionType;
 	}
 
 	static function checkArrowPOpen(token:TokenTree):Null<ArrowType> {
@@ -751,63 +751,63 @@ class TokenTreeCheckUtils {
 			return null;
 		}
 		if (token.parent.isCIdent()) {
-			return ARROW_FUNCTION;
+			return ArrowFunction;
 		}
-		var childArrows:Array<TokenTree> = token.filter([Arrow], ALL);
+		var childArrows:Array<TokenTree> = token.filter([Arrow], All);
 		if (childArrows.length <= 0) {
-			return ARROW_FUNCTION;
+			return ArrowFunction;
 		}
-		var childArrows:Array<TokenTree> = token.filter([DblDot], ALL);
+		var childArrows:Array<TokenTree> = token.filter([DblDot], All);
 		if (childArrows.length > 0) {
-			return FUNCTION_TYPE_HAXE4;
+			return NewFunctionType;
 		}
-		return FUNCTION_TYPE_HAXE3;
+		return OldFunctionType;
 	}
 
 	static function checkArrowParent(parent:TokenTree):Null<ArrowType> {
 		if (parent == null) {
-			return ARROW_FUNCTION;
+			return ArrowFunction;
 		}
 		switch (parent.tok) {
 			case POpen:
 			case Const(CIdent(_)):
-				if ((parent.parent == null) || (parent.parent.tok == null)) return ARROW_FUNCTION;
+				if ((parent.parent == null) || (parent.parent.tok == Root)) return ArrowFunction;
 				switch (parent.parent.tok) {
 					case POpen:
 						var type:POpenType = getPOpenType(parent.parent);
 						if (type == null) {
-							type = EXPRESSION;
+							type = Expression;
 						}
 						switch (type) {
-							case PARAMETER: return FUNCTION_TYPE_HAXE3;
-							case EXPRESSION: return FUNCTION_TYPE_HAXE3;
-							default: return ARROW_FUNCTION;
+							case Parameter: return OldFunctionType;
+							case Expression: return OldFunctionType;
+							default: return ArrowFunction;
 						}
 					case Binop(OpAssign):
 						if (isInsideTypedef(parent.parent)) {
-							return FUNCTION_TYPE_HAXE3;
+							return OldFunctionType;
 						}
-						return ARROW_FUNCTION;
-					case Binop(OpArrow): return ARROW_FUNCTION;
-					case Arrow: return FUNCTION_TYPE_HAXE3;
+						return ArrowFunction;
+					case Binop(OpArrow): return ArrowFunction;
+					case Arrow: return OldFunctionType;
 					case DblDot:
 						var type:ColonType = getColonType(parent.parent);
 						switch (type) {
-							case TYPE_HINT: return FUNCTION_TYPE_HAXE3;
-							case TYPE_CHECK: return FUNCTION_TYPE_HAXE3;
-							case SWITCH_CASE | TERNARY | OBJECT_LITERAL | AT | UNKNOWN: return ARROW_FUNCTION;
+							case TypeHint: return OldFunctionType;
+							case TypeCheck: return OldFunctionType;
+							case SwitchCase | Ternary | ObjectLiteral | At | Unknown: return ArrowFunction;
 						}
 					default:
 				}
 			default:
-				return FUNCTION_TYPE_HAXE3;
+				return OldFunctionType;
 		}
 		return null;
 	}
 
 	public static function getColonType(token:TokenTree):ColonType {
 		if (token == null) {
-			return UNKNOWN;
+			return Unknown;
 		}
 		if (token.tokenTypeCache.colonType != null) {
 			return token.tokenTypeCache.colonType;
@@ -820,36 +820,36 @@ class TokenTreeCheckUtils {
 
 	public static function determineColonType(token:TokenTree):ColonType {
 		if (token == null) {
-			return UNKNOWN;
+			return Unknown;
 		}
 		if (isTernary(token)) {
-			return TERNARY;
+			return Ternary;
 		}
 		var parent:TokenTree = token.parent;
 		if (parent == null) {
-			return UNKNOWN;
+			return Unknown;
 		}
 		switch (parent.tok) {
 			case Sharp(_):
 				parent = parent.parent;
-				if ((parent == null) || (parent.tok == null)) {
-					return UNKNOWN;
+				if ((parent == null) || (parent.tok == Root)) {
+					return Unknown;
 				}
 			default:
 		}
 
 		switch (parent.tok) {
 			case Kwd(KwdCase), Kwd(KwdDefault):
-				return SWITCH_CASE;
+				return SwitchCase;
 			case At:
-				return AT;
+				return At;
 			case BrOpen:
 				var brClose:TokenTree = parent.access().firstOf(BrClose).token;
 				if (brClose == null) {
-					return UNKNOWN;
+					return Unknown;
 				}
 				if (brClose.pos.max <= token.pos.min) {
-					return TYPE_CHECK;
+					return TypeCheck;
 				}
 			case POpen:
 				return findColonParent(token);
@@ -864,54 +864,54 @@ class TokenTreeCheckUtils {
 			case Question:
 				return findColonParent(parent);
 			case Kwd(KwdFunction):
-				return TYPE_HINT;
+				return TypeHint;
 			default:
 		}
-		return UNKNOWN;
+		return Unknown;
 	}
 
 	static function findColonParent(token:TokenTree):ColonType {
 		var parent:TokenTree = token;
-		while (parent.tok != null) {
+		while (parent.tok != Root) {
 			switch (parent.tok) {
 				case Kwd(KwdFunction), Kwd(KwdVar), Const(CIdent("final")):
-					return TYPE_HINT;
+					return TypeHint;
 				#if (haxe_ver >= 4.0)
 				case Kwd(KwdFinal):
-					return TYPE_HINT;
+					return TypeHint;
 				#end
 				case BrOpen:
 					var brType:BrOpenType = getBrOpenType(parent);
 					switch (brType) {
-						case BLOCK: return UNKNOWN;
-						case TYPEDEFDECL: return TYPE_HINT;
-						case OBJECTDECL: return OBJECT_LITERAL;
-						case ANONTYPE: return TYPE_HINT;
-						case UNKNOWN: return UNKNOWN;
+						case Block: return Unknown;
+						case TypedefDecl: return TypeHint;
+						case ObjectDecl: return ObjectLiteral;
+						case AnonType: return TypeHint;
+						case Unknown: return Unknown;
 					}
 				case POpen:
 					var pClose:TokenTree = parent.access().firstOf(PClose).token;
 					if ((pClose != null) && (pClose.pos.max <= token.pos.min)) {
-						return TYPE_CHECK;
+						return TypeCheck;
 					}
 					var pType:POpenType = getPOpenType(parent);
 					switch (pType) {
-						case AT: return OBJECT_LITERAL;
-						case PARAMETER: return TYPE_HINT;
-						case CALL: return UNKNOWN;
-						case SWITCH_CONDITION: return TYPE_CHECK;
-						case WHILE_CONDITION: return UNKNOWN;
-						case IF_CONDITION: return UNKNOWN;
-						case SHARP_CONDITION: return UNKNOWN;
-						case CATCH: return UNKNOWN;
-						case FORLOOP: return TYPE_CHECK;
-						case EXPRESSION: return TYPE_CHECK;
+						case At: return ObjectLiteral;
+						case Parameter: return TypeHint;
+						case Call: return Unknown;
+						case SwitchCondition: return TypeCheck;
+						case WhileCondition: return Unknown;
+						case IfCondition: return Unknown;
+						case SharpCondition: return Unknown;
+						case Catch: return Unknown;
+						case ForLoop: return TypeCheck;
+						case Expression: return TypeCheck;
 					}
 				default:
 			}
 			parent = parent.parent;
 		}
-		return UNKNOWN;
+		return Unknown;
 	}
 
 	public static function getLastToken(token:TokenTree):Null<TokenTree> {
@@ -936,15 +936,15 @@ class TokenTreeCheckUtils {
 	}
 
 	public static function isMetadata(token:Null<TokenTree>):Bool {
-		if ((token == null) || (token.tok == null)) {
+		if ((token == null) || (token.tok == Root)) {
 			return false;
 		}
 		var parent:Null<TokenTree> = token.parent;
-		while ((parent != null) && (parent.tok != null)) {
+		while ((parent != null) && (parent.tok != Root)) {
 			switch (parent.tok) {
 				case DblDot:
 					parent = parent.parent;
-					if ((parent == null) || (parent.tok == null)) {
+					if ((parent == null) || (parent.tok == Root)) {
 						return false;
 					}
 					switch (parent.tok) {
@@ -962,38 +962,38 @@ class TokenTreeCheckUtils {
 }
 
 enum BrOpenType {
-	BLOCK;
-	TYPEDEFDECL;
-	OBJECTDECL;
-	ANONTYPE;
-	UNKNOWN;
+	Block;
+	TypedefDecl;
+	ObjectDecl;
+	AnonType;
+	Unknown;
 }
 
 enum POpenType {
-	AT;
-	PARAMETER;
-	CALL;
-	SWITCH_CONDITION;
-	WHILE_CONDITION;
-	IF_CONDITION;
-	SHARP_CONDITION;
-	CATCH;
-	FORLOOP;
-	EXPRESSION;
+	At;
+	Parameter;
+	Call;
+	SwitchCondition;
+	WhileCondition;
+	IfCondition;
+	SharpCondition;
+	Catch;
+	ForLoop;
+	Expression;
 }
 
 enum ArrowType {
-	ARROW_FUNCTION;
-	FUNCTION_TYPE_HAXE3;
-	FUNCTION_TYPE_HAXE4;
+	ArrowFunction;
+	OldFunctionType;
+	NewFunctionType;
 }
 
 enum ColonType {
-	SWITCH_CASE;
-	TYPE_HINT;
-	TYPE_CHECK;
-	TERNARY;
-	OBJECT_LITERAL;
-	AT;
-	UNKNOWN;
+	SwitchCase;
+	TypeHint;
+	TypeCheck;
+	Ternary;
+	ObjectLiteral;
+	At;
+	Unknown;
 }
