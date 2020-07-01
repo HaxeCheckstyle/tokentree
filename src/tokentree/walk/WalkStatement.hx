@@ -56,6 +56,8 @@ class WalkStatement {
 				wantMore = true;
 			case Binop(_):
 				wantMore = true;
+			case Const(CIdent("is")):
+				wantMore = true;
 			case Unop(_):
 				if (parent.isCIdentOrCString()) {
 					var newChild:TokenTree = stream.consumeToken();
@@ -161,6 +163,8 @@ class WalkStatement {
 			case Binop(OpAdd), Binop(OpSub):
 				walkOpAdd(stream, parent);
 			case Binop(_):
+				walkStatementWithoutSemicolon(stream, parent);
+			case Const(CIdent("is")):
 				walkStatementWithoutSemicolon(stream, parent);
 			case Unop(_):
 				if (parent.isCIdentOrCString()) {
