@@ -115,6 +115,7 @@ class TokenTreeBuilderParsingTest {
 		assertCodeParses(METADATA_DOC_COMMENT);
 		assertCodeParses(PRIVATE_FINAL_CLASS);
 		assertCodeParses(METADATA_IN);
+		assertCodeParses(IS_OPERATOR);
 	}
 
 	public function assertCodeParses(code:String, ?pos:PosInfos) {
@@ -1573,6 +1574,37 @@ import #if haxe4 js.lib.Promise #else js.Promise #end as JsPromise;
 	var METADATA_IN = "
 	class Main {
 		@in var someVar = 123;
+	}
+	";
+
+	var IS_OPERATOR = "
+	function main() {
+		(a[0] is Int);
+		{
+			x is String
+		}
+		{a: 1} is String;
+		$x is String;
+		1 is Strring;
+		1.6 is String;
+		'is' is String;
+		this is Bad;
+		cast(x) is Bool;
+		cast(x : Int) is Bool;
+		cast x is Bool;
+		new String('') is Bad;
+		(x) is Bad;
+		(x : Int) is Bad;
+		[1, 2] is Bad;
+		$i{x} is Bad;
+		x() is Bad;
+		x(y) is Bad;
+		x(y is String) is Bad;
+		x[1] is Bad;
+		x++ is Bad;
+		x is String is Bad;
+		x.field is Bad;
+		x is is is is is is is Bad;
 	}
 	";
 }

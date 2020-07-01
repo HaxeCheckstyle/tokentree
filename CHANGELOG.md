@@ -5,6 +5,7 @@
 - Added TokenTreeDef ([#191](https://github.com/HaxeCheckstyle/tokentree/issues/191))
 - Fixed negative const / Binop(OpSub) detection ([#189](https://github.com/HaxeCheckstyle/tokentree/issues/189))
 - Fixed final with multiple vars ([#191](https://github.com/HaxeCheckstyle/tokentree/issues/191))
+- Fixed is operator
 - Refactored enums to use CamelCase ([#191](https://github.com/HaxeCheckstyle/tokentree/issues/191))
 
 ## version 1.0.28 (2020-06-07)
