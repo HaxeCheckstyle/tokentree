@@ -1,7 +1,6 @@
 package tokentree.utils;
 
 import tokentree.TokenTree.FilterResult;
-import haxe.display.Display.GotoTypeDefinitionResult;
 import tokentree.utils.TokenTreeCheckUtils.POpenType;
 import tokentree.utils.TokenTreeCheckUtils.ColonType;
 import tokentree.utils.TokenTreeCheckUtils.BrOpenType;
