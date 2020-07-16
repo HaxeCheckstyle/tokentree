@@ -125,8 +125,8 @@ class TokenTreeBuilderParsingTest {
 			builder = TestTokenTreeBuilder.parseCode(code);
 			Assert.isTrue(builder.isStreamEmpty(), pos);
 		}
-		catch (e:haxe.Exception) {
-			Assert.fail("code should not throw execption: " + e.details(), pos);
+		catch (e:Any) {
+			Assert.fail("code should not throw execption: ", pos);
 		}
 	}
 
