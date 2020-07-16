@@ -34,7 +34,7 @@ class WalkFinal {
 			}
 			WalkComment.walkComment(stream, parent);
 			var nameParent:TokenTree = finalTok;
-			if (stream.is(Question)) {
+			if (stream.tokenForMatch().match(Question)) {
 				nameParent = stream.consumeToken();
 				finalTok.addChild(nameParent);
 			}
@@ -53,27 +53,27 @@ class WalkFinal {
 			}
 			stream.clearTempStore();
 			WalkComment.walkComment(stream, name);
-			if (stream.is(POpen)) {
+			if (stream.tokenForMatch().match(POpen)) {
 				WalkPOpen.walkPOpen(stream, name);
 			}
-			if (stream.is(DblDot)) {
-				var dblDot:TokenTree = stream.consumeTokenDef(DblDot);
+			if (stream.tokenForMatch().match(DblDot)) {
+				var dblDot:TokenTree = stream.consumeToken();
 				name.addChild(dblDot);
 				WalkTypedefBody.walkTypedefAlias(stream, dblDot);
 			}
-			if (stream.is(Binop(OpAssign))) {
+			if (stream.tokenForMatch().match(Binop(OpAssign))) {
 				WalkStatement.walkStatement(stream, name);
 			}
-			if (stream.is(Comma)) {
-				var comma:TokenTree = stream.consumeTokenDef(Comma);
+			if (stream.tokenForMatch().match(Comma)) {
+				var comma:TokenTree = stream.consumeToken();
 				name.addChild(comma);
 				continue;
 			}
 			break;
 		}
 
-		if (stream.is(Semicolon)) {
-			name.addChild(stream.consumeTokenDef(Semicolon));
+		if (stream.tokenForMatch().match(Semicolon)) {
+			name.addChild(stream.consumeToken());
 		}
 	}
 }

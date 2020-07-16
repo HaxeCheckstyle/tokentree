@@ -116,6 +116,7 @@ class TokenTreeBuilderParsingTest {
 		assertCodeParses(PRIVATE_FINAL_CLASS);
 		assertCodeParses(METADATA_IN);
 		assertCodeParses(IS_OPERATOR);
+		assertCodeParses(ABSTRACT_CLASS);
 	}
 
 	public function assertCodeParses(code:String, ?pos:PosInfos) {
@@ -124,8 +125,8 @@ class TokenTreeBuilderParsingTest {
 			builder = TestTokenTreeBuilder.parseCode(code);
 			Assert.isTrue(builder.isStreamEmpty(), pos);
 		}
-		catch (e:Any) {
-			Assert.fail("code should not throw execption", pos);
+		catch (e:haxe.Exception) {
+			Assert.fail("code should not throw execption: " + e.details(), pos);
 		}
 	}
 
@@ -1606,5 +1607,13 @@ import #if haxe4 js.lib.Promise #else js.Promise #end as JsPromise;
 		x.field is Bad;
 		x is is is is is is is Bad;
 	}
+	";
+
+	var ABSTRACT_CLASS = "
+	abstract class Abstract {
+		abstract dynamic function abstractFunction():Void;
+	}
+	@:structInit abstract class Abstract {}
+	abstract interface I {}
 	";
 }

@@ -21,8 +21,8 @@ class WalkFunction {
 		WalkComment.walkComment(stream, name);
 		WalkFunction.walkFunctionParameters(stream, name);
 		WalkComment.walkComment(stream, name);
-		if (stream.is(DblDot)) {
-			var dblDot:Null<TokenTree> = stream.consumeTokenDef(DblDot);
+		if (stream.tokenForMatch().match(DblDot)) {
+			var dblDot:Null<TokenTree> = stream.consumeToken();
 			name.addChild(dblDot);
 			WalkTypeNameDef.walkTypeNameDef(stream, dblDot);
 		}
@@ -35,7 +35,7 @@ class WalkFunction {
 		var progress:TokenStreamProgress = new TokenStreamProgress(stream);
 		while (progress.streamHasChanged()) {
 			WalkComment.walkComment(stream, pOpen);
-			if (stream.is(PClose)) break;
+			if (stream.tokenForMatch().match(PClose)) break;
 			WalkFieldDef.walkFieldDef(stream, pOpen);
 		}
 		pOpen.addChild(stream.consumeTokenDef(PClose));

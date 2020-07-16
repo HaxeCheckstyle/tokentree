@@ -17,7 +17,7 @@ interface IVerifyTokenTree {
 	function childAt(index:Int, ?pos:PosInfos):IVerifyTokenTree;
 	function childCount(num:Int, ?pos:PosInfos):IVerifyTokenTree;
 	function childCountAtLeast(count:Int, ?pos:PosInfos):IVerifyTokenTree;
-	function is(tok:TokenTreeDef, ?pos:PosInfos):IVerifyTokenTree;
+	function matches(tok:TokenTreeDef, ?pos:PosInfos):IVerifyTokenTree;
 	function isComment(?pos:PosInfos):IVerifyTokenTree;
 	function isEmpty(?pos:PosInfos):Bool;
 }

@@ -8,14 +8,14 @@ class WalkLtGt {
 		while (progress.streamHasChanged()) {
 			switch (stream.token()) {
 				case Comma:
-					var comma:TokenTree = stream.consumeTokenDef(Comma);
+					var comma:TokenTree = stream.consumeToken();
 					ltTok.addChild(comma);
 					WalkTypeNameDef.walkTypeNameDef(stream, ltTok);
 					WalkFieldDef.walkFieldDef(stream, ltTok);
 				case Binop(OpGt):
 					break;
 				case DblDot:
-					var dblDot:TokenTree = stream.consumeTokenDef(DblDot);
+					var dblDot:TokenTree = stream.consumeToken();
 					ltTok.addChild(dblDot);
 					WalkTypeNameDef.walkTypeNameDef(stream, ltTok);
 				default:

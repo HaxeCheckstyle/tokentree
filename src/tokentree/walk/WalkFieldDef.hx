@@ -26,12 +26,12 @@ class WalkFieldDef {
 
 		var name:TokenTree = WalkTypeNameDef.walkTypeNameDef(stream, parent);
 		stream.applyTempStore(name);
-		if (stream.is(DblDot)) {
+		if (stream.tokenForMatch().match(DblDot)) {
 			var dblDot:TokenTree = stream.consumeTokenDef(DblDot);
 			name.addChild(dblDot);
 			WalkTypedefBody.walkTypedefBody(stream, dblDot);
 		}
-		if (stream.is(Binop(OpAssign))) {
+		if (stream.tokenForMatch().match(Binop(OpAssign))) {
 			WalkStatement.walkStatement(stream, name);
 		}
 		switch (stream.token()) {

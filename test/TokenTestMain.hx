@@ -9,12 +9,11 @@ import tokentree.TokenStream;
 class TokenTestMain {
 	public static inline var TOKENTREE_BUILDER_TEST:String = "
 
-	class Main {
-		function loop(min, max) {
-			if (test) && (test2) {doSomething();}
-		}
+	abstract class Abstract {
+		abstract dynamic function abstractFunction():Void;
 	}
-
+	@:structInit abstract class Abstract {}
+	abstract interface I {}
 	";
 
 	public static function main() {

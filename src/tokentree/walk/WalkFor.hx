@@ -65,7 +65,7 @@ class WalkFor {
 				pOpen.addChild(identifier);
 		}
 		WalkComment.walkComment(stream, identifier);
-		if (stream.is(Binop(OpArrow))) {
+		if (stream.tokenForMatch().match(Binop(OpArrow))) {
 			var arrowTok:TokenTree = stream.consumeToken();
 			identifier.addChild(arrowTok);
 			switch (stream.token()) {
@@ -77,7 +77,7 @@ class WalkFor {
 		}
 		var inTok:Null<TokenTree> = null;
 		switch (stream.token()) {
-			case #if (haxe_ver < 4.0) Kwd(KwdIn) #else Binop(OpIn) #end :
+			case #if (haxe_ver < 4.0) Kwd(KwdIn) #else Binop(OpIn) #end:
 				inTok = stream.consumeToken();
 				identifier.addChild(inTok);
 				WalkComment.walkComment(stream, inTok);
@@ -86,7 +86,7 @@ class WalkFor {
 				pOpen.addChild(stream.consumeTokenDef(PClose));
 				WalkComment.walkComment(stream, parent);
 			case PClose:
-				pOpen.addChild(stream.consumeTokenDef(PClose));
+				pOpen.addChild(stream.consumeToken());
 				WalkComment.walkComment(stream, parent);
 				return;
 			default:

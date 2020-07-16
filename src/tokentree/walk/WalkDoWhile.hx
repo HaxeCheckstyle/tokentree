@@ -24,6 +24,6 @@ class WalkDoWhile {
 		doTok.addChild(whileTok);
 		WalkStatement.walkStatement(stream, whileTok);
 		WalkComment.walkComment(stream, whileTok);
-		if (stream.is(Semicolon)) whileTok.addChild(stream.consumeToken());
+		if (stream.tokenForMatch().match(Semicolon)) whileTok.addChild(stream.consumeToken());
 	}
 }

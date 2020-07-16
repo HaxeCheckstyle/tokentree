@@ -4,7 +4,7 @@ class WalkTypeNameDef {
 	public static function walkTypeNameDef(stream:TokenStream, parent:TokenTree):TokenTree {
 		WalkComment.walkComment(stream, parent);
 		WalkAt.walkAts(stream);
-		if (stream.is(Question)) {
+		if (stream.tokenForMatch().match(Question)) {
 			var questTok:TokenTree = stream.consumeTokenDef(Question);
 			parent.addChild(questTok);
 			parent = questTok;
@@ -27,7 +27,7 @@ class WalkTypeNameDef {
 				name = stream.consumeToken();
 			case POpen:
 				name = WalkPOpen.walkPOpen(stream, parent);
-				if (stream.is(Question)) {
+				if (stream.tokenForMatch().match(Question)) {
 					WalkQuestion.walkQuestion(stream, name);
 				}
 				bAdd = false;
@@ -49,20 +49,20 @@ class WalkTypeNameDef {
 
 	static function walkTypeNameDefContinue(stream:TokenStream, parent:TokenTree) {
 		walkTypeNameDefComment(stream, parent);
-		if (stream.is(Dot)) {
-			var dot:TokenTree = stream.consumeTokenDef(Dot);
+		if (stream.tokenForMatch().match(Dot)) {
+			var dot:TokenTree = stream.consumeToken();
 			parent.addChild(dot);
 			WalkTypeNameDef.walkTypeNameDef(stream, dot);
 			return;
 		}
-		if (stream.is(Binop(OpLt))) WalkLtGt.walkLtGt(stream, parent);
-		if (stream.is(Arrow)) {
-			var arrow:TokenTree = stream.consumeTokenDef(Arrow);
+		if (stream.tokenForMatch().match(Binop(OpLt))) WalkLtGt.walkLtGt(stream, parent);
+		if (stream.tokenForMatch().match(Arrow)) {
+			var arrow:TokenTree = stream.consumeToken();
 			parent.addChild(arrow);
 			WalkTypeNameDef.walkTypeNameDef(stream, arrow);
 			return;
 		}
-		if (stream.is(BkOpen)) WalkArrayAccess.walkArrayAccess(stream, parent);
+		if (stream.tokenForMatch().match(BkOpen)) WalkArrayAccess.walkArrayAccess(stream, parent);
 		walkTypeNameDefComment(stream, parent);
 	}
 

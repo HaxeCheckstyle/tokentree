@@ -3,7 +3,7 @@ package tokentree.walk;
 class WalkEnum {
 	public static function walkEnum(stream:TokenStream, parent:TokenTree) {
 		var typeTok:TokenTree = stream.consumeToken();
-		if (stream.is(Kwd(KwdAbstract))) {
+		if (stream.tokenForMatch().match(Kwd(KwdAbstract))) {
 			stream.addToTempStore(typeTok);
 			WalkAbstract.walkAbstract(stream, parent);
 			return;
