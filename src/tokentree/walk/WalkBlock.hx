@@ -9,8 +9,8 @@ class WalkBlock {
 	 *
 	 */
 	public static function walkBlock(stream:TokenStream, parent:TokenTree) {
-		while (stream.is(At)) stream.addToTempStore(WalkAt.walkAt(stream));
-		if (stream.is(BrOpen)) {
+		while (stream.tokenForMatch().match(At)) stream.addToTempStore(WalkAt.walkAt(stream));
+		if (stream.tokenForMatch().match(BrOpen)) {
 			var openTok:TokenTree = stream.consumeTokenDef(BrOpen);
 			parent.addChild(openTok);
 			stream.applyTempStore(openTok);

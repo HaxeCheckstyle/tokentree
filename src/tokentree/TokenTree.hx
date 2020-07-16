@@ -30,7 +30,7 @@ class TokenTree {
 		tokenTypeCache = {};
 	}
 
-	public function is(tokenDef:TokenTreeDef):Bool {
+	public function matches(tokenDef:TokenTreeDef):Bool {
 		return Type.enumEq(tokenDef, tok);
 	}
 
@@ -94,6 +94,7 @@ class TokenTree {
 		return fullPos;
 	}
 
+	// @:deprecated("uses Type.enumEq to do a runtim comparison, you should use pattern matching instead")
 	public function filter(searchFor:Array<TokenTreeDef>, mode:TokenFilterMode, maxLevel:Int = MAX_LEVEL):Array<TokenTree> {
 		return filterCallback(function(token:TokenTree, depth:Int):FilterResult {
 			if (depth > maxLevel) return SkipSubtree;

@@ -10,10 +10,10 @@ class WalkWhileTest extends VerifyTokenTreeBase {
 	public function testWhile() {
 		var root:IVerifyTokenTree = buildTokenTree("while (test) {doSomething();}");
 
-		var whileTok:IVerifyTokenTree = root.oneChild().first().is(Kwd(KwdWhile)).childCount(2);
-		var ifExpr:IVerifyTokenTree = whileTok.first().is(POpen).childCount(2);
-		ifExpr.first().is(Const(CIdent("test"))).noChilds();
-		ifExpr.last().is(PClose).noChilds();
+		var whileTok:IVerifyTokenTree = root.oneChild().first().matches(Kwd(KwdWhile)).childCount(2);
+		var ifExpr:IVerifyTokenTree = whileTok.first().matches(POpen).childCount(2);
+		ifExpr.first().matches(Const(CIdent("test"))).noChilds();
+		ifExpr.last().matches(PClose).noChilds();
 		testWhileBody(whileTok);
 	}
 
@@ -21,10 +21,10 @@ class WalkWhileTest extends VerifyTokenTreeBase {
 	public function testWhileExprAndExpr() {
 		var root:IVerifyTokenTree = buildTokenTree("while (test && test2) {doSomething();}");
 
-		var whileTok:IVerifyTokenTree = root.oneChild().first().is(Kwd(KwdWhile)).childCount(2);
-		var ifExpr:IVerifyTokenTree = whileTok.first().is(POpen).childCount(2);
-		ifExpr.first().is(Const(CIdent("test"))).oneChild().first().is(Binop(OpBoolAnd)).oneChild().first().is(Const(CIdent("test2"))).noChilds();
-		ifExpr.last().is(PClose).noChilds();
+		var whileTok:IVerifyTokenTree = root.oneChild().first().matches(Kwd(KwdWhile)).childCount(2);
+		var ifExpr:IVerifyTokenTree = whileTok.first().matches(POpen).childCount(2);
+		ifExpr.first().matches(Const(CIdent("test"))).oneChild().first().matches(Binop(OpBoolAnd)).oneChild().first().matches(Const(CIdent("test2"))).noChilds();
+		ifExpr.last().matches(PClose).noChilds();
 		testWhileBody(whileTok);
 	}
 
@@ -32,13 +32,13 @@ class WalkWhileTest extends VerifyTokenTreeBase {
 	public function testIfExprAndExpr2() {
 		var root:IVerifyTokenTree = buildTokenTree("while (test) && (test2) {doSomething();}");
 
-		var whileTok:IVerifyTokenTree = root.oneChild().first().is(Kwd(KwdWhile)).childCount(2);
-		var ifExpr:IVerifyTokenTree = whileTok.first().is(POpen).childCount(3);
-		ifExpr.first().is(Const(CIdent("test"))).noChilds();
-		ifExpr.childAt(1).is(PClose).noChilds();
-		ifExpr = ifExpr.last().is(Binop(OpBoolAnd)).oneChild().first().is(POpen).childCount(2);
-		ifExpr.first().is(Const(CIdent("test2"))).noChilds();
-		ifExpr.last().is(PClose).noChilds();
+		var whileTok:IVerifyTokenTree = root.oneChild().first().matches(Kwd(KwdWhile)).childCount(2);
+		var ifExpr:IVerifyTokenTree = whileTok.first().matches(POpen).childCount(3);
+		ifExpr.first().matches(Const(CIdent("test"))).noChilds();
+		ifExpr.childAt(1).matches(PClose).noChilds();
+		ifExpr = ifExpr.last().matches(Binop(OpBoolAnd)).oneChild().first().matches(POpen).childCount(2);
+		ifExpr.first().matches(Const(CIdent("test2"))).noChilds();
+		ifExpr.last().matches(PClose).noChilds();
 		testWhileBody(whileTok);
 	}
 
@@ -46,8 +46,8 @@ class WalkWhileTest extends VerifyTokenTreeBase {
 	public function testIfExprAndExpr3() {
 		var root:IVerifyTokenTree = buildTokenTree("while test && test2 {doSomething();}");
 
-		var whileTok:IVerifyTokenTree = root.oneChild().first().is(Kwd(KwdWhile)).childCount(2);
-		whileTok.first().is(Const(CIdent("test"))).oneChild().first().is(Binop(OpBoolAnd)).oneChild().first().is(Const(CIdent("test2"))).noChilds();
+		var whileTok:IVerifyTokenTree = root.oneChild().first().matches(Kwd(KwdWhile)).childCount(2);
+		whileTok.first().matches(Const(CIdent("test"))).oneChild().first().matches(Binop(OpBoolAnd)).oneChild().first().matches(Const(CIdent("test2"))).noChilds();
 		testWhileBody(whileTok);
 	}
 
@@ -55,20 +55,20 @@ class WalkWhileTest extends VerifyTokenTreeBase {
 	public function testIfExprAndExpr4() {
 		var root:IVerifyTokenTree = buildTokenTree("while test && test2 doSomething();");
 
-		var whileTok:IVerifyTokenTree = root.oneChild().first().is(Kwd(KwdWhile)).childCount(2);
-		whileTok.first().is(Const(CIdent("test"))).oneChild().first().is(Binop(OpBoolAnd)).oneChild().first().is(Const(CIdent("test2"))).noChilds();
+		var whileTok:IVerifyTokenTree = root.oneChild().first().matches(Kwd(KwdWhile)).childCount(2);
+		whileTok.first().matches(Const(CIdent("test"))).oneChild().first().matches(Binop(OpBoolAnd)).oneChild().first().matches(Const(CIdent("test2"))).noChilds();
 
-		var exprCall:IVerifyTokenTree = whileTok.last().is(Const(CIdent("doSomething"))).childCount(2);
-		exprCall.first().is(POpen).childCount(1).first().is(PClose).noChilds();
-		exprCall.last().is(Semicolon).noChilds();
+		var exprCall:IVerifyTokenTree = whileTok.last().matches(Const(CIdent("doSomething"))).childCount(2);
+		exprCall.first().matches(POpen).childCount(1).first().matches(PClose).noChilds();
+		exprCall.last().matches(Semicolon).noChilds();
 	}
 
 	function testWhileBody(whileTok:IVerifyTokenTree) {
-		var ifBody:IVerifyTokenTree = whileTok.last().is(BrOpen).childCount(2);
-		var exprCall:IVerifyTokenTree = ifBody.first().is(Const(CIdent("doSomething"))).childCount(2);
-		exprCall.first().is(POpen).childCount(1).first().is(PClose).noChilds();
-		exprCall.last().is(Semicolon).noChilds();
-		ifBody.last().is(BrClose).noChilds();
+		var ifBody:IVerifyTokenTree = whileTok.last().matches(BrOpen).childCount(2);
+		var exprCall:IVerifyTokenTree = ifBody.first().matches(Const(CIdent("doSomething"))).childCount(2);
+		exprCall.first().matches(POpen).childCount(1).first().matches(PClose).noChilds();
+		exprCall.last().matches(Semicolon).noChilds();
+		ifBody.last().matches(BrClose).noChilds();
 	}
 
 	override function walkStream(stream:TokenStream, parent:TokenTree) {

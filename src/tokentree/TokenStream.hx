@@ -72,8 +72,9 @@ class TokenStream {
 		}
 	}
 
+	// @:deprecated("uses Type.enumEq, you should use pattern matching")
 	public function consumeTokenDef(tokenDef:TokenTreeDef):TokenTree {
-		if (is(tokenDef)) return consumeToken();
+		if (matches(tokenDef)) return consumeToken();
 		switch (MODE) {
 			case Relaxed:
 				return createDummyToken(tokenDef);
@@ -113,7 +114,8 @@ class TokenStream {
 		return new hxparse.Position(pos.file, pos.min, pos.max).format(bytes);
 	}
 
-	public function is(tokenDef:TokenTreeDef):Bool {
+	// @:deprecated("uses Type.enumEq, you should use pattern matching")
+	public function matches(tokenDef:TokenTreeDef):Bool {
 		if ((current < 0) || (current >= tokens.length)) return false;
 		var token:Token = tokens[current];
 		return Type.enumEq(tokenDef, ToTokenTreeDef.fromTokenDef(token.tok));
@@ -164,6 +166,13 @@ class TokenStream {
 				case Strict:
 					throw NO_MORE_TOKENS;
 			}
+		}
+		return ToTokenTreeDef.fromTokenDef(tokens[current].tok);
+	}
+
+	public function tokenForMatch():TokenTreeDef {
+		if ((current < 0) || (current >= tokens.length)) {
+			return Root;
 		}
 		return ToTokenTreeDef.fromTokenDef(tokens[current].tok);
 	}
@@ -231,7 +240,7 @@ class TokenStream {
 			case Binop(OpGt):
 				return consumeOpShr(tok);
 			case Binop(OpAssign):
-				var assignTok:TokenTree = consumeTokenDef(Binop(OpAssign));
+				var assignTok:TokenTree = consumeToken();
 				return new TokenTree(Binop(OpGte), tok.space + assignTok.space, {file: tok.pos.file, min: tok.pos.min, max: assignTok.pos.max}, tok.index);
 			default:
 				return tok;
@@ -242,18 +251,20 @@ class TokenStream {
 		var tok:TokenTree = consumeTokenDef(Binop(OpGt));
 		switch (token()) {
 			case Binop(OpGt):
-				var innerGt:TokenTree = consumeTokenDef(Binop(OpGt));
-				if (is(Binop(OpAssign))) {
-					var assignTok:TokenTree = consumeTokenDef(Binop(OpAssign));
-					return new TokenTree(Binop(OpAssignOp(OpUShr)), assignTok.space, {
-						file: parent.pos.file,
-						min: parent.pos.min,
-						max: assignTok.pos.max
-					}, parent.index);
+				var innerGt:TokenTree = consumeToken();
+				switch (token()) {
+					case Binop(OpAssign):
+						var assignTok:TokenTree = consumeToken();
+						return new TokenTree(Binop(OpAssignOp(OpUShr)), assignTok.space, {
+							file: parent.pos.file,
+							min: parent.pos.min,
+							max: assignTok.pos.max
+						}, parent.index);
+					default:
 				}
 				return new TokenTree(Binop(OpUShr), innerGt.space, {file: parent.pos.file, min: parent.pos.min, max: innerGt.pos.max}, parent.index);
 			case Binop(OpAssign):
-				var assignTok:TokenTree = consumeTokenDef(Binop(OpAssign));
+				var assignTok:TokenTree = consumeToken();
 				return new TokenTree(Binop(OpAssignOp(OpShr)), assignTok.space, {
 					file: parent.pos.file,
 					min: parent.pos.min,

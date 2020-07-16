@@ -1,5 +1,6 @@
 package tokentree.utils;
 
+import tokentree.TokenTree.FilterResult;
 import tokentree.walk.WalkSharp.WalkSharpConsts;
 
 using Lambda;
@@ -40,15 +41,17 @@ class TokenTreeCheckUtils {
 
 	public static function isTypeParameter(token:TokenTree):Bool {
 		return switch (token.tok) {
-			case Binop(OpGt): (token.access().parent().is(Binop(OpLt)).token != null);
-			case Binop(OpLt): (token.access().firstOf(Binop(OpGt)).token != null);
+			case Binop(OpGt): (token.access().parent().matches(function(t) return t.match(Binop(OpLt))).token != null);
+			case Binop(OpLt): (token.access().firstOf(function(t) return t.match(Binop(OpGt))).token != null);
 			default: false;
 		}
 	}
 
 	public static function isOpGtTypedefExtension(token:TokenTree):Bool {
 		return switch (token.tok) {
-			case Binop(OpGt): (token.access().parent().is(BrOpen).parent().is(Binop(OpAssign)).parent().isCIdent().parent().is(Kwd(KwdTypedef)).token != null);
+			case Binop(OpGt): (token.access().parent().matches(function(t) return t.match(BrOpen)).parent()
+					.matches(function(t) return t.match(Binop(OpAssign))).parent().isCIdent().parent().matches(function(t) return t.match(Kwd(KwdTypedef)))
+					.token != null);
 			default: false;
 		}
 	}
@@ -136,13 +139,13 @@ class TokenTreeCheckUtils {
 		if (token == null) {
 			return false;
 		}
-		if (token.is(DblDot)) {
+		if (token.tok.match(DblDot)) {
 			return isTernary(token.parent);
 		}
-		if (!token.is(Question)) {
+		if (!token.tok.match(Question)) {
 			return false;
 		}
-		if (token.access().firstOf(DblDot).token == null) {
+		if (token.access().firstOf(function(t) return t.match(DblDot)).token == null) {
 			return false;
 		}
 		if (token.parent == null) {
@@ -189,14 +192,15 @@ class TokenTreeCheckUtils {
 				if ((name == null) || (name.children == null) || (name.children.length <= 0)) {
 					return false;
 				}
-				if (name.access().firstOf(Kwd(KwdEnum)).exists()) {
+				if (name.access().firstOf(function(t) return t.match(Kwd(KwdEnum))).exists()) {
 					return true;
 				}
 				for (child in name.children) {
-					if (!child.is(At)) {
+					if (!child.tok.match(At)) {
 						continue;
 					}
-					var enumTok = child.access().firstChild().is(DblDot).firstChild().is(Kwd(KwdEnum));
+					var enumTok = child.access().firstChild().matches(function(t) return t.match(DblDot)).firstChild()
+						.matches(function(t) return t.match(Kwd(KwdEnum)));
 					if (!enumTok.exists()) {
 						continue;
 					}
@@ -211,25 +215,27 @@ class TokenTreeCheckUtils {
 		Whether this is a `typedef` to an anonymous structure, rather than being a "plain type alias".
 	**/
 	public static function isTypeStructure(typedefToken:TokenTree):Bool {
-		var afterAssign = typedefToken.access().firstChild().isCIdent().firstOf(Binop(OpAssign)).firstChild();
-		return afterAssign.is(BrOpen).exists() || afterAssign.isCIdent().firstOf(Binop(OpAnd)).exists();
+		var afterAssign = typedefToken.access().firstChild().isCIdent().firstOf(function(t) return t.match(Binop(OpAssign))).firstChild();
+		return afterAssign.matches(function(t) return t.match(BrOpen)).exists()
+			|| afterAssign.isCIdent().firstOf(function(t) return t.match(Binop(OpAnd))).exists();
 	}
 
 	public static function isTypeEnum(enumToken:TokenTree):Bool {
-		if (!enumToken.is(Kwd(KwdEnum))) {
+		if (!enumToken.tok.match(Kwd(KwdEnum))) {
 			return false;
 		}
 		if (isTypeEnumAbstract(enumToken)) {
 			return false;
 		}
-		if (enumToken.access().parent().is(DblDot).parent().is(At).exists()) {
+		if (enumToken.access().parent().matches(function(t) return t.match(DblDot)).parent().matches(function(t) return t.match(At)).exists()) {
 			return false;
 		}
 		return true;
 	}
 
 	public static function isTypeMacroClass(classToken:TokenTree):Bool {
-		return classToken.is(Kwd(KwdClass)) && classToken.access().parent().is(Kwd(KwdMacro)).exists();
+		return classToken.tok.match(Kwd(KwdClass))
+			&& classToken.access().parent().matches(function(t) return t.match(Kwd(KwdMacro))).exists();
 	}
 
 	public static function isBrOpenAnonTypeOrTypedef(token:TokenTree):Bool {
@@ -272,7 +278,7 @@ class TokenTreeCheckUtils {
 		if (isNameToken(nameToken.token)) {
 			return nameToken.token;
 		}
-		nameToken = nameToken.is(Question).firstChild();
+		nameToken = nameToken.matches(function(t) return t.match(Question)).firstChild();
 		if (isNameToken(nameToken.token)) {
 			return nameToken.token;
 		}
@@ -302,7 +308,7 @@ class TokenTreeCheckUtils {
 		}
 
 		return ident.children.map(function(token) {
-			return token.access().is(At).firstChild().is(DblDot).firstChild().token;
+			return token.access().matches(function(t) return t.match(At)).firstChild().matches(function(t) return t.match(DblDot)).firstChild().token;
 		}).filter(function(token) {
 			return token != null;
 		});
@@ -455,7 +461,7 @@ class TokenTreeCheckUtils {
 						return ObjectDecl;
 				}
 			}
-			if ((token.children.length == 2) && token.getLastChild().is(Semicolon)) {
+			if ((token.children.length == 2) && token.getLastChild().tok.match(Semicolon)) {
 				switch (token.parent.tok) {
 					case Kwd(_):
 						return Block;
@@ -464,17 +470,17 @@ class TokenTreeCheckUtils {
 				}
 			}
 		}
-		if (TokenTreeAccessHelper.access(token).firstOf(Arrow).exists()) {
+		if (TokenTreeAccessHelper.access(token).firstOf(function(t) return t.match(Arrow)).exists()) {
 			return AnonType;
 		}
-		if ((token.nextSibling != null) && (token.nextSibling.is(Arrow))) {
+		if ((token.nextSibling != null) && (token.nextSibling.tok.match(Arrow))) {
 			return AnonType;
 		}
 		var onlyComment:Bool = true;
 		for (child in token.children) {
 			switch (child.tok) {
 				case Const(CIdent(_)), Const(CString(_)):
-					if (!child.access().firstChild().is(DblDot).exists()) {
+					if (!child.access().firstChild().matches(function(t) return t.match(DblDot)).exists()) {
 						return Block;
 					}
 					onlyComment = false;
@@ -588,7 +594,7 @@ class TokenTreeCheckUtils {
 						return Call;
 					case Kwd(KwdAbstract): return Parameter;
 					case BrOpen:
-						if (parent.parent.access().parent().parent().is(Kwd(KwdEnum)).exists()) {
+						if (parent.parent.access().parent().parent().matches(function(t) return t.match(Kwd(KwdEnum))).exists()) {
 							return Parameter;
 						}
 						return Call;
@@ -596,7 +602,7 @@ class TokenTreeCheckUtils {
 				}
 			default:
 		}
-		if (TokenTreeAccessHelper.access(token).firstOf(Arrow).exists()) {
+		if (TokenTreeAccessHelper.access(token).firstOf(function(t) return t.match(Arrow)).exists()) {
 			return Parameter;
 		}
 		return Expression;
@@ -629,7 +635,7 @@ class TokenTreeCheckUtils {
 		}
 		var parent:TokenTree = token;
 		while (parent.parent != null) {
-			if (parent.is(Kwd(KwdTypedef))) {
+			if (parent.tok.match(Kwd(KwdTypedef))) {
 				return true;
 			}
 			parent = parent.parent;
@@ -670,7 +676,7 @@ class TokenTreeCheckUtils {
 				case Arrow, Dot, Semicolon, Question:
 				case BrOpen:
 					var brClose:TokenTree = child.getFirstChild();
-					if (brClose.is(BrClose)) {
+					if (brClose.tok.match(BrClose)) {
 						return ArrowFunction;
 					}
 					var brType:Null<BrOpenType> = getBrOpenType(child);
@@ -753,11 +759,21 @@ class TokenTreeCheckUtils {
 		if (token.parent.isCIdent()) {
 			return ArrowFunction;
 		}
-		var childArrows:Array<TokenTree> = token.filter([Arrow], All);
+		var childArrows:Array<TokenTree> = token.filterCallback(function(token:TokenTree, index:Int):FilterResult {
+			return switch (token.tok) {
+				case Arrow: FoundSkipSubtree;
+				default: GoDeeper;
+			}
+		});
 		if (childArrows.length <= 0) {
 			return ArrowFunction;
 		}
-		var childArrows:Array<TokenTree> = token.filter([DblDot], All);
+		var childArrows:Array<TokenTree> = token.filterCallback(function(token:TokenTree, index:Int):FilterResult {
+			return switch (token.tok) {
+				case DblDot: FoundSkipSubtree;
+				default: GoDeeper;
+			}
+		});
 		if (childArrows.length > 0) {
 			return NewFunctionType;
 		}
@@ -844,7 +860,7 @@ class TokenTreeCheckUtils {
 			case At:
 				return At;
 			case BrOpen:
-				var brClose:TokenTree = parent.access().firstOf(BrClose).token;
+				var brClose:TokenTree = parent.access().firstOf(function(t) return t.match(BrClose)).token;
 				if (brClose == null) {
 					return Unknown;
 				}
@@ -890,7 +906,7 @@ class TokenTreeCheckUtils {
 						case Unknown: return Unknown;
 					}
 				case POpen:
-					var pClose:TokenTree = parent.access().firstOf(PClose).token;
+					var pClose:TokenTree = parent.access().firstOf(function(t) return t.match(PClose)).token;
 					if ((pClose != null) && (pClose.pos.max <= token.pos.min)) {
 						return TypeCheck;
 					}

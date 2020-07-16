@@ -15,7 +15,7 @@ class WalkFileTest extends VerifyTokenTreeBase {
 	@Test
 	public function testImportCompletion() {
 		var root:IVerifyTokenTree = buildTokenTree("import MyModule.");
-		root.oneChild().first().is(Kwd(KwdImport)).oneChild().first().is(Const(CIdent("MyModule"))).oneChild().first().is(Dot).noChilds();
+		root.oneChild().first().matches(Kwd(KwdImport)).oneChild().first().matches(Const(CIdent("MyModule"))).oneChild().first().matches(Dot).noChilds();
 	}
 
 	override function walkStream(stream:TokenStream, parent:TokenTree) {

@@ -2,8 +2,8 @@ package tokentree.walk;
 
 class WalkTypedefBody {
 	public static function walkTypedefBody(stream:TokenStream, parent:TokenTree) {
-		if (stream.is(BrOpen)) {
-			var openTok:TokenTree = stream.consumeTokenDef(BrOpen);
+		if (stream.tokenForMatch().match(BrOpen)) {
+			var openTok:TokenTree = stream.consumeToken();
 			parent.addChild(openTok);
 			walkTypedefCurlyBody(stream, openTok);
 			openTok.addChild(stream.consumeTokenDef(BrClose));
@@ -11,12 +11,12 @@ class WalkTypedefBody {
 		else {
 			walkTypedefAlias(stream, parent);
 		}
-		if (stream.is(Binop(OpAnd))) {
+		if (stream.tokenForMatch().match(Binop(OpAnd))) {
 			var and:TokenTree = stream.consumeTokenDef(Binop(OpAnd));
 			parent.getLastChild().addChild(and);
 			walkTypedefBody(stream, parent);
 		}
-		if (stream.is(Arrow)) {
+		if (stream.tokenForMatch().match(Arrow)) {
 			WalkStatement.walkStatement(stream, parent);
 		}
 	}
@@ -64,19 +64,19 @@ class WalkTypedefBody {
 
 	public static function walkTypedefAlias(stream:TokenStream, parent:TokenTree) {
 		var newParent:TokenTree;
-		if (stream.is(POpen)) {
+		if (stream.tokenForMatch().match(POpen)) {
 			newParent = WalkPOpen.walkPOpen(stream, parent);
 		}
 		else {
 			newParent = WalkTypeNameDef.walkTypeNameDef(stream, parent);
 		}
-		if (stream.is(Arrow)) {
-			var arrowTok:TokenTree = stream.consumeTokenDef(Arrow);
+		if (stream.tokenForMatch().match(Arrow)) {
+			var arrowTok:TokenTree = stream.consumeToken();
 			newParent.addChild(arrowTok);
 			walkTypedefAlias(stream, arrowTok);
 		}
-		if (stream.is(Semicolon)) {
-			newParent.addChild(stream.consumeTokenDef(Semicolon));
+		if (stream.tokenForMatch().match(Semicolon)) {
+			newParent.addChild(stream.consumeToken());
 		}
 	}
 
@@ -85,7 +85,7 @@ class WalkTypedefBody {
 		parent.addChild(gt);
 		var name:TokenTree = WalkTypeNameDef.walkTypeNameDef(stream, parent);
 		gt.addChild(name);
-		if (stream.is(Comma)) {
+		if (stream.tokenForMatch().match(Comma)) {
 			name.addChild(stream.consumeToken());
 		}
 	}

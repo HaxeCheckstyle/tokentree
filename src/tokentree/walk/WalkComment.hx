@@ -23,7 +23,7 @@ class WalkComment {
 				case Comment(_), CommentLine(_):
 					comments.push(stream.consumeToken());
 				default:
-					if (stream.is(expect)) {
+					if (stream.matches(expect)) {
 						for (comment in comments) {
 							parent.addChild(comment);
 						}

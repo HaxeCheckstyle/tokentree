@@ -15,7 +15,7 @@ class WalkNew {
 			default:
 		}
 		WalkComment.walkComment(stream, name);
-		if (stream.is(Dot)) {
+		if (stream.tokenForMatch().match(Dot)) {
 			WalkStatement.walkStatement(stream, name);
 		}
 	}

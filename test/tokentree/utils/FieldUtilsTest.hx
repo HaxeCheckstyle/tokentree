@@ -1,5 +1,6 @@
 package tokentree.utils;
 
+import tokentree.TokenTree.FilterResult;
 import tokentree.utils.FieldUtils.TokenFieldType;
 import haxe.PosInfos;
 import massive.munit.Assert;
@@ -11,7 +12,12 @@ class FieldUtilsTest {
 		var root:Null<TokenTree> = assertCodeParses(FieldUtilsTests.PROPERTIES);
 		Assert.isFalse(root.inserted);
 
-		var allBr:Array<TokenTree> = root.filter([BrOpen], All);
+		var allBr:Array<TokenTree> = root.filterCallback(function(token:TokenTree, depth:Int):FilterResult {
+			return switch (token.tok) {
+				case BrOpen: FoundGoDeeper;
+				default: GoDeeper;
+			}
+		});
 		Assert.areEqual(1, allBr.length);
 		Assert.areEqual(7 + 1, allBr[0].children.length);
 

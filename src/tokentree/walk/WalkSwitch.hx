@@ -34,8 +34,8 @@ class WalkSwitch {
 				WalkSharp.walkSharp(stream, parent, WalkSwitch.walkSwitchCases);
 			default:
 		}
-		if (stream.is(BrOpen)) {
-			var brOpen:TokenTree = stream.consumeTokenDef(BrOpen);
+		if (stream.tokenForMatch().match(BrOpen)) {
+			var brOpen:TokenTree = stream.consumeToken();
 			switchTok.addChild(brOpen);
 			WalkSwitch.walkSwitchCases(stream, brOpen);
 			brOpen.addChild(stream.consumeTokenDef(BrClose));
@@ -127,7 +127,7 @@ class WalkSwitch {
 		var sharp:TokenTree = parent.getLastChild();
 		if (sharp.children.length < 2) return;
 		var body:TokenTree = sharp.children[1];
-		if (body.is(Kwd(KwdCase))) return;
+		if (body.tok.match(Kwd(KwdCase))) return;
 		parent.children.pop();
 		dblDot.addChild(sharp);
 	}

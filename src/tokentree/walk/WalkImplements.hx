@@ -2,7 +2,7 @@ package tokentree.walk;
 
 class WalkImplements {
 	public static function walkImplements(stream:TokenStream, parent:TokenTree) {
-		if (!stream.is(Kwd(KwdImplements))) return;
+		if (!stream.tokenForMatch().match(Kwd(KwdImplements))) return;
 		var interfacePart:TokenTree = stream.consumeTokenDef(Kwd(KwdImplements));
 		parent.addChild(interfacePart);
 		WalkComment.walkComment(stream, parent);

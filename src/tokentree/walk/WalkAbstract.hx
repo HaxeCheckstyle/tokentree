@@ -3,11 +3,18 @@ package tokentree.walk;
 class WalkAbstract {
 	public static function walkAbstract(stream:TokenStream, parent:TokenTree) {
 		var typeTok:TokenTree = stream.consumeToken();
+		switch (stream.token()) {
+			case Kwd(KwdClass) | Kwd(KwdInterface):
+				stream.addToTempStore(typeTok);
+				WalkType.walkType(stream, parent);
+				return;
+			default:
+		}
 		parent.addChild(typeTok);
 		var name:TokenTree = WalkTypeNameDef.walkTypeNameDef(stream, typeTok);
 		// add all comments, annotations
 		stream.applyTempStore(name);
-		if (stream.is(POpen)) WalkPOpen.walkPOpen(stream, name);
+		if (stream.tokenForMatch().match(POpen)) WalkPOpen.walkPOpen(stream, name);
 		var typeParent:TokenTree = name;
 		var typeChild:TokenTree;
 		var progress:TokenStreamProgress = new TokenStreamProgress(stream);

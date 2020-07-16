@@ -94,9 +94,9 @@ class VerifyTokenTreeList implements IVerifyTokenTree {
 		return new VerifyTokenTreeList(list);
 	}
 
-	public function is(tok:TokenTreeDef, ?pos:PosInfos):IVerifyTokenTree {
+	public function matches(tok:TokenTreeDef, ?pos:PosInfos):IVerifyTokenTree {
 		var list:Array<IVerifyTokenTree> = [];
-		for (token in tokens) list.push(token.is(tok, pos));
+		for (token in tokens) list.push(token.matches(tok, pos));
 		return new VerifyTokenTreeList(list);
 	}
 

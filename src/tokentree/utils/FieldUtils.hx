@@ -69,7 +69,7 @@ class FieldUtils {
 		var visibility:TokenFieldVisibility = defaultVisibility;
 		var isStatic:Bool = false;
 		var isInline:Bool = false;
-		var isFinal:Bool = #if (haxe_ver >= 4) field.is(Kwd(KwdFinal)) #else false #end;
+		var isFinal:Bool = #if (haxe_ver >= 4) field.tok.match(Kwd(KwdFinal)) #else false #end;
 		var isExtern:Bool = false;
 		if (access.token.children != null) {
 			for (child in access.token.children) {
@@ -88,7 +88,7 @@ class FieldUtils {
 				}
 			}
 		}
-		access = access.firstOf(POpen);
+		access = access.firstOf(function(t) return t.match(POpen));
 		if (isFinal || access.token == null) {
 			return Var(name, visibility, isStatic, isInline, isFinal, isExtern);
 		}

@@ -3,7 +3,7 @@ package tokentree.walk;
 class WalkStatement {
 	public static function walkStatement(stream:TokenStream, parent:TokenTree) {
 		walkStatementWithoutSemicolon(stream, parent);
-		if (stream.is(Semicolon)) {
+		if (stream.tokenForMatch().match(Semicolon)) {
 			var semicolon:TokenTree = stream.consumeToken();
 			var lastChild:Null<TokenTree> = parent.getLastChild();
 			if (lastChild == null) {
@@ -31,7 +31,7 @@ class WalkStatement {
 			case Binop(OpLt):
 				if (stream.isTypedParam()) {
 					WalkLtGt.walkLtGt(stream, parent);
-					if (stream.is(Arrow)) {
+					if (stream.tokenForMatch().match(Arrow)) {
 						walkStatementWithoutSemicolon(stream, parent);
 					}
 					return;
@@ -86,7 +86,7 @@ class WalkStatement {
 			case Dollar(name):
 				var dollarTok:TokenTree = stream.consumeToken();
 				parent.addChild(dollarTok);
-				if (stream.is(DblDot)) {
+				if (stream.tokenForMatch().match(DblDot)) {
 					return;
 				}
 				WalkBlock.walkBlock(stream, dollarTok);
@@ -110,7 +110,7 @@ class WalkStatement {
 			case Dot:
 				wantMore = true;
 			case DblDot:
-				if (parent.is(Dot)) {
+				if (parent.tok.match(Dot)) {
 					return;
 				}
 				if (WalkQuestion.isTernary(parent)) {
@@ -138,7 +138,7 @@ class WalkStatement {
 			case CommentLine(_):
 				var currentPos:Int = stream.getStreamIndex();
 				var commentTok:TokenTree = stream.consumeToken();
-				if (!stream.is(Kwd(KwdElse))) {
+				if (!stream.tokenForMatch().match(Kwd(KwdElse))) {
 					stream.rewindTo(currentPos);
 					return;
 				}
@@ -202,7 +202,7 @@ class WalkStatement {
 			case Const(CIdent("final")):
 				WalkFinal.walkFinal(stream, parent);
 			case Kwd(KwdNew):
-				if (parent.is(Dot)) {
+				if (parent.tok.match(Dot)) {
 					var newChild:TokenTree = stream.consumeToken();
 					parent.addChild(newChild);
 					walkStatementContinue(stream, newChild);
@@ -224,7 +224,7 @@ class WalkStatement {
 				return false;
 			case Kwd(KwdDefault):
 				// switch or property
-				if (parent.is(BrOpen)) return false;
+				if (parent.tok.match(BrOpen)) return false;
 				return true;
 			case Kwd(KwdIf):
 				WalkIf.walkIf(stream, parent);
@@ -233,7 +233,7 @@ class WalkStatement {
 			case Kwd(KwdDo):
 				WalkDoWhile.walkDoWhile(stream, parent);
 			case Kwd(KwdWhile):
-				if (!parent.is(BrOpen) && parent.parent.is(Kwd(KwdDo))) {
+				if (!parent.tok.match(BrOpen) && parent.parent.tok.match(Kwd(KwdDo))) {
 					return false;
 				}
 				WalkWhile.walkWhile(stream, parent);
@@ -275,20 +275,20 @@ class WalkStatement {
 		}
 		var dblDotTok:TokenTree = stream.consumeToken();
 		parent.addChild(dblDotTok);
-		if (parent.isCIdentOrCString() && parent.parent.is(BrOpen)) {
+		if (parent.isCIdentOrCString() && parent.parent.tok.match(BrOpen)) {
 			walkStatementWithoutSemicolon(stream, dblDotTok);
 			return;
 		}
-		if (stream.is(Kwd(KwdNew))) {
+		if (stream.tokenForMatch().match(Kwd(KwdNew))) {
 			WalkNew.walkNew(stream, dblDotTok);
 			return;
 		}
 		if (!walkKeyword(stream, dblDotTok)) return;
 		WalkTypeNameDef.walkTypeNameDef(stream, dblDotTok);
-		if (stream.is(Binop(OpAssign))) {
+		if (stream.tokenForMatch().match(Binop(OpAssign))) {
 			walkStatementWithoutSemicolon(stream, parent);
 		}
-		if (stream.is(Arrow)) {
+		if (stream.tokenForMatch().match(Arrow)) {
 			walkStatementWithoutSemicolon(stream, parent);
 		}
 	}
@@ -326,11 +326,11 @@ class WalkStatement {
 				case Comma:
 					return null;
 				case BrOpen:
-					if (!TokenTreeAccessHelper.access(parent).firstOf(BrClose).exists()) {
+					if (!TokenTreeAccessHelper.access(parent).firstOf(function(t) return t.match(BrClose)).exists()) {
 						return null;
 					}
 				case POpen:
-					if (!TokenTreeAccessHelper.access(parent).firstOf(PClose).exists()) {
+					if (!TokenTreeAccessHelper.access(parent).firstOf(function(t) return t.match(PClose)).exists()) {
 						return null;
 					}
 				case Kwd(KwdReturn):
@@ -370,7 +370,7 @@ class WalkStatement {
 					token = parent.parent;
 					break;
 				case POpen:
-					if (token.is(POpen)) {
+					if (token.tok.match(POpen)) {
 						token = parent;
 					}
 					break;
@@ -408,7 +408,7 @@ class WalkStatement {
 				case Binop(_):
 					break;
 				case POpen:
-					var pClose:Null<TokenTree> = parent.access().firstOf(PClose).token;
+					var pClose:Null<TokenTree> = parent.access().firstOf(function(t) return t.match(PClose)).token;
 					if (pClose == null) {
 						token = parent;
 						break;

@@ -1,5 +1,6 @@
 package tokentree.utils;
 
+import tokentree.TokenTree.FilterResult;
 import tokentree.utils.TokenTreeCheckUtils.POpenType;
 import tokentree.utils.TokenTreeCheckUtils.ColonType;
 import tokentree.utils.TokenTreeCheckUtils.BrOpenType;
@@ -14,7 +15,12 @@ class TokenTreeCheckUtilsTest {
 		var root:TokenTree = assertCodeParses(TokenTreeBuilderParsingTests.STRUCTURE_EXTENSION);
 		Assert.isFalse(root.inserted);
 
-		var allBr:Array<TokenTree> = root.filter([BrOpen], All);
+		var allBr:Array<TokenTree> = root.filterCallback(function(token:TokenTree, depth:Int):FilterResult {
+			return switch (token.tok) {
+				case BrOpen: FoundGoDeeper;
+				default: GoDeeper;
+			}
+		});
 		Assert.areEqual(3, allBr.length);
 		for (br in allBr) {
 			Assert.areEqual(BrOpenType.TypedefDecl, TokenTreeCheckUtils.getBrOpenType(br));
@@ -26,7 +32,12 @@ class TokenTreeCheckUtilsTest {
 		var root:TokenTree = assertCodeParses(TokenTreeCheckUtilsTests.MIXED_BR_OPEN_TYPES);
 		Assert.isFalse(root.inserted);
 
-		var allBr:Array<TokenTree> = root.filter([BrOpen], All);
+		var allBr:Array<TokenTree> = root.filterCallback(function(token:TokenTree, depth:Int):FilterResult {
+			return switch (token.tok) {
+				case BrOpen: FoundGoDeeper;
+				default: GoDeeper;
+			}
+		});
 		Assert.areEqual(43, allBr.length);
 		var index:Int = 0;
 		Assert.areEqual(BrOpenType.Block, TokenTreeCheckUtils.getBrOpenType(allBr[index++]));
@@ -96,7 +107,12 @@ class TokenTreeCheckUtilsTest {
 		var root:TokenTree = assertCodeParses(TokenTreeBuilderParsingTests.ENUM_ABSTRACT);
 		Assert.isFalse(root.inserted);
 
-		var allAbstracts:Array<TokenTree> = root.filter([Kwd(KwdAbstract)], All);
+		var allAbstracts:Array<TokenTree> = root.filterCallback(function(token:TokenTree, depth:Int):FilterResult {
+			return switch (token.tok) {
+				case Kwd(KwdAbstract): FoundGoDeeper;
+				default: GoDeeper;
+			}
+		});
 		for (ab in allAbstracts) {
 			Assert.isTrue(TokenTreeCheckUtils.isTypeEnumAbstract(ab));
 		}
@@ -104,13 +120,23 @@ class TokenTreeCheckUtilsTest {
 		root = assertCodeParses(TokenTreeBuilderParsingTests.CONST_TYPE_PARAMETER);
 		Assert.isFalse(root.inserted);
 
-		allAbstracts = root.filter([Kwd(KwdAbstract)], All);
+		allAbstracts = root.filterCallback(function(token:TokenTree, depth:Int):FilterResult {
+			return switch (token.tok) {
+				case Kwd(KwdAbstract): FoundGoDeeper;
+				default: GoDeeper;
+			}
+		});
 		for (ab in allAbstracts) {
 			Assert.isFalse(TokenTreeCheckUtils.isTypeEnumAbstract(ab));
 		}
 
 		root = assertCodeParses(TokenTreeCheckUtilsTests.ENUM_ABSTRACTS);
-		allAbstracts = root.filter([Kwd(KwdAbstract)], All);
+		allAbstracts = root.filterCallback(function(token:TokenTree, depth:Int):FilterResult {
+			return switch (token.tok) {
+				case Kwd(KwdAbstract): FoundGoDeeper;
+				default: GoDeeper;
+			}
+		});
 		Assert.isFalse(root.inserted);
 
 		for (ab in allAbstracts) {
@@ -123,7 +149,12 @@ class TokenTreeCheckUtilsTest {
 		var root:TokenTree = assertCodeParses(TokenTreeCheckUtilsTests.ARROW_FUNCTIONS);
 		Assert.isFalse(root.inserted);
 
-		var allArrows:Array<TokenTree> = root.filter([Arrow], All);
+		var allArrows:Array<TokenTree> = root.filterCallback(function(token:TokenTree, depth:Int):FilterResult {
+			return switch (token.tok) {
+				case Arrow: FoundGoDeeper;
+				default: GoDeeper;
+			}
+		});
 		Assert.areEqual(10, allArrows.length);
 		for (ar in allArrows) {
 			Assert.areEqual(ArrowType.ArrowFunction, TokenTreeCheckUtils.getArrowType(ar));
@@ -135,7 +166,12 @@ class TokenTreeCheckUtilsTest {
 		var root:TokenTree = assertCodeParses(TokenTreeCheckUtilsTests.OLD_FUNCTION_TYPE);
 		Assert.isFalse(root.inserted);
 
-		var allArrows:Array<TokenTree> = root.filter([Arrow], All);
+		var allArrows:Array<TokenTree> = root.filterCallback(function(token:TokenTree, depth:Int):FilterResult {
+			return switch (token.tok) {
+				case Arrow: FoundGoDeeper;
+				default: GoDeeper;
+			}
+		});
 		Assert.areEqual(26, allArrows.length);
 		for (ar in allArrows) {
 			Assert.areEqual(ArrowType.OldFunctionType, TokenTreeCheckUtils.getArrowType(ar));
@@ -147,7 +183,12 @@ class TokenTreeCheckUtilsTest {
 		var root:TokenTree = assertCodeParses(TokenTreeCheckUtilsTests.NEW_FUNCTION_TYPE);
 		Assert.isFalse(root.inserted);
 
-		var allArrows:Array<TokenTree> = root.filter([Arrow], All);
+		var allArrows:Array<TokenTree> = root.filterCallback(function(token:TokenTree, depth:Int):FilterResult {
+			return switch (token.tok) {
+				case Arrow: FoundGoDeeper;
+				default: GoDeeper;
+			}
+		});
 		Assert.areEqual(7, allArrows.length);
 		for (ar in allArrows) {
 			Assert.areEqual(ArrowType.NewFunctionType, TokenTreeCheckUtils.getArrowType(ar));
@@ -159,7 +200,12 @@ class TokenTreeCheckUtilsTest {
 		var root:TokenTree = assertCodeParses(TokenTreeCheckUtilsTests.TERNARY);
 		Assert.isFalse(root.inserted);
 
-		var allQuestion:Array<TokenTree> = root.filter([Question], All);
+		var allQuestion:Array<TokenTree> = root.filterCallback(function(token:TokenTree, depth:Int):FilterResult {
+			return switch (token.tok) {
+				case Question: FoundGoDeeper;
+				default: GoDeeper;
+			}
+		});
 		Assert.areEqual(13, allQuestion.length);
 		for (quest in allQuestion) {
 			Assert.isTrue(TokenTreeCheckUtils.isTernary(quest));
@@ -171,7 +217,12 @@ class TokenTreeCheckUtilsTest {
 		var root:TokenTree = assertCodeParses(TokenTreeCheckUtilsTests.NOT_TERNARY);
 		Assert.isFalse(root.inserted);
 
-		var allQuestion:Array<TokenTree> = root.filter([Question], All);
+		var allQuestion:Array<TokenTree> = root.filterCallback(function(token:TokenTree, depth:Int):FilterResult {
+			return switch (token.tok) {
+				case Question: FoundGoDeeper;
+				default: GoDeeper;
+			}
+		});
 		Assert.areEqual(4, allQuestion.length);
 		for (quest in allQuestion) {
 			Assert.isFalse(TokenTreeCheckUtils.isTernary(quest));
@@ -183,7 +234,12 @@ class TokenTreeCheckUtilsTest {
 		var root:TokenTree = assertCodeParses(TokenTreeCheckUtilsTests.MIXED_COLON_TYPES);
 		Assert.isFalse(root.inserted);
 
-		var allBr:Array<TokenTree> = root.filter([DblDot], All);
+		var allBr:Array<TokenTree> = root.filterCallback(function(token:TokenTree, depth:Int):FilterResult {
+			return switch (token.tok) {
+				case DblDot: FoundGoDeeper;
+				default: GoDeeper;
+			}
+		});
 		Assert.areEqual(64, allBr.length);
 		var index:Int = 0;
 		Assert.areEqual(ColonType.ObjectLiteral, TokenTreeCheckUtils.getColonType(allBr[index++]));
@@ -298,7 +354,12 @@ class TokenTreeCheckUtilsTest {
 		var root:TokenTree = assertCodeParses(TokenTreeCheckUtilsTests.MIXED_POPEN_TYPES);
 		Assert.isFalse(root.inserted);
 
-		var allBr:Array<TokenTree> = root.filter([POpen], All);
+		var allBr:Array<TokenTree> = root.filterCallback(function(token:TokenTree, depth:Int):FilterResult {
+			return switch (token.tok) {
+				case POpen: FoundGoDeeper;
+				default: GoDeeper;
+			}
+		});
 		Assert.areEqual(28, allBr.length);
 		var index:Int = 0;
 
@@ -366,7 +427,12 @@ class TokenTreeCheckUtilsTest {
 		var root:TokenTree = assertCodeParses(TokenTreeCheckUtilsTests.MIXED_TYPE_PARAMETER);
 		Assert.isFalse(root.inserted);
 
-		var allBr:Array<TokenTree> = root.filter([Binop(OpLt)], All);
+		var allBr:Array<TokenTree> = root.filterCallback(function(token:TokenTree, depth:Int):FilterResult {
+			return switch (token.tok) {
+				case Binop(OpLt): FoundGoDeeper;
+				default: GoDeeper;
+			}
+		});
 		Assert.areEqual(1, allBr.length);
 		var index:Int = 0;
 		// abstract SymbolStack(Array<{level:SymbolLevel, symbol:DocumentSymbol}>) {}
@@ -378,7 +444,12 @@ class TokenTreeCheckUtilsTest {
 		var root:TokenTree = assertCodeParses(TokenTreeCheckUtilsTests.MIXED_OP_SUB);
 		Assert.isFalse(root.inserted);
 
-		var allSubs:Array<TokenTree> = root.filter([Binop(OpSub)], All);
+		var allSubs:Array<TokenTree> = root.filterCallback(function(token:TokenTree, depth:Int):FilterResult {
+			return switch (token.tok) {
+				case Binop(OpSub): FoundGoDeeper;
+				default: GoDeeper;
+			}
+		});
 		Assert.areEqual(45, allSubs.length);
 		var index:Int = 0;
 

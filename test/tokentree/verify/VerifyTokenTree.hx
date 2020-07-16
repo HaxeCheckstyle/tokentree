@@ -17,7 +17,7 @@ class VerifyTokenTree implements IVerifyTokenTree {
 		var list:Array<IVerifyTokenTree> = [];
 		if (token.children != null) {
 			for (child in token.children) {
-				if (child.is(tok)) list.push(new VerifyTokenTree(child));
+				if (child.matches(tok)) list.push(new VerifyTokenTree(child));
 			}
 		}
 		return new VerifyTokenTreeList(list);
@@ -93,8 +93,8 @@ class VerifyTokenTree implements IVerifyTokenTree {
 		return this;
 	}
 
-	public function is(tok:TokenTreeDef, ?pos:PosInfos):IVerifyTokenTree {
-		Assert.isTrue(token.is(tok), '$tok != ${token.tok}', pos);
+	public function matches(tok:TokenTreeDef, ?pos:PosInfos):IVerifyTokenTree {
+		Assert.isTrue(token.matches(tok), '$tok != ${token.tok}', pos);
 		return this;
 	}
 

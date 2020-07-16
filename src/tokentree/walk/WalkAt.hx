@@ -26,8 +26,8 @@ class WalkAt {
 	public static function walkAt(stream:TokenStream):TokenTree {
 		var atTok:TokenTree = stream.consumeTokenDef(At);
 		var parent:TokenTree = atTok;
-		if (stream.is(DblDot)) {
-			var dblDot:TokenTree = stream.consumeTokenDef(DblDot);
+		if (stream.tokenForMatch().match(DblDot)) {
+			var dblDot:TokenTree = stream.consumeToken();
 			atTok.addChild(dblDot);
 			parent = dblDot;
 		}
