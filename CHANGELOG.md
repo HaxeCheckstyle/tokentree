@@ -3,13 +3,13 @@
 ## dev branch / next version (1.x.x)
 
 - Added TokenTreeDef ([#191](https://github.com/HaxeCheckstyle/tokentree/issues/191))
-- Added support for abstract classes / interfaces
+- Added support for abstract classes / interfaces ([#195](https://github.com/HaxeCheckstyle/tokentree/issues/195))
 - Fixed negative const / Binop(OpSub) detection ([#189](https://github.com/HaxeCheckstyle/tokentree/issues/189))
 - Fixed final with multiple vars ([#191](https://github.com/HaxeCheckstyle/tokentree/issues/191))
 - Fixed is operator ([#194](https://github.com/HaxeCheckstyle/tokentree/issues/194))
 - Refactored enums to use CamelCase ([#191](https://github.com/HaxeCheckstyle/tokentree/issues/191))
-- Refactored `is` operator
-- Refactored to reduce usage of Type.enumEq
+- Refactored to reduce usage of Type.enumEq ([#195](https://github.com/HaxeCheckstyle/tokentree/issues/195))
+- Removed `is` operator ([#195](https://github.com/HaxeCheckstyle/tokentree/issues/195))
 
 ## version 1.0.28 (2020-06-07)
 
