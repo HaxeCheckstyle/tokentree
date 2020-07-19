@@ -326,11 +326,11 @@ class WalkStatement {
 				case Comma:
 					return null;
 				case BrOpen:
-					if (!TokenTreeAccessHelper.access(parent).firstOf(function(t) return t.match(BrClose)).exists()) {
+					if (!TokenTreeAccessHelper.access(parent).firstOf(BrClose).exists()) {
 						return null;
 					}
 				case POpen:
-					if (!TokenTreeAccessHelper.access(parent).firstOf(function(t) return t.match(PClose)).exists()) {
+					if (!TokenTreeAccessHelper.access(parent).firstOf(PClose).exists()) {
 						return null;
 					}
 				case Kwd(KwdReturn):
@@ -408,7 +408,7 @@ class WalkStatement {
 				case Binop(_):
 					break;
 				case POpen:
-					var pClose:Null<TokenTree> = parent.access().firstOf(function(t) return t.match(PClose)).token;
+					var pClose:Null<TokenTree> = parent.access().firstOf(PClose).token;
 					if (pClose == null) {
 						token = parent;
 						break;

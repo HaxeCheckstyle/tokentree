@@ -72,7 +72,6 @@ class TokenStream {
 		}
 	}
 
-	// @:deprecated("uses Type.enumEq, you should use pattern matching")
 	public function consumeTokenDef(tokenDef:TokenTreeDef):TokenTree {
 		if (matches(tokenDef)) return consumeToken();
 		switch (MODE) {
@@ -114,7 +113,6 @@ class TokenStream {
 		return new hxparse.Position(pos.file, pos.min, pos.max).format(bytes);
 	}
 
-	// @:deprecated("uses Type.enumEq, you should use pattern matching")
 	public function matches(tokenDef:TokenTreeDef):Bool {
 		if ((current < 0) || (current >= tokens.length)) return false;
 		var token:Token = tokens[current];
