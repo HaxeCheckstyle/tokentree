@@ -88,7 +88,7 @@ class FieldUtils {
 				}
 			}
 		}
-		access = access.firstOf(function(t) return t.match(POpen));
+		access = access.firstOf(POpen);
 		if (isFinal || access.token == null) {
 			return Var(name, visibility, isStatic, isInline, isFinal, isExtern);
 		}

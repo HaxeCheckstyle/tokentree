@@ -52,7 +52,8 @@ class WalkClass {
 					break;
 				case Semicolon:
 					parent.addChild(stream.consumeToken());
-				case Kwd(KwdPublic), Kwd(KwdPrivate), Kwd(KwdStatic), Kwd(KwdInline), Kwd(KwdMacro), Kwd(KwdOverride), Kwd(KwdDynamic), Kwd(KwdExtern), Kwd(KwdAbstract):
+				case Kwd(KwdPublic), Kwd(KwdPrivate), Kwd(KwdStatic), Kwd(KwdInline), Kwd(KwdMacro), Kwd(KwdOverride), Kwd(KwdDynamic), Kwd(KwdExtern),
+					Kwd(KwdAbstract):
 					stream.consumeToTempStore();
 				case Const(CIdent("final")):
 					WalkFinal.walkFinal(stream, parent);
@@ -82,13 +83,13 @@ class WalkClass {
 
 	static function walkClassContinueAfterSharp(stream:TokenStream, parent:TokenTree) {
 		@:nullSafety(Off)
-		var brOpen:TokenTreeAccessHelper = TokenTreeAccessHelper.access(parent).lastChild().matches(function(t) return t.match(Sharp("if")))
-			.lastOf(function(t) return t.match(Kwd(KwdFunction))).firstChild().lastChild().matches(function(t) return t.match(BrOpen));
+		var brOpen:TokenTreeAccessHelper = TokenTreeAccessHelper.access(parent).lastChild().matches(Sharp("if")).lastOf(Kwd(KwdFunction)).firstChild()
+			.lastChild().matches(BrOpen);
 
 		if (brOpen.token == null) return;
 
 		@:nullSafety(Off)
-		if (brOpen.lastChild().matches(function(t) return t.match(BrClose)).token != null) return;
+		if (brOpen.lastChild().matches(BrClose).token != null) return;
 
 		WalkBlock.walkBlockContinue(stream, parent);
 	}

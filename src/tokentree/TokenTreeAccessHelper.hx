@@ -42,19 +42,19 @@ abstract TokenTreeAccessHelper(Null<TokenTree>) from TokenTree {
 		return if (exists()) this.getLastChild() else null;
 	}
 
-	public function firstOf(matcher:TokenTreeDefMatcher):Null<TokenTreeAccessHelper> {
+	public function firstOf(token:TokenTreeDef):Null<TokenTreeAccessHelper> {
 		if (!exists() || this.children == null) return null;
 		for (tok in this.children) {
-			if (matcher(tok.tok)) return tok;
+			if (Type.enumEq(tok.tok, token)) return tok;
 		}
 		return null;
 	}
 
-	public function lastOf(matcher:TokenTreeDefMatcher):Null<TokenTreeAccessHelper> {
+	public function lastOf(token:TokenTreeDef):Null<TokenTreeAccessHelper> {
 		if (!exists() || this.children == null) return null;
 		var found:Null<TokenTree> = null;
 		for (tok in this.children) {
-			if (matcher(tok.tok)) found = tok;
+			if (Type.enumEq(tok.tok, token)) found = tok;
 		}
 		return found;
 	}
@@ -63,8 +63,8 @@ abstract TokenTreeAccessHelper(Null<TokenTree>) from TokenTree {
 		return if (exists() && this.children != null) this.children[index] else null;
 	}
 
-	public function matches(matcher:TokenTreeDefMatcher):Null<TokenTreeAccessHelper> {
-		return if (exists() && matcher(this.tok)) this else null;
+	public function matches(tok:TokenTreeDef):Null<TokenTreeAccessHelper> {
+		return if (exists() && Type.enumEq(this.tok, tok)) this else null;
 	}
 
 	public function isComment():Null<TokenTreeAccessHelper> {
