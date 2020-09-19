@@ -57,16 +57,19 @@ jobs:
     - name: Setup tokentree dev for checkstyle
       run: |
         (cd checkstyle/haxe_libraries; echo "-cp ../src" > tokentree.hxml)
-    - name: Run Neko tests
+    - name: Run Neko tests (without coverage)
       if: matrix.haxe-version == '3.4.7'
       run: npx haxe test3.hxml
-    - name: Run eval tests
-      if: matrix.haxe-version != '3.4.7'
+    - name: Run eval tests (without coverage)
+      if: matrix.haxe-version == '4.0.5'
+      run: npx haxe test3.hxml
+    - name: Run eval tests (with coverage)
+      if: (matrix.haxe-version != '3.4.7' && matrix.haxe-version != '4.0.5')
       run: npx haxe test.hxml
     - name: Build and test checkstyle
       run: (cd checkstyle && npx haxe buildAll.hxml && rm -f coverage.json)
     - name: Run Node version with --check
       run: npx neko checkstyle/run.n -s src -s test
     - name: Upload results to codecov
-      if: success() && (matrix.haxe-version == '4.1.4' || matrix.haxe-version == '3.4.7')
+      if: success() && (matrix.haxe-version == '4.1.4')
       run: bash <(curl -s https://codecov.io/bash) || echo "Codecov did not collect coverage reports"
