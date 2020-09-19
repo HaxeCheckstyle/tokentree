@@ -30,7 +30,8 @@ install:
   - (cd checkstyle/haxe_libraries; echo "-cp ../src" > tokentree.hxml)
 
 script:
-  - npx haxe test.hxml -D codecov_json
+  - if [[ "$HAXE_VERSION" == "haxe347" ]]; then (npx haxe test3.hxml); fi
+  - if [[ "$HAXE_VERSION" != "haxe347" ]]; then (npx haxe test.hxml); fi
   - (cd checkstyle && npx haxe buildAll.hxml && rm -f coverage.json)
   - neko checkstyle/run.n -s src -s test
 

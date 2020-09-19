@@ -15,8 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        haxe-version: ['3.4.7', '4.0.5', '4.1.4']
-        # haxe-version: ['3.4.7', '4.0.5', '4.1.4', 'nightly']
+        haxe-version: ['3.4.7', '4.0.5', '4.1.4', 'nightly']
     steps:
     - uses: actions/checkout@v1
     - name: Use Node.js 10
@@ -60,10 +59,10 @@ jobs:
         (cd checkstyle/haxe_libraries; echo "-cp ../src" > tokentree.hxml)
     - name: Run Neko tests
       if: matrix.haxe-version == '3.4.7'
-      run: npx haxe test.hxml -D codecov_json
+      run: npx haxe test3.hxml
     - name: Run eval tests
       if: matrix.haxe-version != '3.4.7'
-      run: npx haxe test.hxml -D codecov_json
+      run: npx haxe test.hxml
     - name: Build and test checkstyle
       run: (cd checkstyle && npx haxe buildAll.hxml && rm -f coverage.json)
     - name: Run Node version with --check

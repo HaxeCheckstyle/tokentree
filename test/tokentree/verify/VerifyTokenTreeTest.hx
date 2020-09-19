@@ -3,7 +3,9 @@ package tokentree.verify;
 import haxeparser.Data;
 import tokentree.TokenTreeBuilderParsingTest.TokenTreeBuilderParsingTests;
 
-class VerifyTokenTreeTest extends VerifyTokenTreeBase {
+class VerifyTokenTreeTest extends VerifyTokenTreeBase implements ITest {
+	public function new() {}
+
 	@Test
 	public function testImport() {
 		var root:IVerifyTokenTree = buildTokenTree(VerifyTokenTreeTests.IMPORT);
@@ -21,7 +23,8 @@ class VerifyTokenTreeTest extends VerifyTokenTreeBase {
 		var root:IVerifyTokenTree = buildTokenTree(TokenTreeBuilderParsingTests.BLOCK_OBJECT_DECL_SAMPLES_ISSUE_396_1);
 
 		// class
-		var block:IVerifyTokenTree = root.childFirst().matches(Kwd(KwdClass)).count(1).childFirst().matches(Const(CIdent("Test"))).childFirst().matches(BrOpen).childCount(2);
+		var block:IVerifyTokenTree = root.childFirst().matches(Kwd(KwdClass)).count(1).childFirst().matches(Const(CIdent("Test"))).childFirst().matches(BrOpen)
+			.childCount(2);
 		block.childLast().matches(BrClose).noChilds();
 
 		// function test()
@@ -34,7 +37,8 @@ class VerifyTokenTreeTest extends VerifyTokenTreeBase {
 		block.last().matches(BrClose).noChilds();
 
 		// var test = switch a
-		var eq:IVerifyTokenTree = block.childAt(1).matches(Kwd(KwdVar)).childs().count(1).matches(Const(CIdent("test"))).childs().count(1).matches(Binop(OpAssign));
+		var eq:IVerifyTokenTree = block.childAt(1).matches(Kwd(KwdVar)).childs().count(1).matches(Const(CIdent("test"))).childs().count(1)
+			.matches(Binop(OpAssign));
 		var sw:IVerifyTokenTree = eq.childs().count(1).matches(Kwd(KwdSwitch)).childCount(2);
 		sw.childFirst().matches(Const(CIdent("a"))).noChilds();
 
