@@ -67,8 +67,10 @@ jobs:
       if: (matrix.haxe-version != '3.4.7' && matrix.haxe-version != '4.0.5')
       run: npx haxe test.hxml
     - name: Build and test checkstyle
+      if: matrix.haxe-version != 'nightly'
       run: (cd checkstyle && npx haxe buildAll.hxml && rm -f coverage.json)
     - name: Run Node version with --check
+      if: matrix.haxe-version != 'nightly'
       run: npx neko checkstyle/run.n -s src -s test
     - name: Upload results to codecov
       if: success() && (matrix.haxe-version == '4.1.4')
