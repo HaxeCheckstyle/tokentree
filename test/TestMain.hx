@@ -1,49 +1,38 @@
-import haxe.EntryPoint;
-import massive.munit.TestRunner;
-import mcover.coverage.munit.client.MCoverPrintClient;
-#if codecov_json
-import mcover.coverage.client.CodecovJsonPrintClient;
-#else
-import mcover.coverage.client.LcovPrintClient;
-#end
-import mcover.coverage.MCoverage;
+import tokentree.TokenTreeBuilderParsingTest;
+import tokentree.TokenTreeBuilderTest;
+import tokentree.utils.FieldUtilsTest;
+import tokentree.utils.TokenTreeCheckUtilsTest;
+import tokentree.verify.VerifyTokenTreeTest;
+import tokentree.walk.WalkFileTest;
+import tokentree.walk.WalkIfTest;
+import tokentree.walk.WalkWhileTest;
+import utest.Runner;
+import utest.ui.Report;
 
 using StringTools;
 
 class TestMain {
-	public function new() {
-		var suites:Array<Class<massive.munit.TestSuite>> = [TestSuite];
+	static function main():Void {
+		var tests:Array<ITest> = [
+			new FieldUtilsTest(),
+			new TokenTreeCheckUtilsTest(),
+			new TokenTreeBuilderTest(),
+			new TokenTreeBuilderParsingTest(),
+			new VerifyTokenTreeTest(),
+			new WalkIfTest(),
+			new WalkWhileTest(),
+			new WalkFileTest()
+		];
+		var runner:Runner = new Runner();
 
-		var client:MCoverPrintClient = new MCoverPrintClient();
-		#if codecov_json
-		MCoverage.getLogger().addClient(new CodecovJsonPrintClient());
-		#else
-		MCoverage.getLogger().addClient(new LcovPrintClient("Formatter Unittests"));
-		#end
-		var runner:TestRunner = new TestRunner(client);
-		runner.completionHandler = completionHandler;
-		#if (neko || cpp || hl)
-		EntryPoint.addThread(function() {
-			while (true) Sys.sleep(1.0);
+		#if instrument
+		runner.onComplete.add(_ -> {
+			instrument.coverage.Coverage.endCoverage();
 		});
 		#end
-		runner.run(suites);
-		EntryPoint.run();
-	}
 
-	function completionHandler(success:Bool) {
-		#if eval
-		if (!success) {
-			Sys.exit(1);
-		}
-		#else
-		Sys.exit(success ? 0 : 1);
-		#end
-	}
-
-	static function main() {
-		new TestMain();
+		Report.create(runner);
+		for (test in tests) runner.addCase(test);
+		runner.run();
 	}
 }
-
-typedef LineCoverageResult = Dynamic;

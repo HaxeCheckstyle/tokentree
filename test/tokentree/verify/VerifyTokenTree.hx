@@ -1,7 +1,6 @@
 package tokentree.verify;
 
 import haxe.PosInfos;
-import massive.munit.Assert;
 import haxeparser.Data;
 import tokentree.TokenTree;
 
@@ -9,7 +8,7 @@ class VerifyTokenTree implements IVerifyTokenTree {
 	var token:TokenTree;
 
 	public function new(token:Null<TokenTree>) {
-		Assert.isNotNull(token);
+		Assert.notNull(token);
 		this.token = @:nullSafety(Off) token;
 	}
 
@@ -44,20 +43,20 @@ class VerifyTokenTree implements IVerifyTokenTree {
 	}
 
 	public function count(num:Int, ?pos:PosInfos):IVerifyTokenTree {
-		Assert.areEqual(num, 1, pos);
+		Assert.equals(num, 1, pos);
 		return this;
 	}
 
 	public function noChilds(?pos:PosInfos):IVerifyTokenTree {
 		if (token.children == null) return this;
-		Assert.areEqual(0, token.children.length, pos);
+		Assert.equals(0, token.children.length, pos);
 		return this;
 	}
 
 	public function oneChild(?pos:PosInfos):IVerifyTokenTree {
 		if (token.children == null) Assert.fail("no childs", pos);
 		@:nullSafety(Off)
-		Assert.areEqual(1, token.children.length, pos);
+		Assert.equals(1, token.children.length, pos);
 		return this;
 	}
 
@@ -82,7 +81,7 @@ class VerifyTokenTree implements IVerifyTokenTree {
 			else return this;
 		}
 		@:nullSafety(Off)
-		Assert.areEqual(count, token.children.length, '[${token.tok}] child count [${token.children.length}] was not equal to expected [$count]', pos);
+		Assert.equals(count, token.children.length, '[${token.tok}] child count [${token.children.length}] was not equal to expected [$count]', pos);
 		return this;
 	}
 

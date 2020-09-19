@@ -1,14 +1,13 @@
 package tokentree.verify;
 
 import haxe.PosInfos;
-import massive.munit.Assert;
 import haxeparser.Data;
 
 class VerifyTokenTreeList implements IVerifyTokenTree {
 	var tokens:Array<IVerifyTokenTree>;
 
 	public function new(tokens:Array<IVerifyTokenTree>) {
-		Assert.isNotNull(tokens);
+		Assert.notNull(tokens);
 		this.tokens = tokens;
 	}
 
@@ -48,7 +47,7 @@ class VerifyTokenTreeList implements IVerifyTokenTree {
 	}
 
 	public function count(num:Int, ?pos:PosInfos):IVerifyTokenTree {
-		Assert.areEqual(num, tokens.length, pos);
+		Assert.equals(num, tokens.length, pos);
 		return this;
 	}
 

@@ -1,11 +1,13 @@
 package tokentree.walk;
 
-import tokentree.TokenTree;
 import tokentree.TokenStream;
+import tokentree.TokenTree;
 import tokentree.verify.IVerifyTokenTree;
 import tokentree.verify.VerifyTokenTreeBase;
 
-class WalkIfTest extends VerifyTokenTreeBase {
+class WalkIfTest extends VerifyTokenTreeBase implements ITest {
+	public function new() {}
+
 	@Test
 	public function testIfExpr() {
 		var root:IVerifyTokenTree = buildTokenTree("if (test) {doSomething();}");
@@ -14,7 +16,7 @@ class WalkIfTest extends VerifyTokenTreeBase {
 		var ifExpr:IVerifyTokenTree = ifTok.first().matches(POpen).childCount(2);
 		ifExpr.first().matches(Const(CIdent("test"))).noChilds();
 		ifExpr.last().matches(PClose).noChilds();
-		testifBody(ifTok);
+		ifBodyTest(ifTok);
 	}
 
 	@Test
@@ -45,9 +47,10 @@ class WalkIfTest extends VerifyTokenTreeBase {
 
 		var ifTok:IVerifyTokenTree = root.oneChild().first().matches(Kwd(KwdIf)).childCount(2);
 		var ifExpr:IVerifyTokenTree = ifTok.first().matches(POpen).childCount(2);
-		ifExpr.first().matches(Const(CIdent("test"))).oneChild().first().matches(Binop(OpBoolAnd)).oneChild().first().matches(Const(CIdent("test2"))).noChilds();
+		ifExpr.first().matches(Const(CIdent("test"))).oneChild().first().matches(Binop(OpBoolAnd)).oneChild().first().matches(Const(CIdent("test2")))
+			.noChilds();
 		ifExpr.last().matches(PClose).noChilds();
-		testifBody(ifTok);
+		ifBodyTest(ifTok);
 	}
 
 	@Test
@@ -61,7 +64,7 @@ class WalkIfTest extends VerifyTokenTreeBase {
 		ifExpr = ifExpr.last().matches(Binop(OpBoolAnd)).oneChild().first().matches(POpen).childCount(2);
 		ifExpr.first().matches(Const(CIdent("test2"))).noChilds();
 		ifExpr.last().matches(PClose).noChilds();
-		testifBody(ifTok);
+		ifBodyTest(ifTok);
 	}
 
 	@Test
@@ -70,7 +73,7 @@ class WalkIfTest extends VerifyTokenTreeBase {
 
 		var ifTok:IVerifyTokenTree = root.oneChild().first().matches(Kwd(KwdIf)).childCount(2);
 		ifTok.first().matches(Const(CIdent("test"))).oneChild().first().matches(Binop(OpBoolAnd)).oneChild().first().matches(Const(CIdent("test2"))).noChilds();
-		testifBody(ifTok);
+		ifBodyTest(ifTok);
 	}
 
 	@Test
@@ -85,7 +88,7 @@ class WalkIfTest extends VerifyTokenTreeBase {
 		exprCall.last().matches(Semicolon).noChilds();
 	}
 
-	function testifBody(ifTok:IVerifyTokenTree) {
+	function ifBodyTest(ifTok:IVerifyTokenTree) {
 		var ifBody:IVerifyTokenTree = ifTok.last().matches(BrOpen).childCount(2);
 		var exprCall:IVerifyTokenTree = ifBody.first().matches(Const(CIdent("doSomething"))).childCount(2);
 		exprCall.first().matches(POpen).oneChild().first().matches(PClose).noChilds();

@@ -1,7 +1,6 @@
 package tokentree.verify;
 
 import haxe.PosInfos;
-import massive.munit.Assert;
 import tokentree.TokenTree;
 import tokentree.walk.WalkFile;
 

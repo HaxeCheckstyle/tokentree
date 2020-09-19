@@ -1,11 +1,12 @@
 package tokentree.utils;
 
+import haxe.PosInfos;
 import tokentree.TokenTree.FilterResult;
 import tokentree.utils.FieldUtils.TokenFieldType;
-import haxe.PosInfos;
-import massive.munit.Assert;
 
-class FieldUtilsTest {
+class FieldUtilsTest implements ITest {
+	public function new() {}
+
 	@Test
 	@:nullSafety(Off)
 	public function testProperties() {
@@ -18,8 +19,8 @@ class FieldUtilsTest {
 				default: GoDeeper;
 			}
 		});
-		Assert.areEqual(1, allBr.length);
-		Assert.areEqual(7 + 1, allBr[0].children.length);
+		Assert.equals(1, allBr.length);
+		Assert.equals(7 + 1, allBr[0].children.length);
 
 		checkFieldType(Var("_haxelibRepo", Private, true, false, false, false), FieldUtils.getFieldType(allBr[0].children[0], Private));
 		checkFieldType(Var("_haxelibRepo", Public, true, false, false, false), FieldUtils.getFieldType(allBr[0].children[0], Public));

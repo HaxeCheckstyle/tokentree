@@ -3,6 +3,7 @@
 -lib hxparse
 -lib haxeparser
 -lib safety
+-lib utest
 
 -debug
 
