@@ -7,7 +7,7 @@ class WalkStatement {
 			var semicolon:TokenTree = stream.consumeToken();
 
 			var lastChild:Null<TokenTree> = switch (parent.tok) {
-				case Binop(_): parent.parent.getLastChild();
+				case Binop(OpAdd) | Binop(OpSub) | Binop(OpBoolAnd) | Binop(OpBoolOr): parent.parent.getLastChild();
 				default: parent.getLastChild();
 			}
 
