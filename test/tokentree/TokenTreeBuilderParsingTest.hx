@@ -117,6 +117,7 @@ class TokenTreeBuilderParsingTest {
 		assertCodeParses(METADATA_IN);
 		assertCodeParses(IS_OPERATOR);
 		assertCodeParses(ABSTRACT_CLASS);
+		assertCodeParses(SEMICOLON_BINOP);
 	}
 
 	public function assertCodeParses(code:String, ?pos:PosInfos) {
@@ -1615,5 +1616,16 @@ import #if haxe4 js.lib.Promise #else js.Promise #end as JsPromise;
 	}
 	@:structInit abstract class Abstract {}
 	abstract interface I {}
+	";
+
+	var SEMICOLON_BINOP = "
+	class Main {
+		function foobar() {
+			switch foo {
+				case bar:
+					a = b - a + 1;
+			}
+		}
+	}
 	";
 }

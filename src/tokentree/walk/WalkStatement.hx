@@ -5,7 +5,12 @@ class WalkStatement {
 		walkStatementWithoutSemicolon(stream, parent);
 		if (stream.tokenForMatch().match(Semicolon)) {
 			var semicolon:TokenTree = stream.consumeToken();
-			var lastChild:Null<TokenTree> = parent.getLastChild();
+
+			var lastChild:Null<TokenTree> = switch (parent.tok) {
+				case Binop(_): parent.parent.getLastChild();
+				default: parent.getLastChild();
+			}
+
 			if (lastChild == null) {
 				lastChild = parent;
 			}
