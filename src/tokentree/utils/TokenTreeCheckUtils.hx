@@ -580,7 +580,14 @@ class TokenTreeCheckUtils {
 				switch (parent.parent.tok) {
 					case Kwd(KwdFunction):
 						if (parent.previousSibling == null) {
-							return Parameter;
+							var pOpen:Null<TokenTree> = parent.access().firstOf(POpen).token;
+							if (pOpen == null) {
+								return Parameter;
+							}
+							if (pOpen.index == token.index) {
+								return Parameter;
+							}
+							return Expression;
 						}
 						return Call;
 					case Kwd(KwdAbstract): return Parameter;
