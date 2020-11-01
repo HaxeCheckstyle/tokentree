@@ -128,7 +128,7 @@ class TokenTreeBuilderParsingTest implements ITest {
 			Assert.isTrue(builder.isStreamEmpty(), pos);
 		}
 		catch (e:Any) {
-			Assert.fail("code should not throw execption: ", pos);
+			Assert.fail('code should not throw execption: $e', pos);
 		}
 	}
 

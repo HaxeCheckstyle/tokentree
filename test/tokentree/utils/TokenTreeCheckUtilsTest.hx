@@ -433,6 +433,13 @@ class TokenTreeCheckUtilsTest implements ITest {
 		// } catch (e)
 		Assert.equals(POpenType.Catch, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
 
+		// public function connect():Void
+		Assert.areEqual(POpenType.Parameter, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
+		// (switch handlers[name] {
+		Assert.areEqual(POpenType.Expression, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
+		// }).push({target: target, method: method});
+		Assert.areEqual(POpenType.Call, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
+
 		// @:default(false) @:optional var disableFormatting:Bool;
 		Assert.equals(POpenType.At, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
 		// @:default(auto) @:optional var emptyLines:EmptyLinesConfig;
@@ -900,6 +907,11 @@ abstract TokenTreeCheckUtilsTests(String) to String {
 				}
 			} catch (e)
 		}
+		public function connect():Void
+			(switch handlers[name] {
+				case null: handlers[name] = [];
+				case v: v;
+			}).push({target: target, method: method});
 	}
 	typedef FormatterConfig = {
 		/**
