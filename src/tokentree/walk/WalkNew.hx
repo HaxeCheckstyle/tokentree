@@ -17,7 +17,7 @@ class WalkNew {
 		WalkComment.walkComment(stream, name);
 
 		switch (stream.token()) {
-			case Dot | Binop(_) | Const(CIdent("is")):
+			case Dot | Binop(_) | Const(CIdent("is")) | BkOpen:
 				WalkStatement.walkStatement(stream, name);
 			default:
 		}
