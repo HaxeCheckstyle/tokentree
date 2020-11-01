@@ -89,12 +89,7 @@ class WalkStatement {
 				walkStatementContinue(stream, parent);
 				return;
 			case Dollar(name):
-				var dollarTok:TokenTree = stream.consumeToken();
-				parent.addChild(dollarTok);
-				if (stream.tokenForMatch().match(DblDot)) {
-					return;
-				}
-				WalkBlock.walkBlock(stream, dollarTok);
+				walkDollarStatement(stream, parent);
 				return;
 			case POpen:
 				walkPOpen(stream, parent);
@@ -432,5 +427,15 @@ class WalkStatement {
 			}
 		}
 		walkStatementWithoutSemicolon(stream, token);
+	}
+
+	static function walkDollarStatement(stream:TokenStream, parent:TokenTree) {
+		var dollarTok:TokenTree = stream.consumeToken();
+		parent.addChild(dollarTok);
+		switch (stream.token()) {
+			case POpen | BrOpen:
+				WalkBlock.walkBlock(stream, dollarTok);
+			default:
+		}
 	}
 }

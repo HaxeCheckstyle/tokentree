@@ -49,8 +49,7 @@ class TokenTreeCheckUtils {
 
 	public static function isOpGtTypedefExtension(token:TokenTree):Bool {
 		return switch (token.tok) {
-			case Binop(OpGt): (token.access().parent().matches(BrOpen).parent()
-					.matches(Binop(OpAssign)).parent().isCIdent().parent().matches(Kwd(KwdTypedef))
+			case Binop(OpGt): (token.access().parent().matches(BrOpen).parent().matches(Binop(OpAssign)).parent().isCIdent().parent().matches(Kwd(KwdTypedef))
 					.token != null);
 			default: false;
 		}
@@ -199,8 +198,7 @@ class TokenTreeCheckUtils {
 					if (!child.tok.match(At)) {
 						continue;
 					}
-					var enumTok = child.access().firstChild().matches(DblDot).firstChild()
-						.matches(Kwd(KwdEnum));
+					var enumTok = child.access().firstChild().matches(DblDot).firstChild().matches(Kwd(KwdEnum));
 					if (!enumTok.exists()) {
 						continue;
 					}
@@ -216,8 +214,7 @@ class TokenTreeCheckUtils {
 	**/
 	public static function isTypeStructure(typedefToken:TokenTree):Bool {
 		var afterAssign = typedefToken.access().firstChild().isCIdent().firstOf(Binop(OpAssign)).firstChild();
-		return afterAssign.matches(BrOpen).exists()
-			|| afterAssign.isCIdent().firstOf(Binop(OpAnd)).exists();
+		return afterAssign.matches(BrOpen).exists() || afterAssign.isCIdent().firstOf(Binop(OpAnd)).exists();
 	}
 
 	public static function isTypeEnum(enumToken:TokenTree):Bool {
@@ -234,8 +231,7 @@ class TokenTreeCheckUtils {
 	}
 
 	public static function isTypeMacroClass(classToken:TokenTree):Bool {
-		return classToken.tok.match(Kwd(KwdClass))
-			&& classToken.access().parent().matches(Kwd(KwdMacro)).exists();
+		return classToken.tok.match(Kwd(KwdClass)) && classToken.access().parent().matches(Kwd(KwdMacro)).exists();
 	}
 
 	public static function isBrOpenAnonTypeOrTypedef(token:TokenTree):Bool {
@@ -534,13 +530,8 @@ class TokenTreeCheckUtils {
 		if (hasAtParent(token)) {
 			return At;
 		}
-		var lastChild:TokenTree = token.getLastChild();
-		if (lastChild != null) {
-			switch (lastChild.tok) {
-				case Arrow:
-					return Parameter;
-				default:
-			}
+		if (token.hasChildren() && checkPOpenForArrowChildren(token)) {
+			return Parameter;
 		}
 		while ((parent != null) && (parent.tok != Root)) {
 			switch (parent.tok) {
@@ -606,6 +597,26 @@ class TokenTreeCheckUtils {
 			return Parameter;
 		}
 		return Expression;
+	}
+
+	static function checkPOpenForArrowChildren(token:TokenTree):Bool {
+		var skip:Bool = true;
+		for (child in token.children) {
+			switch (child.tok) {
+				case PClose:
+					skip = false;
+				default:
+			}
+			if (skip) {
+				continue;
+			}
+			switch (child.tok) {
+				case Arrow:
+					return true;
+				default:
+			}
+		}
+		return false;
 	}
 
 	public static function hasAtParent(token:TokenTree):Bool {

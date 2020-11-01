@@ -156,7 +156,7 @@ class TokenTreeCheckUtilsTest implements ITest {
 				default: GoDeeper;
 			}
 		});
-		Assert.equals(10, allArrows.length);
+		Assert.equals(12, allArrows.length);
 		for (ar in allArrows) {
 			Assert.equals(ArrowType.ArrowFunction, TokenTreeCheckUtils.getArrowType(ar));
 		}
@@ -241,7 +241,7 @@ class TokenTreeCheckUtilsTest implements ITest {
 				default: GoDeeper;
 			}
 		});
-		Assert.equals(64, allBr.length);
+		Assert.equals(66, allBr.length);
 		var index:Int = 0;
 		Assert.equals(ColonType.ObjectLiteral, TokenTreeCheckUtils.getColonType(allBr[index++]));
 		Assert.equals(ColonType.TypeCheck, TokenTreeCheckUtils.getColonType(allBr[index++]));
@@ -348,6 +348,11 @@ class TokenTreeCheckUtilsTest implements ITest {
 		// 	public static function element(name:String):AngularElement;
 		Assert.equals(ColonType.TypeHint, TokenTreeCheckUtils.getColonType(allBr[index++]));
 		Assert.equals(ColonType.TypeHint, TokenTreeCheckUtils.getColonType(allBr[index++]));
+
+		// foo((data:Some) -> {
+		Assert.equals(ColonType.TypeHint, TokenTreeCheckUtils.getColonType(allBr[index++]));
+		// }, (error : Error) -> {
+		Assert.equals(ColonType.TypeHint, TokenTreeCheckUtils.getColonType(allBr[index++]));
 	}
 
 	@Test
@@ -361,7 +366,7 @@ class TokenTreeCheckUtilsTest implements ITest {
 				default: GoDeeper;
 			}
 		});
-		Assert.equals(28, allBr.length);
+		Assert.equals(33, allBr.length);
 		var index:Int = 0;
 
 		Assert.equals(POpenType.Expression, TokenTreeCheckUtils.getPOpenType(null));
@@ -381,6 +386,17 @@ class TokenTreeCheckUtilsTest implements ITest {
 		// if (output == null) for (i in items) {}
 		Assert.equals(POpenType.IfCondition, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
 		Assert.equals(POpenType.ForLoop, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
+
+		// foo((data : Some) -> {
+		// 	trace(1);
+		// }, (error:Error) -> {
+		//	trace(2);
+		// });
+		Assert.equals(POpenType.Call, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
+		Assert.equals(POpenType.Parameter, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
+		Assert.equals(POpenType.Call, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
+		Assert.equals(POpenType.Parameter, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
+		Assert.equals(POpenType.Call, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
 
 		// return e2 == null ? {t: HDyn} : bar(e2);
 		Assert.equals(POpenType.Call, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
@@ -699,6 +715,11 @@ abstract TokenTreeCheckUtilsTests(String) to String {
 			return {
 				x: a -> a;
 			}
+			foo((data:Some) -> {
+				trace(1);
+			}, (error:Error) -> {
+				trace(2);
+			});
 		}
 	}
 	";
@@ -836,6 +857,16 @@ abstract TokenTreeCheckUtilsTests(String) to String {
 		@:overload(function(element:js.html.Element):AngularElement {})
 		public static function element(name:String):AngularElement;
 	}
+
+	class Main {
+		static function main() {
+			foo((data:Some) -> {
+				trace(1);
+			}, (error:Error) -> {
+				trace(2);
+			});
+		}
+	}
 	";
 
 	var MIXED_POPEN_TYPES = "
@@ -845,6 +876,11 @@ abstract TokenTreeCheckUtilsTests(String) to String {
 			var item = ({title: 'Edit settings '} : vscode.MessageItem);
 			var output = (result.stderr:Buffer).toString().trim();
 			if (output == null) for (i in items) {}
+			foo((data:Some) -> {
+				trace(1);
+			}, (error:Error) -> {
+				trace(2);
+			});
 			return e2 == null ? {t: HDyn} : bar(e2);
 		}
 
