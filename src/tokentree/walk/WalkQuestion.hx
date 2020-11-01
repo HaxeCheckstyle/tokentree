@@ -12,6 +12,7 @@ class WalkQuestion {
 		}
 		WalkStatement.walkStatement(stream, question);
 		WalkComment.walkComment(stream, question);
+		if (!stream.tokenForMatch().match(DblDot)) return;
 		var dblDotTok:TokenTree = stream.consumeTokenDef(DblDot);
 		question.addChild(dblDotTok);
 		WalkStatement.walkStatement(stream, dblDotTok);
