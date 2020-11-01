@@ -110,6 +110,13 @@ class WalkStatement {
 			case Dot:
 				wantMore = true;
 			case DblDot:
+				switch (parent.tok) {
+					case Dot: return;
+					case Kwd(KwdMacro):
+						walkDblDot(stream, parent);
+						return;
+					default:
+				}
 				if (parent.tok.match(Dot)) {
 					return;
 				}
@@ -338,6 +345,16 @@ class WalkStatement {
 					return parent;
 				case Kwd(KwdCase):
 					return parent;
+				case Kwd(KwdMacro):
+					parent = findQuestionParent(parent.parent);
+					if (parent == null) {
+						return null;
+					}
+					switch (parent.tok) {
+						case Kwd(KwdCase) | Kwd(KwdDefault) | Question: return parent;
+						default: return null;
+					}
+					return null;
 				case Kwd(KwdDefault):
 					return parent;
 				case Binop(_):
