@@ -6,20 +6,20 @@
 
 - Added TokenTreeDef ([#191](https://github.com/HaxeCheckstyle/tokentree/issues/191))
 - Added support for abstract classes / interfaces ([#195](https://github.com/HaxeCheckstyle/tokentree/issues/195))
-- Added hasTempStore function
+- Added hasTempStore function ([#199](https://github.com/HaxeCheckstyle/tokentree/issues/199))
 - Fixed negative const / Binop(OpSub) detection ([#189](https://github.com/HaxeCheckstyle/tokentree/issues/189))
 - Fixed final with multiple vars ([#191](https://github.com/HaxeCheckstyle/tokentree/issues/191))
 - Fixed is operator ([#194](https://github.com/HaxeCheckstyle/tokentree/issues/194))
 - Fixed semicolon with multiple binops ([#197](https://github.com/HaxeCheckstyle/tokentree/issues/197) + [#198](https://github.com/HaxeCheckstyle/tokentree/issues/198))
-- Fixed Dollar handling
-- Fixed expression handling after BkClose
-- Fixed expression handling after BrClose
-- Fixed POpen type detection
-- Fixed new handling
-- Fixed sharp handling for function type hint
-- Fixed macro complextype
-- Fixed array access on new
-- Fixed arrow functions
+- Fixed Dollar handling ([#199](https://github.com/HaxeCheckstyle/tokentree/issues/199))
+- Fixed expression handling after BkClose ([#199](https://github.com/HaxeCheckstyle/tokentree/issues/199))
+- Fixed expression handling after BrClose ([#199](https://github.com/HaxeCheckstyle/tokentree/issues/199))
+- Fixed POpen type detection ([#199](https://github.com/HaxeCheckstyle/tokentree/issues/199))
+- Fixed new handling ([#199](https://github.com/HaxeCheckstyle/tokentree/issues/199))
+- Fixed sharp handling for function type hint ([#199](https://github.com/HaxeCheckstyle/tokentree/issues/199))
+- Fixed macro complextype ([#199](https://github.com/HaxeCheckstyle/tokentree/issues/199))
+- Fixed array access on new ([#199](https://github.com/HaxeCheckstyle/tokentree/issues/199))
+- Fixed arrow functions ([#199](https://github.com/HaxeCheckstyle/tokentree/issues/199))
 - Refactored enums to use CamelCase ([#191](https://github.com/HaxeCheckstyle/tokentree/issues/191))
 - Refactored to reduce usage of Type.enumEq ([#195](https://github.com/HaxeCheckstyle/tokentree/issues/195) + [#196](https://github.com/HaxeCheckstyle/tokentree/issues/196))
 - Removed `is` operator ([#195](https://github.com/HaxeCheckstyle/tokentree/issues/195))
