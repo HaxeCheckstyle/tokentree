@@ -365,7 +365,7 @@ class TokenTreeCheckUtilsTest {
 				default: GoDeeper;
 			}
 		});
-		Assert.areEqual(33, allBr.length);
+		Assert.areEqual(36, allBr.length);
 		var index:Int = 0;
 
 		Assert.areEqual(POpenType.Expression, TokenTreeCheckUtils.getPOpenType(null));
@@ -431,6 +431,13 @@ class TokenTreeCheckUtilsTest {
 		Assert.areEqual(POpenType.SwitchCondition, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
 		// } catch (e)
 		Assert.areEqual(POpenType.Catch, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
+
+		// public function connect():Void
+		Assert.areEqual(POpenType.Parameter, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
+		// (switch handlers[name] {
+		Assert.areEqual(POpenType.Expression, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
+		// }).push({target: target, method: method});
+		Assert.areEqual(POpenType.Call, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
 
 		// @:default(false) @:optional var disableFormatting:Bool;
 		Assert.areEqual(POpenType.At, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
@@ -899,6 +906,11 @@ abstract TokenTreeCheckUtilsTests(String) to String {
 				}
 			} catch (e)
 		}
+		public function connect():Void
+			(switch handlers[name] {
+				case null: handlers[name] = [];
+				case v: v;
+			}).push({target: target, method: method});
 	}
 	typedef FormatterConfig = {
 		/**
