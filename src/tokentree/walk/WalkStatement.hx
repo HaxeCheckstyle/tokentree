@@ -264,12 +264,6 @@ class WalkStatement {
 				parent.addChild(newChild);
 				walkStatementContinue(stream, newChild);
 				return false;
-			// case Kwd(KwdReturn):
-			// 	trace(stream.token());
-			// 	var newChild:TokenTree = stream.consumeToken();
-			// 	parent.addChild(newChild);
-			// 	// walkStatementContinue(stream, newChild);
-			// 	return true;
 			default:
 				return true;
 		}
@@ -311,7 +305,7 @@ class WalkStatement {
 		}
 		else {
 			switch (parent.tok) {
-				case Kwd(KwdIf), Kwd(KwdSwitch), Kwd(KwdFor), Kwd(KwdWhile):
+				case Kwd(KwdIf) | Kwd(KwdSwitch) | Kwd(KwdFor) | Kwd(KwdWhile):
 					switch (stream.token()) {
 						case Binop(OpSub): return;
 						case Binop(_):
