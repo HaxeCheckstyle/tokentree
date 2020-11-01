@@ -69,7 +69,7 @@ class WalkStatement {
 					parent.addChild(newChild);
 					if (!stream.hasMore()) return;
 					switch (stream.token()) {
-						case Dot: walkStatementWithoutSemicolon(stream, newChild);
+						case Dot | Binop(_) | Const(CIdent("is")): walkStatementWithoutSemicolon(stream, newChild);
 						default:
 					}
 					return;
@@ -89,12 +89,7 @@ class WalkStatement {
 				walkStatementContinue(stream, parent);
 				return;
 			case Dollar(name):
-				var dollarTok:TokenTree = stream.consumeToken();
-				parent.addChild(dollarTok);
-				if (stream.tokenForMatch().match(DblDot)) {
-					return;
-				}
-				WalkBlock.walkBlock(stream, dollarTok);
+				walkDollarStatement(stream, parent);
 				return;
 			case POpen:
 				walkPOpen(stream, parent);
@@ -115,6 +110,13 @@ class WalkStatement {
 			case Dot:
 				wantMore = true;
 			case DblDot:
+				switch (parent.tok) {
+					case Dot: return;
+					case Kwd(KwdMacro):
+						walkDblDot(stream, parent);
+						return;
+					default:
+				}
 				if (parent.tok.match(Dot)) {
 					return;
 				}
@@ -247,6 +249,7 @@ class WalkStatement {
 				parent.addChild(newChild);
 				switch (stream.token()) {
 					case Binop(OpBoolAnd), Binop(OpBoolOr): walkOpBool(stream, newChild);
+					case Question: WalkQuestion.walkQuestion(stream, newChild);
 					case Binop(_): walkStatementWithoutSemicolon(stream, newChild);
 					default:
 				}
@@ -261,12 +264,6 @@ class WalkStatement {
 				parent.addChild(newChild);
 				walkStatementContinue(stream, newChild);
 				return false;
-			// case Kwd(KwdReturn):
-			// 	trace(stream.token());
-			// 	var newChild:TokenTree = stream.consumeToken();
-			// 	parent.addChild(newChild);
-			// 	// walkStatementContinue(stream, newChild);
-			// 	return true;
 			default:
 				return true;
 		}
@@ -308,7 +305,7 @@ class WalkStatement {
 		}
 		else {
 			switch (parent.tok) {
-				case Kwd(KwdIf), Kwd(KwdSwitch), Kwd(KwdFor), Kwd(KwdWhile):
+				case Kwd(KwdIf) | Kwd(KwdSwitch) | Kwd(KwdFor) | Kwd(KwdWhile):
 					switch (stream.token()) {
 						case Binop(OpSub): return;
 						case Binop(_):
@@ -342,6 +339,16 @@ class WalkStatement {
 					return parent;
 				case Kwd(KwdCase):
 					return parent;
+				case Kwd(KwdMacro):
+					parent = findQuestionParent(parent.parent);
+					if (parent == null) {
+						return null;
+					}
+					switch (parent.tok) {
+						case Kwd(KwdCase) | Kwd(KwdDefault) | Question: return parent;
+						default: return null;
+					}
+					return null;
 				case Kwd(KwdDefault):
 					return parent;
 				case Binop(_):
@@ -432,5 +439,15 @@ class WalkStatement {
 			}
 		}
 		walkStatementWithoutSemicolon(stream, token);
+	}
+
+	static function walkDollarStatement(stream:TokenStream, parent:TokenTree) {
+		var dollarTok:TokenTree = stream.consumeToken();
+		parent.addChild(dollarTok);
+		switch (stream.token()) {
+			case POpen | BrOpen | BkOpen | Binop(_) | Const(CIdent("is")):
+				WalkBlock.walkBlock(stream, dollarTok);
+			default:
+		}
 	}
 }

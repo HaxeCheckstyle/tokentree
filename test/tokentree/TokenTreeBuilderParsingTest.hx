@@ -119,6 +119,8 @@ class TokenTreeBuilderParsingTest implements ITest {
 		assertCodeParses(IS_OPERATOR);
 		assertCodeParses(ABSTRACT_CLASS);
 		assertCodeParses(SEMICOLON_BINOP);
+		assertCodeParses(NEW_ARRAY_ACCESS);
+		assertCodeParses(MACRO_COMPLEXTYPE);
 	}
 
 	public function assertCodeParses(code:String, ?pos:PosInfos) {
@@ -128,7 +130,7 @@ class TokenTreeBuilderParsingTest implements ITest {
 			Assert.isTrue(builder.isStreamEmpty(), pos);
 		}
 		catch (e:Any) {
-			Assert.fail("code should not throw execption: ", pos);
+			Assert.fail('code should not throw execption: $e', pos);
 		}
 	}
 
@@ -1629,4 +1631,16 @@ import #if haxe4 js.lib.Promise #else js.Promise #end as JsPromise;
 		}
 	}
 	";
+
+	var NEW_ARRAY_ACCESS = "
+	class Test {
+		function main() {
+			new JQuery ('#id') [0].scrollIntoView ();
+		}
+	}";
+
+	var MACRO_COMPLEXTYPE = "
+	class Test {
+		var retType = macro : Map<String, String>;
+	}";
 }

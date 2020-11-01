@@ -21,6 +21,17 @@ class WalkFunction {
 		WalkComment.walkComment(stream, name);
 		WalkFunction.walkFunctionParameters(stream, name);
 		WalkComment.walkComment(stream, name);
+
+		switch (stream.token()) {
+			case Sharp(_):
+				WalkSharp.walkSharp(stream, name, WalkStatement.walkStatement);
+				switch (stream.token()) {
+					case DblDot | BrOpen:
+					default: return;
+				}
+			default:
+		}
+
 		if (stream.tokenForMatch().match(DblDot)) {
 			var dblDot:Null<TokenTree> = stream.consumeToken();
 			name.addChild(dblDot);

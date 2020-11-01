@@ -96,6 +96,10 @@ class TokenStream {
 		}
 	}
 
+	public function hasTempStore():Bool {
+		return tempStore.length > 0;
+	}
+
 	public function getTempStore():Array<TokenTree> {
 		return tempStore;
 	}

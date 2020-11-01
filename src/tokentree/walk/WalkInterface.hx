@@ -40,7 +40,12 @@ class WalkInterface {
 					WalkFinal.walkFinal(stream, parent);
 				#end
 				case Comment(_), CommentLine(_):
-					parent.addChild(stream.consumeToken());
+					if (stream.hasTempStore()) {
+						stream.consumeToTempStore();
+					}
+					else {
+						parent.addChild(stream.consumeToken());
+					}
 				default:
 					stream.consumeToTempStore();
 			}

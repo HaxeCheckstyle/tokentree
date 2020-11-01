@@ -34,7 +34,12 @@ class WalkTypedefBody {
 				case Binop(OpGt):
 					walkStructureExtension(stream, openTok);
 				case Comment(_), CommentLine(_):
-					WalkComment.walkComment(stream, openTok);
+					if (stream.hasTempStore()) {
+						stream.consumeToTempStore();
+					}
+					else {
+						WalkComment.walkComment(stream, openTok);
+					}
 				case Kwd(KwdFunction):
 					WalkFunction.walkFunction(stream, openTok);
 				case Kwd(KwdVar):

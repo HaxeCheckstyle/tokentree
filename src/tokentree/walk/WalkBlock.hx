@@ -15,6 +15,7 @@ class WalkBlock {
 			parent.addChild(openTok);
 			stream.applyTempStore(openTok);
 			walkBlockContinue(stream, openTok);
+			stream.applyTempStore(openTok);
 		}
 		else {
 			WalkStatement.walkStatement(stream, parent);
@@ -56,7 +57,7 @@ class WalkBlock {
 					return;
 				default:
 			}
-			WalkStatement.walkStatementContinue(stream, parent);
+			walkAfterBlock(stream, parent);
 			if (stream.hasMore()) {
 				switch (stream.token()) {
 					case Semicolon:
@@ -65,6 +66,45 @@ class WalkBlock {
 					default:
 				}
 			}
+		}
+	}
+
+	@:access(tokentree.walk.WalkStatement)
+	static function walkAfterBlock(stream:TokenStream, parent:TokenTree) {
+		if (!stream.hasMore()) return;
+		switch (stream.token()) {
+			case Dot:
+				WalkStatement.walkStatementWithoutSemicolon(stream, parent);
+			case DblDot:
+				WalkStatement.walkDblDot(stream, parent);
+			case Semicolon:
+				return;
+			case Arrow:
+				WalkStatement.walkStatementWithoutSemicolon(stream, parent);
+			case Binop(_):
+				WalkStatement.walkStatementWithoutSemicolon(stream, parent);
+			case Const(CIdent("is")):
+				WalkStatement.walkStatementWithoutSemicolon(stream, parent);
+			case Unop(_):
+				if (parent.isCIdentOrCString()) {
+					WalkStatement.walkStatementWithoutSemicolon(stream, parent);
+				}
+			case Question:
+				WalkQuestion.walkQuestion(stream, parent);
+			case POpen:
+				WalkStatement.walkStatementWithoutSemicolon(stream, parent);
+			case CommentLine(_), Comment(_):
+				var nextTokDef:Null<TokenTreeDef> = stream.peekNonCommentToken();
+				if (nextTokDef == null) {
+					return;
+				}
+				switch (nextTokDef) {
+					case Dot, DblDot, Binop(_), Unop(_), Question:
+						WalkComment.walkComment(stream, parent);
+						WalkStatement.walkStatementContinue(stream, parent);
+					default:
+				}
+			default:
 		}
 	}
 }
