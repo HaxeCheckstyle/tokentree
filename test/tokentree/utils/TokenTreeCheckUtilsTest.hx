@@ -366,7 +366,7 @@ class TokenTreeCheckUtilsTest implements ITest {
 				default: GoDeeper;
 			}
 		});
-		Assert.equals(33, allBr.length);
+		Assert.equals(36, allBr.length);
 		var index:Int = 0;
 
 		Assert.equals(POpenType.Expression, TokenTreeCheckUtils.getPOpenType(null));
@@ -434,11 +434,11 @@ class TokenTreeCheckUtilsTest implements ITest {
 		Assert.equals(POpenType.Catch, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
 
 		// public function connect():Void
-		Assert.areEqual(POpenType.Parameter, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
+		Assert.equals(POpenType.Parameter, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
 		// (switch handlers[name] {
-		Assert.areEqual(POpenType.Expression, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
+		Assert.equals(POpenType.Expression, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
 		// }).push({target: target, method: method});
-		Assert.areEqual(POpenType.Call, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
+		Assert.equals(POpenType.Call, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
 
 		// @:default(false) @:optional var disableFormatting:Bool;
 		Assert.equals(POpenType.At, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
