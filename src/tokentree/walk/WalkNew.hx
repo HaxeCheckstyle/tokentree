@@ -15,8 +15,11 @@ class WalkNew {
 			default:
 		}
 		WalkComment.walkComment(stream, name);
-		if (stream.tokenForMatch().match(Dot)) {
-			WalkStatement.walkStatement(stream, name);
+
+		switch (stream.token()) {
+			case Dot | Binop(_) | Const(CIdent("is")):
+				WalkStatement.walkStatement(stream, name);
+			default:
 		}
 	}
 }
