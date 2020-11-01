@@ -18,7 +18,12 @@ class WalkFile {
 				case At:
 					stream.addToTempStore(WalkAt.walkAt(stream));
 				case Comment(_), CommentLine(_):
-					WalkComment.walkComment(stream, parent);
+					if (stream.hasTempStore()) {
+						stream.consumeToTempStore();
+					}
+					else {
+						WalkComment.walkComment(stream, parent);
+					}
 				case Kwd(KwdClass), Kwd(KwdInterface), Kwd(KwdEnum), Kwd(KwdTypedef), Kwd(KwdAbstract):
 					WalkType.walkType(stream, parent);
 				case PClose, BrClose, BkClose, Semicolon, Comma:
