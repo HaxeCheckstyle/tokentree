@@ -10,6 +10,7 @@
 - Fixed semicolon with multiple binops ([#197](https://github.com/HaxeCheckstyle/tokentree/issues/197))
 - Fixed Dollar handling
 - Fixed expression handling after BkClose
+- Fixed expression handling after BrClose
 - Refactored enums to use CamelCase ([#191](https://github.com/HaxeCheckstyle/tokentree/issues/191))
 - Refactored to reduce usage of Type.enumEq ([#195](https://github.com/HaxeCheckstyle/tokentree/issues/195) + [#196](https://github.com/HaxeCheckstyle/tokentree/issues/196))
 - Removed `is` operator ([#195](https://github.com/HaxeCheckstyle/tokentree/issues/195))
