@@ -1,13 +1,13 @@
 package tokentree.utils;
 
-import tokentree.TokenTree.FilterResult;
-import tokentree.utils.TokenTreeCheckUtils.POpenType;
-import tokentree.utils.TokenTreeCheckUtils.ColonType;
-import tokentree.utils.TokenTreeCheckUtils.BrOpenType;
-import tokentree.utils.TokenTreeCheckUtils.ArrowType;
-import tokentree.TokenTreeBuilderParsingTest.TokenTreeBuilderParsingTests;
 import haxe.PosInfos;
 import massive.munit.Assert;
+import tokentree.TokenTree.FilterResult;
+import tokentree.TokenTreeBuilderParsingTest.TokenTreeBuilderParsingTests;
+import tokentree.utils.TokenTreeCheckUtils.ArrowType;
+import tokentree.utils.TokenTreeCheckUtils.BrOpenType;
+import tokentree.utils.TokenTreeCheckUtils.ColonType;
+import tokentree.utils.TokenTreeCheckUtils.POpenType;
 
 class TokenTreeCheckUtilsTest {
 	@Test
@@ -155,7 +155,7 @@ class TokenTreeCheckUtilsTest {
 				default: GoDeeper;
 			}
 		});
-		Assert.areEqual(10, allArrows.length);
+		Assert.areEqual(12, allArrows.length);
 		for (ar in allArrows) {
 			Assert.areEqual(ArrowType.ArrowFunction, TokenTreeCheckUtils.getArrowType(ar));
 		}
@@ -240,7 +240,7 @@ class TokenTreeCheckUtilsTest {
 				default: GoDeeper;
 			}
 		});
-		Assert.areEqual(64, allBr.length);
+		Assert.areEqual(66, allBr.length);
 		var index:Int = 0;
 		Assert.areEqual(ColonType.ObjectLiteral, TokenTreeCheckUtils.getColonType(allBr[index++]));
 		Assert.areEqual(ColonType.TypeCheck, TokenTreeCheckUtils.getColonType(allBr[index++]));
@@ -347,6 +347,11 @@ class TokenTreeCheckUtilsTest {
 		// 	public static function element(name:String):AngularElement;
 		Assert.areEqual(ColonType.TypeHint, TokenTreeCheckUtils.getColonType(allBr[index++]));
 		Assert.areEqual(ColonType.TypeHint, TokenTreeCheckUtils.getColonType(allBr[index++]));
+
+		// foo((data:Some) -> {
+		Assert.areEqual(ColonType.TypeHint, TokenTreeCheckUtils.getColonType(allBr[index++]));
+		// }, (error : Error) -> {
+		Assert.areEqual(ColonType.TypeHint, TokenTreeCheckUtils.getColonType(allBr[index++]));
 	}
 
 	@Test
@@ -360,7 +365,7 @@ class TokenTreeCheckUtilsTest {
 				default: GoDeeper;
 			}
 		});
-		Assert.areEqual(28, allBr.length);
+		Assert.areEqual(33, allBr.length);
 		var index:Int = 0;
 
 		Assert.areEqual(POpenType.Expression, TokenTreeCheckUtils.getPOpenType(null));
@@ -380,6 +385,17 @@ class TokenTreeCheckUtilsTest {
 		// if (output == null) for (i in items) {}
 		Assert.areEqual(POpenType.IfCondition, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
 		Assert.areEqual(POpenType.ForLoop, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
+
+		// foo((data : Some) -> {
+		// 	trace(1);
+		// }, (error:Error) -> {
+		//	trace(2);
+		// });
+		Assert.areEqual(POpenType.Call, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
+		Assert.areEqual(POpenType.Parameter, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
+		Assert.areEqual(POpenType.Call, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
+		Assert.areEqual(POpenType.Parameter, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
+		Assert.areEqual(POpenType.Call, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
 
 		// return e2 == null ? {t: HDyn} : bar(e2);
 		Assert.areEqual(POpenType.Call, TokenTreeCheckUtils.getPOpenType(allBr[index++]));
@@ -698,6 +714,11 @@ abstract TokenTreeCheckUtilsTests(String) to String {
 			return {
 				x: a -> a;
 			}
+			foo((data:Some) -> {
+				trace(1);
+			}, (error:Error) -> {
+				trace(2);
+			});
 		}
 	}
 	";
@@ -835,6 +856,16 @@ abstract TokenTreeCheckUtilsTests(String) to String {
 		@:overload(function(element:js.html.Element):AngularElement {})
 		public static function element(name:String):AngularElement;
 	}
+
+	class Main {
+		static function main() {
+			foo((data:Some) -> {
+				trace(1);
+			}, (error:Error) -> {
+				trace(2);
+			});
+		}
+	}
 	";
 
 	var MIXED_POPEN_TYPES = "
@@ -844,6 +875,11 @@ abstract TokenTreeCheckUtilsTests(String) to String {
 			var item = ({title: 'Edit settings '} : vscode.MessageItem);
 			var output = (result.stderr:Buffer).toString().trim();
 			if (output == null) for (i in items) {}
+			foo((data:Some) -> {
+				trace(1);
+			}, (error:Error) -> {
+				trace(2);
+			});
 			return e2 == null ? {t: HDyn} : bar(e2);
 		}
 
