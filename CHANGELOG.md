@@ -19,6 +19,7 @@
 - Fixed sharp handling for function type hint
 - Fixed macro complextype
 - Fixed array access on new
+- Fixed arrow functions
 - Refactored enums to use CamelCase ([#191](https://github.com/HaxeCheckstyle/tokentree/issues/191))
 - Refactored to reduce usage of Type.enumEq ([#195](https://github.com/HaxeCheckstyle/tokentree/issues/195) + [#196](https://github.com/HaxeCheckstyle/tokentree/issues/196))
 - Removed `is` operator ([#195](https://github.com/HaxeCheckstyle/tokentree/issues/195))

@@ -9,6 +9,11 @@ class WalkPOpen {
 		if (walkTrailingComments) {
 			WalkComment.walkComment(stream, parent);
 		}
+		switch (stream.token()) {
+			case Arrow:
+				WalkStatement.walkStatementContinue(stream, pOpen);
+			default:
+		}
 		return pOpen;
 	}
 
