@@ -22,3 +22,4 @@ check-style-report.xml
 coverage.json
 lcov.info
 display.hxml
+codecov.json
