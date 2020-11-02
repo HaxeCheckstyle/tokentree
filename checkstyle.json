@@ -526,6 +526,7 @@
 			"tokentree/utils/TokenTreeCheckUtils:determinBrChildren",
 			"tokentree/utils/TokenTreeCheckUtils:findColonParent",
 			"tokentree/ToTokenTreeDef",
+			"tokentree/TokenStream:isTypedParam",
 			"tokentree/TokenTreeDefPrinter"
 		],
         "MethodLength": [

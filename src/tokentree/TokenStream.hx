@@ -141,20 +141,45 @@ class TokenStream {
 			default:
 				return false;
 		}
+		var depth:Int = 1;
+		var brDepth:Int = 0;
+		var pDepth:Int = 0;
 		while (true) {
 			token = tokens[index++];
 			switch (token.tok) {
 				case Dot:
 				case DblDot:
 				case Comma:
+				case Arrow:
+				case POpen:
+					pDepth++;
+				case PClose:
+					if (pDepth <= 0) {
+						return false;
+					}
+					pDepth--;
+				case BrOpen:
+					brDepth++;
+				case BrClose:
+					if (brDepth <= 0) {
+						return false;
+					}
+					brDepth--;
 				case Const(_):
-				case Kwd(_):
+				// case Kwd(_):
 				case Dollar(_):
 				case Binop(OpLt):
+					depth++;
 				case Binop(OpGt):
-					return true;
+					depth--;
+					if (depth <= 0) {
+						return true;
+					}
 				default:
 					return false;
+			}
+			if (index >= tokens.length) {
+				return false;
 			}
 		}
 		return false;

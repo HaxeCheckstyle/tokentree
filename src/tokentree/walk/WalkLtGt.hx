@@ -18,6 +18,8 @@ class WalkLtGt {
 					var dblDot:TokenTree = stream.consumeToken();
 					ltTok.addChild(dblDot);
 					WalkTypeNameDef.walkTypeNameDef(stream, ltTok);
+				case POpen:
+					WalkPOpen.walkPOpen(stream, ltTok);
 				default:
 					WalkFieldDef.walkFieldDef(stream, ltTok);
 			}
