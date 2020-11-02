@@ -4,9 +4,9 @@
 
 ## version 1.0.30 (2020-11-02)
 
-- Fixed arrow functions
-- Fixed type parameter detection
-- Fixed Dollar handling
+- Fixed arrow functions ([#200](https://github.com/HaxeCheckstyle/tokentree/issues/200))
+- Fixed type parameter detection ([#200](https://github.com/HaxeCheckstyle/tokentree/issues/200))
+- Fixed Dollar handling ([#200](https://github.com/HaxeCheckstyle/tokentree/issues/200))
 
 ## version 1.0.29 (2020-11-01)
 
