@@ -7,8 +7,8 @@
     "contributors": [
         "AlexHaxe"
     ],
-    "releasenote": "fixed @in handling, detects more POpen types - see CHANGELOG for details",
-    "version": "1.0.29",
+    "releasenote": "fixed type parameter and dollar handling - see CHANGELOG for details",
+    "version": "1.0.30",
     "url": "https://github.com/HaxeCheckstyle/tokentree",
     "dependencies": {}
 }

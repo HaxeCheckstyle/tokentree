@@ -2,10 +2,11 @@
 
 ## dev branch / next version (1.x.x)
 
+## version 1.0.30 (2020-11-02)
+
 - Fixed arrow functions
 - Fixed type parameter detection
 - Fixed Dollar handling
-
 
 ## version 1.0.29 (2020-11-01)
 
