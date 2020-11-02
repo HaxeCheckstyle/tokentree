@@ -121,6 +121,9 @@ class TokenTreeBuilderParsingTest implements ITest {
 		assertCodeParses(SEMICOLON_BINOP);
 		assertCodeParses(NEW_ARRAY_ACCESS);
 		assertCodeParses(MACRO_COMPLEXTYPE);
+		assertCodeParses(CALLBACK_TYPE_PARAM);
+		assertCodeParses(MAP_INIT_WITH_COMMENT);
+		assertCodeParses(DOLLAR_CHAIN);
 	}
 
 	public function assertCodeParses(code:String, ?pos:PosInfos) {
@@ -1642,5 +1645,27 @@ import #if haxe4 js.lib.Promise #else js.Promise #end as JsPromise;
 	var MACRO_COMPLEXTYPE = "
 	class Test {
 		var retType = macro : Map<String, String>;
+	}";
+
+	var CALLBACK_TYPE_PARAM = "
+	class HaxeServer {
+		var stopProgressCallback:Null<() -> Void>;
+	}";
+
+	var MAP_INIT_WITH_COMMENT = "
+	final flags = [
+		CompilationServer => [
+			// server
+		],
+	];";
+
+	var DOLLAR_CHAIN = "
+	class Main {
+		function foobar() {
+			assignments.push(macro {
+				if ($struct.$name == null)
+					$struct.$name = $defaults.$name;
+			});
+		}
 	}";
 }

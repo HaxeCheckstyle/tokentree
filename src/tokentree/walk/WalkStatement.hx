@@ -132,6 +132,7 @@ class WalkStatement {
 		parent.addChild(newChild);
 		stream.applyTempStore(newChild);
 		walkTrailingComment(stream, newChild);
+
 		if (wantMore) walkStatementWithoutSemicolon(stream, newChild);
 		walkStatementContinue(stream, newChild);
 		walkTrailingComment(stream, newChild);
@@ -169,6 +170,17 @@ class WalkStatement {
 				walkOpBool(stream, parent);
 			case Binop(OpAdd), Binop(OpSub):
 				walkOpAdd(stream, parent);
+			case Binop(OpGt):
+				var ltParent:TokenTree = parent;
+				while (true) {
+					switch (ltParent.tok) {
+						case Root: break;
+						case Dot | DblDot | Comma | Arrow | POpen | Const(_) | Dollar(_) | Binop(OpGt): ltParent = ltParent.parent;
+						case Binop(OpLt): return;
+						default: break;
+					}
+				}
+				walkStatementWithoutSemicolon(stream, parent);
 			case Binop(_):
 				walkStatementWithoutSemicolon(stream, parent);
 			case Const(CIdent("is")):
@@ -445,7 +457,7 @@ class WalkStatement {
 		var dollarTok:TokenTree = stream.consumeToken();
 		parent.addChild(dollarTok);
 		switch (stream.token()) {
-			case POpen | BrOpen | BkOpen | Binop(_) | Const(CIdent("is")):
+			case POpen | BrOpen | BkOpen | Dot | Binop(_) | Const(CIdent("is")):
 				WalkBlock.walkBlock(stream, dollarTok);
 			default:
 		}
