@@ -11,7 +11,9 @@ class WalkPOpen {
 		}
 		switch (stream.token()) {
 			case Arrow:
-				WalkStatement.walkStatementContinue(stream, pOpen);
+				var arrow:TokenTree = stream.consumeToken();
+				pOpen.addChild(arrow);
+				WalkBlock.walkBlock(stream, arrow);
 			default:
 		}
 		return pOpen;

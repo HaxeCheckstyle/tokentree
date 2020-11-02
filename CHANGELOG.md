@@ -2,6 +2,9 @@
 
 ## dev branch / next version (1.x.x)
 
+- Fixed arrow functions
+
+
 ## version 1.0.29 (2020-11-01)
 
 - Added TokenTreeDef ([#191](https://github.com/HaxeCheckstyle/tokentree/issues/191))
