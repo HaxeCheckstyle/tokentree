@@ -4,7 +4,7 @@
 
 ## version 1.0.31 (2020-11-04)
 
-- Fixed type parameter with array
+- Fixed type parameter with array ([#201](https://github.com/HaxeCheckstyle/tokentree/issues/201))
 
 ## version 1.0.30 (2020-11-02)
 
