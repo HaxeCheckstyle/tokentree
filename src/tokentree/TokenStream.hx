@@ -143,6 +143,7 @@ class TokenStream {
 		}
 		var depth:Int = 1;
 		var brDepth:Int = 0;
+		var bkDepth:Int = 0;
 		var pDepth:Int = 0;
 		while (true) {
 			token = tokens[index++];
@@ -165,8 +166,14 @@ class TokenStream {
 						return false;
 					}
 					brDepth--;
+				case BkOpen:
+					bkDepth++;
+				case BkClose:
+					if (bkDepth <= 0) {
+						return false;
+					}
+					bkDepth--;
 				case Const(_):
-				// case Kwd(_):
 				case Dollar(_):
 				case Binop(OpLt):
 					depth++;

@@ -175,7 +175,7 @@ class WalkStatement {
 				while (true) {
 					switch (ltParent.tok) {
 						case Root: break;
-						case Dot | DblDot | Comma | Arrow | POpen | Const(_) | Dollar(_) | Binop(OpGt): ltParent = ltParent.parent;
+						case Dot | DblDot | Comma | Arrow | POpen | Const(_) | Dollar(_) | BkOpen | BrOpen | Binop(OpGt): ltParent = ltParent.parent;
 						case Binop(OpLt): return;
 						default: break;
 					}

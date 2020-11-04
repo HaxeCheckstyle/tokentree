@@ -1,6 +1,6 @@
 {
     "name": "tokentree",
-    "version": "1.0.30",
+    "version": "1.0.31",
     "description": "TokenTree library used by haxe-checkstyle, haxe-formatter and haxe-languageserver",
     "repository": {
         "type": "git",
