@@ -2,6 +2,10 @@
 
 ## dev branch / next version (1.x.x)
 
+## version 1.0.31 (2020-11-04)
+
+- Fixed type parameter with array
+
 ## version 1.0.30 (2020-11-02)
 
 - Fixed arrow functions ([#200](https://github.com/HaxeCheckstyle/tokentree/issues/200))

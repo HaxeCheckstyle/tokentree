@@ -124,6 +124,7 @@ class TokenTreeBuilderParsingTest implements ITest {
 		assertCodeParses(CALLBACK_TYPE_PARAM);
 		assertCodeParses(MAP_INIT_WITH_COMMENT);
 		assertCodeParses(DOLLAR_CHAIN);
+		assertCodeParses(TYPE_PARAM_WITH_ARRAY);
 	}
 
 	public function assertCodeParses(code:String, ?pos:PosInfos) {
@@ -1668,4 +1669,7 @@ import #if haxe4 js.lib.Promise #else js.Promise #end as JsPromise;
 			});
 		}
 	}";
+
+	var TYPE_PARAM_WITH_ARRAY = "
+	private typedef Init = haxe.macro.MacroType<[cdb.Module.build('data.cdb')]>;";
 }
