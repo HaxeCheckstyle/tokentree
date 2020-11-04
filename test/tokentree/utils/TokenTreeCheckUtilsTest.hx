@@ -457,7 +457,7 @@ class TokenTreeCheckUtilsTest implements ITest {
 				default: GoDeeper;
 			}
 		});
-		Assert.equals(1, allBr.length);
+		Assert.equals(5, allBr.length);
 		var index:Int = 0;
 		// abstract SymbolStack(Array<{level:SymbolLevel, symbol:DocumentSymbol}>) {}
 		Assert.isTrue(TokenTreeCheckUtils.isTypeParameter(allBr[index++]));
@@ -925,6 +925,11 @@ abstract TokenTreeCheckUtilsTests(String) to String {
 
 	var MIXED_TYPE_PARAMETER = "
 	abstract SymbolStack(Array<{level:SymbolLevel, symbol:DocumentSymbol}>) {}
+	private typedef Init = haxe.macro.MacroType<[cdb.Module.build('data.cdb')]>;
+	abstract SymbolStack(haxe.macro.MacroType<[cdb.Module.build('data.cdb')]>) {}
+	function main(){
+		var obj:Null<{field:Null<String>}> = null;
+	}
 	";
 
 	var MIXED_OP_SUB = "
