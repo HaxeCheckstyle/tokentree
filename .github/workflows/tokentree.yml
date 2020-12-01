@@ -51,7 +51,7 @@ jobs:
         (cd checkstyle/haxe_libraries; echo "-cp ../src" > tokentree.hxml)
     - name: Run eval tests (without coverage)
       if: matrix.haxe-version == '4.0.5'
-      run: npx haxe test3.hxml
+      run: npx haxe testWithoutCoverage.hxml
     - name: Run eval tests (with coverage)
       if: matrix.haxe-version != '4.0.5'
       run: npx haxe test.hxml
