@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        haxe-version: ['3.4.7', '4.0.5', '4.1.4', 'nightly']
+        haxe-version: ['4.0.5', '4.1.4', 'nightly']
     steps:
     - uses: actions/checkout@v1
     - name: Use Node.js 10
@@ -28,11 +28,6 @@ jobs:
       run: |
         npx lix download haxe ${{ matrix.haxe-version }}
         npx lix use haxe ${{ matrix.haxe-version }}
-    - name: Prepare Haxe 3 dependencies
-      if: matrix.haxe-version == '3.4.7'
-      run: |
-        mv haxe_libraries haxe4_libraries
-        mv haxe3_libraries haxe_libraries
     - name: Run lix download
       run: npx lix download
     - name: Print versions
@@ -42,9 +37,6 @@ jobs:
         npx haxelib list
     - name: Clone checkstyle
       run: git clone -b dev https://github.com/HaxeCheckstyle/haxe-checkstyle.git --depth=1 checkstyle
-    - name: Prepare Haxe 3 dependencies for checkstyle
-      if: matrix.haxe-version == '3.4.7'
-      run: (cd checkstyle; mv haxe_libraries haxe4_libraries; mv haxe3_libraries haxe_libraries)
     - name: Run npm install for checkstyle
       run: |
         (cd checkstyle; npm install)
@@ -57,14 +49,11 @@ jobs:
     - name: Setup tokentree dev for checkstyle
       run: |
         (cd checkstyle/haxe_libraries; echo "-cp ../src" > tokentree.hxml)
-    - name: Run Neko tests (without coverage)
-      if: matrix.haxe-version == '3.4.7'
-      run: npx haxe test3.hxml
     - name: Run eval tests (without coverage)
       if: matrix.haxe-version == '4.0.5'
-      run: npx haxe test3.hxml
+      run: npx haxe testWithoutCoverage.hxml
     - name: Run eval tests (with coverage)
-      if: (matrix.haxe-version != '3.4.7' && matrix.haxe-version != '4.0.5')
+      if: matrix.haxe-version != '4.0.5'
       run: npx haxe test.hxml
     - name: Build and test checkstyle
       if: matrix.haxe-version != 'nightly'

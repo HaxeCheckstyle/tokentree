@@ -48,12 +48,8 @@ class WalkAbstract {
 					WalkVar.walkVar(stream, parent);
 				case Kwd(KwdFunction):
 					WalkFunction.walkFunction(stream, parent);
-				case Const(CIdent("final")):
-					WalkFinal.walkFinal(stream, parent);
-				#if (haxe_ver >= 4.0)
 				case Kwd(KwdFinal):
 					WalkFinal.walkFinal(stream, parent);
-				#end
 				case Sharp(_):
 					WalkSharp.walkSharp(stream, parent, WalkAbstract.walkAbstractBody);
 				case At:

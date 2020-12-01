@@ -1,5 +1,6 @@
 package tokentree;
 
+import tokentree.walk.WalkStatement;
 import byte.ByteData;
 import haxeparser.Data.Token;
 import haxeparser.HaxeLexer;
@@ -10,6 +11,12 @@ class TestTokenTreeBuilder extends TokenTreeBuilder {
 	public static function parseCode(code:String):TestTokenTreeBuilder {
 		var builder:TestTokenTreeBuilder = new TestTokenTreeBuilder(code, new TokenTree(Root, "", null, -1));
 		WalkFile.walkFile(builder.stream, builder.root);
+		return builder;
+	}
+
+	public static function parseExpressionCode(code:String):TestTokenTreeBuilder {
+		var builder:TestTokenTreeBuilder = new TestTokenTreeBuilder(code, new TokenTree(Root, "", null, -1));
+		WalkStatement.walkStatement(builder.stream, builder.root);
 		return builder;
 	}
 

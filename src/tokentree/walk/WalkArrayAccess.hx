@@ -43,10 +43,12 @@ class WalkArrayAccess {
 			}
 		}
 		bkOpen.addChild(stream.consumeTokenDef(BkClose));
-		switch (stream.token()) {
-			case BkOpen | Dot | Binop(_) | Const(CIdent("is")):
-				WalkStatement.walkStatementContinue(stream, bkOpen);
-			default:
+		if (stream.hasMore()) {
+			switch (stream.token()) {
+				case BkOpen | Dot | Binop(_) | Const(CIdent("is")):
+					WalkStatement.walkStatementContinue(stream, bkOpen);
+				default:
+			}
 		}
 	}
 }

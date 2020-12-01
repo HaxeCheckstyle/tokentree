@@ -92,9 +92,7 @@ class TokenTreeBuilderParsingTest implements ITest {
 		assertCodeParses(COMMENT_AT_EOL);
 		assertCodeParses(OPBOOL_CHAINS);
 		assertCodeParses(INTERFACE_CONDITIONALS);
-		#if haxe4
 		assertCodeParses(MULTILINE_STRING_INTERPOLATION);
-		#end
 		assertCodeParses(ANON_TYPE_PROPERTIES);
 		assertCodeParses(TERNARY_WITH_RETURN);
 		assertCodeParses(TRY_CATCH_WITH_COMMENT);
@@ -127,10 +125,27 @@ class TokenTreeBuilderParsingTest implements ITest {
 		assertCodeParses(TYPE_PARAM_WITH_ARRAY);
 	}
 
+	@Test
+	public function testExpressionLevelCode() {
+		assertCodeParses(CALL_WITHOUT_SEMICOLON);
+		assertCodeParses(ARRAY_ACCESSS_WITHOUT_SEMICOLON);
+	}
+
 	public function assertCodeParses(code:String, ?pos:PosInfos) {
 		var builder:Null<TestTokenTreeBuilder> = null;
 		try {
 			builder = TestTokenTreeBuilder.parseCode(code);
+			Assert.isTrue(builder.isStreamEmpty(), pos);
+		}
+		catch (e:Any) {
+			Assert.fail('code should not throw execption: $e', pos);
+		}
+	}
+
+	public function assertExpressionCodeParses(code:String, ?pos:PosInfos) {
+		var builder:Null<TestTokenTreeBuilder> = null;
+		try {
+			builder = TestTokenTreeBuilder.parseExpressionCode(code);
 			Assert.isTrue(builder.isStreamEmpty(), pos);
 		}
 		catch (e:Any) {
@@ -1672,4 +1687,8 @@ import #if haxe4 js.lib.Promise #else js.Promise #end as JsPromise;
 
 	var TYPE_PARAM_WITH_ARRAY = "
 	private typedef Init = haxe.macro.MacroType<[cdb.Module.build('data.cdb')]>;";
+
+	var CALL_WITHOUT_SEMICOLON = 'pos.methodName.rpad("", 25)';
+
+	var ARRAY_ACCESSS_WITHOUT_SEMICOLON = 'tokens[index]';
 }

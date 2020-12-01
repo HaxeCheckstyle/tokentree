@@ -77,7 +77,7 @@ class WalkFor {
 		}
 		var inTok:Null<TokenTree> = null;
 		switch (stream.token()) {
-			case #if (haxe_ver < 4.0) Kwd(KwdIn) #else Binop(OpIn) #end:
+			case Binop(OpIn):
 				inTok = stream.consumeToken();
 				identifier.addChild(inTok);
 				WalkComment.walkComment(stream, inTok);

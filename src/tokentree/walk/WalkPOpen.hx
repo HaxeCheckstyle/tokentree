@@ -9,12 +9,14 @@ class WalkPOpen {
 		if (walkTrailingComments) {
 			WalkComment.walkComment(stream, parent);
 		}
-		switch (stream.token()) {
-			case Arrow:
-				var arrow:TokenTree = stream.consumeToken();
-				pOpen.addChild(arrow);
-				WalkBlock.walkBlock(stream, arrow);
-			default:
+		if (stream.hasMore()) {
+			switch (stream.token()) {
+				case Arrow:
+					var arrow:TokenTree = stream.consumeToken();
+					pOpen.addChild(arrow);
+					WalkBlock.walkBlock(stream, arrow);
+				default:
+			}
 		}
 		return pOpen;
 	}
