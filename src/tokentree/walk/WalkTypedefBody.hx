@@ -46,12 +46,8 @@ class WalkTypedefBody {
 					WalkVar.walkVar(stream, openTok);
 				case Kwd(KwdPublic), Kwd(KwdPrivate), Kwd(KwdStatic), Kwd(KwdInline), Kwd(KwdMacro), Kwd(KwdOverride), Kwd(KwdDynamic), Kwd(KwdExtern):
 					stream.consumeToTempStore();
-				case Const(CIdent("final")):
-					WalkFinal.walkFinal(stream, openTok);
-				#if (haxe_ver >= 4.0)
 				case Kwd(KwdFinal):
 					WalkFinal.walkFinal(stream, openTok);
-				#end
 				default:
 					WalkFieldDef.walkFieldDef(stream, openTok);
 			}

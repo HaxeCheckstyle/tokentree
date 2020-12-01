@@ -1,7 +1,7 @@
 package tokentree.utils;
 
-using tokentree.utils.TokenTreeCheckUtils;
 using Lambda;
+using tokentree.utils.TokenTreeCheckUtils;
 
 class FieldUtils {
 	public static function getFieldType(field:Null<TokenTree>, defaultVisibility:TokenFieldVisibility):TokenFieldType {
@@ -11,7 +11,7 @@ class FieldUtils {
 		switch (field.tok) {
 			case Kwd(KwdFunction):
 				return getFunctionFieldType(field, defaultVisibility);
-			case Kwd(KwdVar), #if (haxe_ver >= 4) Kwd(KwdFinal) #else Const(CIdent("final")) #end:
+			case Kwd(KwdVar), Kwd(KwdFinal):
 				return getVarFieldType(field, defaultVisibility);
 			default:
 		}
@@ -45,11 +45,7 @@ class FieldUtils {
 						isOverride = true;
 					case Kwd(KwdExtern):
 						isExtern = true;
-					#if (haxe_ver >= 4)
 					case Kwd(KwdFinal):
-						isFinal = true;
-					#end
-					case Const(CIdent("final")):
 						isFinal = true;
 					case POpen, BrOpen:
 						break;
@@ -69,7 +65,7 @@ class FieldUtils {
 		var visibility:TokenFieldVisibility = defaultVisibility;
 		var isStatic:Bool = false;
 		var isInline:Bool = false;
-		var isFinal:Bool = #if (haxe_ver >= 4) field.tok.match(Kwd(KwdFinal)) #else false #end;
+		var isFinal:Bool = field.tok.match(Kwd(KwdFinal));
 		var isExtern:Bool = false;
 		if (access.token.children != null) {
 			for (child in access.token.children) {

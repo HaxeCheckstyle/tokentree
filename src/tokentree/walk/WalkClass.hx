@@ -55,12 +55,8 @@ class WalkClass {
 				case Kwd(KwdPublic), Kwd(KwdPrivate), Kwd(KwdStatic), Kwd(KwdInline), Kwd(KwdMacro), Kwd(KwdOverride), Kwd(KwdDynamic), Kwd(KwdExtern),
 					Kwd(KwdAbstract):
 					stream.consumeToTempStore();
-				case Const(CIdent("final")):
-					WalkFinal.walkFinal(stream, parent);
-				#if (haxe_ver >= 4.0)
 				case Kwd(KwdFinal):
 					WalkFinal.walkFinal(stream, parent);
-				#end
 				case Comment(_), CommentLine(_):
 					if (stream.hasTempStore()) {
 						stream.consumeToTempStore();

@@ -30,12 +30,8 @@ class WalkFile {
 					parent.addChild(stream.consumeToken());
 				case Kwd(KwdPublic), Kwd(KwdPrivate), Kwd(KwdStatic), Kwd(KwdInline), Kwd(KwdMacro), Kwd(KwdDynamic), Kwd(KwdExtern):
 					stream.consumeToTempStore();
-				case Const(CString("final")):
-					stream.consumeToTempStore();
-				#if (haxe_ver >= 4.0)
 				case Kwd(KwdFinal):
 					WalkFinal.walkFinal(stream, parent);
-				#end
 				case Kwd(KwdVar):
 					WalkVar.walkVar(stream, parent);
 				case Kwd(KwdFunction):

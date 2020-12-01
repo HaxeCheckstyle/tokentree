@@ -40,11 +40,7 @@ class TokenTreeBuilderTest implements ITest {
 		builder.getTokenStream().consumeToken(); // remove comment line
 		checkStreamEmpty(builder);
 
-		#if (haxe_ver < 4.0)
-		assertTokenEquals(cast StringTools.replace(AT_ANNOTATION_GOLD, ",null", ""), treeToString(root));
-		#else
 		assertTokenEquals(AT_ANNOTATION_GOLD, treeToString(root));
-		#end
 	}
 
 	@Test
@@ -58,11 +54,7 @@ class TokenTreeBuilderTest implements ITest {
 		WalkIf.walkIf(stream, root);
 		checkStreamEmpty(builder);
 
-		#if (haxe_ver < 4.0)
-		assertTokenEquals(cast StringTools.replace(IF_GOLD, ",null", ""), treeToString(root));
-		#else
 		assertTokenEquals(IF_GOLD, treeToString(root));
-		#end
 	}
 
 	// public static function buildTokenTree(tokens:Array<Token>, bytes:ByteData, entryPoint:TokenTreeEntryPoint):TokenTree {

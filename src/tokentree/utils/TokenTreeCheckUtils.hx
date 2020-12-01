@@ -22,11 +22,7 @@ class TokenTreeCheckUtils {
 				case Kwd(KwdExtern):
 				case Const(CIdent(_)):
 				case Dot:
-				#if (haxe_ver < 4.0)
-				case Kwd(KwdIn):
-				#else
 				case Binop(OpIn):
-				#end
 				case Kwd(KwdImport):
 					return true;
 				case Kwd(KwdUsing):
@@ -71,7 +67,7 @@ class TokenTreeCheckUtils {
 			}
 		}
 		switch (prev.tok) {
-			case #if (haxe_ver < 4.0) Kwd(KwdIn) #else Binop(OpIn) #end:
+			case Binop(OpIn):
 				return true;
 			case Binop(_):
 				return true;
@@ -171,12 +167,8 @@ class TokenTreeCheckUtils {
 				return true;
 			case Kwd(KwdVar), Kwd(KwdFunction):
 				return false;
-			case Const(CIdent("final")):
-				return false;
-			#if (haxe_ver >= 4.0)
 			case Kwd(KwdFinal):
 				return false;
-			#end
 			case Sharp(_):
 				return false;
 			default:
@@ -403,10 +395,7 @@ class TokenTreeCheckUtils {
 					case Question: return AnonType;
 					case Kwd(KwdVar): return AnonType;
 					case Kwd(KwdFunction): return AnonType;
-					case Const(CIdent("final")): return AnonType;
-					#if haxe4
 					case Kwd(KwdFinal): return AnonType;
-					#end
 					case BrOpen: return getBrOpenType(parent);
 					case POpen: return AnonType;
 					case Binop(OpLt): return AnonType;
@@ -636,9 +625,7 @@ class TokenTreeCheckUtils {
 				case At:
 					return true;
 				case Kwd(_):
-				#if haxe4
 				case Binop(OpIn):
-				#end
 				default:
 					return false;
 			}
@@ -908,12 +895,8 @@ class TokenTreeCheckUtils {
 		var parent:TokenTree = token;
 		while (parent.tok != Root) {
 			switch (parent.tok) {
-				case Kwd(KwdFunction), Kwd(KwdVar), Const(CIdent("final")):
+				case Kwd(KwdFunction) | Kwd(KwdVar) | Kwd(KwdFinal):
 					return TypeHint;
-				#if (haxe_ver >= 4.0)
-				case Kwd(KwdFinal):
-					return TypeHint;
-				#end
 				case BrOpen:
 					var brType:BrOpenType = getBrOpenType(parent);
 					switch (brType) {

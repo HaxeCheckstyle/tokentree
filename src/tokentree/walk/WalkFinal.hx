@@ -43,10 +43,7 @@ class WalkFinal {
 			var tempStore:Array<TokenTree> = stream.getTempStore();
 			for (stored in tempStore) {
 				switch (stored.tok) {
-					case Const(CIdent("final")):
-					#if (haxe_ver >= 4.0)
 					case Kwd(KwdFinal):
-					#end
 					default:
 						name.addChild(stored);
 				}
