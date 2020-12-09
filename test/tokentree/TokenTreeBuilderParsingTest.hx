@@ -123,6 +123,7 @@ class TokenTreeBuilderParsingTest implements ITest {
 		assertCodeParses(MAP_INIT_WITH_COMMENT);
 		assertCodeParses(DOLLAR_CHAIN);
 		assertCodeParses(TYPE_PARAM_WITH_ARRAY);
+		assertCodeParses(FUNCTION_TYPE_PARAM);
 	}
 
 	@Test
@@ -1691,4 +1692,13 @@ import #if haxe4 js.lib.Promise #else js.Promise #end as JsPromise;
 	var CALL_WITHOUT_SEMICOLON = 'pos.methodName.rpad("", 25)';
 
 	var ARRAY_ACCESSS_WITHOUT_SEMICOLON = 'tokens[index]';
+
+	var FUNCTION_TYPE_PARAM = "
+class Test {
+	public static function call(param1:String, param2:String, param3:String):Int {
+		var functionName:Function<(param1:String, param2:String, param3:String) -> Int,	cpp.abi.Winapi> = Function.getProcAddress('some.dll', 'FunctionName');
+			return functionName(param1, param2, param3);
+		}
+	}
+	";
 }
