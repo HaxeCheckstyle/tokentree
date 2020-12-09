@@ -11,7 +11,9 @@ class WalkLtGt {
 					var comma:TokenTree = stream.consumeToken();
 					ltTok.addChild(comma);
 					WalkTypeNameDef.walkTypeNameDef(stream, ltTok);
-					WalkFieldDef.walkFieldDef(stream, ltTok);
+					if (!stream.token().match(Binop(OpGt))) {
+						WalkFieldDef.walkFieldDef(stream, ltTok);
+					}
 				case Binop(OpGt):
 					break;
 				case DblDot:
