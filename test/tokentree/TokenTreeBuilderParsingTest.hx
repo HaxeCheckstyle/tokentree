@@ -124,6 +124,8 @@ class TokenTreeBuilderParsingTest implements ITest {
 		assertCodeParses(DOLLAR_CHAIN);
 		assertCodeParses(TYPE_PARAM_WITH_ARRAY);
 		assertCodeParses(FUNCTION_TYPE_PARAM);
+		assertCodeParses(OVERLOAD_FUNCTION);
+		assertCodeParses(SPREAD_OPERATOR);
 	}
 
 	@Test
@@ -1694,11 +1696,37 @@ import #if haxe4 js.lib.Promise #else js.Promise #end as JsPromise;
 	var ARRAY_ACCESSS_WITHOUT_SEMICOLON = 'tokens[index]';
 
 	var FUNCTION_TYPE_PARAM = "
-class Test {
-	public static function call(param1:String, param2:String, param3:String):Int {
-		var functionName:Function<(param1:String, param2:String, param3:String) -> Int,	cpp.abi.Winapi> = Function.getProcAddress('some.dll', 'FunctionName');
-			return functionName(param1, param2, param3);
+	class Test {
+		public static function call(param1:String, param2:String, param3:String):Int {
+			var functionName:Function<(param1:String, param2:String, param3:String) -> Int,	cpp.abi.Winapi> = Function.getProcAddress('some.dll', 'FunctionName');
+				return functionName(param1, param2, param3);
 		}
+	}
+	";
+
+	var OVERLOAD_FUNCTION = "
+	abstract class Foo {
+		static overload extern inline function foo() {}
+		overload static extern inline function foo(i:Int) {}
+	}
+	overload static inline function foo() {}
+	overload static inline function foo(i:Int) {}
+	";
+
+	var SPREAD_OPERATOR = "
+	class Foo {
+		function func(...r:Int) {}
+		function func(a:Int, ...r:Int) {}
+		function func(a:Int, ...r:Array<Int>) {}
+		function methodWithRest(rest:Rest<Int>):Rest<Int> {
+			return super.methodWithRest(...rest.append(999));
+		}
+	}
+	function func(...r:Int) {}
+	function func(a:Int, ...r:Int) {}
+	function func(a:Int, ...r:Array<Int>) {}
+	function methodWithRest(rest:Rest<Int>):Rest<Int> {
+		return super.methodWithRest(...rest.append(999));
 	}
 	";
 }

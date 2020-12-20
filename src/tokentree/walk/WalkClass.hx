@@ -52,12 +52,12 @@ class WalkClass {
 					break;
 				case Semicolon:
 					parent.addChild(stream.consumeToken());
-				case Kwd(KwdPublic), Kwd(KwdPrivate), Kwd(KwdStatic), Kwd(KwdInline), Kwd(KwdMacro), Kwd(KwdOverride), Kwd(KwdDynamic), Kwd(KwdExtern),
-					Kwd(KwdAbstract):
+				case Kwd(KwdPublic) | Kwd(KwdPrivate) | Kwd(KwdStatic) | Kwd(KwdInline) | Kwd(KwdMacro) | Kwd(KwdOverride) | Kwd(KwdDynamic) |
+					Kwd(KwdExtern) | Kwd(KwdAbstract) | Kwd(KwdOverload):
 					stream.consumeToTempStore();
 				case Kwd(KwdFinal):
 					WalkFinal.walkFinal(stream, parent);
-				case Comment(_), CommentLine(_):
+				case Comment(_) | CommentLine(_):
 					if (stream.hasTempStore()) {
 						stream.consumeToTempStore();
 					}
