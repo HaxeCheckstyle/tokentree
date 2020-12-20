@@ -2,7 +2,6 @@
 -cp test
 
 -lib haxeparser
--lib mcover
 -lib utest
 
 -D unittest

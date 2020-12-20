@@ -5,7 +5,7 @@ class WalkFile {
 		var progress:TokenStreamProgress = new TokenStreamProgress(stream);
 		while (stream.hasMore() && progress.streamHasChanged()) {
 			switch (stream.token()) {
-				case Kwd(KwdPackage), Kwd(KwdImport), Kwd(KwdUsing):
+				case Kwd(KwdPackage) | Kwd(KwdImport) | Kwd(KwdUsing):
 					stream.applyTempStore(parent);
 					WalkPackageImport.walkPackageImport(stream, parent);
 				case Sharp(_):
@@ -17,18 +17,18 @@ class WalkFile {
 					}
 				case At:
 					stream.addToTempStore(WalkAt.walkAt(stream));
-				case Comment(_), CommentLine(_):
+				case Comment(_) | CommentLine(_):
 					if (stream.hasTempStore()) {
 						stream.consumeToTempStore();
 					}
 					else {
 						WalkComment.walkComment(stream, parent);
 					}
-				case Kwd(KwdClass), Kwd(KwdInterface), Kwd(KwdEnum), Kwd(KwdTypedef), Kwd(KwdAbstract):
+				case Kwd(KwdClass) | Kwd(KwdInterface) | Kwd(KwdEnum) | Kwd(KwdTypedef) | Kwd(KwdAbstract):
 					WalkType.walkType(stream, parent);
 				case PClose, BrClose, BkClose, Semicolon, Comma:
 					parent.addChild(stream.consumeToken());
-				case Kwd(KwdPublic), Kwd(KwdPrivate), Kwd(KwdStatic), Kwd(KwdInline), Kwd(KwdMacro), Kwd(KwdDynamic), Kwd(KwdExtern):
+				case Kwd(KwdPublic) | Kwd(KwdPrivate) | Kwd(KwdStatic) | Kwd(KwdInline) | Kwd(KwdMacro) | Kwd(KwdDynamic) | Kwd(KwdExtern) | Kwd(KwdOverload):
 					stream.consumeToTempStore();
 				case Kwd(KwdFinal):
 					WalkFinal.walkFinal(stream, parent);
@@ -43,7 +43,7 @@ class WalkFile {
 		var tempStore:Array<TokenTree> = stream.getTempStore();
 		for (stored in tempStore) {
 			switch (stored.tok) {
-				case Kwd(KwdExtern), Kwd(KwdPrivate), Kwd(KwdPublic), At:
+				case Kwd(KwdExtern) | Kwd(KwdPrivate) | Kwd(KwdPublic) | At:
 					switch (TokenStream.MODE) {
 						case Relaxed: parent.addChild(stored);
 						case Strict: throw "invalid token tree structure - found:" + stored;
