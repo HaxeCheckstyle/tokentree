@@ -2,10 +2,10 @@
 
 ## dev branch / next version (1.x.x)
 
-- Upgraded to latest haxeparser version ([#202](https://github.com/HaxeCheckstyle/tokentree/issues/202))
+- Upgraded to latest haxeparser version ([#202](https://github.com/HaxeCheckstyle/tokentree/issues/202) + [#204](https://github.com/HaxeCheckstyle/tokentree/issues/204))
 - Added testcases for ExpressionLevel code ([#202](https://github.com/HaxeCheckstyle/tokentree/issues/202))
 - Added stream end detection to POpen and array access parsing ([#202](https://github.com/HaxeCheckstyle/tokentree/issues/202))
-- Added overload support
+- Added overload support ([#204](https://github.com/HaxeCheckstyle/tokentree/issues/204))
 - Fixed function type parameter ([#203](https://github.com/HaxeCheckstyle/tokentree/issues/203))
 - Retired Haxe 3.4.7 compile support ([#202](https://github.com/HaxeCheckstyle/tokentree/issues/202))
 
