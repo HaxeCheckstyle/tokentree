@@ -2,6 +2,8 @@
 
 ## dev branch / next version (1.x.x)
 
+- Fixed POpen after block curlies
+
 ## version 1.1.0 (2020-12-23)
 
 - Retired Haxe 3.4.7 compile support ([#202](https://github.com/HaxeCheckstyle/tokentree/issues/202))
