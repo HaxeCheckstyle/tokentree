@@ -126,6 +126,7 @@ class TokenTreeBuilderParsingTest implements ITest {
 		assertCodeParses(FUNCTION_TYPE_PARAM);
 		assertCodeParses(OVERLOAD_FUNCTION);
 		assertCodeParses(SPREAD_OPERATOR);
+		assertCodeParses(PARENS_AFTER_BLOCK);
 	}
 
 	@Test
@@ -1727,6 +1728,18 @@ import #if haxe4 js.lib.Promise #else js.Promise #end as JsPromise;
 	function func(a:Int, ...r:Array<Int>) {}
 	function methodWithRest(rest:Rest<Int>):Rest<Int> {
 		return super.methodWithRest(...rest.append(999));
+	}
+	";
+
+	var PARENS_AFTER_BLOCK = "
+	class Test {
+		public static function main() {
+			macro function() {
+				$i{field.name}();
+			}
+			if (true) {}
+			(f : Dynamic).foo = true;
+		}
 	}
 	";
 }

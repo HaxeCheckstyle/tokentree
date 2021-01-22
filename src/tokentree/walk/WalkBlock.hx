@@ -92,7 +92,11 @@ class WalkBlock {
 			case Question:
 				WalkQuestion.walkQuestion(stream, parent);
 			case POpen:
-				WalkStatement.walkStatementWithoutSemicolon(stream, parent);
+				switch (parent.parent.tok) {
+					case Dollar(_): 
+						WalkStatement.walkStatementWithoutSemicolon(stream, parent);
+					default:
+				}
 			case CommentLine(_), Comment(_):
 				var nextTokDef:Null<TokenTreeDef> = stream.peekNonCommentToken();
 				if (nextTokDef == null) {
