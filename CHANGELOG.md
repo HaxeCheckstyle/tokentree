@@ -2,6 +2,8 @@
 
 ## dev branch / next version (1.x.x)
 
+## version 1.1.1 (2021-01-22)
+
 - Fixed POpen after block curlies
 
 ## version 1.1.0 (2020-12-23)

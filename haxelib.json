@@ -7,8 +7,8 @@
     "contributors": [
         "AlexHaxe"
     ],
-    "releasenote": "retired Haxe 3 compilation support and bugfixes - see CHANGELOG for details",
-    "version": "1.1.0",
+    "releasenote": "fixed parens after curlies - see CHANGELOG for details",
+    "version": "1.1.1",
     "url": "https://github.com/HaxeCheckstyle/tokentree",
     "dependencies": {}
 }
