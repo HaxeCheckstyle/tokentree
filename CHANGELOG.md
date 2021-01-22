@@ -4,7 +4,7 @@
 
 ## version 1.1.1 (2021-01-22)
 
-- Fixed POpen after block curlies
+- Fixed POpen after block curlies ([#206](https://github.com/HaxeCheckstyle/tokentree/issues/206))
 
 ## version 1.1.0 (2020-12-23)
 
