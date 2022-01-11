@@ -12,14 +12,14 @@ env:
 
 install:
   - npm install
-  - if [[ "$HAXE_VERSION" == "haxe4" ]]; then npx lix download haxe 4.1.4; npx lix use haxe 4.1.4; fi
+  - if [[ "$HAXE_VERSION" == "haxe4" ]]; then npx lix download haxe 4.2.4; npx lix use haxe 4.2.4; fi
   - if [[ "$HAXE_VERSION" == "nightly" ]]; then npx lix download haxe nightly; npx lix use haxe nightly; fi
   - npx lix download
   - npx haxe -version
   - npx neko -version
   - git clone -b dev https://github.com/HaxeCheckstyle/haxe-checkstyle.git --depth=1 checkstyle
   - (cd checkstyle; npm install)
-  - if [[ "$HAXE_VERSION" == "haxe4" ]]; then (cd checkstyle && npx lix download haxe 4.1.4 && npx lix use haxe 4.1.4); fi
+  - if [[ "$HAXE_VERSION" == "haxe4" ]]; then (cd checkstyle && npx lix download haxe 4.2.4 && npx lix use haxe 4.2.4); fi
   - if [[ "$HAXE_VERSION" == "nightly" ]]; then (cd checkstyle && npx lix download haxe nightly && npx lix use haxe nightly); fi
   - (cd checkstyle; npx lix download)
   - (cd checkstyle/haxe_libraries; echo "-cp ../src" > tokentree.hxml)

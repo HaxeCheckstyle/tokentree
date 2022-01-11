@@ -11,19 +11,20 @@ class WalkLtGt {
 					var comma:TokenTree = stream.consumeToken();
 					ltTok.addChild(comma);
 					WalkTypeNameDef.walkTypeNameDef(stream, ltTok);
-					if (!stream.token().match(Binop(OpGt))) {
-						WalkFieldDef.walkFieldDef(stream, ltTok);
-					}
+				case Binop(OpAssign):
+					var equals:TokenTree = stream.consumeToken();
+					ltTok.getLastChild().addChild(equals);
+					WalkTypeNameDef.walkTypeNameDef(stream, equals);
 				case Binop(OpGt):
 					break;
 				case DblDot:
 					var dblDot:TokenTree = stream.consumeToken();
 					ltTok.addChild(dblDot);
-					WalkTypeNameDef.walkTypeNameDef(stream, ltTok);
+					WalkTypeNameDef.walkTypeNameDef(stream, dblDot);
 				case POpen:
 					WalkPOpen.walkPOpen(stream, ltTok);
 				default:
-					WalkFieldDef.walkFieldDef(stream, ltTok);
+					WalkTypeNameDef.walkTypeNameDef(stream, ltTok);
 			}
 		}
 		ltTok.addChild(stream.consumeTokenDef(Binop(OpGt)));

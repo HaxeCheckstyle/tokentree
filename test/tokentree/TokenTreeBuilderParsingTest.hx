@@ -127,6 +127,9 @@ class TokenTreeBuilderParsingTest implements ITest {
 		assertCodeParses(OVERLOAD_FUNCTION);
 		assertCodeParses(SPREAD_OPERATOR);
 		assertCodeParses(PARENS_AFTER_BLOCK);
+		assertCodeParses(DEFAULT_TYPE_PARAMS);
+		assertCodeParses(ABSTRACT_ABSTRACT);
+		assertCodeParses(ABSTRACT_MYABSTRACT);
 	}
 
 	@Test
@@ -1742,4 +1745,39 @@ import #if haxe4 js.lib.Promise #else js.Promise #end as JsPromise;
 		}
 	}
 	";
+
+	var DEFAULT_TYPE_PARAMS = "
+	private class DefaultTPClass_y<T=String> {}
+	private class DefaultTPClass_yn<S=String, T> {}
+	private class DefaultTPClass_ny<S, T=String> {}
+	private class DefaultTPClass_yy<S=Int, T=String> {}
+	private class DefaultTPClass_yy<S=Int, T=String> {}
+	class DefaultTPClass_yy<S=pack.sub.Type, T=String> {}
+	class DefaultTPClass_yy<S:(pack.sub.Type)=pack.sub.TypeImpl, T=String> {}
+	class DefaultTPClass_yy<S:pack.sub.Type=pack.sub.TypeImpl, T=String> {}
+	";
+
+	var ABSTRACT_ABSTRACT = "class Main {
+		static function main() {
+			abstract;
+			abstract();
+			abstract + 1;
+		}
+	}";
+
+	var ABSTRACT_MYABSTRACT = "abstract MyAbstract(Int) {
+		public function new(a):Void this = a;
+		public function foo():Array<String> {
+			return [
+				abstract + 2,
+				abstract(),
+				abstract.hi()
+			];
+		}
+		public function hi() return \"hi\";
+		public function arr() return [abstract];
+		@:op(a()) function call() return \"call\";
+		@:op(a + b) function plus(b) return 'plus $b';
+		public function value():Int return this;
+	}";
 }
