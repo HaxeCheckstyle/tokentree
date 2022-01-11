@@ -2,6 +2,8 @@
 
 ## dev branch / next version (1.x.x)
 
+- Added support for default type parameter
+
 ## version 1.1.1 (2021-01-22)
 
 - Fixed POpen after block curlies ([#206](https://github.com/HaxeCheckstyle/tokentree/issues/206))
