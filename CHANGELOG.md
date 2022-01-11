@@ -2,7 +2,7 @@
 
 ## dev branch / next version (1.x.x)
 
-- Added support for default type parameter
+- Added support for default type parameter ([#207](https://github.com/HaxeCheckstyle/tokentree/issues/207))
 
 ## version 1.1.1 (2021-01-22)
 
