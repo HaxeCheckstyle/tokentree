@@ -130,6 +130,7 @@ class TokenTreeBuilderParsingTest implements ITest {
 		assertCodeParses(DEFAULT_TYPE_PARAMS);
 		assertCodeParses(ABSTRACT_ABSTRACT);
 		assertCodeParses(ABSTRACT_MYABSTRACT);
+		assertCodeParses(STATIC_LOCALS);
 	}
 
 	@Test
@@ -1779,5 +1780,12 @@ import #if haxe4 js.lib.Promise #else js.Promise #end as JsPromise;
 		@:op(a()) function call() return \"call\";
 		@:op(a + b) function plus(b) return 'plus $b';
 		public function value():Int return this;
+	}";
+
+	var STATIC_LOCALS = "function named() {
+		static final @Test a = 1, b = 2;
+		static var c, d;
+		final e = 2;
+		var f;
 	}";
 }
