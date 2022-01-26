@@ -216,6 +216,9 @@ class WalkStatement {
 				WalkVar.walkVar(stream, parent);
 			case Kwd(KwdFinal):
 				WalkFinal.walkFinal(stream, parent);
+			case Kwd(KwdStatic):
+				stream.addToTempStore(stream.consumeToken());
+				return true;
 			case Kwd(KwdNew):
 				if (parent.tok.match(Dot)) {
 					var newChild:TokenTree = stream.consumeToken();
