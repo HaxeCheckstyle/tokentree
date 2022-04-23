@@ -5,11 +5,12 @@ class WalkNew {
 		var newTok:TokenTree = stream.consumeTokenDef(Kwd(KwdNew));
 		parent.addChild(newTok);
 		var name:TokenTree = WalkTypeNameDef.walkTypeNameDef(stream, newTok);
+		var pOpen:Null<TokenTree> = null;
 
 		WalkComment.walkComment(stream, name);
 		switch (stream.token()) {
 			case POpen:
-				WalkPOpen.walkPOpen(stream, name);
+				pOpen = WalkPOpen.walkPOpen(stream, name);
 			case Sharp(_):
 				WalkSharp.walkSharp(stream, parent, WalkStatement.walkStatement);
 			default:
@@ -18,7 +19,12 @@ class WalkNew {
 
 		switch (stream.token()) {
 			case Dot | Binop(_) | Const(CIdent("is")) | BkOpen:
-				WalkStatement.walkStatement(stream, name);
+				if (pOpen != null) {
+					WalkStatement.walkStatement(stream, pOpen);
+				}
+				else {
+					WalkStatement.walkStatement(stream, name);
+				}
 			default:
 		}
 	}
