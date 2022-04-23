@@ -6,7 +6,7 @@
 
 - Added support for default type parameter ([#207](https://github.com/HaxeCheckstyle/tokentree/issues/207))
 - Added support for static locals ([#208](https://github.com/HaxeCheckstyle/tokentree/issues/208) + [#209](https://github.com/HaxeCheckstyle/tokentree/issues/209))
-- Fixed Dot handling for new Class() instances
+- Fixed Dot handling for new Class() instances ([#210](https://github.com/HaxeCheckstyle/tokentree/issues/210))
 
 ## version 1.1.1 (2021-01-22)
 
