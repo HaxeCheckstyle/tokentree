@@ -6,7 +6,7 @@ import haxeparser.Data;
 enum TokenTreeDef {
 	Root;
 	Kwd(k:Keyword);
-	Const(c:haxe.macro.Expr.Constant);
+	Const(c:TokenTreeConstant);
 	Sharp(s:String);
 	Dollar(s:String);
 	Unop(op:haxe.macro.Expr.Unop);

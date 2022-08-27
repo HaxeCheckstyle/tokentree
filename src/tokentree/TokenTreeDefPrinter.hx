@@ -1,13 +1,14 @@
 package tokentree;
 
 class TokenTreeDefPrinter {
-	static public function toString(def:TokenTreeDef):String {
+	public static function toString(def:TokenTreeDef):String {
 		return switch (def) {
 			case Root: "<root>";
 			case Kwd(k): k.getName().substr(3).toLowerCase();
 			case Const(CInt(s) | CFloat(s) | CIdent(s)): s;
 			case Const(CString(s)): '"$s"';
 			case Const(CRegexp(r, opt)): '~/$r/$opt';
+			case Const(CMarkup(s)): '$s';
 			case Sharp(s): '#$s';
 			case Dollar(s): '$$$s';
 			case Unop(op): new haxe.macro.Printer("").printUnop(op);

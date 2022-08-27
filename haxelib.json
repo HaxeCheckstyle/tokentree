@@ -7,8 +7,8 @@
     "contributors": [
         "AlexHaxe"
     ],
-    "releasenote": "added support for static locals and default type parameter - see CHANGELOG for details",
-    "version": "1.1.2",
+    "releasenote": "added support for inline markup - see CHANGELOG for details",
+    "version": "1.2.0",
     "url": "https://github.com/HaxeCheckstyle/tokentree",
     "dependencies": {}
 }
