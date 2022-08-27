@@ -4,7 +4,7 @@
 
 ## version 1.2.0 (2022-08-27)
 
-- Added support for inline markup
+- Added support for inline markup ([#211](https://github.com/HaxeCheckstyle/tokentree/issues/211))
 
 ## version 1.1.2 (2022-04-23)
 
