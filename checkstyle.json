@@ -527,12 +527,14 @@
 			"tokentree/utils/TokenTreeCheckUtils:findColonParent",
 			"tokentree/ToTokenTreeDef",
 			"tokentree/TokenStream:isTypedParam",
+			"tokentree/TokenStream:consumeInlineMarkup",
 			"tokentree/TokenTreeDefPrinter"
 		],
         "MethodLength": [
 			"tokentree/walk/WalkStatement",
 			"tokentree/walk/WalkFinal",
-			"tokentree/utils/TokenTreeCheckUtils"
+			"tokentree/utils/TokenTreeCheckUtils",
+			"tokentree/TokenStream:consumeInlineMarkup",
         ],
         "NestedForDepth": [
             "TestMain"

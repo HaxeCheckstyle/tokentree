@@ -16,7 +16,18 @@ abstract ToTokenTreeDef(TokenTreeDef) {
 	public static function fromTokenDef(tok:TokenDef):ToTokenTreeDef {
 		return new ToTokenTreeDef(switch (tok) {
 			case Kwd(k): Kwd(k);
-			case Const(c): Const(c);
+			case Const(c): switch (c) {
+					#if (haxe < version("4.3.0-rc.1"))
+					case CInt(v): Const(CInt(v));
+					case CFloat(f): Const(CFloat(f));
+					#else
+					case CInt(v, s): Const(CInt(v, s));
+					case CFloat(f, s): Const(CFloat(f, s));
+					#end
+					case CString(s, kind): Const(CString(s, kind));
+					case CIdent(s): Const(CIdent(s));
+					case CRegexp(r, opt): Const(CRegexp(r, opt));
+				}
 			case Sharp(s): Sharp(s);
 			case Dollar(s): Dollar(s);
 			case Unop(op): Unop(op);

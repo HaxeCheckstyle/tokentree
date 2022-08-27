@@ -2,6 +2,10 @@
 
 ## dev branch / next version (1.x.x)
 
+## version 1.2.0 (2022-08-27)
+
+- Added support for inline markup ([#211](https://github.com/HaxeCheckstyle/tokentree/issues/211))
+
 ## version 1.1.2 (2022-04-23)
 
 - Added support for default type parameter ([#207](https://github.com/HaxeCheckstyle/tokentree/issues/207))

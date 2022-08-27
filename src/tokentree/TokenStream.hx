@@ -82,6 +82,100 @@ class TokenStream {
 		}
 	}
 
+	public function consumeInlineMarkup():Null<TokenTree> {
+		if (current >= tokens.length - 2) {
+			return null;
+		}
+		var startPos = tokens[current].pos;
+		var text:String = bytes.readString(startPos.min, bytes.length - startPos.min);
+		var startReg = ~/^<([a-zA-Z_][a-zA-Z0-9_:-]*)/;
+		if (!startReg.match(text)) {
+			return null;
+		}
+		var tagName = startReg.matched(1);
+		var startTag = '<$tagName';
+		var endTag = '</$tagName>';
+
+		var depth = 0;
+		var index = 0;
+		while (true) {
+			var indexStartTag = text.indexOf(startTag, index);
+			var indexEndTag = text.indexOf(endTag, index);
+			if ((indexStartTag == -1) && (indexEndTag == -1)) {
+				return null;
+			}
+			if (indexStartTag == -1) {
+				indexStartTag = indexEndTag + 1;
+			}
+			if (indexEndTag == -1) {
+				indexEndTag = indexStartTag + 1;
+			}
+
+			if (indexStartTag < indexEndTag) {
+				index = indexStartTag + startTag.length;
+				switch (text.charAt(index)) {
+					case " " | "/" | ">":
+					default:
+						continue;
+				}
+				depth++;
+				var indexSelfClosing = text.indexOf("/>", index);
+				var indexTagClosing = text.indexOf(">", index);
+				var indexOpenTag = text.indexOf("<", index);
+
+				if ((indexSelfClosing == -1) && (indexTagClosing == -1) && (indexOpenTag == -1)) {
+					return null;
+				}
+				if (indexSelfClosing == -1) {
+					indexSelfClosing = Std.int(Math.max(indexTagClosing, indexOpenTag)) + 1;
+				}
+				if (indexTagClosing == -1) {
+					indexTagClosing = Std.int(Math.max(indexSelfClosing, indexOpenTag)) + 1;
+				}
+				if (indexOpenTag == -1) {
+					indexOpenTag = Std.int(Math.max(indexSelfClosing, indexTagClosing)) + 1;
+				}
+				if (indexSelfClosing < indexTagClosing && indexSelfClosing < indexOpenTag) {
+					index = indexSelfClosing + 2;
+					depth--;
+				}
+				if (indexTagClosing < indexSelfClosing && indexTagClosing < indexOpenTag) {
+					index = indexTagClosing + 1;
+				}
+				if (indexOpenTag < indexSelfClosing && indexOpenTag < indexTagClosing) {
+					index = indexOpenTag;
+				}
+			}
+			if (indexEndTag < indexStartTag) {
+				index = indexEndTag + endTag.length;
+				depth--;
+			}
+			if (depth <= 0) {
+				break;
+			}
+		}
+		text = text.substr(0, index);
+		var textBytes = ByteData.ofString(text);
+		var endPos = startPos.min + textBytes.length;
+		var pos = {
+			file: startPos.file,
+			min: startPos.min,
+			max: endPos
+		}
+		var token = new TokenTree(Const(CMarkup(text)), "", pos, current);
+		forwardToPos(endPos);
+		return token;
+	}
+
+	function forwardToPos(pos:Int) {
+		while (current < tokens.length) {
+			current++;
+			if (tokens[current].pos.min >= pos) {
+				return;
+			}
+		}
+	}
+
 	public function consumeToTempStore() {
 		tempStore.push(consumeToken());
 	}

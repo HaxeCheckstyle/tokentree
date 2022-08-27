@@ -34,6 +34,11 @@ class WalkStatement {
 				WalkBinopSub.walkBinopSub(stream, parent);
 				return;
 			case Binop(OpLt):
+				var markup:Null<TokenTree> = stream.consumeInlineMarkup();
+				if (markup != null) {
+					parent.addChild(markup);
+					return;
+				}
 				if (stream.isTypedParam()) {
 					WalkLtGt.walkLtGt(stream, parent);
 					if (stream.tokenForMatch().match(Arrow)) {

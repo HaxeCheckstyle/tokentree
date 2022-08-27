@@ -131,6 +131,7 @@ class TokenTreeBuilderParsingTest implements ITest {
 		assertCodeParses(ABSTRACT_ABSTRACT);
 		assertCodeParses(ABSTRACT_MYABSTRACT);
 		assertCodeParses(STATIC_LOCALS);
+		assertCodeParses(INLINE_MARKUP);
 	}
 
 	@Test
@@ -1788,4 +1789,51 @@ import #if haxe4 js.lib.Promise #else js.Promise #end as JsPromise;
 		final e = 2;
 		var f;
 	}";
+
+	var INLINE_MARKUP = 'function inline_markup() {
+		static var SRC =
+		<obj class="foo" padding-left={value} color="blue">
+			@exampleText("!")
+			<custom(55) public id="sub" custom-color="#ff0 0.5" active/>
+			<custom(66) if( anotherCustom )/>
+		</obj>;
+
+		super (<xml />);
+        super (<xml><xml /></xml>);
+
+		<xml></xml>;
+		<xml ></xml>;
+		<xml > </xml>;
+
+		<xml a=// </xml>;
+		<div some="attributes"/>;
+		<foo>$${x < foo ? "a" : "b"}</foo>;
+
+		<xml><xml></xml></xml>;
+		<xml><yml></xml>;
+		<xml><xmlTest></xml>;
+
+		<xml/>;
+		<xml abc />;
+
+		static var SRC = <syntax-test>
+			for( x in arr )
+				<custom(x)/>
+			for( y in arr ) {
+				<custom(y)/>
+				<custom(y)/>
+			}
+		</syntax-test>
+	}
+
+	var SOAP = <soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:foo="https://foo.bar/baz">
+			<soap:Header>
+				<foo:Foo>
+					<foo:User>$${user}</foo:User>
+				</foo:Foo>
+			</soap:Header>
+			<soap:Body>
+			</soap:Body>
+		</soap:Envelope>;
+	';
 }
