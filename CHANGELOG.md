@@ -4,7 +4,7 @@
 
 ## version 1.2.1 (2022-09-07)
 
-- Moved inline markup code to haxeparser
+- Moved inline markup code to haxeparser ([#212](https://github.com/HaxeCheckstyle/tokentree/issues/212))
 
 ## version 1.2.0 (2022-08-27)
 
