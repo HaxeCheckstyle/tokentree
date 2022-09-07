@@ -1,11 +1,11 @@
 package tokentree;
 
-import tokentree.walk.WalkStatement;
 import byte.ByteData;
 import haxeparser.Data.Token;
 import haxeparser.HaxeLexer;
 import tokentree.TokenTreeBuilder.TokenTreeEntryPoint;
 import tokentree.walk.WalkFile;
+import tokentree.walk.WalkStatement;
 
 class TestTokenTreeBuilder extends TokenTreeBuilder {
 	public static function parseCode(code:String):TestTokenTreeBuilder {

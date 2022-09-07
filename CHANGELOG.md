@@ -2,6 +2,10 @@
 
 ## dev branch / next version (1.x.x)
 
+## version 1.2.1 (2022-09-07)
+
+- Moved inline markup code to haxeparser ([#212](https://github.com/HaxeCheckstyle/tokentree/issues/212))
+
 ## version 1.2.0 (2022-08-27)
 
 - Added support for inline markup ([#211](https://github.com/HaxeCheckstyle/tokentree/issues/211))

@@ -27,6 +27,7 @@ abstract ToTokenTreeDef(TokenTreeDef) {
 					case CString(s, kind): Const(CString(s, kind));
 					case CIdent(s): Const(CIdent(s));
 					case CRegexp(r, opt): Const(CRegexp(r, opt));
+					case CMarkup(s): Const(CMarkup(s));
 				}
 			case Sharp(s): Sharp(s);
 			case Dollar(s): Dollar(s);
