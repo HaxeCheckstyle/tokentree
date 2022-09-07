@@ -7,8 +7,8 @@
     "contributors": [
         "AlexHaxe"
     ],
-    "releasenote": "added support for inline markup - see CHANGELOG for details",
-    "version": "1.2.0",
+    "releasenote": "moved inline markup code to haxeparser - see CHANGELOG for details",
+    "version": "1.2.1",
     "url": "https://github.com/HaxeCheckstyle/tokentree",
     "dependencies": {}
 }
