@@ -2,6 +2,10 @@
 
 ## dev branch / next version (1.x.x)
 
+## version 1.2.2 (2022-09-14)
+
+- Updated haxeparser to support latest Haxe nightly syntax
+
 ## version 1.2.1 (2022-09-07)
 
 - Moved inline markup code to haxeparser ([#212](https://github.com/HaxeCheckstyle/tokentree/issues/212))
