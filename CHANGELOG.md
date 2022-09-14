@@ -2,6 +2,10 @@
 
 ## dev branch / next version (1.x.x)
 
+## version 1.2.3 (2022-09-14)
+
+- Fixed suffixes for negative numeric literals
+
 ## version 1.2.2 (2022-09-14)
 
 - Updated haxeparser to support latest Haxe nightly syntax

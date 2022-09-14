@@ -340,12 +340,21 @@ class TokenStream {
 				return new TokenTree(tok.tok, tok.space, tok.pos, tok.index);
 		}
 		switch (token()) {
+			#if (haxe >= version("4.3.0-rc.1"))
+			case Const(CInt(v, s)):
+				var const:TokenTree = consumeConst();
+				return new TokenTree(Const(CInt('-$v', s)), const.space, {file: tok.pos.file, min: tok.pos.min, max: const.pos.max}, tok.index);
+			case Const(CFloat(v, s)):
+				var const:TokenTree = consumeConst();
+				return new TokenTree(Const(CFloat('-$v', s)), const.space, {file: tok.pos.file, min: tok.pos.min, max: const.pos.max}, tok.index);
+			#else
 			case Const(CInt(n)):
 				var const:TokenTree = consumeConst();
 				return new TokenTree(Const(CInt('-$n')), const.space, {file: tok.pos.file, min: tok.pos.min, max: const.pos.max}, tok.index);
 			case Const(CFloat(n)):
 				var const:TokenTree = consumeConst();
 				return new TokenTree(Const(CFloat('-$n')), const.space, {file: tok.pos.file, min: tok.pos.min, max: const.pos.max}, tok.index);
+			#end
 			default:
 				throw NO_MORE_TOKENS;
 		}
