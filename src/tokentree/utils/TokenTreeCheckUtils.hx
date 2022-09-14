@@ -22,7 +22,7 @@ class TokenTreeCheckUtils {
 				case Kwd(KwdExtern):
 				case Const(CIdent(_)):
 				case Dot:
-				case Binop(OpIn):
+				case Kwd(KwdIn) | Binop(OpIn):
 				case Kwd(KwdImport):
 					return true;
 				case Kwd(KwdUsing):
@@ -67,9 +67,11 @@ class TokenTreeCheckUtils {
 			}
 		}
 		switch (prev.tok) {
-			case Binop(OpIn):
+			case Kwd(KwdIn) | Binop(OpIn):
 				return true;
 			case Binop(_):
+				return true;
+			case Spread:
 				return true;
 			case BkOpen:
 				return true;

@@ -74,7 +74,7 @@ class WalkStatement {
 					}
 					return;
 				}
-			case IntInterval(_):
+			case IntInterval(_) | Spread:
 				wantMore = true;
 			case Const(CIdent("final")) | Kwd(_):
 				if (walkKeyword(stream, parent)) wantMore = true;
@@ -107,7 +107,7 @@ class WalkStatement {
 				WalkSharp.walkSharp(stream, parent, walkStatement);
 				walkStatementContinueAfterSharp(stream, parent);
 				return;
-			case Dot:
+			case Dot | QuestionDot:
 				wantMore = true;
 			case DblDot:
 				switch (parent.tok) {
@@ -158,7 +158,7 @@ class WalkStatement {
 	public static function walkStatementContinue(stream:TokenStream, parent:TokenTree) {
 		if (!stream.hasMore()) return;
 		switch (stream.token()) {
-			case Dot:
+			case Dot | QuestionDot:
 				walkStatementWithoutSemicolon(stream, parent);
 			case DblDot:
 				walkDblDot(stream, parent);
@@ -206,6 +206,8 @@ class WalkStatement {
 						walkStatementContinue(stream, parent);
 					default:
 				}
+			case Spread:
+				walkStatementWithoutSemicolon(stream, parent);
 			default:
 		}
 	}

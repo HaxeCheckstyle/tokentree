@@ -17,6 +17,7 @@ enum TokenTreeDef {
 	Semicolon;
 	Dot;
 	DblDot;
+	QuestionDot;
 	Arrow;
 	Comma;
 	BkOpen;
@@ -28,4 +29,5 @@ enum TokenTreeDef {
 	Question;
 	At;
 	Eof;
+	Spread;
 }

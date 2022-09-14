@@ -17,12 +17,12 @@ abstract ToTokenTreeDef(TokenTreeDef) {
 		return new ToTokenTreeDef(switch (tok) {
 			case Kwd(k): Kwd(k);
 			case Const(c): switch (c) {
-					#if (haxe < version("4.3.0-rc.1"))
-					case CInt(v): Const(CInt(v));
-					case CFloat(f): Const(CFloat(f));
-					#else
+					#if (haxe >= version("4.3.0-rc.1"))
 					case CInt(v, s): Const(CInt(v, s));
 					case CFloat(f, s): Const(CFloat(f, s));
+					#else
+					case CInt(v): Const(CInt(v));
+					case CFloat(f): Const(CFloat(f));
 					#end
 					case CString(s, kind): Const(CString(s, kind));
 					case CIdent(s): Const(CIdent(s));
@@ -39,6 +39,7 @@ abstract ToTokenTreeDef(TokenTreeDef) {
 			case Semicolon: Semicolon;
 			case Dot: Dot;
 			case DblDot: DblDot;
+			case QuestionDot: QuestionDot;
 			case Arrow: Arrow;
 			case Comma: Comma;
 			case BkOpen: BkOpen;
@@ -50,6 +51,7 @@ abstract ToTokenTreeDef(TokenTreeDef) {
 			case Question: Question;
 			case At: At;
 			case Eof: Eof;
+			case Spread: Spread;
 		});
 	}
 }

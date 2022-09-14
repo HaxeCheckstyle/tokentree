@@ -5,7 +5,13 @@ class TokenTreeDefPrinter {
 		return switch (def) {
 			case Root: "<root>";
 			case Kwd(k): k.getName().substr(3).toLowerCase();
-			case Const(CInt(s) | CFloat(s) | CIdent(s)): s;
+			#if (haxe >= version("4.3.0-rc.1"))
+			case Const(CInt(v, null) | CFloat(v, null)): v;
+			case Const(CInt(v, s) | CFloat(v, s)): '$v$s';
+			#else
+			case Const(CInt(s) | CFloat(s)): s;
+			#end
+			case Const(CIdent(s)): s;
 			case Const(CString(s)): '"$s"';
 			case Const(CRegexp(r, opt)): '~/$r/$opt';
 			case Const(CMarkup(s)): '$s';
@@ -19,6 +25,7 @@ class TokenTreeDefPrinter {
 			case Semicolon: ";";
 			case Dot: ".";
 			case DblDot: ":";
+			case QuestionDot: "?.";
 			case Arrow: "->";
 			case Comma: ",";
 			case BkOpen: "[";
@@ -30,6 +37,7 @@ class TokenTreeDefPrinter {
 			case Question: "?";
 			case At: "@";
 			case Eof: "<eof>";
+			case Spread: "...";
 		}
 	}
 }
