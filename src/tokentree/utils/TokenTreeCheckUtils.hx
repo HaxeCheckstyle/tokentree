@@ -888,6 +888,8 @@ class TokenTreeCheckUtils {
 				return findColonParent(parent);
 			case Kwd(KwdFunction):
 				return TypeHint;
+			case Kwd(KwdMacro):
+				return TypeHint;
 			default:
 		}
 		return Unknown;
@@ -977,6 +979,74 @@ class TokenTreeCheckUtils {
 			}
 		}
 		return false;
+	}
+
+	public static function findLastBinop(token:Null<TokenTree>):Null<TokenTree> {
+		if (token == null) {
+			return null;
+		}
+		var lastBinop:Null<TokenTree> = null;
+		function visitSiblings(parent:TokenTree) {
+			if (parent == null) {
+				return null;
+			}
+			while (parent.nextSibling != null) {
+				switch (parent.nextSibling.tok) {
+					case Binop(_):
+						parent = parent.nextSibling;
+						lastBinop = parent;
+					case Dot:
+						return parent.nextSibling;
+					case Comma | Semicolon:
+						return parent;
+					default:
+						return parent;
+				}
+			}
+			return parent;
+		}
+
+		token = visitSiblings(token);
+
+		while (token.hasChildren()) {
+			var child = switch (token.tok) {
+				case BkOpen: token.access().firstOf(BkClose).token;
+				case BrOpen: token.access().firstOf(BrClose).token;
+				case POpen:
+					token.access().firstOf(PClose).token;
+					token = visitSiblings(token);
+				default: token.getFirstChild();
+			}
+			if (child == null) {
+				return lastBinop;
+			}
+			switch (child.tok) {
+				case Binop(_):
+					lastBinop = child;
+					token = visitSiblings(child);
+				case BkOpen:
+					token = child.access().firstOf(BkClose).token;
+					if (token == null) {
+						return lastBinop;
+					}
+				case BrOpen:
+					token = child.access().firstOf(BrClose).token;
+					if (token == null) {
+						return lastBinop;
+					}
+				case POpen:
+					token = child.access().firstOf(PClose).token;
+					if (token == null) {
+						return lastBinop;
+					}
+					token = visitSiblings(token);
+				case Dot:
+					token = visitSiblings(child);
+				default:
+					token = child;
+			}
+		}
+		return lastBinop;
 	}
 }
 

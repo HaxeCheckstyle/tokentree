@@ -619,10 +619,101 @@ class TokenTreeCheckUtilsTest implements ITest {
 		Assert.isFalse(TokenTreeCheckUtils.isMetadata(tokens[index++]));
 	}
 
+	@Test
+	public function testFindLastBinop() {
+		function assertLastBinop(code:String, binop:String, offset:Int = 0, ?pos:PosInfos):Void {
+			var root:TokenTree = assertExpressionCodeParses(code, pos);
+
+			if (offset != 0) {
+				var tokens = root.filterCallback((token:TokenTree, index:Int) -> {
+					if ((token.pos.min <= offset) && (token.pos.max > offset)) {
+						return FoundSkipSubtree;
+					}
+					GoDeeper;
+				});
+				if (tokens.length == 1) {
+					root = tokens[0];
+				}
+			}
+			var lastBinop:Null<TokenTree> = TokenTreeCheckUtils.findLastBinop(root);
+			Assert.notNull(lastBinop, pos);
+			Assert.equals(binop, '$lastBinop', pos);
+		}
+
+		assertLastBinop("x + 1", "+");
+		assertLastBinop("x - 1", "-");
+		assertLastBinop("x * 1", "*");
+		assertLastBinop("x / 1", "/");
+
+		assertLastBinop("width.x + 1 - 1", "-");
+		assertLastBinop("width.x * 1 - 1", "-");
+		assertLastBinop("width.x / 1 - 1", "-");
+
+		assertLastBinop("width.x + 1 * 1", "*");
+		assertLastBinop("width.x - 1 * 1", "*");
+		assertLastBinop("width.x / 1 * 1", "*");
+
+		assertLastBinop("width.x + (1 * 1)", "+");
+		assertLastBinop("width.x - (1 * 1)", "-");
+		assertLastBinop("width.x / (1 * 1)", "/");
+		assertLastBinop("width.x - (1 + 1)", "-");
+		assertLastBinop("width.x * (1 + 1)", "*");
+		assertLastBinop("width.x / (1 + 1)", "/");
+
+		assertLastBinop("width * point.x * (point.y * 1) + 2", "+");
+		assertLastBinop("width + point.x + (point.y - 1) * 2", "*");
+		assertLastBinop("width + point.x / (point.y / 1) * 2", "*");
+		assertLastBinop("width + point.x + (point.y + 1) - 2", "-");
+
+		assertLastBinop("var x = (width.width) * point.x / (point.y * 1)", "/");
+		assertLastBinop("var x = (width.width) * point.x + (point.y * 1)", "+");
+		assertLastBinop("var x = (width.width) * point.x - (point.y * 1)", "-");
+		assertLastBinop("var x = (width.width) + point.x - (point.y * 1)", "-");
+		assertLastBinop("var x = (width.width) + point.x * (point.y * 1)", "*");
+
+		assertLastBinop("width.width * point.x / (point.y * 1)", "/");
+		assertLastBinop("width.width / point.x * (point.y * 1)", "*");
+		assertLastBinop("width.width - point.x + (point.y * 1)", "+");
+		assertLastBinop("width.width * point.x + (point.y * 1)", "+");
+		assertLastBinop("width.width / point.x + (point.y * 1)", "+");
+
+		assertLastBinop("var val = Math.max(widthx - 1, widthy * 6)", "-", 19);
+		assertLastBinop("var val = Math.max(width - 1, width * 6)", "*", 30);
+
+		assertLastBinop("var val = Math.max(width * 1 / 2, width/6);", "/", 19);
+		assertLastBinop("var val = Math.max(width / 1 + 4, width/6);", "+", 19);
+		assertLastBinop("var val = Math.max(width.x + 1 - 1, width/6*6);", "-", 19);
+
+		assertLastBinop("var val = Math.max(width * point.x * (point.y * 1) - 2, width * 6)", "-", 19);
+		assertLastBinop("var val = Math.max(width * point.x * (point.y * 1) / 2, width * 6)", "/", 19);
+		assertLastBinop("var val = Math.max(width + point.x * (point.y * 1) - 2, width * 6)", "-", 19);
+		assertLastBinop("var val = Math.max(width + point.x * (point.y * 1) / 2, width * 6)", "/", 19);
+		assertLastBinop("var val = Math.max(width * point.x + (point.y * 1) - 2, width * 6)", "-", 19);
+		assertLastBinop("var val = Math.max(width * point.x + (point.y * 1) / 2, width * 6)", "/", 19);
+		assertLastBinop("var val = Math.max(width + point.x + (point.y * 1) - 2, width * 6)", "-", 19);
+		assertLastBinop("var val = Math.max(width + point.x + (point.y * 1) / 2, width * 6)", "/", 19);
+
+		assertLastBinop("var val = Math.max((width).width * point.x + (point.y * 1), width * 6)", "+", 19);
+		assertLastBinop("var val = Math.max((width).width * point.x / (point.y * 1), width * 6)", "/", 19);
+	}
+
 	public function assertCodeParses(code:String, ?pos:PosInfos):TokenTree {
 		var builder:Null<TestTokenTreeBuilder> = null;
 		try {
 			builder = TestTokenTreeBuilder.parseCode(code);
+			Assert.isTrue(builder.isStreamEmpty(), pos);
+			return builder.root;
+		}
+		catch (e:Any) {
+			Assert.fail("code should not throw execption " + e, pos);
+		}
+		return new TokenTree(null, "", null, 0, true);
+	}
+
+	public function assertExpressionCodeParses(code:String, ?pos:PosInfos):TokenTree {
+		var builder:Null<TestTokenTreeBuilder> = null;
+		try {
+			builder = TestTokenTreeBuilder.parseExpressionCode(code);
 			Assert.isTrue(builder.isStreamEmpty(), pos);
 			return builder.root;
 		}

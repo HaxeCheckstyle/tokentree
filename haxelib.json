@@ -7,8 +7,8 @@
     "contributors": [
         "AlexHaxe"
     ],
-    "releasenote": "fixed suffixes for negative numeric literals - see CHANGELOG for details",
-    "version": "1.2.3",
+    "releasenote": "added findLastBinop utils function, fixed macro type hint and enum type parameter - see CHANGELOG for details",
+    "version": "1.2.4",
     "url": "https://github.com/HaxeCheckstyle/tokentree",
     "dependencies": {}
 }

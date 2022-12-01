@@ -534,7 +534,7 @@
 			"tokentree/walk/WalkStatement",
 			"tokentree/walk/WalkFinal",
 			"tokentree/utils/TokenTreeCheckUtils",
-			"tokentree/TokenStream:consumeInlineMarkup",
+			"tokentree/TokenStream:consumeInlineMarkup"
         ],
         "NestedForDepth": [
             "TestMain"

@@ -1,5 +1,7 @@
 package tokentree.walk;
 
+import tokentree.utils.TokenTreeCheckUtils;
+
 class WalkStatement {
 	public static function walkStatement(stream:TokenStream, parent:TokenTree) {
 		walkStatementWithoutSemicolon(stream, parent);
@@ -37,6 +39,9 @@ class WalkStatement {
 				if (stream.isTypedParam()) {
 					WalkLtGt.walkLtGt(stream, parent);
 					if (stream.tokenForMatch().match(Arrow)) {
+						walkStatementWithoutSemicolon(stream, parent);
+					}
+					if (stream.tokenForMatch().match(POpen)) {
 						walkStatementWithoutSemicolon(stream, parent);
 					}
 					return;
@@ -366,6 +371,12 @@ class WalkStatement {
 					return parent;
 				case Binop(_):
 					return parent;
+				case DblDot:
+					var type:ColonType = TokenTreeCheckUtils.determineColonType(parent);
+					switch (type) {
+						case SwitchCase | At: return null;
+						case TypeHint | TypeCheck | Ternary | ObjectLiteral | Unknown:
+					}
 				default:
 			}
 			parent = parent.parent;
