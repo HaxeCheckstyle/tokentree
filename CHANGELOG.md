@@ -2,6 +2,12 @@
 
 ## dev branch / next version (1.x.x)
 
+## version 1.2.4 (2022-12-01)
+
+- Added findLastBinop utils function
+- Fixed macro type hint
+- Fixed enum type parameter
+
 ## version 1.2.3 (2022-09-14)
 
 - Fixed suffixes for negative numeric literals
