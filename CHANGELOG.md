@@ -4,9 +4,9 @@
 
 ## version 1.2.4 (2022-12-01)
 
-- Added findLastBinop utils function
-- Fixed macro type hint
-- Fixed enum type parameter
+- Added findLastBinop utils function ([#213](https://github.com/HaxeCheckstyle/tokentree/issues/213))
+- Fixed macro type hint ([#213](https://github.com/HaxeCheckstyle/tokentree/issues/213))
+- Fixed enum type parameter ([#213](https://github.com/HaxeCheckstyle/tokentree/issues/213))
 
 ## version 1.2.3 (2022-09-14)
 
