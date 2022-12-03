@@ -471,6 +471,7 @@ class TokenTreeCheckUtils {
 						return Block;
 					}
 					onlyComment = false;
+				case At:
 				case Comment(_), CommentLine(_):
 				case BrClose:
 					if (onlyComment) {
@@ -986,7 +987,7 @@ class TokenTreeCheckUtils {
 			return null;
 		}
 		var lastBinop:Null<TokenTree> = null;
-		function visitSiblings(parent:TokenTree) {
+		function visitSiblings(parent:TokenTree):Null<TokenTree> {
 			if (parent == null) {
 				return null;
 			}

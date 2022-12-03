@@ -7,8 +7,8 @@
     "contributors": [
         "AlexHaxe"
     ],
-    "releasenote": "added findLastBinop utils function, fixed macro type hint and enum type parameter - see CHANGELOG for details",
-    "version": "1.2.4",
+    "releasenote": "fixed terenary detection - see CHANGELOG for details",
+    "version": "1.2.5",
     "url": "https://github.com/HaxeCheckstyle/tokentree",
     "dependencies": {}
 }

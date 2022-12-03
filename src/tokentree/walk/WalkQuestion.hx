@@ -2,14 +2,14 @@ package tokentree.walk;
 
 class WalkQuestion {
 	public static function walkQuestion(stream:TokenStream, parent:TokenTree) {
-		var ternary:Bool = isTernary(parent);
+		var ternary:Bool = isTernary(stream, parent);
+		if (!ternary) {
+			WalkFieldDef.walkFieldDef(stream, parent);
+			return;
+		}
 		var question:TokenTree = stream.consumeTokenDef(Question);
 		parent.addChild(question);
 		WalkComment.walkComment(stream, question);
-		if (!ternary) {
-			WalkStatement.walkStatement(stream, question);
-			return;
-		}
 		WalkStatement.walkStatement(stream, question);
 		WalkComment.walkComment(stream, question);
 		if (!stream.tokenForMatch().match(DblDot)) return;
@@ -18,14 +18,16 @@ class WalkQuestion {
 		WalkStatement.walkStatement(stream, dblDotTok);
 	}
 
-	public static function isTernary(parent:TokenTree):Bool {
+	public static function isTernary(stream:TokenStream, parent:TokenTree):Bool {
 		var lastChild:Null<TokenTree> = parent.getLastChild();
 		if (lastChild == null) {
-			switch (parent.tok) {
-				case Const(_):
-					return true;
-				default:
-					lastChild = parent;
+			return switch (parent.tok) {
+				case Const(_): true;
+				case Kwd(KwdTrue), Kwd(KwdFalse), Kwd(KwdNull): true;
+				case Kwd(KwdThis): true;
+				case Dollar(_): true;
+				case PClose: true;
+				default: false;
 			}
 		}
 		return switch (lastChild.tok) {
@@ -37,7 +39,8 @@ class WalkQuestion {
 			case Kwd(KwdCast): true;
 			case Kwd(KwdNew): true;
 			case Kwd(KwdTrue), Kwd(KwdFalse), Kwd(KwdNull): true;
-			case Kwd(KwdThis), Kwd(KwdMacro), Kwd(KwdUntyped): true;
+			case Kwd(KwdMacro): (lastChild.index + 1 != stream.getStreamIndex());
+			case Kwd(KwdThis), Kwd(KwdUntyped): true;
 			case Kwd(KwdFunction): true;
 			case Dollar(_): true;
 			case POpen: true;
