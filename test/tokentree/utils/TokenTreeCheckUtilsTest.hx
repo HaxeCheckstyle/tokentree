@@ -224,7 +224,7 @@ class TokenTreeCheckUtilsTest implements ITest {
 				default: GoDeeper;
 			}
 		});
-		Assert.equals(4, allQuestion.length);
+		Assert.equals(7, allQuestion.length);
 		for (quest in allQuestion) {
 			Assert.isFalse(TokenTreeCheckUtils.isTernary(quest));
 		}
@@ -241,7 +241,7 @@ class TokenTreeCheckUtilsTest implements ITest {
 				default: GoDeeper;
 			}
 		});
-		Assert.equals(66, allBr.length);
+		Assert.equals(72, allBr.length);
 		var index:Int = 0;
 		Assert.equals(ColonType.ObjectLiteral, TokenTreeCheckUtils.getColonType(allBr[index++]));
 		Assert.equals(ColonType.TypeCheck, TokenTreeCheckUtils.getColonType(allBr[index++]));
@@ -352,6 +352,15 @@ class TokenTreeCheckUtilsTest implements ITest {
 		// foo((data:Some) -> {
 		Assert.equals(ColonType.TypeHint, TokenTreeCheckUtils.getColonType(allBr[index++]));
 		// }, (error : Error) -> {
+		Assert.equals(ColonType.TypeHint, TokenTreeCheckUtils.getColonType(allBr[index++]));
+
+		// final type = true ? macro :String : macro :Int;
+		Assert.equals(ColonType.TypeHint, TokenTreeCheckUtils.getColonType(allBr[index++]));
+		Assert.equals(ColonType.Ternary, TokenTreeCheckUtils.getColonType(allBr[index++]));
+		Assert.equals(ColonType.TypeHint, TokenTreeCheckUtils.getColonType(allBr[index++]));
+		// final f = (?options:{?foo:Bool, ?bar:Int}) -> {}
+		Assert.equals(ColonType.TypeHint, TokenTreeCheckUtils.getColonType(allBr[index++]));
+		Assert.equals(ColonType.TypeHint, TokenTreeCheckUtils.getColonType(allBr[index++]));
 		Assert.equals(ColonType.TypeHint, TokenTreeCheckUtils.getColonType(allBr[index++]));
 	}
 
@@ -887,6 +896,7 @@ abstract TokenTreeCheckUtilsTests(String) to String {
 	class Main {
         static function main(?value:Int) {}
 		public function recycle(?ObjectClass:Class<T>, ?ObjectFactory:Void->T, Force : Bool = false, Revive : Bool = true) : T {}
+		final f = (?options:{?foo:Bool, ?bar:Int}) -> {}
 	}
 
 	enum Item {
@@ -964,6 +974,8 @@ abstract TokenTreeCheckUtilsTests(String) to String {
 				trace(2);
 			});
 		}
+		final type = true ? macro :String : macro :Int;
+		final f = (?options:{?foo:Bool, ?bar:Int}) -> {}
 	}
 	";
 

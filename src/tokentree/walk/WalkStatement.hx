@@ -125,7 +125,7 @@ class WalkStatement {
 				if (parent.tok.match(Dot)) {
 					return;
 				}
-				if (WalkQuestion.isTernary(parent)) {
+				if (WalkQuestion.isTernary(stream, parent)) {
 					walkStatementContinue(stream, parent);
 					return;
 				}
@@ -289,7 +289,7 @@ class WalkStatement {
 	}
 
 	public static function walkDblDot(stream:TokenStream, parent:TokenTree) {
-		var question:Null<TokenTree> = findQuestionParent(parent);
+		var question:Null<TokenTree> = findQuestionParent(stream, parent);
 		if (question != null) {
 			return;
 		}
@@ -336,12 +336,12 @@ class WalkStatement {
 		}
 	}
 
-	static function findQuestionParent(token:TokenTree):Null<TokenTree> {
+	static function findQuestionParent(stream:TokenStream, token:TokenTree):Null<TokenTree> {
 		var parent:Null<TokenTree> = token;
 		while (parent != null && parent.tok != Root) {
 			switch (parent.tok) {
 				case Question:
-					if (WalkQuestion.isTernary(parent)) return parent;
+					if (WalkQuestion.isTernary(stream, parent)) return parent;
 					return null;
 				case Comma:
 					return null;
@@ -358,7 +358,8 @@ class WalkStatement {
 				case Kwd(KwdCase):
 					return parent;
 				case Kwd(KwdMacro):
-					parent = findQuestionParent(parent.parent);
+					if (parent.index + 1 == stream.getStreamIndex()) return null;
+					parent = findQuestionParent(stream, parent.parent);
 					if (parent == null) {
 						return null;
 					}

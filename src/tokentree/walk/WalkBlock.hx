@@ -93,8 +93,7 @@ class WalkBlock {
 				WalkQuestion.walkQuestion(stream, parent);
 			case POpen:
 				switch (parent.parent.tok) {
-					case Dollar(_): 
-						WalkStatement.walkStatementWithoutSemicolon(stream, parent);
+					case Dollar(_): WalkStatement.walkStatementWithoutSemicolon(stream, parent);
 					default:
 				}
 			case CommentLine(_), Comment(_):

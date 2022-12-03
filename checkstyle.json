@@ -518,10 +518,12 @@
             "token"
         ],
         "CyclomaticComplexity": [
+			"tokentree/walk/WalkQuestion:isTernary",
             "tokentree/walk/WalkStatement",
             "tokentree/walk/WalkFile",
 			"tokentree/utils/TokenTreeCheckUtils:filterOpSub",
 			"tokentree/utils/TokenTreeCheckUtils:determineBrOpenType",
+			"tokentree/utils/TokenTreeCheckUtils:determineColonType",
 			"tokentree/utils/TokenTreeCheckUtils:determinePOpenType",
 			"tokentree/utils/TokenTreeCheckUtils:determinBrChildren",
 			"tokentree/utils/TokenTreeCheckUtils:findColonParent",
