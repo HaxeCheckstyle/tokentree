@@ -21,7 +21,7 @@ class TokenTree {
 	@:allow(tokentree.utils.TokenTreeCheckUtils)
 	var tokenTypeCache:TokenTypeCache;
 
-	public function new(tok:TokenTreeDef, space:String, pos:Null<Position>, index:Int, inserted:Bool = false) {
+	public function new(tok:TokenTreeDef, space:String, pos:Position, index:Int, inserted:Bool = false) {
 		this.tok = tok;
 		this.pos = pos;
 		this.index = index;

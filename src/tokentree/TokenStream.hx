@@ -389,8 +389,11 @@ class TokenStream {
 		return sharpIfStack[sharpIfStack.length - 1];
 	}
 
-	function createDummyToken(tokDef:TokenTreeDef):TokenTree {
+	public function createDummyToken(tokDef:TokenTreeDef):TokenTree {
 		var pos:Position;
+		if (tokens.length <= 0) {
+			return new TokenTree(tokDef, "", {file: "<unknown>", min: 0, max: 0}, -1, true);
+		}
 		if ((current < 0) || (current >= tokens.length)) {
 			var prevPos:Position = tokens[tokens.length - 1].pos;
 			pos = {

@@ -1,11 +1,11 @@
 package tokentree;
 
-import haxeparser.Data;
-import tokentree.walk.WalkTypeNameDef;
 import byte.ByteData;
+import haxeparser.Data;
 import tokentree.walk.WalkClass;
 import tokentree.walk.WalkFile;
 import tokentree.walk.WalkStatement;
+import tokentree.walk.WalkTypeNameDef;
 
 class TokenTreeBuilder {
 	public static function buildTokenTree(tokens:Array<Token>, bytes:ByteData, entryPoint:Null<TokenTreeEntryPoint> = null):TokenTree {
@@ -16,7 +16,7 @@ class TokenTreeBuilder {
 	}
 
 	static function buildTokenTreeFromStream(stream:TokenStream, entryPoint:TokenTreeEntryPoint):TokenTree {
-		var root:TokenTree = new TokenTree(Root, "", null, -1);
+		var root:TokenTree = stream.createDummyToken(Root);
 		switch (entryPoint) {
 			case TypeLevel:
 				WalkFile.walkFile(stream, root);

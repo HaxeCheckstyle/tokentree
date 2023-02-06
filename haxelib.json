@@ -7,8 +7,8 @@
     "contributors": [
         "AlexHaxe"
     ],
-    "releasenote": "fixed terenary detection - see CHANGELOG for details",
-    "version": "1.2.5",
+    "releasenote": "fixed pos info of root nodes - see CHANGELOG for details",
+    "version": "1.2.6",
     "url": "https://github.com/HaxeCheckstyle/tokentree",
     "dependencies": {}
 }

@@ -2,6 +2,10 @@
 
 ## dev branch / next version (1.x.x)
 
+## version 1.2.6 (2023-02-06)
+
+- Fixed pos info of Root nodes, fixes [#215](https://github.com/HaxeCheckstyle/tokentree/issues/215)
+
 ## version 1.2.5 (2022-12-03)
 
 - Fixed ternary detection ([#214](https://github.com/HaxeCheckstyle/tokentree/issues/214))
