@@ -83,7 +83,7 @@ class TokenTree {
 	}
 
 	public function getPos():Position {
-		if ((children == null) || (children.length <= 0)) return pos;
+		if ((children == null) || (children.length <= 0) || (pos == null)) return pos;
 		var fullPos:Position = {file: pos.file, min: pos.min, max: pos.max};
 		var childPos:Position;
 		for (child in children) {
