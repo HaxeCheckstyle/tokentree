@@ -134,6 +134,7 @@ class TokenTreeBuilderParsingTest implements ITest {
 		assertCodeParses(INLINE_MARKUP);
 		assertCodeParses(ENUM_TYPE_PARAM);
 		assertCodeParses(MACRO_COLON_TYPE);
+		assertCodeParses(TYPE_PARAMETER_WITH_GT);
 	}
 
 	@Test
@@ -1839,14 +1840,26 @@ import #if haxe4 js.lib.Promise #else js.Promise #end as JsPromise;
 		</soap:Envelope>;
 	';
 
-	var ENUM_TYPE_PARAM = 'enum Foo<Child> {
+	var ENUM_TYPE_PARAM = "enum Foo<Child> {
 		Bar<T>(options : Array<T>);
-	}';
+	}";
 
-	var MACRO_COLON_TYPE = 'function test() {
+	var MACRO_COLON_TYPE = "function test() {
 		switch type {
 			case Foo:
 				macro :Float;
 		}
-	}';
+	}";
+
+	var TYPE_PARAMETER_WITH_GT = "function test() {
+		var arr:Array<String>;
+		var arr:Array<haxe.Function>;
+		x < (y >> 1);
+		x < (y >>> 1);
+		x < (y << 1);
+		x < y << 1;
+		x < y >> 1;
+		x < y[i << 1];
+		x < y[i >> 1];
+	}";
 }

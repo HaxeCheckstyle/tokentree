@@ -1,3 +1,4 @@
+import tokentree.TokenStreamTest;
 import tokentree.TokenTreeBuilderParsingTest;
 import tokentree.TokenTreeBuilderTest;
 import tokentree.utils.FieldUtilsTest;
@@ -16,6 +17,7 @@ class TestMain {
 		var tests:Array<ITest> = [
 			new FieldUtilsTest(),
 			new TokenTreeCheckUtilsTest(),
+			new TokenStreamTest(),
 			new TokenTreeBuilderTest(),
 			new TokenTreeBuilderParsingTest(),
 			new VerifyTokenTreeTest(),
