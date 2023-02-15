@@ -2,6 +2,10 @@
 
 ## dev branch / next version (1.x.x)
 
+## version 1.2.7 (2023-02-15)
+
+- Fixed type parameter detection ([#216](https://github.com/HaxeCheckstyle/tokentree/issues/216))
+
 ## version 1.2.6 (2023-02-06)
 
 - Fixed pos info of Root nodes, fixes [#215](https://github.com/HaxeCheckstyle/tokentree/issues/215)

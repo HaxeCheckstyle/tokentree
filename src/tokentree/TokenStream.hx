@@ -148,10 +148,7 @@ class TokenStream {
 		while (true) {
 			token = tokens[index++];
 			switch (token.tok) {
-				case Dot:
-				case DblDot:
-				case Comma:
-				case Arrow:
+				case Dot | DblDot | Comma | Arrow | Const(_) | Dollar(_):
 				case POpen:
 					pDepth++;
 				case PClose:
@@ -173,11 +170,15 @@ class TokenStream {
 						return false;
 					}
 					bkDepth--;
-				case Const(_):
-				case Dollar(_):
 				case Binop(OpLt):
+					if ((pDepth > 0) || (bkDepth > 0) || (brDepth > 0)) {
+						continue;
+					}
 					depth++;
 				case Binop(OpGt):
+					if ((pDepth > 0) || (bkDepth > 0) || (brDepth > 0)) {
+						continue;
+					}
 					depth--;
 					if (depth <= 0) {
 						return true;
