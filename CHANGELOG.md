@@ -4,7 +4,7 @@
 
 ## version 1.2.7 (2023-02-15)
 
-- Fixed type parameter detection
+- Fixed type parameter detection ([#216](https://github.com/HaxeCheckstyle/tokentree/issues/216))
 
 ## version 1.2.6 (2023-02-06)
 
