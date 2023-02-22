@@ -4,7 +4,7 @@
 
 ## version 1.2.8 (2023-02-21)
 
-- Fixed inline call() and inline new handling
+- Fixed inline call() and inline new handling ([#217](https://github.com/HaxeCheckstyle/tokentree/issues/217))
 
 ## version 1.2.7 (2023-02-15)
 
