@@ -2,7 +2,7 @@
 
 ## dev branch / next version (1.x.x)
 
-## version 1.2.8 (2023-02-21)
+## version 1.2.8 (2023-02-22)
 
 - Fixed inline call() and inline new handling ([#217](https://github.com/HaxeCheckstyle/tokentree/issues/217))
 
