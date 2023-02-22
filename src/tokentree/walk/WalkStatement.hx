@@ -223,7 +223,9 @@ class WalkStatement {
 				WalkVar.walkVar(stream, parent);
 			case Kwd(KwdFinal):
 				WalkFinal.walkFinal(stream, parent);
-			case Kwd(KwdStatic) | Kwd(KwdInline) | Kwd(KwdPublic) | Kwd(KwdPrivate):
+			case Kwd(KwdInline):
+				return walkInline(stream, parent);
+			case Kwd(KwdStatic) | Kwd(KwdPublic) | Kwd(KwdPrivate):
 				stream.addToTempStore(stream.consumeToken());
 				return false;
 			case Kwd(KwdNew):
@@ -286,6 +288,17 @@ class WalkStatement {
 				return true;
 		}
 		return false;
+	}
+
+	static function walkInline(stream:TokenStream, parent:TokenTree):Bool {
+		stream.addToTempStore(stream.consumeToken());
+		return switch (stream.token()) {
+			case Const(_) | Kwd(KwdNew): true;
+			case Kwd(KwdFunction):
+				WalkFunction.walkFunction(stream, parent);
+				false;
+			default: false;
+		}
 	}
 
 	public static function walkDblDot(stream:TokenStream, parent:TokenTree) {
