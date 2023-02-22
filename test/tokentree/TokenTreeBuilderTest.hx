@@ -304,7 +304,7 @@ abstract TokenTreeBuilderTests(String) to String {
 	}
 	";
 
-var ENTRY_POINT_MAP = "
+	var ENTRY_POINT_MAP = "
 	Map<String, WrapCondition>
 	";
 }

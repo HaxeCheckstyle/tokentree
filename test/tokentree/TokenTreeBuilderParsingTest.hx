@@ -135,6 +135,7 @@ class TokenTreeBuilderParsingTest implements ITest {
 		assertCodeParses(ENUM_TYPE_PARAM);
 		assertCodeParses(MACRO_COLON_TYPE);
 		assertCodeParses(TYPE_PARAMETER_WITH_GT);
+		assertCodeParses(INLINE_CALL);
 	}
 
 	@Test
@@ -1862,4 +1863,33 @@ import #if haxe4 js.lib.Promise #else js.Promise #end as JsPromise;
 		x < y[i << 1];
 		x < y[i >> 1];
 	}";
+
+	var INLINE_CALL = "function test() {
+		var x = inline toString();
+		var x = inline new String('');
+
+		inline toString();
+		inline new String('');
+
+		inline function testInline(i:Int) {
+			return i + 1;
+		}
+		var testInline = inline function(i:Int) {
+			return i + 1;
+		}
+		use(inline testInline(3));
+		inline testInline(3);
+	}
+
+	class Test {
+		inline public function new(x:Int, y:Int) {}
+
+		public inline function new(x:Int, y:Int) {}
+
+		public inline static function new(x:Int, y:Int) {}
+	}
+
+	inline public function toString(x:Int, y:Int) {}
+	public inline function toString(x:Int, y:Int) {}
+	";
 }

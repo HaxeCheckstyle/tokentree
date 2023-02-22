@@ -3,12 +3,12 @@
     "classPath": "src",
     "license": "MIT",
     "tags": [],
-    "description": "TokenTree library used by haxe-checkstyle, haxe-formatter and haxe-languageserver",
+    "description": "TokenTree library used by haxe-checkstyle, haxe-formatter, haxe-languageserver, etc.",
     "contributors": [
         "AlexHaxe"
     ],
-    "releasenote": "fixed type parameter detection - see CHANGELOG for details",
-    "version": "1.2.7",
+    "releasenote": "fixed inline call() and inline new handling - see CHANGELOG for details",
+    "version": "1.2.8",
     "url": "https://github.com/HaxeCheckstyle/tokentree",
     "dependencies": {}
 }
