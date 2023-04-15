@@ -62,8 +62,7 @@ class FieldUtilsTest implements ITest {
 	}
 }
 
-@:enum
-abstract FieldUtilsTests(String) to String {
+enum abstract FieldUtilsTests(String) to String {
 	var PROPERTIES = "
 	class Main {
 		static var _haxelibRepo:Null<String>;

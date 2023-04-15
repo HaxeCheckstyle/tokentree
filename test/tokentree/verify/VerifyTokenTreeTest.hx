@@ -124,8 +124,7 @@ class VerifyTokenTreeTest extends VerifyTokenTreeBase implements ITest {
 	}
 }
 
-@:enum
-abstract VerifyTokenTreeTests(String) to String {
+enum abstract VerifyTokenTreeTests(String) to String {
 	var IMPORT = "
 		package checkstyle.checks;
 

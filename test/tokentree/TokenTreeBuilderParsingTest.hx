@@ -179,8 +179,7 @@ class TokenTreeBuilderParsingTest implements ITest {
 	}
 }
 
-@:enum
-abstract TokenTreeBuilderParsingTests(String) to String {
+enum abstract TokenTreeBuilderParsingTests(String) to String {
 	var ISSUE_154 = "
 	#if macro
 		private enum PrivateEnum {}

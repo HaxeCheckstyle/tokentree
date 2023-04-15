@@ -733,8 +733,7 @@ class TokenTreeCheckUtilsTest implements ITest {
 	}
 }
 
-@:enum
-abstract TokenTreeCheckUtilsTests(String) to String {
+enum abstract TokenTreeCheckUtilsTests(String) to String {
 	var MIXED_BR_OPEN_TYPES = "
 	class Main {
 		function foo(s:{i:Int}):{i:Int} {

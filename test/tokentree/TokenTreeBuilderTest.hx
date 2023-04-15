@@ -112,8 +112,7 @@ class TokenTreeBuilderTest implements ITest {
 }
 
 // @formatter:off
-@:enum
-abstract TokenTreeBuilderTests(String) to String {
+enum abstract TokenTreeBuilderTests(String) to String {
 	var IMPORT = "
 		package checkstyle.checks;
 

@@ -166,8 +166,7 @@ class SharpEndException {
 	public function new() {}
 }
 
-@:enum
-abstract WalkSharpConsts(String) to String {
+enum abstract WalkSharpConsts(String) to String {
 	var IF = "if";
 
 	var ELSEIF = "elseif";
