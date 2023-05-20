@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        haxe-version: ['4.3.0', 'nightly']
+        haxe-version: ['4.3.1', 'nightly']
     steps:
     - uses: actions/checkout@v1
     - name: Use Node.js 12
@@ -58,5 +58,5 @@ jobs:
       if: matrix.haxe-version != 'nightly'
       run: npx neko checkstyle/run.n -s src -s test
     - name: Upload results to codecov
-      if: success() && (matrix.haxe-version == '4.2.5')
+      if: success() && (matrix.haxe-version == '4.3.1')
       run: bash <(curl -s https://codecov.io/bash) || echo "Codecov did not collect coverage reports"

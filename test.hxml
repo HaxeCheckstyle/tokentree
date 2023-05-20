@@ -8,6 +8,8 @@
 -D unittest
 -x TestMain
 
+-D message-reporting=pretty
+
 -D coverage-console-summary-reporter
 #-D coverage-console-file-summary-reporter
 -D coverage-console-package-summary-reporter

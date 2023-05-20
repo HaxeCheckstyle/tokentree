@@ -2,6 +2,10 @@
 
 ## dev branch / next version (1.x.x)
 
+## version 1.2.9 (2023-05-21)
+
+- Fixed unicode in regexp, fixes [#219](https://github.com/HaxeCheckstyle/tokentree/issues/219)
+
 ## version 1.2.8 (2023-02-22)
 
 - Fixed inline call() and inline new handling ([#217](https://github.com/HaxeCheckstyle/tokentree/issues/217))
