@@ -8,7 +8,7 @@ class WalkExtends {
 		WalkComment.walkComment(stream, parent);
 		WalkTypeNameDef.walkTypeNameDef(stream, parentType);
 		WalkComment.walkComment(stream, parent);
-		WalkExtends.walkExtends(stream, parentType);
+		WalkExtends.walkExtends(stream, parent);
 		WalkComment.walkComment(stream, parent);
 	}
 }
