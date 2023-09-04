@@ -2,7 +2,7 @@
 
 npm install
 npx lix download
-npx lix use haxe 4.3.1
+npx lix use haxe 4.3.2
 
 haxe test.hxml
 
