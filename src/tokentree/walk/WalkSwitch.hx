@@ -91,7 +91,7 @@ class WalkSwitch {
 					WalkBlock.walkBlock(stream, dblDot);
 				case Comment(_), CommentLine(_):
 					switch (stream.peekNonCommentToken()) {
-						case Kwd(KwdCase), Kwd(KwdDefault): return;
+						case Kwd(KwdCase) | Kwd(KwdDefault) if (stream.getStreamIndex() > dblDot.index + 1): return;
 						default:
 					}
 					WalkComment.walkComment(stream, dblDot);

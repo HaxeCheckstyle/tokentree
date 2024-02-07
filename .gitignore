@@ -17,9 +17,11 @@ target/
 .unittest/
 dump/
 haxe3/
-check-style-report.json
-check-style-report.xml
+checkstyle-report.json
+checkstyle-report.xml
 coverage.json
 lcov.info
 display.hxml
 codecov.json
+flame.json
+tokenmain*
