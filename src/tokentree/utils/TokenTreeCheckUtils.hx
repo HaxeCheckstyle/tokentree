@@ -494,6 +494,75 @@ class TokenTreeCheckUtils {
 		return ObjectDecl;
 	}
 
+	public static function getBkOpenType(token:TokenTree):BkOpenType {
+		if (token == null) {
+			return Unknown;
+		}
+		if (token.tokenTypeCache.bkOpenType != null) {
+			return token.tokenTypeCache.bkOpenType;
+		}
+
+		var type:BkOpenType = determineBkOpenType(token);
+		token.tokenTypeCache.bkOpenType = type;
+		return type;
+	}
+
+	static function determineBkOpenType(token:TokenTree):BkOpenType {
+		if (token == null) {
+			return Unknown;
+		}
+		var parent:TokenTree = token.parent;
+		if (parent == null || parent.tok == Root) {
+			return determinBkChildren(token);
+		}
+		return switch (parent.tok) {
+			case Kwd(KwdThis): ArrayAccess;
+			case BkOpen | BrOpen | POpen: determinBkChildren(token);
+			case DblDot: determinBkChildren(token);
+			case Binop(_): determinBkChildren(token);
+			case Kwd(_): determinBkChildren(token);
+			case Sharp(_): determinBkChildren(token);
+			default: ArrayAccess;
+		}
+	}
+
+	static function determinBkChildren(token:TokenTree):BkOpenType {
+		if (!token.hasChildren()) {
+			return Unknown;
+		}
+		for (child in token.children) {
+			switch (child.tok) {
+				case Comment(_) | CommentLine(_):
+				case Kwd(KwdFor) | Kwd(KwdWhile):
+					return Comprehension;
+				default:
+					break;
+			}
+		}
+		var bkDepth:Int = -1;
+		var childArrows:Array<TokenTree> = token.filterCallback(function(token:TokenTree, index:Int):FilterResult {
+			return switch (token.tok) {
+				case Binop(OpArrow): if (bkDepth == 0) {
+						FoundSkipSubtree;
+					}
+					else {
+						SkipSubtree;
+					}
+				case BkOpen:
+					bkDepth++;
+					GoDeeper;
+				case BkClose:
+					bkDepth--;
+					GoDeeper;
+				default: GoDeeper;
+			}
+		});
+		if (childArrows.length > 0) {
+			return MapLiteral;
+		}
+		return ArrayLiteral;
+	}
+
 	public static function getPOpenType(token:TokenTree):POpenType {
 		if (token == null) {
 			return Expression;
@@ -1056,6 +1125,14 @@ enum BrOpenType {
 	TypedefDecl;
 	ObjectDecl;
 	AnonType;
+	Unknown;
+}
+
+enum BkOpenType {
+	ArrayAccess;
+	ArrayLiteral;
+	Comprehension;
+	MapLiteral;
 	Unknown;
 }
 

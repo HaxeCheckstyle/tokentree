@@ -2,11 +2,14 @@
 
 ## dev branch / next version (1.x.x)
 
-- fixed empty switch cases with comments
+## version 1.2.11 (2024-02-10)
+
+- Added getBkOpenType utils function
+- Fixed empty switch cases with comments
 
 ## version 1.2.10 (2023-05-21)
 
-- fixed extends handling in interfaces
+- Fixed extends handling in interfaces
 
 ## version 1.2.9 (2023-05-21)
 

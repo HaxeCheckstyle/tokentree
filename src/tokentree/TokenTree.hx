@@ -1,6 +1,7 @@
 package tokentree;
 
 import tokentree.utils.TokenTreeCheckUtils.ArrowType;
+import tokentree.utils.TokenTreeCheckUtils.BkOpenType;
 import tokentree.utils.TokenTreeCheckUtils.BrOpenType;
 import tokentree.utils.TokenTreeCheckUtils.ColonType;
 import tokentree.utils.TokenTreeCheckUtils.POpenType;
@@ -174,6 +175,7 @@ enum FilterResult {
 
 typedef TokenTypeCache = {
 	@:optional var brOpenType:Null<BrOpenType>;
+	@:optional var bkOpenType:Null<BkOpenType>;
 	@:optional var pOpenType:Null<POpenType>;
 	@:optional var colonType:Null<ColonType>;
 	@:optional var arrowType:Null<ArrowType>;

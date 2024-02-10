@@ -4,6 +4,7 @@ import haxe.PosInfos;
 import tokentree.TokenTree.FilterResult;
 import tokentree.TokenTreeBuilderParsingTest.TokenTreeBuilderParsingTests;
 import tokentree.utils.TokenTreeCheckUtils.ArrowType;
+import tokentree.utils.TokenTreeCheckUtils.BkOpenType;
 import tokentree.utils.TokenTreeCheckUtils.BrOpenType;
 import tokentree.utils.TokenTreeCheckUtils.ColonType;
 import tokentree.utils.TokenTreeCheckUtils.POpenType;
@@ -628,6 +629,111 @@ class TokenTreeCheckUtilsTest implements ITest {
 		Assert.isFalse(TokenTreeCheckUtils.isMetadata(tokens[index++]));
 	}
 
+	public function testMixedBkOpenTypes() {
+		var root:TokenTree = assertCodeParses(TokenTreeCheckUtilsTests.MIXED_BKOPEN_TYPES);
+		Assert.isFalse(root.inserted);
+
+		var allBk:Array<TokenTree> = root.filterCallback(function(token:TokenTree, depth:Int):FilterResult {
+			return switch (token.tok) {
+				case BkOpen: FoundGoDeeper;
+				default: GoDeeper;
+			}
+		});
+		Assert.equals(43, allBk.length);
+		var index:Int = 0;
+
+		// a[1];
+		Assert.equals(BkOpenType.ArrayAccess, TokenTreeCheckUtils.getBkOpenType(allBk[index++]));
+		// a['xx'];
+		Assert.equals(BkOpenType.ArrayAccess, TokenTreeCheckUtils.getBkOpenType(allBk[index++]));
+		// call()['xx'];
+		Assert.equals(BkOpenType.ArrayAccess, TokenTreeCheckUtils.getBkOpenType(allBk[index++]));
+		// this['xx'];
+		Assert.equals(BkOpenType.ArrayAccess, TokenTreeCheckUtils.getBkOpenType(allBk[index++]));
+
+		// var a = [];
+		Assert.equals(BkOpenType.ArrayLiteral, TokenTreeCheckUtils.getBkOpenType(allBk[index++]));
+
+		// var a = [1, 2, 3, 4];
+		Assert.equals(BkOpenType.ArrayLiteral, TokenTreeCheckUtils.getBkOpenType(allBk[index++]));
+		// var a = {a: [1, 2, 3, 4]};
+		Assert.equals(BkOpenType.ArrayLiteral, TokenTreeCheckUtils.getBkOpenType(allBk[index++]));
+
+		// var a = [{a:1}, {a:2}, {a:3}, {a:4}];
+		Assert.equals(BkOpenType.ArrayLiteral, TokenTreeCheckUtils.getBkOpenType(allBk[index++]));
+		// var a = [{a: [1, 2, 3]}, {a: [1, 2, 3]}, {a: [1, 2, 3]}, {a: [1, 2, 3]}];
+		Assert.equals(BkOpenType.ArrayLiteral, TokenTreeCheckUtils.getBkOpenType(allBk[index++]));
+		Assert.equals(BkOpenType.ArrayLiteral, TokenTreeCheckUtils.getBkOpenType(allBk[index++]));
+		Assert.equals(BkOpenType.ArrayLiteral, TokenTreeCheckUtils.getBkOpenType(allBk[index++]));
+		Assert.equals(BkOpenType.ArrayLiteral, TokenTreeCheckUtils.getBkOpenType(allBk[index++]));
+		Assert.equals(BkOpenType.ArrayLiteral, TokenTreeCheckUtils.getBkOpenType(allBk[index++]));
+
+		// var a = [[1], [2], [3], [4]];
+		Assert.equals(BkOpenType.ArrayLiteral, TokenTreeCheckUtils.getBkOpenType(allBk[index++]));
+		Assert.equals(BkOpenType.ArrayLiteral, TokenTreeCheckUtils.getBkOpenType(allBk[index++]));
+		Assert.equals(BkOpenType.ArrayLiteral, TokenTreeCheckUtils.getBkOpenType(allBk[index++]));
+		Assert.equals(BkOpenType.ArrayLiteral, TokenTreeCheckUtils.getBkOpenType(allBk[index++]));
+		Assert.equals(BkOpenType.ArrayLiteral, TokenTreeCheckUtils.getBkOpenType(allBk[index++]));
+
+		// if (false) return [1, 2, 3, 4];
+		Assert.equals(BkOpenType.ArrayLiteral, TokenTreeCheckUtils.getBkOpenType(allBk[index++]));
+
+		// var a = [for (i in 0...10) i];
+		Assert.equals(BkOpenType.Comprehension, TokenTreeCheckUtils.getBkOpenType(allBk[index++]));
+		// var a = [while (i < 10) i++];
+		Assert.equals(BkOpenType.Comprehension, TokenTreeCheckUtils.getBkOpenType(allBk[index++]));
+		// var a = [for (a in 1...11) for (b in 2...4) if (a % b == 0) a + "/" + b];
+		Assert.equals(BkOpenType.Comprehension, TokenTreeCheckUtils.getBkOpenType(allBk[index++]));
+
+		// var a = [for (i in 0...5) i => 'number ${i}'];
+		Assert.equals(BkOpenType.Comprehension, TokenTreeCheckUtils.getBkOpenType(allBk[index++]));
+		// var a = [/* comment */for (i in 0...10) i];
+		Assert.equals(BkOpenType.Comprehension, TokenTreeCheckUtils.getBkOpenType(allBk[index++]));
+		// var a = [while (i < 5) i => 'number ${i++}'];
+		Assert.equals(BkOpenType.Comprehension, TokenTreeCheckUtils.getBkOpenType(allBk[index++]));
+		// var a = [/* comment */while (i < 10) i++];
+		Assert.equals(BkOpenType.Comprehension, TokenTreeCheckUtils.getBkOpenType(allBk[index++]));
+		// var a = [for (x in 0...5) for (y in 0...5) if (x != y) x => y];
+		Assert.equals(BkOpenType.Comprehension, TokenTreeCheckUtils.getBkOpenType(allBk[index++]));
+
+		// var a = ['a' => 'aaa', 'b' => 'bbb', 'c' => 'ccc'];
+		Assert.equals(BkOpenType.MapLiteral, TokenTreeCheckUtils.getBkOpenType(allBk[index++]));
+		// var a = [{a: 1} => 'aaa', {a:2} => 'bbb', {a:3} => 'ccc'];
+		Assert.equals(BkOpenType.MapLiteral, TokenTreeCheckUtils.getBkOpenType(allBk[index++]));
+		// var a = [['a'] => 'aaa', ['b'] => 'bbb', ['c'] => 'ccc'];
+		Assert.equals(BkOpenType.MapLiteral, TokenTreeCheckUtils.getBkOpenType(allBk[index++]));
+		Assert.equals(BkOpenType.ArrayLiteral, TokenTreeCheckUtils.getBkOpenType(allBk[index++]));
+		Assert.equals(BkOpenType.ArrayLiteral, TokenTreeCheckUtils.getBkOpenType(allBk[index++]));
+		Assert.equals(BkOpenType.ArrayLiteral, TokenTreeCheckUtils.getBkOpenType(allBk[index++]));
+
+		// var a = [['a' => 'aaa'], ['b' => 'bbb'], ['c' => 'ccc']];
+		Assert.equals(BkOpenType.ArrayLiteral, TokenTreeCheckUtils.getBkOpenType(allBk[index++]));
+		Assert.equals(BkOpenType.MapLiteral, TokenTreeCheckUtils.getBkOpenType(allBk[index++]));
+		Assert.equals(BkOpenType.MapLiteral, TokenTreeCheckUtils.getBkOpenType(allBk[index++]));
+		Assert.equals(BkOpenType.MapLiteral, TokenTreeCheckUtils.getBkOpenType(allBk[index++]));
+
+		// var a = [if (foo) bar else foo, if (foo) bar else foo, if (foo) bar else foo];
+		Assert.equals(BkOpenType.ArrayLiteral, TokenTreeCheckUtils.getBkOpenType(allBk[index++]));
+		Assert.equals(BkOpenType.ArrayLiteral, TokenTreeCheckUtils.getBkOpenType(allBk[index++]));
+
+		// var a = hxargs.Args.generate([
+		//   @doc('Dont format, only check if files are formatted correctly')
+		//   ['--check'] => function() mode = Check,
+		//
+		//   #if debug
+		//   @doc('Dont format, only check if formatting is stable')
+		//   ['--check-stability'] => function() mode = CheckStability,
+		//   #end
+		//
+		//   @doc('Dont format, only check if files are formatted correctly')
+		//   ['--check'] => function() mode = Check,
+		// ]);
+		Assert.equals(BkOpenType.MapLiteral, TokenTreeCheckUtils.getBkOpenType(allBk[index++]));
+		Assert.equals(BkOpenType.ArrayLiteral, TokenTreeCheckUtils.getBkOpenType(allBk[index++]));
+		Assert.equals(BkOpenType.ArrayLiteral, TokenTreeCheckUtils.getBkOpenType(allBk[index++]));
+		Assert.equals(BkOpenType.ArrayLiteral, TokenTreeCheckUtils.getBkOpenType(allBk[index++]));
+	}
+
 	@Test
 	public function testFindLastBinop() {
 		function assertLastBinop(code:String, binop:String, offset:Int = 0, ?pos:PosInfos):Void {
@@ -1088,6 +1194,68 @@ enum abstract TokenTreeCheckUtilsTests(String) to String {
 	@import
 	class Foo {
 		var foo:Int;
+	}
+	";
+
+	var MIXED_BKOPEN_TYPES = "
+	class Main {
+        static function main() {
+			a[1];
+			a['xx'];
+			call()['xx'];
+			this['xx'];
+
+			var a = [];
+			var a = [1, 2, 3, 4];
+			var a = {a: [1, 2, 3, 4]};
+			var a = [{a:1}, {a:2}, {a:3}, {a:4}];
+			var a = [{a:[1, 2, 3]}, {a:[1, 2, 3]}, {a:[1, 2, 3]}, {a:[1, 2, 3]}];
+
+			var a = [[1], [2], [3], [4]];
+			if (false) return [1, 2, 3, 4];
+
+			var a = [for (i in 0...10) i];
+			var a = [/* comment */ for (i in 0...10) i];
+			var a = [while (i < 10) i++];
+			var a = [/* comment */ while (i < 10) i++];
+			var a = [for (a in 1...11) for (b in 2...4) if (a % b == 0) a + ' / ' + b];
+
+			var a = [for (i in 0...5) i => 'number ${i}'];
+			var a = [while (i < 5) i => 'number ${i++}'];
+			var a = [for (x in 0...5) for (y in 0...5) if (x != y) x => y];
+
+			var a = ['a' => 'aaa', 'b' => 'bbb', 'c' => 'ccc'];
+			var a = [{a: 1} => 'aaa', {a:2} => 'bbb', {a:3} => 'ccc'];
+			var a = [['a'] => 'aaa', ['b'] => 'bbb', ['c'] => 'ccc'];
+
+			var a = [['a' => 'aaa'], ['b' => 'bbb'], ['c' => 'ccc']];
+
+			var a = [if (foo) bar else foo, if (foo) bar else foo, if (foo) bar else foo];
+			var a = function () {
+				[
+					if (foo) bar else foo,
+					if (foo) bar else foo,
+					if (foo) bar else foo,
+					if (foo) bar else foo,
+					if (foo) bar else foo
+				];
+			}
+
+			var a = hxargs.Args.generate([
+				@doc('Dont format, only check if files are formatted correctly')
+				['--check'] => function() mode = Check,
+
+				#if debug
+				@doc('Dont format, only check if formatting is stable')
+				['--check-stability'] => function() mode = CheckStability,
+				#end
+
+				@doc('Dont format, only check if files are formatted correctly')
+				['--check'] => function() mode = Check,
+			]);
+
+
+		}
 	}
 	";
 }
