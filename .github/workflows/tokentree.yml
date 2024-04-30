@@ -18,10 +18,10 @@ jobs:
         haxe-version: ['4.3.4', 'nightly']
     steps:
     - uses: actions/checkout@v1
-    - name: Use Node.js 12
+    - name: Use Node.js 18
       uses: actions/setup-node@v1
       with:
-        node-version: 12
+        node-version: 18
     - name: Run npm install
       run: npm ci
     - name: Install Haxe version ${{ matrix.haxe-version }}
@@ -57,6 +57,6 @@ jobs:
     - name: Run Node version with --check
       if: matrix.haxe-version != 'nightly'
       run: npx neko checkstyle/run.n -s src -s test
-    - name: Upload results to codecov
+    - name: Coverage report
       if: success() && (matrix.haxe-version != 'nightly')
-      run: bash <(curl -s https://codecov.io/bash) || echo "Codecov did not collect coverage reports"
+      uses: livewing/lcov-job-summary@v1.1.0
