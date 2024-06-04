@@ -59,7 +59,7 @@ jobs:
       run: npx neko checkstyle/run.n -s src -s test
     - name: Run checkstyle with XML report
       if: success() && (matrix.haxe-version != 'nightly')
-      run: node checkstyle/run.js -s src -s test -r xml
+      run: npx neko checkstyle/run.n -s src -s test -r xml
     - name: Coverage report
       if: success() && (matrix.haxe-version != 'nightly')
       uses: livewing/lcov-job-summary@v1.1.0
