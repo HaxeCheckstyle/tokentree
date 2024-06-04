@@ -17,7 +17,7 @@ jobs:
       matrix:
         haxe-version: ['4.3.4', 'nightly']
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v4
     - name: Use Node.js 18
       uses: actions/setup-node@v4
       with:
@@ -57,8 +57,14 @@ jobs:
     - name: Run Node version with --check
       if: matrix.haxe-version != 'nightly'
       run: npx neko checkstyle/run.n -s src -s test
+    - name: Run checkstyle with XML report
+      run: node checkstyle/run.js -s src -s test -r xml
     - name: Coverage report
       if: success() && (matrix.haxe-version != 'nightly')
       uses: livewing/lcov-job-summary@v1.1.0
       with:
         lcov: lcov.info
+    - name: Checkstyle report
+      uses: jwgmeligmeyling/checkstyle-github-action@master
+      with:
+        path: '**/check-style-report.xml'
