@@ -58,6 +58,7 @@ jobs:
       if: matrix.haxe-version != 'nightly'
       run: npx neko checkstyle/run.n -s src -s test
     - name: Run checkstyle with XML report
+      if: success() && (matrix.haxe-version != 'nightly')
       run: node checkstyle/run.js -s src -s test -r xml
     - name: Coverage report
       if: success() && (matrix.haxe-version != 'nightly')
@@ -65,6 +66,7 @@ jobs:
       with:
         lcov: lcov.info
     - name: Checkstyle report
+      if: success() && (matrix.haxe-version != 'nightly')
       uses: jwgmeligmeyling/checkstyle-github-action@master
       with:
         path: '**/check-style-report.xml'
