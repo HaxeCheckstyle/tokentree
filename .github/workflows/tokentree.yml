@@ -24,6 +24,11 @@ jobs:
         node-version: 18
     - name: Run npm install
       run: npm ci
+    - name: Cache Lix repository state
+      uses: actions/cache@v3
+      with:
+        path: ~/haxe
+        key: ${{ runner.os }}-${{ matrix.haxe-version }}-${{ hashFiles('haxe_libraries/*.hxml') }}
     - name: Install Haxe version ${{ matrix.haxe-version }}
       run: |
         npx lix download haxe ${{ matrix.haxe-version }}
@@ -56,9 +61,6 @@ jobs:
       run: (cd checkstyle && npx haxe buildAll.hxml && rm -f coverage.json)
     - name: Run Node version with --check
       if: matrix.haxe-version != 'nightly'
-      run: npx neko checkstyle/run.n -s src -s test
-    - name: Run checkstyle with XML report
-      if: success() && (matrix.haxe-version != 'nightly')
       run: npx neko checkstyle/run.n -s src -s test -r xml
     - name: Coverage report
       if: success() && (matrix.haxe-version != 'nightly')
