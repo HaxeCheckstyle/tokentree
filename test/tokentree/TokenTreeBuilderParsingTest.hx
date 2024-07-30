@@ -143,6 +143,9 @@ class TokenTreeBuilderParsingTest implements ITest {
 		assertCodeParses(CALL_WITHOUT_SEMICOLON);
 		assertCodeParses(ARRAY_ACCESSS_WITHOUT_SEMICOLON);
 		assertCodeParses(UNICODE_REGEX);
+		assertCodeParses(TRUE);
+		assertCodeParses(FALSE);
+		assertCodeParses(NULL);
 	}
 
 	public function assertCodeParses(code:String, ?pos:PosInfos) {
@@ -1896,4 +1899,10 @@ import #if haxe4 js.lib.Promise #else js.Promise #end as JsPromise;
 	var UNICODE_REGEX = "
 		static final ctrlCharacters = ~/[\\u0000-\\u001F\\u007F-\\u009F\\u2000-\\u200D\\uFEFF]/g;
 	";
+
+	var TRUE = "true";
+
+	var FALSE = "false";
+
+	var NULL = "null";
 }

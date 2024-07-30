@@ -2,6 +2,10 @@
 
 ## dev branch / next version (1.x.x)
 
+## version 1.2.12 (2024-07-30)
+
+- Fixed parsing a single `false`, `true` or `null`
+
 ## version 1.2.11 (2024-02-10)
 
 - Added getBkOpenType utils function

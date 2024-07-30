@@ -267,6 +267,9 @@ class WalkStatement {
 			case Kwd(KwdNull), Kwd(KwdTrue), Kwd(KwdFalse):
 				var newChild:TokenTree = stream.consumeToken();
 				parent.addChild(newChild);
+				if (!stream.hasMore()) {
+					return false;
+				}
 				switch (stream.token()) {
 					case Binop(OpBoolAnd), Binop(OpBoolOr): walkOpBool(stream, newChild);
 					case Question: WalkQuestion.walkQuestion(stream, newChild);
