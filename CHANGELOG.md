@@ -2,6 +2,10 @@
 
 ## dev branch / next version (1.x.x)
 
+## version 1.2.13 (2024-08-02)
+
+- Fixed metadata for parens
+
 ## version 1.2.12 (2024-07-30)
 
 - Fixed parsing a single `false`, `true` or `null`

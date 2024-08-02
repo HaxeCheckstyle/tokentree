@@ -4,6 +4,7 @@ class WalkPOpen {
 	public static function walkPOpen(stream:TokenStream, parent:TokenTree, walkTrailingComments:Bool = true):TokenTree {
 		var pOpen:TokenTree = stream.consumeTokenDef(POpen);
 		parent.addChild(pOpen);
+		stream.applyTempStore(pOpen);
 		WalkPOpen.walkPOpenParts(stream, pOpen);
 		pOpen.addChild(stream.consumeTokenDef(PClose));
 		if (walkTrailingComments) {

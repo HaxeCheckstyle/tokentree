@@ -136,6 +136,7 @@ class TokenTreeBuilderParsingTest implements ITest {
 		assertCodeParses(MACRO_COLON_TYPE);
 		assertCodeParses(TYPE_PARAMETER_WITH_GT);
 		assertCodeParses(INLINE_CALL);
+		assertCodeParses(METADATA_ON_PARENS);
 	}
 
 	@Test
@@ -1905,4 +1906,13 @@ import #if haxe4 js.lib.Promise #else js.Promise #end as JsPromise;
 	var FALSE = "false";
 
 	var NULL = "null";
+
+	var METADATA_ON_PARENS = "class TestCrashMacro {
+		static function combine(structure:Expr):Expr {
+			if (structure.expr.match(EDisplay(_, DKMarked))) {
+				return macro @:pos(Context.currentPos()) ($structure : {});
+			}
+			return Expr();
+		}
+	}";
 }
