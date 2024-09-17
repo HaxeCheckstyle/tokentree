@@ -157,7 +157,7 @@ class TokenTreeCheckUtilsTest implements ITest {
 				default: GoDeeper;
 			}
 		});
-		Assert.equals(12, allArrows.length);
+		Assert.equals(13, allArrows.length);
 		for (ar in allArrows) {
 			Assert.equals(ArrowType.ArrowFunction, TokenTreeCheckUtils.getArrowType(ar));
 		}
@@ -932,6 +932,13 @@ enum abstract TokenTreeCheckUtilsTests(String) to String {
 			}, (error:Error) -> {
 				trace(2);
 			});
+			#if (target.threaded)
+			Thread.create(() -> {
+			#end
+				completedThread();
+			#if (target.threaded)
+			});
+			#end
 		}
 	}
 	";

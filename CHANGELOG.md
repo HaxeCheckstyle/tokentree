@@ -2,6 +2,10 @@
 
 ## dev branch / next version (1.x.x)
 
+## version 1.2.14 (2024-09-18)
+
+- Fixed getArrowType running into a null pointer exception with conditionals
+
 ## version 1.2.13 (2024-08-02)
 
 - Fixed metadata for parens

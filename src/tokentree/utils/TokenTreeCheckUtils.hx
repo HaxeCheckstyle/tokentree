@@ -753,6 +753,9 @@ class TokenTreeCheckUtils {
 				case Arrow, Dot, Semicolon, Question:
 				case BrOpen:
 					var brClose:TokenTree = child.getFirstChild();
+					if (brClose == null) {
+						break;
+					}
 					if (brClose.tok.match(BrClose)) {
 						return ArrowFunction;
 					}
@@ -863,6 +866,10 @@ class TokenTreeCheckUtils {
 		}
 		switch (parent.tok) {
 			case POpen:
+				switch (parent?.parent.tok) {
+					case POpen: return ArrowFunction;
+					default:
+				}
 			case Const(CIdent(_)):
 				if ((parent.parent == null) || (parent.parent.tok == Root)) return ArrowFunction;
 				switch (parent.parent.tok) {
