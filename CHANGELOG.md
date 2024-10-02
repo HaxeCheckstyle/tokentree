@@ -2,6 +2,10 @@
 
 ## dev branch / next version (1.x.x)
 
+## version 1.2.15 (2024-10-02)
+
+- Fixed operator keyword used in Haxe 3 code
+
 ## version 1.2.14 (2024-09-18)
 
 - Fixed getArrowType running into a null pointer exception with conditionals

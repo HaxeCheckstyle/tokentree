@@ -147,6 +147,7 @@ class TokenTreeBuilderParsingTest implements ITest {
 		assertCodeParses(TRUE);
 		assertCodeParses(FALSE);
 		assertCodeParses(NULL);
+		assertCodeParses(OPERATOR_KEYWORD_HAXE3);
 	}
 
 	public function assertCodeParses(code:String, ?pos:PosInfos) {
@@ -1915,4 +1916,12 @@ import #if haxe4 js.lib.Promise #else js.Promise #end as JsPromise;
 			return Expr();
 		}
 	}";
+
+	var OPERATOR_KEYWORD_HAXE3 = "
+	class Main {
+		#if (haxe_ver < '4.0.0')
+        public var operator(get, set):CairoOperator;
+        #end
+	}
+	";
 }

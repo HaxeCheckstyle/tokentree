@@ -52,6 +52,9 @@ class TokenStream {
 				return consumeToken();
 			case Const(CIdent(_)):
 				return consumeToken();
+			case Kwd(KwdOperator):
+				// pre 4.0.0 code might still use `operator` as an identifier
+				return consumeToken();
 			default:
 				switch (MODE) {
 					case Relaxed: return createDummyToken(Const(CIdent("autoInsert")));
