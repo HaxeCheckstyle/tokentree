@@ -2,6 +2,10 @@
 
 ## dev branch / next version (1.x.x)
 
+## version 1.2.17 (2024-10-04)
+
+- Fixed nested conditionals
+
 ## version 1.2.16 (2024-10-03)
 
 - Fixed conditionals after PClose

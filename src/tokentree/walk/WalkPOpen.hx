@@ -19,7 +19,10 @@ class WalkPOpen {
 					pOpen.addChild(arrow);
 					WalkBlock.walkBlock(stream, arrow);
 				case Sharp(WalkSharpConsts.IF):
-					WalkSharp.walkSharp(stream, parent, WalkStatement.walkStatement);
+					switch (parent.tok) {
+						case Sharp(WalkSharpConsts.IF):
+						default: WalkSharp.walkSharp(stream, parent, WalkStatement.walkStatement);
+					}
 				default:
 			}
 		}
