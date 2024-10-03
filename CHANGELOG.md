@@ -2,6 +2,10 @@
 
 ## dev branch / next version (1.x.x)
 
+## version 1.2.16 (2024-10-03)
+
+- Fixed conditionals after PClose
+
 ## version 1.2.15 (2024-10-02)
 
 - Fixed operator keyword used in Haxe 3 code

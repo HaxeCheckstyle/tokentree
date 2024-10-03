@@ -1,5 +1,7 @@
 package tokentree.walk;
 
+import tokentree.walk.WalkSharp.WalkSharpConsts;
+
 class WalkPOpen {
 	public static function walkPOpen(stream:TokenStream, parent:TokenTree, walkTrailingComments:Bool = true):TokenTree {
 		var pOpen:TokenTree = stream.consumeTokenDef(POpen);
@@ -16,6 +18,8 @@ class WalkPOpen {
 					var arrow:TokenTree = stream.consumeToken();
 					pOpen.addChild(arrow);
 					WalkBlock.walkBlock(stream, arrow);
+				case Sharp(WalkSharpConsts.IF):
+					WalkSharp.walkSharp(stream, parent, WalkStatement.walkStatement);
 				default:
 			}
 		}

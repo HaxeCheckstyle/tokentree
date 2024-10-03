@@ -7,8 +7,8 @@
     "contributors": [
         "AlexHaxe"
     ],
-    "releasenote": "fixed operator keyword - see CHANGELOG for details",
-    "version": "1.2.15",
+    "releasenote": "fixed conditionals after PClose - see CHANGELOG for details",
+    "version": "1.2.16",
     "url": "https://github.com/HaxeCheckstyle/tokentree",
     "dependencies": {}
 }
