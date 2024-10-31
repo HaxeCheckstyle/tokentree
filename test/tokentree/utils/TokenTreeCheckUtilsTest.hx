@@ -40,7 +40,7 @@ class TokenTreeCheckUtilsTest implements ITest {
 				default: GoDeeper;
 			}
 		});
-		Assert.equals(43, allBr.length);
+		Assert.equals(46, allBr.length);
 		var index:Int = 0;
 		Assert.equals(BrOpenType.Block, TokenTreeCheckUtils.getBrOpenType(allBr[index++]));
 		Assert.equals(BrOpenType.AnonType, TokenTreeCheckUtils.getBrOpenType(allBr[index++]));
@@ -101,6 +101,13 @@ class TokenTreeCheckUtilsTest implements ITest {
 		Assert.equals(BrOpenType.AnonType, TokenTreeCheckUtils.getBrOpenType(allBr[index++]));
 		Assert.equals(BrOpenType.AnonType, TokenTreeCheckUtils.getBrOpenType(allBr[index++]));
 		Assert.equals(BrOpenType.ObjectDecl, TokenTreeCheckUtils.getBrOpenType(allBr[index++]));
+		Assert.equals(BrOpenType.ObjectDecl, TokenTreeCheckUtils.getBrOpenType(allBr[index++]));
+
+		// var e = Foo.Option('something', (resp, xx, yy) -> {
+		Assert.equals(BrOpenType.Block, TokenTreeCheckUtils.getBrOpenType(allBr[index++]));
+		// resp.extract(Value(data) => {
+		Assert.equals(BrOpenType.Block, TokenTreeCheckUtils.getBrOpenType(allBr[index++]));
+		// resp.extract(Value(data2) => {
 		Assert.equals(BrOpenType.ObjectDecl, TokenTreeCheckUtils.getBrOpenType(allBr[index++]));
 	}
 
@@ -897,6 +904,15 @@ enum abstract TokenTreeCheckUtilsTests(String) to String {
 
 	final obj:{f: Int} = {f: 1};
 	final obj:{f: {f: Int}} = {f: {f: 1}};
+
+	var e = Foo.Option('something', (resp,xx,yy) -> {
+		resp.extract(Value(data) => {
+			var x = 4; // fails here
+		})
+		resp.extract(Value(data2) => {
+			x:4,y:5
+		})
+	});
 	";
 
 	var ENUM_ABSTRACTS = "

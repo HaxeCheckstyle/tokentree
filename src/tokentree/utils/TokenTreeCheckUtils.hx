@@ -372,6 +372,8 @@ class TokenTreeCheckUtils {
 				return determinBrChildren(token);
 			case Binop(OpLt):
 				return AnonType;
+			case Binop(OpArrow):
+				return determinBrChildren(token);
 			case Binop(_):
 				return ObjectDecl;
 			case Kwd(KwdReturn):

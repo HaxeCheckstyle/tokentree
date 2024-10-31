@@ -2,6 +2,10 @@
 
 ## dev branch / next version (1.x.x)
 
+## version 1.2.18 (2024-11-01)
+
+- Fixed TokenTreeCheckUtils.getBrOpenType detection of pattern extraction block
+
 ## version 1.2.17 (2024-10-04)
 
 - Fixed nested conditionals
