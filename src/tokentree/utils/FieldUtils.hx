@@ -101,6 +101,7 @@ class FieldUtils {
 			case Kwd(KwdDefault): Default;
 			case Kwd(KwdNull): NullAccess;
 			case Kwd(KwdDynamic): DynamicAccess;
+			case Kwd(KwdPrivate): Private(makePropertyAccess(accessToken.getFirstChild()));
 			case Const(CIdent("never")): Never;
 			case Const(CIdent("get")): Get;
 			case Const(CIdent("set")): Set;
@@ -138,5 +139,6 @@ enum TokenPropertyAccess {
 	Get;
 	Set;
 	DynamicAccess;
+	Private(access:TokenPropertyAccess);
 	Never;
 }

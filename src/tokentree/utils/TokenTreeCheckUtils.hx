@@ -390,8 +390,8 @@ class TokenTreeCheckUtils {
 				switch (parent.tok) {
 					case Const(CIdent(_)):
 					case Const(CString(_)):
-					case Kwd(KwdCase): return ObjectDecl;
-					case Kwd(KwdDefault): return ObjectDecl;
+					case Kwd(KwdCase): return determinBrChildren(token);
+					case Kwd(KwdDefault): return determinBrChildren(token);
 					default: return AnonType;
 				}
 				parent = parent.parent;

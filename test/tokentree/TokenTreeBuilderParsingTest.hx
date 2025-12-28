@@ -137,6 +137,8 @@ class TokenTreeBuilderParsingTest implements ITest {
 		assertCodeParses(TYPE_PARAMETER_WITH_GT);
 		assertCodeParses(INLINE_CALL);
 		assertCodeParses(METADATA_ON_PARENS);
+		assertCodeParses(GO2HX_GENSLICE_MACRO);
+		assertCodeParses(PRIVATE_GET_SET);
 	}
 
 	@Test
@@ -1923,5 +1925,15 @@ import #if haxe4 js.lib.Promise #else js.Promise #end as JsPromise;
         public var operator(get, set):CairoOperator;
         #end
 	}
+	";
+
+	var GO2HX_GENSLICE_MACRO = "
+		function genSlice() {
+			return macro new $p($size, $cap, ...$a{sets}.concat([for (i in ${makeExpr(sets.length)}...($size > $cap ? $size : $cap : stdgo.GoInt).toBasic()) $value]));
+		}
+	";
+
+	var PRIVATE_GET_SET = "
+		var prop(private get, private set) ;
 	";
 }

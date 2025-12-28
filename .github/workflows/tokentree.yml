@@ -55,7 +55,7 @@ jobs:
       run: |
         (cd checkstyle/haxe_libraries; echo "-cp ../src" > tokentree.hxml)
     - name: Run eval tests (with coverage)
-      run: npx haxe test.hxml
+      run: npx haxe testCoverage.hxml
     - name: Build and test checkstyle
       if: matrix.haxe-version != 'nightly'
       run: (cd checkstyle && npx haxe buildAll.hxml && rm -f coverage.json)

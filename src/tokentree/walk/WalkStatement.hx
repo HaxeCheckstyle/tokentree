@@ -93,8 +93,9 @@ class WalkStatement {
 				WalkArrayAccess.walkArrayAccess(stream, parent);
 				walkStatementContinue(stream, parent);
 				return;
-			case Dollar(name):
+			case Dollar(_):
 				walkDollarStatement(stream, parent);
+				walkStatementContinue(stream, parent);
 				return;
 			case POpen:
 				walkPOpen(stream, parent);

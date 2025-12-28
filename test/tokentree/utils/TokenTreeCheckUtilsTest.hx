@@ -40,7 +40,7 @@ class TokenTreeCheckUtilsTest implements ITest {
 				default: GoDeeper;
 			}
 		});
-		Assert.equals(46, allBr.length);
+		Assert.equals(51, allBr.length);
 		var index:Int = 0;
 		Assert.equals(BrOpenType.Block, TokenTreeCheckUtils.getBrOpenType(allBr[index++]));
 		Assert.equals(BrOpenType.AnonType, TokenTreeCheckUtils.getBrOpenType(allBr[index++]));
@@ -108,6 +108,16 @@ class TokenTreeCheckUtilsTest implements ITest {
 		// resp.extract(Value(data) => {
 		Assert.equals(BrOpenType.Block, TokenTreeCheckUtils.getBrOpenType(allBr[index++]));
 		// resp.extract(Value(data2) => {
+		Assert.equals(BrOpenType.ObjectDecl, TokenTreeCheckUtils.getBrOpenType(allBr[index++]));
+
+		Assert.equals(BrOpenType.Block, TokenTreeCheckUtils.getBrOpenType(allBr[index++]));
+		Assert.equals(BrOpenType.Block, TokenTreeCheckUtils.getBrOpenType(allBr[index++]));
+
+		// case 123: {
+		Assert.equals(BrOpenType.Block, TokenTreeCheckUtils.getBrOpenType(allBr[index++]));
+		// case 124: {
+		Assert.equals(BrOpenType.ObjectDecl, TokenTreeCheckUtils.getBrOpenType(allBr[index++]));
+		// case 125: {}
 		Assert.equals(BrOpenType.ObjectDecl, TokenTreeCheckUtils.getBrOpenType(allBr[index++]));
 	}
 
@@ -913,6 +923,22 @@ enum abstract TokenTreeCheckUtilsTests(String) to String {
 			x:4,y:5
 		})
 	});
+
+	function foo(a:Int) {
+		switch (a) {
+			case 123: {
+					// muh code
+					test = 100;
+					if(true) a=100;
+				}
+			case 124: {
+					x: 100,
+					y: 200,
+					z: 10
+				}
+			case 125: {}
+		}
+	}
 	";
 
 	var ENUM_ABSTRACTS = "

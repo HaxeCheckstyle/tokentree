@@ -46,6 +46,10 @@ class WalkPOpen {
 					var child:Null<TokenTree> = parent.getLastChild();
 					if (child == null) child = parent;
 					child.addChild(comma);
+				case Kwd(KwdPrivate):
+					var priv:TokenTree = stream.consumeToken();
+					parent.addChild(priv);
+					WalkStatement.walkStatement(stream, priv);
 				default:
 					WalkStatement.walkStatement(stream, parent);
 			}
